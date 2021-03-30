@@ -42,6 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define LONG_MIN    (-LONG_MAX - 1L)
 #define ULONG_MAX   18446744073709551615UL
 
+#define PATH_MAX    256
+
 #endif /* _LIMITS_H */
 
 /* vi: set ts=4 expandtab: */

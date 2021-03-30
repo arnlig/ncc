@@ -1,4 +1,4 @@
-/* ncc.h - library internal definitions                    ncc standard library
+/* sys/wait.h - process waiting                            ncc standard library
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -23,29 +23,26 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef _NCC_H
-#define _NCC_H
+#ifndef _SYS_WAIT_H
+#define _SYS_WAIT_H
 
-#define __NULL      ((void *) 0)
+#include <ncc.h>
 
-typedef int __mode_t;
-typedef long __off_t;
-typedef int __pid_t;
-typedef unsigned long __size_t;
-typedef long __ssize_t;
-typedef char *__va_list;
+#ifndef __PID_T
+#define __PID_T
+typedef __pid_t pid_t;
+#endif /* __PID_T */
 
-#define __SEEK_SET  0
-#define __SEEK_CUR  1
-#define __SEEK_END  2
+#define WEXITSTATUS     __WEXITSTATUS
+#define WIFEXITED       __WIFEXITED
+#define WIFSTOPPED      __WIFSTOPPED
+#define WIFSIGNALED     __WIFSIGNALED
+#define WSTOPSIG        __WSTOPSIG
+#define WTERMSIG        __WTERMSIG
 
-#define __WEXITSTATUS(status)   (((status) & 0xff00) >> 8)
-#define __WIFEXITED(status)     (__WTERMSIG(status) == 0)
-#define __WIFSTOPPED(status)    (((status) & 0xff) == 0x7f)
-#define __WIFSIGNALED(status)   (((signed char) (((status)&0x7f)+1)>>1)>0)
-#define __WSTOPSIG(status)      __WEXITSTATUS(status)
-#define __WTERMSIG(status)      ((status) & 0x7f)
+extern pid_t wait(int *);
+extern pid_t waitpid(pid_t, int *, int);
 
-#endif /* _NCC_H */
+#endif /* _SYS_WAIT_H */
 
 /* vi: set ts=4 expandtab: */

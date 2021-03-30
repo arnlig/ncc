@@ -40,6 +40,11 @@ typedef __size_t size_t;
 typedef __ssize_t ssize_t;
 #endif /* __SSIZE_T */
 
+#ifndef __PID_T
+#define __PID_T
+typedef __pid_t pid_t;
+#endif /* __PID_T */
+
 #define STDIN_FILENO    0
 #define STDOUT_FILENO   1
 #define STDERR_FILENO   2
@@ -61,6 +66,10 @@ extern int brk(void *);
 extern void *sbrk(__ssize_t);
 
 extern int close(int);
+extern int execve(const char *, char *const [], char *const []);
+extern int execvp(const char *, char *const []);
+extern int execvpe(const char *, char *const [], char *const []);
+extern pid_t fork(void);
 extern int isatty(int);
 
 #define SEEK_SET        __SEEK_SET

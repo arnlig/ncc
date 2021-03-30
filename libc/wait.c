@@ -1,4 +1,4 @@
-/* ncc.h - library internal definitions                    ncc standard library
+/* wait.c - wait() wrapper for waitpid()                   ncc standard library
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -23,29 +23,11 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef _NCC_H
-#define _NCC_H
+#include <sys/wait.h>
 
-#define __NULL      ((void *) 0)
-
-typedef int __mode_t;
-typedef long __off_t;
-typedef int __pid_t;
-typedef unsigned long __size_t;
-typedef long __ssize_t;
-typedef char *__va_list;
-
-#define __SEEK_SET  0
-#define __SEEK_CUR  1
-#define __SEEK_END  2
-
-#define __WEXITSTATUS(status)   (((status) & 0xff00) >> 8)
-#define __WIFEXITED(status)     (__WTERMSIG(status) == 0)
-#define __WIFSTOPPED(status)    (((status) & 0xff) == 0x7f)
-#define __WIFSIGNALED(status)   (((signed char) (((status)&0x7f)+1)>>1)>0)
-#define __WSTOPSIG(status)      __WEXITSTATUS(status)
-#define __WTERMSIG(status)      ((status) & 0x7f)
-
-#endif /* _NCC_H */
+int wait(int *wstatus)
+{
+    return waitpid(-1, wstatus, 0);
+}
 
 /* vi: set ts=4 expandtab: */

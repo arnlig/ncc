@@ -33,20 +33,20 @@ HDRS=		include/ctype.h include/fcntl.h include/float.h \
 		include/stdarg.h include/stddef.h include/stdio.h \
 		include/stdlib.h include/string.h include/termios.h \
 		include/time.h include/unistd.h include/sys/ioctl.h \
-		include/sys/types.h
+		include/sys/types.h include/sys/wait.h
 
 OBJS=		amd64/syscall.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
 		__pow10.o atoi.o atol.o brk.o clearerr.o ctime.o exit.o \
-		fclose.o fflush.o fileno.o fopen.o fprintf.o fputc.o fputs.o \
-		frexp.o getenv.o isalnum.o isalpha.o iscntrl.o isdigit.o \
-		isgraph.o islower.o isprint.o ispunct.o isspace.o isupper.o \
-		isxdigit.o isatty.o malloc.o memchr.o memcmp.o memcpy.o \
-		memmove.o memset.o modf.o printf.o puts.o remove.o sprintf.o \
-		stdio.o strcat.o strchr.o strcmp.o strcpy.o strerror.o \
-		strftime.o strlen.o strncat.o strncmp.o strncpy.o strrchr.o \
-		strtod.o strtof.o strtol.o tcgetattr.o tolower.o toupper.o \
-		ungetc.o vfprintf.o vsprintf.o
+		execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
+		fprintf.o fputc.o fputs.o frexp.o getenv.o isalnum.o \
+		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
+		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
+		memchr.o memcmp.o memcpy.o memmove.o memset.o modf.o printf.o \
+		puts.o remove.o sprintf.o stdio.o strcat.o strchr.o strcmp.o \
+		strcpy.o strerror.o strftime.o strlen.o strncat.o strncmp.o \
+		strncpy.o strrchr.o strtod.o strtof.o strtol.o tcgetattr.o \
+		tolower.o toupper.o ungetc.o vfprintf.o vsprintf.o wait.o
 
 libc.a:		$(OBJS)
 	rm -f libc.a
@@ -64,6 +64,8 @@ brk.o:			brk.c $(HDRS)
 clearerr.o:		clearerr.c $(HDRS)
 ctime.o:		ctime.c $(HDRS)
 exit.o:			exit.c $(HDRS)
+execvp.o:		execvp.c $(HDRS)
+execvpe.o:		execvpe.c $(HDRS)
 fclose.o:		fclose.c $(HDRS)
 fflush.o:		fflush.c $(HDRS)
 fileno.o:		fileno.c $(HDRS)
@@ -117,3 +119,4 @@ toupper.o:		toupper.c $(HDRS)
 ungetc.o:		ungetc.c $(HDRS)
 vfprintf.o:		vfprintf.c $(HDRS)
 vsprintf.o:		vsprintf.c $(HDRS)
+wait.o:			wait.c $(HDRS)

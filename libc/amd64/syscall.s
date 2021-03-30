@@ -96,6 +96,31 @@ _ioctl:         movl $16, %eax
 _access:        movl $21, %eax
                 jmp do_syscall
 
+# pid_t fork(void);
+
+.global _fork
+
+_fork:          movl $57, %eax
+                jmp do_syscall
+
+# int execve(const char *pathname, char * const *argv, char * const *envp);
+
+.global _execve
+
+_execve:        movl $59, %eax
+                jmp do_syscall
+
+# pid_t waitpid(pid_t pid, int *wstatus, int options);
+#
+# linux uses a non-standard wait4() system call, which has an
+# additional argument. we set that to NULL to get waitpid().
+
+.global _waitpid
+
+_waitpid:       movl $61, %eax
+                xorl %r10d, %r10d
+                jmp do_syscall
+
 # int creat(const char *pathname, mode_t mode);
 
 .global _creat

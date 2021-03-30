@@ -35,6 +35,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 typedef __size_t size_t;
 #endif /* __SIZE_T */
 
+#define WEXITSTATUS     __WEXITSTATUS
+#define WIFEXITED       __WIFEXITED
+#define WIFSTOPPED      __WIFSTOPPED
+#define WIFSIGNALED     __WIFSIGNALED
+#define WSTOPSIG        __WSTOPSIG
+#define WTERMSIG        __WTERMSIG
+
 extern void (*__exit_cleanup)(void);
 extern void __stdio_cleanup(void);
 
