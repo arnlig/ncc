@@ -1,0 +1,5 @@
+*.o
+cc
+cpp/cpp
+cc1/cc1
+libc/libc.a

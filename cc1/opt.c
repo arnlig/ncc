@@ -1,0 +1,167 @@
+/* opt.c - optimization                                 ncc, the new c compiler
+
+Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
+
+#include "../common/util.h"
+#include "cc1.h"
+#include "insn.h"
+#include "block.h"
+#include "dead.h"
+#include "algebra.h"
+#include "fold.h"
+#include "prop.h"
+#include "testz.h"
+#include "opt.h"
+
+/* remove unreachable code. our technique is simple: do a depth-first
+   walk of the tree and eliminate all blocks that weren't visited. */
+
+static blocks_iter_ret unreach0(struct block *b)
+{
+    if ((b != exit_block) && !BLOCK_VISITED(b))
+        block_free(b);
+
+    return BLOCKS_ITER_OK;
+}
+
+void unreach(void)
+{
+    blocks_walk(0, 0);
+    blocks_iter(unreach0);
+}
+
+/* pruning is trivial: if a block is empty and it has but one CC_ALWAYS
+   successor (which should always be the case for an empty block), then
+   redirect all its predecessors to that successor and delete the block.
+   beware the corner case where an empty block is its own successor: that
+   is a (valid) infinite loop, and can't be removed. */
+
+static blocks_iter_ret prune0(struct block *b)
+{
+    struct cessor *succ;
+    struct cessor *pred;
+
+    if ((b != entry_block) && BLOCK_EMPTY(b)) {
+        if ((succ = block_always_successor(b)) && (succ->b != b))
+        {
+            while (pred = block_get_predecessor_n(b, 0))
+                block_redirect_successors(pred->b, b, succ->b);
+
+            block_free(b);
+        }
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
+void prune(void)
+{
+    blocks_iter(prune0);
+}
+
+/* remove no-ops: some optimizations leave I_NOPs where instructions
+   used to be. we also take care of no-op self-copies which typically
+   arise from other optimization passes rather than user constructs. */
+
+static bool need_prune;
+
+static blocks_iter_ret nop0(struct block *b)
+{
+    struct insn *insn;
+    struct insn *next;
+    pseudo_reg dst;
+    pseudo_reg src;
+
+    insn = INSNS_FIRST(&b->insns);
+
+    while (insn) {
+        next = INSNS_NEXT(insn);
+
+        if ((insn_copy(insn, &dst, &src) && (dst == src))
+          || (insn->op == I_NOP))
+            insns_remove(&b->insns, insn);
+
+        insn = next;
+    }
+
+    if (BLOCK_EMPTY(b))
+        need_prune = TRUE;
+
+    return BLOCKS_ITER_OK;
+}
+
+void nop(void)
+{
+    need_prune = FALSE;
+    blocks_iter(nop0);
+
+    if (need_prune)
+        prune();
+}
+
+/* if a block has one always successor, and that successor has but
+   one precedessor, then we coalesce them into one basic block. */
+
+static blocks_iter_ret coal0(struct block *b)
+{
+    struct cessor *succ;
+    struct block *succ_b;
+
+    if ((b != entry_block) && (succ = block_always_successor(b))
+      && (succ->b != b) && (succ->b != exit_block)
+      && (block_nr_predecessors(succ->b) == 1)) {
+        succ_b = succ->b;
+        insns_append(&b->insns, &succ_b->insns);
+        block_dup_successors(b, succ_b);
+        block_free(succ_b);
+        return BLOCKS_ITER_ABORT;
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
+void coal(void)
+{
+    while (blocks_iter(coal0) == BLOCKS_ITER_ABORT)
+        ;
+}
+
+/* we try to invoke the optimization passes in some kind of sensible
+   order. each pass is free to re-invoke other passes it believes may
+   benefit from new opportunities that have been uncovered. */
+
+void optimize(void)
+{
+    unreach();
+    prune();
+    dead();
+    nop();
+    testz();
+    algebra();
+    fold();
+    prop();
+    coal();
+}
+
+/* vi: set ts=4 expandtab: */
