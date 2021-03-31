@@ -635,7 +635,7 @@ static struct tree *gen_call(struct tree *tree)
         FOREST_PREPEND(&tree->args, arg_tree);
     }
 
-    while (arg_tree = FOREST_FIRST(&tree->args)) {
+    while (arg_tree = FOREST_LAST(&tree->args)) {
         FOREST_REMOVE(&tree->args, arg_tree);
 
         if (TYPE_STRUN(&arg_tree->type)) {
@@ -643,12 +643,12 @@ static struct tree *gen_call(struct tree *tree)
             arg_tree = tree_addrof(arg_tree);
             arg_tree = gen(arg_tree, 0);
 
-            insn_append(&arg_insns,
+            insn_prepend(&arg_insns,
                 insn_new(I_BLKARG, operand_leaf(arg_tree),
                                    operand_i(target->ptr_uint, bytes, 0)));
         } else {
             arg_tree = gen(arg_tree, 0);
-            insn_append(&arg_insns, insn_new(arg_op,
+            insn_prepend(&arg_insns, insn_new(arg_op,
                                               operand_leaf(arg_tree)));
         }
 
