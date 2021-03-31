@@ -75,10 +75,9 @@ static char *convert(char *cp, unsigned long n, unsigned b, int c)
     return cp;
 }
 
-static char cbuf[CBUFMAX];
-
 int vfprintf(FILE *fp, const char *format, va_list args)
 {
+    char cbuf[CBUFMAX];
     char *cbp;
     char *cbs;
     char *s;
