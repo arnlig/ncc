@@ -147,6 +147,7 @@ struct block
     struct insns insns;
 
     struct live live;               /* live-variable data */
+    struct regs kill;               /* register kill set */
     struct props props;             /* constant propagation data */
     struct operand *control;        /* controlling value of switch block */
     struct alloc alloc;             /* allocatable objects data */

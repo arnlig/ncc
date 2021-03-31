@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "cc1.h"
 #include "insn.h"
 #include "regs.h"
+#include "kill.h"
 #include "block.h"
 #include "target.h"
 #include "symbol.h"
@@ -279,7 +280,7 @@ static blocks_iter_ret compute0(struct block *b)
     regs_clear(&tmp);
 
     regs_union(&tmp, &b->alloc.in);
-    regs_eliminate_bases(&tmp, &b->live.kill);
+    regs_eliminate_bases(&tmp, &b->kill);
     regs_union(&tmp, &b->alloc.gen);
 
     if (REGS_COUNT(&tmp) != REGS_COUNT(&b->alloc.out)) {
@@ -390,6 +391,7 @@ static blocks_iter_ret rewrite0(struct block *b)
 
 void alloc_webs(void)
 {
+    kill_analyze();
     live_analyze();
     reset();
     blocks_iter(def0);

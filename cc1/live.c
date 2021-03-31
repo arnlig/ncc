@@ -133,7 +133,6 @@ void live_init(struct live *live)
     REGS_INIT(&live->out);
     REGS_INIT(&live->def);
     REGS_INIT(&live->use);
-    REGS_INIT(&live->kill);
 }
 
 /* remove all ranges from the live data */
@@ -149,7 +148,6 @@ void live_clear(struct live *live)
     regs_clear(&live->out);
     regs_clear(&live->def);
     regs_clear(&live->use);
-    regs_clear(&live->kill);
 }
 
 /* live_analyze_local() [and its helpers, live_def() and live_use()]
@@ -162,7 +160,6 @@ void live_clear(struct live *live)
 static void live_def(struct live *live, pseudo_reg reg, insn_index def)
 {
     range_new(live, reg, def, def);
-    REGS_ADD(&live->kill, reg);
 }
 
 /* on use, we update the last of the applicable range (which would be
@@ -302,7 +299,6 @@ static blocks_iter_ret live_analyze_final(struct block *b)
     regs_remove(&b->live.out, PSEUDO_REG_CC);
     regs_remove(&b->live.def, PSEUDO_REG_CC);
     regs_remove(&b->live.use, PSEUDO_REG_CC);
-    regs_remove(&b->live.kill, PSEUDO_REG_CC);
 
     return BLOCKS_ITER_OK;
 }
@@ -347,7 +343,6 @@ void live_debug(struct live *live)
     output("; LIVE   OUT: %R\n", &live->out);
     output(";        DEF: %R\n", &live->def);
     output(";        USE: %R\n", &live->use);
-    output(";       KILL: %R\n", &live->kill);
 
     LIVE_FOREACH(r, live)
         output(";      RANGE: %r def=%i last=%i\n",
