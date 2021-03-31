@@ -19,6 +19,7 @@ clean:
 	rm -f common/*.o
 	rm -f cpp/*.o cpp/cpp
 	rm -f cc1/*.o cc1/amd64/*.o cc1/cc1
+	rm -f *.diff
 
 install:
 	rm -rf $(NCC_HOME)
