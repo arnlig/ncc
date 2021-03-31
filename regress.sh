@@ -13,6 +13,13 @@
 # stage1.stage2.diff, and do the same to create stage2.stage3.diff. if both
 # files are empty, then there is a high degree of confidence that the compiler
 # is working properly.
+#
+# we save the stage3 output of selected files (SAVED_FILES) in regress/.
+# these files are included in the repository and can be used to compare
+# the quality of code output between successive versions of the compiler.
+# we currently use the cpp files since the sources are far more stable.
+
+SAVED_FILES="cpp.s directive.s evaluate.s input.s token.s macro.s vstring.s"
 
 ROOT=/tmp/ncc-regress
 
@@ -59,4 +66,9 @@ build_stage $ROOT/stage2/bin/ncc stage3
 diff_stages stage1 stage2
 diff_stages stage2 stage3
 
-rm -rf $ROOT
+for i in $SAVED_FILES
+do
+	mv $ROOT/stage3/out/$i regress/
+done
+
+#rm -rf $ROOT
