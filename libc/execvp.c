@@ -28,7 +28,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 int execvp(const char *name, char *const argv[])
 {
-    return execvpe(name, argv, __envp);
+    extern char **environ;
+
+    return execvpe(name, argv, environ);
 }
 
 /* vi: set ts=4 expandtab: */

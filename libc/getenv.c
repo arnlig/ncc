@@ -33,7 +33,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 char *getenv(const char *name)
 {
-    const char **v = __envp;
+    extern char **environ;
+    const char **v = environ;
     const char *p, *q;
 
     if (v == 0 || name == 0)

@@ -58,11 +58,7 @@ extern void __exit(int);
 extern void exit(int);
 
 extern void free(void *);
-
-extern char **__envp;
-
 extern char *getenv(const char *);
-
 extern void *malloc(size_t);
 extern void *realloc(void *, size_t);
 extern float strtof(const char *, char **);

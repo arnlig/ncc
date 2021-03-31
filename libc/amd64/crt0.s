@@ -12,13 +12,13 @@ cstart:         popq %rdi                   # argc
                 movq %rsp, %rsi             # argv
                 leaq 8(%rsi,%rdi,8), %rdx   # envp
 
-                movq %rdx, ___envp(%rip)
+                movq %rdx, _environ(%rip)
                 cld
                 call _main
 
                 movl %eax, %edi             # pass along main's return value
                 call _exit                  # to exit()
 
-.comm ___envp, 8, 8
+.comm _environ, 8, 8
 
 # vi: set ts=4 expandtab:
