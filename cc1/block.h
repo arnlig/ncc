@@ -148,7 +148,7 @@ struct block
 
     struct live live;               /* live-variable data */
     struct regs kill;               /* register kill set */
-    struct props props;             /* constant propagation data */
+    struct prop prop;               /* constant propagation data */
     struct operand *control;        /* controlling value of switch block */
     struct alloc alloc;             /* allocatable objects data */
     struct blks dominators;         /* dominators of this block */

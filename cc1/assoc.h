@@ -164,6 +164,52 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
         }                                                                   \
     }
 
+/* move all associations from dst to src. src should
+   be empty on entry, and dst will be empty on exit. */
+
+#define ASSOC_DECLARE_MOVE(tag)                                             \
+    void tag##s_move(struct tag##s *, struct tag##s *);
+
+#define ASSOC_DEFINE_MOVE(tag)                                              \
+                                                                            \
+    void tag##s_move(struct tag##s *dst, struct tag##s *src)                \
+    {                                                                       \
+        struct tag *entry;                                                  \
+                                                                            \
+        while (entry = LIST_FIRST(src)) {                                   \
+            --(src->count);                                                 \
+            LIST_REMOVE(entry, links);                                      \
+            LIST_INSERT_HEAD(dst, entry, links);                            \
+           ++(dst->count);                                                  \
+        }                                                                   \
+    }
+
+/* returns TRUE if both containers contain the same
+   elements with the same values, false otherwise. */
+
+#define ASSOC_DECLARE_SAME(tag)                                             \
+    bool tag##s_same(struct tag##s *, struct tag##s *);
+
+#define ASSOC_DEFINE_SAME(tag, key_name, value_name, same)                  \
+    bool tag##s_same(struct tag##s *x, struct tag##s *y)                    \
+    {                                                                       \
+        struct tag *x_entry;                                                \
+        struct tag *y_entry;                                                \
+                                                                            \
+        if (x->count != y->count)                                           \
+            return FALSE;                                                   \
+                                                                            \
+        ASSOC_FOREACH(x_entry, x) {                                         \
+            y_entry = tag##s_lookup(y, x_entry->key_name);                  \
+                                                                            \
+            if ((y_entry == 0) || !same(&y_entry->value_name,               \
+                                       &x_entry->value_name))               \
+                return FALSE;                                               \
+        }                                                                   \
+                                                                            \
+        return TRUE;                                                        \
+    }
+
 #endif /* ASSOC_H */
 
 /* vi: set ts=4 expandtab: */

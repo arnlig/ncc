@@ -29,7 +29,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "cc1.h"
 #include "assoc.h"
 
-ASSOC_DECLARE(prop, pseudo_reg, reg, struct operand *, value)
+ASSOC_DECLARE(conp, pseudo_reg, reg, struct operand *, value)
+
+struct prop
+{
+    struct conps in;
+    struct conps gen;
+    struct conps out;
+};
 
 extern void prop(void);
 
