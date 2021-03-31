@@ -523,7 +523,8 @@ void init_local(struct symbol *sym)
                 tree_free(tree);
             }
 
-            gen(auto_list, GEN_FLAG_ROOT | GEN_FLAG_DISCARD);
+            if (auto_list)
+                gen(auto_list, GEN_FLAG_ROOT | GEN_FLAG_DISCARD);
         }
     } else {
         if (sym->ss & S_STATIC)
