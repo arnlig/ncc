@@ -94,7 +94,7 @@ static bool changed;
    is NAC for all possible constants. note that we must
    visit the entry_block first for this work properly. */
 
-static blocks_iter_ret prop0(struct block *b)
+static blocks_iter_ret init0(struct block *b)
 {
     struct regs defs = REGS_INITIALIZER(defs);
     struct reg *defs_r;
@@ -164,7 +164,7 @@ static void merge(struct block *b)
     }
 }
 
-static blocks_iter_ret prop1(struct block *b)
+static blocks_iter_ret global0(struct block *b)
 {
     struct conps new_out = CONPS_INITIALIZER(new_out);
     struct conp *gen_p;
@@ -195,7 +195,7 @@ static blocks_iter_ret prop1(struct block *b)
 /* now, we rewrite, starting with the IN
    state, updating it as we go along. */
 
-static blocks_iter_ret prop2(struct block *b)
+static blocks_iter_ret rewrite0(struct block *b)
 {
     struct regs regs = REGS_INITIALIZER(regs);
     struct reg *regs_r;
@@ -232,7 +232,7 @@ static blocks_iter_ret prop2(struct block *b)
 
 /* conditional propagation - see description in top comment. */
 
-static blocks_iter_ret prop3(struct block *b)
+static blocks_iter_ret cond0(struct block *b)
 {
     struct cessor *succ;
     struct insn *insn;
@@ -258,7 +258,7 @@ static blocks_iter_ret prop3(struct block *b)
 /* static switch() resolution. if the controlling expression
    is a known constant, there's no need to switch. */
 
-static blocks_iter_ret prop4(struct block *b)
+static blocks_iter_ret switch0(struct block *b)
 {
     struct conp *p;
     struct operand *o;
@@ -283,7 +283,7 @@ static blocks_iter_ret prop4(struct block *b)
 
 /* clean up after ourselves */
 
-static blocks_iter_ret prop5(struct block *b)
+static blocks_iter_ret cleanup0(struct block *b)
 {
     conps_clear(&b->prop.in);
     conps_clear(&b->prop.gen);
@@ -298,24 +298,28 @@ void prop(void)
 
     /* sequence the blocks, partly for efficiency, but
        mostly to ensure that entry_block is hit first by
-       prop0, since prop0 initializes its OUT() set. */
+       init0, since init0 initializes its OUT() set. */
 
     blocks_sequence();
 
-    blocks_iter(prop0);
-    kill_analyze();
-    blocks_iter(prop1);
-    blocks_iter(prop2);
-    blocks_iter(prop3);
-    blocks_iter(prop4);
-    blocks_iter(prop5);
+    do {
+        changed = FALSE;
 
-    if (changed) {
-        fold();
-        dead();
-        algebra();
-        unreach();
-    }
+        blocks_iter(init0);
+        kill_analyze();
+        blocks_iter(global0);
+        blocks_iter(rewrite0);
+        blocks_iter(cond0);
+        blocks_iter(switch0);
+        blocks_iter(cleanup0);
+
+        if (changed) {
+            fold();
+            dead();
+            algebra();
+            unreach();
+        }
+    } while (changed);
 }
 
 /* vi: set ts=4 expandtab: */
