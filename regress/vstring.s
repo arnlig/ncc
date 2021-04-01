@@ -146,15 +146,14 @@ L55:
 	movl (%rdi),%esi
 	shll $24,%esi
 	sarl $25,%esi
-	subl $1,%esi
+	leal -1(%rsi),%esi
 	movslq %esi,%rsi
 	movzbl 1(%rdi,%rsi),%eax
 	jmp L47
 L56:
 	movq 16(%rdi),%rsi
 	movq 8(%rdi),%rdi
-	subq $1,%rdi
-	movzbl (%rsi,%rdi),%eax
+	movzbl -1(%rsi,%rdi),%eax
 L47:
 	popq %rbp
 	ret
@@ -343,7 +342,7 @@ L110:
 L111:
 	movq (%rdi),%rax
 L112:
-	subq $2,%rax
+	leaq -2(%rax),%rax
 	cmpq %rax,%rsi
 	ja L105
 L104:

@@ -399,7 +399,7 @@ L180:
 L176:
 	movq _input_stack(%rip),%rsi
 	movl 32(%rsi),%esi
-	subl $20,%esi
+	leal -20(%rsi),%esi
 	movl L172(%rip),%edi
 	cmpl %esi,%edi
 	jge L188

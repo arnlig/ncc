@@ -828,7 +828,7 @@ L297:
 L298:
 	movzbl (%rbx),%esi
 	movzbl %sil,%esi
-	subl $48,%esi
+	leal -48(%rsi),%esi
 	cmpl $10,%esi
 	jb L310
 L305:
@@ -1172,8 +1172,7 @@ L468:
 L469:
 	movl $1,%r13d
 L470:
-	movq %r12,%rsi
-	subq $1,%rsi
+	leaq -1(%r12),%rsi
 	cmpq %rsi,%r13
 	jae L459
 L471:

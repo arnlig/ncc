@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef AMD64_INSN_H
 #define AMD64_INSN_H
 
+#include <limits.h>
 #include "../cc1.h"
 #include "../type.h"
 #include "../insn.h"
@@ -110,6 +111,8 @@ extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
 #define AMD64_OPERAND_MEM(o)        ((o) && ((o)->class == AMD64_O_MEM))
 
 #define AMD64_OPERAND_PURE_CON(o)   (AMD64_OPERAND_CON(o) && ((o)->sym == 0))
+
+#define AMD64_HUGE_CON(i)   (((i) < INT_MIN) || ((i) > INT_MAX))
 
 #define AMD64_OPERANDS_SAME_REG(o1, o2)     (AMD64_OPERAND_REG(o1) &&       \
                                              AMD64_OPERAND_REG(o2) &&       \

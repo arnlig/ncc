@@ -504,16 +504,6 @@ static void retrn(struct amd64_operand *src)
 
    I_CMP is a special case, as its result is the condition codes. */
 
-static struct choice sub_choices[] =
-{
-    {   T_CHARS | T_SHORTS | T_INTS,    T_ANY,          AMD64_I_SUBL    },
-    {   T_LONGS,                        T_ANY,          AMD64_I_SUBQ    },
-    {   T_FLOAT,                        T_ANY,          AMD64_I_SUBSS   },
-    {   T_DOUBLE,                       T_ANY,          AMD64_I_SUBSD   },
-
-    { 0 }
-};
-
 static struct choice mul_choices[] =
 {
     {   T_CHARS | T_SHORTS | T_INTS,    T_ANY,          AMD64_I_IMULL   },
@@ -801,6 +791,32 @@ static void add(struct amd64_operand *src1, struct amd64_operand *src2,
     }
 
     binary(add_choices, src1, src2, dst);
+}
+
+/* we intercept subtraction, just in case it's subtraction of an
+   integer constant, in which case it's really an add and there's
+   a chance it could end up in the selxn cache, or combined with
+   other operands- so we convert it to an add and call add(). */
+
+static struct choice sub_choices[] =
+{
+    {   T_CHARS | T_SHORTS | T_INTS,    T_ANY,          AMD64_I_SUBL    },
+    {   T_LONGS,                        T_ANY,          AMD64_I_SUBQ    },
+    {   T_FLOAT,                        T_ANY,          AMD64_I_SUBSS   },
+    {   T_DOUBLE,                       T_ANY,          AMD64_I_SUBSD   },
+
+    { 0 }
+};
+
+static void sub(struct amd64_operand *src1, struct amd64_operand *src2,
+                struct amd64_operand *dst)
+{
+    if ((dst->ts & T_DISCRETE) && AMD64_OPERAND_PURE_CON(src2)
+      && !AMD64_HUGE_CON(src2->i)) {
+        src2->i = -(src2->i);
+        add(src1, src2, dst);
+    } else
+        binary(sub_choices, src1, src2, dst);
 }
 
 /* division/modulo operations. floating-point division is fobbed off
@@ -1099,7 +1115,7 @@ static void gen0(struct block *b)
 
         case I_CMP:         binary(cmp_choices, src1, src2, dst); break;
         case I_ADD:         add(src1, src2, dst); break;
-        case I_SUB:         binary(sub_choices, src1, src2, dst); break;
+        case I_SUB:         sub(src1, src2, dst); break;
         case I_MUL:         binary(mul_choices, src1, src2, dst); break;
         case I_DIV:         divmod(AMD64_REG_RAX, src1, src2, dst); break;
         case I_MOD:         divmod(AMD64_REG_RDX, src1, src2, dst); break;

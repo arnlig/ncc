@@ -144,8 +144,7 @@ L56:
 	call _unary
 	jmp L55
 L58:
-	movl %r13d,%edi
-	subl $256,%edi
+	leal -256(%r13),%edi
 	movq %r12,%rsi
 	call _binary
 L61:
@@ -177,8 +176,7 @@ L66:
 	leaq -16(%rbp),%rsi
 	movq %r12,%rdi
 	call _list_pop
-	movl %r13d,%edi
-	subl $256,%edi
+	leal -256(%r13),%edi
 	movq %r12,%rsi
 	call _binary
 	leaq -24(%rbp),%rsi

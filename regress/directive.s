@@ -318,7 +318,7 @@ L136:
 	call _token_convert_number
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
-	subq $1,%rsi
+	leaq -1(%rsi),%rsi
 	movq _input_stack(%rip),%rdi
 	movl %esi,32(%rdi)
 	movq -16(%rbp),%rsi

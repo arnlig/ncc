@@ -24,7 +24,6 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <stdlib.h>
-#include <limits.h>
 #include <stdarg.h>
 #include "../../common/util.h"
 #include "../cc1.h"
@@ -220,8 +219,6 @@ bool amd64_operand_small(struct amd64_operand *o)
 
 /* returns TRUE if the operand is a huge constant, i.e., a 64-bit
    constant that can't be represented as sign-extended 32-bit value. */
-
-#define AMD64_HUGE_CON(i)   (((i) < INT_MIN) || ((i) > INT_MAX))
 
 bool amd64_operand_huge(struct amd64_operand *o)
 {
