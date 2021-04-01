@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "dead.h"
 #include "algebra.h"
 #include "fold.h"
+#include "copy.h"
 #include "prop.h"
 #include "testz.h"
 #include "opt.h"
@@ -159,6 +160,7 @@ void optimize(void)
     nop();
     testz();
     algebra();
+    copy();
     fold();
     prop();
     coal();

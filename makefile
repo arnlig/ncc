@@ -73,21 +73,21 @@ AMD64_OBJS=	cc1/amd64/target.o \
 		cc1/amd64/reg.o
 
 CC1_HDRS=	cc1/cc1.h cc1/algebra.h cc1/alloc.h cc1/blks.h cc1/block.h \
-		cc1/cast.h cc1/con.h cc1/dead.h cc1/dealias.h cc1/decl.h \
-		cc1/dom.h cc1/expr.h cc1/fold.h cc1/gen.h cc1/graph.h \
-		cc1/init.h cc1/insn.h cc1/kill.h cc1/lex.h cc1/live.h \
-		cc1/loop.h cc1/opt.h cc1/output.h cc1/prop.h cc1/regs.h \
-		cc1/stmt.h cc1/string.h cc1/switch.h cc1/symbol.h \
+		cc1/cast.h cc1/con.h cc1/copy.h cc1/dead.h cc1/dealias.h \
+		cc1/decl.h cc1/dom.h cc1/expr.h cc1/fold.h cc1/gen.h \
+		cc1/graph.h cc1/init.h cc1/insn.h cc1/kill.h cc1/lex.h \
+		cc1/live.h cc1/loop.h cc1/opt.h cc1/output.h cc1/prop.h \
+		cc1/regs.h cc1/stmt.h cc1/string.h cc1/switch.h cc1/symbol.h \
 		cc1/target.h cc1/testz.h cc1/tree.h cc1/type.h \
 		cc1/assoc.h cc1/set.h cc1/stack.h \
 		$(AMD64_HDRS)
 
 CC1_OBJS=	cc1/cc1.o cc1/algebra.o cc1/alloc.o cc1/blks.o cc1/block.o \
-		cc1/cast.o cc1/con.o cc1/dead.o cc1/dealias.o cc1/decl.o \
-		cc1/dom.o cc1/expr.o cc1/fold.o cc1/gen.o cc1/graph.o \
-		cc1/init.o cc1/insn.o cc1/kill.o cc1/lex.o cc1/live.o \
-		cc1/loop.o cc1/opt.o cc1/output.o cc1/prop.o cc1/regs.o \
-		cc1/stmt.o cc1/string.o cc1/switch.o cc1/symbol.o \
+		cc1/cast.o cc1/con.o cc1/copy.o cc1/dead.o cc1/dealias.o \
+		cc1/decl.o cc1/dom.o cc1/expr.o cc1/fold.o cc1/gen.o \
+		cc1/graph.o cc1/init.o cc1/insn.o cc1/kill.o cc1/lex.o \
+		cc1/live.o cc1/loop.o cc1/opt.o cc1/output.o cc1/prop.o \
+		cc1/regs.o cc1/stmt.o cc1/string.o cc1/switch.o cc1/symbol.o \
 		cc1/target.o cc1/testz.o cc1/tree.o cc1/type.o
 
 cc1/cc1.o:		cc1/cc1.c $(CC1_HDRS) $(COMMON_HDRS)
@@ -97,6 +97,7 @@ cc1/blks.o:		cc1/blks.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/block.o:		cc1/block.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/cast.o:		cc1/cast.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/con.o:		cc1/con.c $(CC1_HDRS) $(COMMON_HDRS)
+cc1/copy.o:		cc1/copy.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/dead.o:		cc1/dead.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/dealias.o:		cc1/dealias.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/decl.o:		cc1/decl.c $(CC1_HDRS) $(COMMON_HDRS)
