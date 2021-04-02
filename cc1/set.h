@@ -191,10 +191,29 @@ typedef int set_lookup_flags;
 #define SET_DEFINE_UNION(tag, element_name)                                 \
     void tag##s_union(struct tag##s *dst, struct tag##s *src)               \
     {                                                                       \
-        struct tag *entry;                                                  \
+        struct tag *src_e;                                                  \
+        struct tag *dst_e;                                                  \
+        struct tag *new_e;                                                  \
                                                                             \
-        TAILQ_FOREACH(entry, src, links)                                    \
-            tag##s_lookup(dst, entry->element_name, SET_LOOKUP_CREATE);     \
+        dst_e = TAILQ_FIRST(dst);                                           \
+                                                                            \
+        TAILQ_FOREACH(src_e, src, links) {                                  \
+            while (dst_e && (dst_e->element_name < src_e->element_name))    \
+                dst_e = TAILQ_NEXT(dst_e, links);                           \
+                                                                            \
+            if (dst_e && (dst_e->element_name == src_e->element_name))      \
+                continue;                                                   \
+                                                                            \
+            SET_ALLOC(tag, new_e);                                          \
+            new_e->element_name = src_e->element_name;                      \
+                                                                            \
+            if (dst_e)                                                      \
+                TAILQ_INSERT_BEFORE(dst_e, new_e, links);                   \
+            else                                                            \
+                TAILQ_INSERT_TAIL(dst, new_e, links);                       \
+                                                                            \
+            ++(dst->count);                                                 \
+        }                                                                   \
     }
 
 /* set intersection. remove elements from dst that are not in src */
