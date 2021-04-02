@@ -58,11 +58,14 @@ diff_stages()
 	done
 }
 
+set -e
 rm -rf $ROOT
 
 build_stage cc stage1
 build_stage $ROOT/stage1/bin/ncc stage2
 build_stage $ROOT/stage2/bin/ncc stage3
+
+set +e
 
 diff_stages stage1 stage2
 diff_stages stage2 stage3
