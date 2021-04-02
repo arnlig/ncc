@@ -17,9 +17,10 @@
 # we save the stage3 output of selected files (SAVED_FILES) in regress/.
 # these files are included in the repository and can be used to compare
 # the quality of code output between successive versions of the compiler.
-# we currently use the cpp files since the sources are far more stable.
+# we choose a selection of files whose sources are mostly stable.
 
-SAVED_FILES="cpp.s directive.s evaluate.s input.s token.s macro.s vstring.s"
+SAVED_FILES="cpp.s directive.s evaluate.s input.s token.s macro.s vstring.s \
+	     lex.s expr.s fold.s gen.s stmt.s tree.s string.s symbol.s"
 
 ROOT=/tmp/ncc-regress
 
