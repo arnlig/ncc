@@ -1,4 +1,4 @@
-/* alloc.c - allocatable objects (webs)                 ncc, the new c compiler
+/* webs.c - allocatable objects (webs)                  ncc, the new c compiler
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "target.h"
 #include "symbol.h"
 #include "output.h"
-#include "alloc.h"
+#include "webs.h"
 
 /* before register allocation, we apply an index subscript to each appearance
    of a register in the IR, such that if two appearances have the same index,
@@ -184,9 +184,9 @@ static blocks_iter_ret reset0(struct block *b)
     regs_union(&all_regs, &b->live.def);
     regs_union(&all_regs, &b->live.use);
 
-    REGS_INIT(&b->alloc.in);
-    REGS_INIT(&b->alloc.gen);
-    REGS_INIT(&b->alloc.out);
+    REGS_INIT(&b->webs.in);
+    REGS_INIT(&b->webs.gen);
+    REGS_INIT(&b->webs.out);
 
     return BLOCKS_ITER_OK;
 }
@@ -210,15 +210,15 @@ static void reset(void)
 static blocks_iter_ret clear0(struct block *b)
 {
     if (debug_flag_r) {
-        output("# ALLOC, BLOCK %L\n", b->label);
-        output("#        GEN: %R\n", &b->alloc.gen);
-        output("#         IN: %R\n", &b->alloc.in);
-        output("#        OUT: %R\n", &b->alloc.out);
+        output("# WEBS, BLOCK %L\n", b->label);
+        output("#       GEN: %R\n", &b->webs.gen);
+        output("#        IN: %R\n", &b->webs.in);
+        output("#       OUT: %R\n", &b->webs.out);
     }
 
-    regs_clear(&b->alloc.gen);
-    regs_clear(&b->alloc.in);
-    regs_clear(&b->alloc.out);
+    regs_clear(&b->webs.gen);
+    regs_clear(&b->webs.in);
+    regs_clear(&b->webs.out);
 
     return BLOCKS_ITER_OK;
 }
@@ -244,7 +244,7 @@ static blocks_iter_ret def0(struct block *b)
                 idx = REG_NEXT_IDX(reg);
                 PSEUDO_REG_SET_IDX(reg, idx);
                 web_new(reg);
-                regs_replace_base(&b->alloc.gen, reg);
+                regs_replace_base(&b->webs.gen, reg);
                 insn_substitute_reg(insn, r->reg, reg, INSN_SUBSTITUTE_DEFS);
             }
         }
@@ -252,7 +252,7 @@ static blocks_iter_ret def0(struct block *b)
         regs_clear(&defs);
     }
 
-    regs_intersect_bases(&b->alloc.gen, &b->live.out);
+    regs_intersect_bases(&b->webs.gen, &b->live.out);
 
     return BLOCKS_ITER_OK;
 }
@@ -273,19 +273,19 @@ static blocks_iter_ret compute0(struct block *b)
     int n;
 
     for (n = 0; pred = block_get_predecessor_n(b, n); ++n)
-        regs_union(&tmp, &pred->b->alloc.out);
+        regs_union(&tmp, &pred->b->webs.out);
 
-    regs_clear(&b->alloc.in);
-    regs_select_bases(&b->alloc.in, &tmp, &b->live.in);
+    regs_clear(&b->webs.in);
+    regs_select_bases(&b->webs.in, &tmp, &b->live.in);
     regs_clear(&tmp);
 
-    regs_union(&tmp, &b->alloc.in);
+    regs_union(&tmp, &b->webs.in);
     regs_eliminate_bases(&tmp, &b->kill);
-    regs_union(&tmp, &b->alloc.gen);
+    regs_union(&tmp, &b->webs.gen);
 
-    if (REGS_COUNT(&tmp) != REGS_COUNT(&b->alloc.out)) {
-        regs_clear(&b->alloc.out);
-        regs_move(&b->alloc.out, &tmp);
+    if (REGS_COUNT(&tmp) != REGS_COUNT(&b->webs.out)) {
+        regs_clear(&b->webs.out);
+        regs_move(&b->webs.out, &tmp);
         return BLOCKS_ITER_REITER;
     } else {
         regs_clear(&tmp);
@@ -317,7 +317,7 @@ static blocks_iter_ret merge0(struct block *b)
     pseudo_reg base;
     struct insn *insn;
     
-    regs_union(&current, &b->alloc.in);
+    regs_union(&current, &b->webs.in);
 
     INSNS_FOREACH(insn, &b->insns) {
         insn_uses_regs(insn, &regs);
@@ -389,7 +389,7 @@ static blocks_iter_ret rewrite0(struct block *b)
     return BLOCKS_ITER_OK;
 }
 
-void alloc_webs(void)
+void webs_analyze(void)
 {
     kill_analyze();
     live_analyze();

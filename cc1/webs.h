@@ -1,4 +1,4 @@
-/* alloc.h - allocatable objects (webs)                 ncc, the new c compiler
+/* webs.h - allocatable objects (webs)                  ncc, the new c compiler
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -23,26 +23,25 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef ALLOC_H
-#define ALLOC_H
+#ifndef WEBS_H
+#define WEBS_H
 
 #include "regs.h"
 
-/* a struct alloc is per-block data only valid during the computation
-   of reaching definitions. these sets are subscripted registers. it's
-   standard stuff: which definitions arrive at our block (in), which
-   definitions originate in our block (gen), and which of the former
-   two sets make it out alive (out). */
+/* per-block data for web_analyze(). these sets are subscripted registers.
+   standard stuff for reaching definitions: which definitions arrive at our
+   block (in), which definitions originate in our block (gen), and which of
+   the former two sets make it out alive (out). */
 
-struct alloc
+struct webs
 {
     struct regs in;
     struct regs gen;
     struct regs out;
 };
 
-extern void alloc_webs(void);
+extern void webs_analyze(void);
 
-#endif /* ALLOC_H */
+#endif /* WEBS_H */
 
 /* vi: set ts=4 expandtab: */

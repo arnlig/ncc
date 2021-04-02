@@ -34,7 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "output.h"
 #include "live.h"
 #include "loop.h"
-#include "alloc.h"
+#include "webs.h"
 #include "stack.h"
 #include "target.h"
 #include "graph.h"
@@ -699,7 +699,7 @@ static void rewrite(void)
 
 void graph_alloc(void)
 {
-    alloc_webs();
+    webs_analyze();
 
     /* the interference graph is updated incrementally during
        early coalescing, but too conservatively, so we repeat

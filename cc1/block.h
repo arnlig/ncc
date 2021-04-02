@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "live.h"
 #include "prop.h"
 #include "regs.h"
-#include "alloc.h"
+#include "webs.h"
 #include "blks.h"
 #include "amd64/target_block.h"
 
@@ -150,7 +150,7 @@ struct block
     struct regs kill;               /* register kill set */
     struct prop prop;               /* constant propagation data */
     struct operand *control;        /* controlling value of switch block */
-    struct alloc alloc;             /* allocatable objects data */
+    struct webs webs;               /* allocatable webs data */
     struct blks dominators;         /* dominators of this block */
     struct blks loop_blks;          /* loop blocks headed by this block */
     int loop_depth;                 /* loop nesting depth */
