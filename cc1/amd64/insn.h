@@ -126,7 +126,7 @@ extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
 
 /* each insn has an index into amd64_insn_text[] (in amd64/output.c) */
 
-#define AMD64_I_INDEX_MASK      ( 0x000001FF )              /* bits[8:0] */
+#define AMD64_I_INDEX_MASK      ( 0x0000007F )              /* bits[6:0] */
 #define AMD64_I_INDEX(i)        ((i) & AMD64_I_INDEX_MASK)
 
 /* each AMD64 instruction has up to two operands, the sizes of which
@@ -137,41 +137,48 @@ extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
 #define AMD64_SIZE_DWORD        2           /* 4 bytes */
 #define AMD64_SIZE_QWORD        3           /* 8 bytes */
 
-#define AMD64_I_OPERANDS_MASK       ( 0x00000003 )          /* bits[10:9] */
-#define AMD64_I_OPERANDS_SHIFT      9
+#define AMD64_I_OPERANDS_MASK       ( 0x00000003 )          /* bits[8:7] */
+#define AMD64_I_OPERANDS_SHIFT      7
 
 /* the AMD64_SIZE_* of the first operand is encoded
-   in bits[12:11], the second in bits[14:13]. */
+   in bits[10:9], the second in bits[12:11]. */
 
-#define AMD64_I_SIZE_MASK           ( 0x00000003 )          /* bits[14:11] */
-#define AMD64_I_SIZE_SHIFT          11           
+#define AMD64_I_SIZE_MASK           ( 0x00000003 )          /* bits[12:9] */
+#define AMD64_I_SIZE_SHIFT          9
 #define AMD64_I_SIZE_SHIFT_N(n)     (AMD64_I_SIZE_SHIFT + ((n) * 2))
 
-/* bits 15 and 16 indicate whether operand
+/* bits 13 and 14 indicate whether operand
    0 or 1 (respectively) is modified by insn */
 
-#define AMD64_I_DEFS_MASK           ( 0x00000001 )          /* bits[16:15] */
-#define AMD64_I_DEFS_SHIFT          15
+#define AMD64_I_DEFS_MASK           ( 0x00000001 )          /* bits[14:13] */
+#define AMD64_I_DEFS_SHIFT          13
 #define AMD64_I_DEFS_SHIFT_N(n)     (AMD64_I_DEFS_SHIFT + (n))
 
-/* and bits 17 and 18 indicate whether
+/* and bits 15 and 16 indicate whether
    operand 0 or 1 is read by an insn */
 
-#define AMD64_I_USES_MASK           ( 0x00000001 )          /* bits[18:17] */
-#define AMD64_I_USES_SHIFT          17
+#define AMD64_I_USES_MASK           ( 0x00000001 )          /* bits[16:15] */
+#define AMD64_I_USES_SHIFT          15
 #define AMD64_I_USES_SHIFT_N(n)     (AMD64_I_USES_SHIFT + (n))
 
-/* bits[21:19] encode the number of integer
+/* bits[19:17] encode the number of integer
    arguments for AMD64_I_CALL (max 7) */
 
-#define AMD64_I_IARGS_MASK          ( 0x00000007 )          /* bits[21:19] */
-#define AMD64_I_IARGS_SHIFT         19
+#define AMD64_I_IARGS_MASK          ( 0x00000007 )          /* bits[19:17] */
+#define AMD64_I_IARGS_SHIFT         17
 
-/* bits[25:22] encode the number of
+/* bits[23:20] encode the number of
    floating-point arguments (max 15) */
 
-#define AMD64_I_FARGS_MASK          ( 0x0000000F )          /* bits[25:22] */
-#define AMD64_I_FARGS_SHIFT         22
+#define AMD64_I_FARGS_MASK          ( 0x0000000F )          /* bits[23:20] */
+#define AMD64_I_FARGS_SHIFT         20
+
+/* and bits 24 and 25 indicate whether
+   operand 0 or 1 can be a memory reference */
+
+#define AMD64_I_FUSE_MASK           ( 0x00000001 )          /* bits[25:24] */
+#define AMD64_I_FUSE_SHIFT          24
+#define AMD64_I_FUSE_SHIFT_N(n)     (AMD64_I_FUSE_SHIFT + (n))
 
 /* if the insn is modifies the condition codes */
 
@@ -223,6 +230,10 @@ extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
 
 #define AMD64_I_ENC_DEFS(n)         (1 << AMD64_I_DEFS_SHIFT_N(n))
 #define AMD64_I_ENC_USES(n)         (1 << AMD64_I_USES_SHIFT_N(n))
+
+/* use to encode whether an operand can be replaced with a memory reference */
+
+#define AMD64_I_ENC_FUSE(n)         (1 << AMD64_I_FUSE_SHIFT_N(n))
 
 /* use to query how many integer arguments an AMD64_I_CALL has */
 
