@@ -1,4 +1,4 @@
-/* copy.h - copy propagation                            ncc, the new c compiler
+/* bitset.h - large bitsets                             ncc, the new c compiler
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -23,22 +23,30 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef COPY_H
-#define COPY_H
+#ifndef BITSET_H
+#define BITSET_H
 
-#include "bitset.h"
+#include "cc1.h"
 
-struct copy
+struct bitset
 {
-    struct bitset in;
-    struct bitset gen;
-    struct bitset out;
-    struct bitset prsv;
-    struct bitset tmp;
+    unsigned nr_words;
+    unsigned *words;
 };
 
-extern void copy(void);
+extern void bitset_init(struct bitset *, unsigned);
+extern void bitset_and(struct bitset *, struct bitset *);
+extern void bitset_or(struct bitset *, struct bitset *);
+extern void bitset_bic(struct bitset *, struct bitset *);
+extern void bitset_zero_all(struct bitset *);
+extern void bitset_one_all(struct bitset *);
+extern void bitset_copy(struct bitset *, struct bitset *);
+extern void bitset_set(struct bitset *, unsigned);
+extern void bitset_reset(struct bitset *, unsigned);
+extern int bitset_get(struct bitset *, unsigned);
+extern bool bitset_same(struct bitset *, struct bitset *);
+extern void bitset_clear(struct bitset *);
 
-#endif /* COPY_H */
+#endif /* BITSET_H */
 
 /* vi: set ts=4 expandtab: */

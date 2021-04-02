@@ -60,7 +60,7 @@ L19:
 	movq %rbx,%rdx
 	call _read
 	movq %rax,%r12
-	cmpq $-1,%rax
+	cmpq $-1,%r12
 	jnz L23
 L21:
 	pushq $L24
@@ -240,7 +240,7 @@ L93:
 	movq _begin(%rip),%rsi
 	leaq (%rsi,%rbx),%rsi
 	movq %rsi,_pos(%rip)
-	movq _begin(%rip),%rbx
+	movq _begin(%rip),%r12
 	movq _begin(%rip),%rsi
 	leaq 1(%rsi),%rsi
 	movq %rsi,-8(%rbp)
@@ -258,8 +258,8 @@ L106:
 L107:
 	leaq -8(%rbp),%rdi
 	call _escape
-	movl %eax,%r12d
-	cmpl $-1,%eax
+	movl %eax,%ebx
+	cmpl $-1,%ebx
 	jnz L111
 L109:
 	pushq $L112
@@ -267,9 +267,9 @@ L109:
 	call _error
 	addq $16,%rsp
 L111:
-	movq %rbx,%rsi
-	addq $1,%rbx
-	movb %r12b,(%rsi)
+	movq %r12,%rsi
+	addq $1,%r12
+	movb %bl,(%rsi)
 	jmp L106
 L113:
 	movq -8(%rbp),%rsi
@@ -301,9 +301,9 @@ L120:
 	jmp L113
 L105:
 	movq _begin(%rip),%rsi
-	subq %rsi,%rbx
+	subq %rsi,%r12
 	movq _begin(%rip),%rdi
-	movq %rbx,%rsi
+	movq %r12,%rsi
 	call _string_new
 	movq %rax,_token+8(%rip)
 	movl $2,%eax
@@ -1505,10 +1505,9 @@ L814:
 	movl %esi,%eax
 	movq %rdi,%rsi
 L801:
-	movl %eax,%ecx
-	andl $255,%ecx
-	movl %ecx,%edi
-	movslq %ecx,%rcx
+	movl %eax,%edi
+	andl $255,%edi
+	movslq %edi,%rcx
 	cmpq $58,%rcx
 	jae L804
 L803:

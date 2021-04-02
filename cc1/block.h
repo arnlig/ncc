@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "regs.h"
 #include "webs.h"
 #include "blks.h"
+#include "copy.h"
 #include "amd64/target_block.h"
 
 struct symbol;
@@ -149,6 +150,7 @@ struct block
     struct live live;               /* live-variable data */
     struct regs kill;               /* register kill set */
     struct prop prop;               /* constant propagation data */
+    struct copy copy;               /* copy propagation data */
     struct operand *control;        /* controlling value of switch block */
     struct webs webs;               /* allocatable webs data */
     struct blks dominators;         /* dominators of this block */

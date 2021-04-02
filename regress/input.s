@@ -234,7 +234,7 @@ L103:
 L95:
 	movq _input_stack(%rip),%rsi
 	movq (%rsi),%rsi
-	movl %r12d,%edi
+	movl %eax,%edi
 	call _ungetc
 L90:
 	movl %r12d,%eax
@@ -305,8 +305,8 @@ L143:
 	cmpl $-1,%r12d
 	jz L136
 L128:
-	movl %r12d,%esi
 	movq $L115,%rdi
+	movl %eax,%esi
 	call _vstring_putc
 	jmp L121
 L131:
@@ -388,7 +388,7 @@ L171:
 L163:
 	call _concat_line
 	movq %rax,%r12
-	cmpq $0,%rax
+	cmpq $0,%r12
 	jnz L167
 L165:
 	movl $-1,%eax
@@ -559,7 +559,7 @@ L226:
 	movq $L223,%rsi
 	call _fopen
 	movq %rax,%rbx
-	cmpq $0,%rax
+	cmpq $0,%rbx
 	jnz L229
 L227:
 	pushq %r13

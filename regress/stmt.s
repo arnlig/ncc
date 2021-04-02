@@ -115,17 +115,17 @@ L34:
 	pushq %r14
 	pushq %r15
 L35:
-	movq _continue_block(%rip),%r10
+	movq _continue_block(%rip),%r14
+	movq _break_block(%rip),%r13
+	call _block_new
+	movq %rax,%r10
 	movq %r10,-8(%rbp)
-	movq _break_block(%rip),%r10
+	call _block_new
+	movq %rax,%r10
 	movq %r10,-16(%rbp)
-	call _block_new
-	movq %rax,%r15
-	call _block_new
-	movq %rax,%r14
 	movl $0,%ebx
 	movl $0,%r12d
-	movl $0,%r13d
+	movl $0,%r15d
 	call _block_new
 	movq %rax,_continue_block(%rip)
 	call _block_new
@@ -159,7 +159,7 @@ L42:
 	jz L45
 L43:
 	call _expression
-	movq %rax,%r13
+	movq %rax,%r15
 L45:
 	movl $13,%edi
 	call _lex_match
@@ -172,9 +172,11 @@ L46:
 L48:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq %r15,%rdx
+	movq -8(%rbp),%r10
+	movq %r10,%rdx
 	call _block_add_successor
-	movq %r15,_current_block(%rip)
+	movq -8(%rbp),%r10
+	movq %r10,_current_block(%rip)
 	cmpq $0,%r12
 	jz L50
 L49:
@@ -184,7 +186,8 @@ L49:
 	movq %rax,%rbx
 	movq _break_block(%rip),%rdx
 	movq %rbx,%rdi
-	movq %r14,%rsi
+	movq -16(%rbp),%r10
+	movq %r10,%rsi
 	call _gen_branch
 	movq %rbx,%rdi
 	call _tree_free
@@ -192,10 +195,12 @@ L49:
 L50:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq %r14,%rdx
+	movq -16(%rbp),%r10
+	movq %r10,%rdx
 	call _block_add_successor
 L51:
-	movq %r14,_current_block(%rip)
+	movq -16(%rbp),%r10
+	movq %r10,_current_block(%rip)
 	call _statement
 	movq _current_block(%rip),%rdi
 	movq _continue_block(%rip),%rdx
@@ -203,23 +208,22 @@ L51:
 	call _block_add_successor
 	movq _continue_block(%rip),%rsi
 	movq %rsi,_current_block(%rip)
-	cmpq $0,%r13
+	cmpq $0,%r15
 	jz L54
 L52:
-	movq %r13,%rdi
+	movq %r15,%rdi
 	movl $3,%esi
 	call _gen
 L54:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq %r15,%rdx
+	movq -8(%rbp),%r10
+	movq %r10,%rdx
 	call _block_add_successor
 	movq _break_block(%rip),%rsi
 	movq %rsi,_current_block(%rip)
-	movq -8(%rbp),%r10
-	movq %r10,_continue_block(%rip)
-	movq -16(%rbp),%r10
-	movq %r10,_break_block(%rip)
+	movq %r14,_continue_block(%rip)
+	movq %r13,_break_block(%rip)
 L36:
 	popq %r15
 	popq %r14
@@ -238,42 +242,39 @@ L60:
 	pushq %r12
 	pushq %r13
 	pushq %r14
-	pushq %r15
 L61:
 	call _block_new
-	movq %rax,%r14
-	call _block_new
 	movq %rax,%rbx
-	movq %rbx,%r15
 	call _block_new
-	movq %rax,%r12
-	movq %r12,%r13
+	movq %rax,%r14
+	movq %r14,%r12
+	call _block_new
+	movq %rax,%r13
 	call _lex
-	movq %r14,%rdi
-	movq %rbx,%rsi
+	movq %rbx,%rdi
+	movq %r14,%rsi
 	call _condition
-	movq %r14,_current_block(%rip)
+	movq %rbx,_current_block(%rip)
 	call _statement
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq %r12,%rdx
+	movq %r13,%rdx
 	call _block_add_successor
 	movl _token(%rip),%esi
 	cmpl $68,%esi
 	jnz L65
 L63:
 	call _lex
-	movq %r15,_current_block(%rip)
+	movq %r14,_current_block(%rip)
 	call _statement
-	movq _current_block(%rip),%r15
+	movq _current_block(%rip),%r12
 L65:
-	movq %r15,%rdi
+	movq %r12,%rdi
 	movl $10,%esi
 	movq %r13,%rdx
 	call _block_add_successor
 	movq %r13,_current_block(%rip)
 L62:
-	popq %r15
 	popq %r14
 	popq %r13
 	popq %r12
@@ -490,14 +491,15 @@ L116:
 	movq %r10,-8(%rbp)
 	movq _default_block(%rip),%r15
 	movq _break_block(%rip),%r14
-	movl _saw_default(%rip),%ebx
+	movl _saw_default(%rip),%r13d
 	call _block_new
 	call _lex
 	movl $262156,%edi
 	call _lex_match
 	call _expression
-	movq %rax,%r12
-	movq 8(%rax),%rsi
+	movq %rax,%rbx
+	movq %rbx,%r12
+	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $1022,%rsi
@@ -509,21 +511,21 @@ L118:
 	call _error
 	addq $16,%rsp
 L120:
-	movq 8(%r12),%rsi
+	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $14,%rsi
 	cmpq $0,%rsi
 	jnz L122
 L125:
-	movq 8(%r12),%rsi
+	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $48,%rsi
 	cmpq $0,%rsi
 	jz L124
 L122:
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	movl $64,%esi
 	call _tree_cast_bits
 	movq %rax,%r12
@@ -533,7 +535,7 @@ L124:
 	movq %r12,%rdi
 	movl $1,%esi
 	call _gen
-	movq %rax,%r12
+	movq %rax,%rbx
 	movq _current_block(%rip),%rsi
 	movq %rsi,_switch_block(%rip)
 	movl $0,_saw_default(%rip)
@@ -542,14 +544,14 @@ L124:
 	call _block_new
 	movq %rax,_break_block(%rip)
 	call _block_new
-	movq %rax,%r13
+	movq %rax,%r12
 	movq _current_block(%rip),%rdi
 	movq _default_block(%rip),%rdx
-	movq %r12,%rsi
+	movq %rbx,%rsi
 	call _block_switch
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _tree_free
-	movq %r13,_current_block(%rip)
+	movq %r12,_current_block(%rip)
 	call _statement
 	movq _current_block(%rip),%rdi
 	movq _break_block(%rip),%rdx
@@ -572,7 +574,7 @@ L131:
 	movq %r10,_switch_block(%rip)
 	movq %r14,_break_block(%rip)
 	movq %r15,_default_block(%rip)
-	movl %ebx,_saw_default(%rip)
+	movl %r13d,_saw_default(%rip)
 L117:
 	popq %r15
 	popq %r14
@@ -611,14 +613,14 @@ L149:
 L150:
 	call _lex
 	movq _switch_block(%rip),%rsi
-	movq 240(%rsi),%rsi
+	movq 320(%rsi),%rsi
 	movq 8(%rsi),%rdi
 	movl $1,%esi
 	call _int_expression
 	movq %rax,-8(%rbp)
 	leaq -8(%rbp),%rsi
 	movq _switch_block(%rip),%rdi
-	movq 240(%rdi),%rdi
+	movq 320(%rdi),%rdi
 	movq 8(%rdi),%rdi
 	call _con_normalize
 	movl $486539286,%edi

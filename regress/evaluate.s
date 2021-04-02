@@ -8,9 +8,8 @@ L3:
 L49:
 	movq %rdi,%rbx
 L4:
-	movq (%rbx),%rsi
-	movq %rsi,%rdi
-	cmpq $0,%rsi
+	movq (%rbx),%rdi
+	cmpq $0,%rdi
 	jz L8
 L6:
 	movl (%rdi),%esi
@@ -78,9 +77,8 @@ L21:
 	movq %rbx,%rdi
 	call _expression
 	movq (%rbx),%rsi
-	movq 32(%rsi),%rsi
-	movq %rsi,%r12
-	cmpq $0,%rsi
+	movq 32(%rsi),%r12
+	cmpq $0,%r12
 	jz L22
 L25:
 	movl (%r12),%esi
@@ -133,18 +131,19 @@ L53:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
+	pushq %r14
 L201:
 	movq %rsi,%r12
-	movl %edi,%r13d
+	movl %edi,%r14d
 L54:
-	cmpl $0,%r13d
+	cmpl $0,%r14d
 	jnz L58
 L56:
 	movq %r12,%rdi
 	call _unary
 	jmp L55
 L58:
-	leal -256(%r13),%edi
+	leal -256(%r14),%edi
 	movq %r12,%rsi
 	call _binary
 L61:
@@ -160,9 +159,10 @@ L67:
 	movq -16(%rbp),%rsi
 	movl (%rsi),%esi
 	andl $3840,%esi
-	cmpl %r13d,%esi
+	cmpl %r14d,%esi
 	jz L66
 L55:
+	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
@@ -176,7 +176,7 @@ L66:
 	leaq -16(%rbp),%rsi
 	movq %r12,%rdi
 	call _list_pop
-	leal -256(%r13),%edi
+	leal -256(%r14),%edi
 	movq %r12,%rsi
 	call _binary
 	leaq -24(%rbp),%rsi
@@ -185,6 +185,7 @@ L66:
 	movl $0,%edi
 	call _token_int
 	movq %rax,%rbx
+	movq %rbx,%r13
 	movq -8(%rbp),%rsi
 	movl (%rsi),%esi
 	cmpl $2147483705,%esi
@@ -583,20 +584,20 @@ L123:
 	movl $-2147483592,(%rbx)
 L157:
 	movq (%r12),%rsi
-	movq %rsi,32(%rbx)
+	movq %rsi,32(%r13)
 	cmpq $0,%rsi
 	jz L161
 L160:
-	leaq 32(%rbx),%rsi
+	leaq 32(%r13),%rsi
 	movq (%r12),%rdi
 	movq %rsi,40(%rdi)
 	jmp L162
 L161:
-	leaq 32(%rbx),%rsi
+	leaq 32(%r13),%rsi
 	movq %rsi,8(%r12)
 L162:
-	movq %rbx,(%r12)
-	movq %r12,40(%rbx)
+	movq %r13,(%r12)
+	movq %r12,40(%r13)
 	movq -8(%rbp),%rdi
 	call _token_free
 	movq -16(%rbp),%rdi
@@ -795,6 +796,7 @@ L268:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
+	pushq %r14
 L319:
 	movq %rdi,%rbx
 L269:
@@ -825,18 +827,18 @@ L274:
 	cmpq $0,%rax
 	jz L286
 L288:
-	movl (%r12),%esi
+	movl (%rax),%esi
 	cmpl $536870927,%esi
 	jnz L286
 L285:
 	movq %rbx,%rdi
-	movq %r12,%rsi
+	movq %rax,%rsi
 	call _list_drop
 	movq %rax,%r12
-	movl $1,%r13d
+	movl $1,%r14d
 	jmp L287
 L286:
-	movl $0,%r13d
+	movl $0,%r14d
 L287:
 	cmpq $0,%r12
 	jz L292
@@ -851,11 +853,10 @@ L292:
 L294:
 	leaq 8(%r12),%rdi
 	call _macro_lookup
-	movq %rax,%rsi
 	cmpq $0,%rax
 	jz L301
 L303:
-	movl 24(%rsi),%esi
+	movl 24(%rax),%esi
 	andl $1,%esi
 	cmpl $0,%esi
 	jnz L301
@@ -878,14 +879,15 @@ L302:
 	movq %rbx,%rdi
 	movq %r12,%rsi
 	call _list_drop
-	movq %rax,%r12
-	cmpl $0,%r13d
+	movq %rax,%r13
+	movq %r13,%r12
+	cmpl $0,%r14d
 	jz L271
 L307:
-	cmpq $0,%r12
+	cmpq $0,%r13
 	jz L310
 L313:
-	movl (%r12),%esi
+	movl (%r13),%esi
 	cmpl $536870928,%esi
 	jz L312
 L310:
@@ -894,7 +896,7 @@ L310:
 	addq $8,%rsp
 L312:
 	movq %rbx,%rdi
-	movq %r12,%rsi
+	movq %r13,%rsi
 	call _list_drop
 	movq %rax,%r12
 	jmp L271
@@ -902,6 +904,7 @@ L275:
 	movq 32(%r12),%r12
 	jmp L271
 L270:
+	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx

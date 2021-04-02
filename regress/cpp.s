@@ -80,7 +80,7 @@ L26:
 L27:
 	call _malloc
 	movq %rax,%rbx
-	cmpq $0,%rax
+	cmpq $0,%rbx
 	jnz L31
 L29:
 	pushq $L32
@@ -195,7 +195,7 @@ L89:
 	pushq %r12
 	pushq %r13
 L131:
-	movq %rdi,%r12
+	movq %rdi,%rbx
 L90:
 	leaq -16(%rbp),%rdi
 	movl $16,%ecx
@@ -204,78 +204,73 @@ L90:
 	stosb
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
-	movl $0,%ebx
-	movq (%r12),%rsi
-	movq %rsi,%r13
-	movl (%rsi),%esi
+	movl $0,%r13d
+	movq (%rbx),%r12
+	movl (%r12),%esi
 	cmpl $49,%esi
 	jz L94
 L92:
 	movl $0,%eax
 	jmp L91
 L94:
-	leaq 8(%r13),%rdi
+	leaq 8(%r12),%rdi
 	call _macro_lookup
-	movq %rax,%rsi
 	cmpq $0,%rax
 	jz L96
 L99:
-	movl 24(%rsi),%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	movl 24(%rax),%esi
+	andl $1,%esi
+	cmpl $0,%esi
 	jz L98
 L96:
 	movl $0,%eax
 	jmp L91
 L98:
-	movl 24(%rsi),%esi
+	movl 24(%rax),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jz L111
 L104:
-	movq %r12,%rdi
-	movq %r13,%rsi
+	movq %rbx,%rdi
+	movq %r12,%rsi
 	call _parentheses
-	movl %eax,%ebx
+	movl %eax,%r13d
 	cmpl $0,%eax
-	jg L111
-L107:
-	movl %ebx,%eax
-	jmp L91
+	jle L91
 L111:
-	movq (%r12),%rsi
+	movq (%rbx),%rsi
 	cmpq $0,%rsi
 	jz L112
 L114:
-	movq (%r12),%rsi
+	movq (%rbx),%rsi
 	movq -8(%rbp),%rdi
 	movq %rsi,(%rdi)
 	movq -8(%rbp),%rsi
-	movq (%r12),%rdi
+	movq (%rbx),%rdi
 	movq %rsi,40(%rdi)
-	movq 8(%r12),%rsi
+	movq 8(%rbx),%rsi
 	movq %rsi,-8(%rbp)
-	movq $0,(%r12)
-	movq %r12,8(%r12)
+	movq $0,(%rbx)
+	movq %rbx,8(%rbx)
 L112:
-	leal 1(%rbx),%edx
+	leal 1(%r13),%edx
 	leaq -16(%rbp),%rsi
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _list_move
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _macro_replace
 	movq -16(%rbp),%rsi
 	cmpq $0,%rsi
 	jz L121
 L123:
 	movq -16(%rbp),%rsi
-	movq 8(%r12),%rdi
+	movq 8(%rbx),%rdi
 	movq %rsi,(%rdi)
-	movq 8(%r12),%rsi
+	movq 8(%rbx),%rsi
 	movq -16(%rbp),%rdi
 	movq %rsi,40(%rdi)
 	movq -8(%rbp),%rsi
-	movq %rsi,8(%r12)
+	movq %rsi,8(%rbx)
 	movq $0,-16(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
@@ -520,7 +515,7 @@ L219:
 	leaq -16(%rbp),%rdi
 	call _replace
 	movl %eax,%ebx
-	cmpl $1,%eax
+	cmpl $1,%ebx
 	jz L218
 L223:
 	leaq -16(%rbp),%rdi

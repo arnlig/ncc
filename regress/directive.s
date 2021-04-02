@@ -73,28 +73,29 @@ L40:
 L28:
 	movl $16,%edi
 	call _safe_malloc
-	movq _state_stack(%rip),%rsi
-	cmpq $0,%rsi
+	movq %rax,%rsi
+	movq _state_stack(%rip),%rdi
+	cmpq $0,%rdi
 	jz L30
 L33:
-	movq _state_stack(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%esi
-	cmpl $0,%esi
+	movq _state_stack(%rip),%rdi
+	movzbl (%rdi),%edi
+	movzbl %dil,%edi
+	cmpl $0,%edi
 	jnz L30
 L31:
 	movb $0,(%rax)
 	movb $1,1(%rax)
 	jmp L32
 L30:
-	movl %ebx,%esi
-	movb %sil,1(%rax)
+	movl %ebx,%edi
+	movb %dil,1(%rax)
 	movb %bl,(%rax)
 L32:
 	movb $0,2(%rax)
-	movq _state_stack(%rip),%rsi
-	movq %rsi,8(%rax)
-	movq %rax,_state_stack(%rip)
+	movq _state_stack(%rip),%rdi
+	movq %rdi,8(%rsi)
+	movq %rsi,_state_stack(%rip)
 L29:
 	popq %rbx
 	popq %rbp
@@ -130,11 +131,10 @@ L56:
 	movq -8(%rbp),%rsi
 	leaq 8(%rsi),%rdi
 	call _macro_lookup
-	movq %rax,%rsi
 	cmpq $0,%rax
 	jz L60
 L58:
-	movl 24(%rsi),%esi
+	movl 24(%rax),%esi
 	andl $1,%esi
 	cmpl $0,%esi
 	jnz L60
@@ -351,17 +351,16 @@ L145:
 	movq %rsp,%rbp
 L146:
 	call _list_stringize
-	movq %rax,%rsi
-	movl 8(%rax),%edi
-	shll $31,%edi
-	sarl $31,%edi
-	cmpl $0,%edi
+	movl 8(%rax),%esi
+	shll $31,%esi
+	sarl $31,%esi
+	cmpl $0,%esi
 	jz L150
 L149:
-	leaq 9(%rsi),%rsi
+	leaq 9(%rax),%rsi
 	jmp L151
 L150:
-	movq 24(%rsi),%rsi
+	movq 24(%rax),%rsi
 L151:
 	pushq %rsi
 	pushq $L148
@@ -514,31 +513,30 @@ L324:
 L209:
 	movq (%rbx),%rdi
 	call _list_skip_spaces
-	movq %rax,%rsi
 	cmpq $0,%rax
 	jz L224
 L214:
-	movl (%rsi),%edi
-	cmpl $1610612748,%edi
+	movl (%rax),%esi
+	cmpl $1610612748,%esi
 	jnz L224
 L211:
-	movq 32(%rsi),%rdi
+	movq 32(%rax),%rdi
 	call _list_skip_spaces
 	movq %rax,%r13
-	cmpq $0,%rax
+	movq %r13,%rdi
+	cmpq $0,%r13
 	jz L219
 L218:
 	movq %r13,%rdi
 	call _lookup
 	movl %eax,%r12d
-	movq 32(%r13),%r13
+	movq 32(%r13),%rdi
 	cmpl $10,%r12d
 	jnz L223
 	jz L224
 L219:
 	movl $12,%r12d
 L223:
-	movq %r13,%rdi
 	call _list_skip_spaces
 	movq %rbx,%rdi
 	movq %rax,%rsi

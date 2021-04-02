@@ -368,53 +368,53 @@ L164:
 	pushq %r12
 	pushq %r13
 L186:
-	movl %esi,%r12d
+	movl %esi,%r13d
 	movq %rdi,%rsi
 L165:
 	movl $1073741829,%edi
 	call _tree_unary
-	movq %rax,%r13
-	movq %r13,%rbx
-	movq 24(%r13),%rsi
+	movq %rax,%r12
+	movq %r12,%rbx
+	movq 24(%r12),%rsi
 	leaq 8(%rsi),%rsi
-	leaq 8(%r13),%rdi
+	leaq 8(%r12),%rdi
 	call _type_deref
-	movq 8(%r13),%rsi
+	movq 8(%r12),%rsi
 	movq (%rsi),%rdi
 	movq $-2147483649,%rax
 	andq %rax,%rdi
 	movq %rdi,(%rsi)
-	andl $1,%r12d
-	cmpl $0,%r12d
+	andl $1,%r13d
+	cmpl $0,%r13d
 	jnz L169
 L167:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movl (%rsi),%esi
 	cmpl $2147483649,%esi
 	jnz L171
 L177:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movq 32(%rsi),%rsi
 	cmpq $0,%rsi
 	jz L171
 L173:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movq 24(%rsi),%rsi
 	cmpq $0,%rsi
 	jnz L171
 L170:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_chop_unary
 	movq %rax,%rbx
 	movl $-2147483646,(%rax)
 	jmp L169
 L171:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movl (%rsi),%esi
 	cmpl $1073741830,%esi
 	jnz L169
 L181:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_chop_unary
 	movq %rax,%rdi
 	call _tree_chop_unary
@@ -450,14 +450,14 @@ L190:
 	cmpl $2147483650,%esi
 	jnz L193
 L195:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movq 32(%rsi),%rsi
 	movl 12(%rsi),%esi
 	andl $48,%esi
 	cmpl $0,%esi
 	jz L193
 L192:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_chop_unary
 	movq %rax,%rbx
 	movl $-2147483647,(%rax)
@@ -468,12 +468,12 @@ L192:
 	call _con_normalize
 	jmp L194
 L193:
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movl (%rsi),%esi
 	cmpl $1073741829,%esi
 	jnz L194
 L199:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_chop_unary
 	movq %rax,%rdi
 	call _tree_chop_unary
