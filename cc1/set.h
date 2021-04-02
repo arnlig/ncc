@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define SET_H
 
 #include "../common/tailq.h"
+#include "../common/slist.h"
 
 #define SET_DECLARE(tag, element_type, element_name)                        \
     struct tag##s                                                           \
@@ -38,8 +39,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
     struct tag                                                              \
     {                                                                       \
         element_type element_name;                                          \
-        TAILQ_ENTRY(tag) links;                                             \
-    };
+                                                                            \
+        union {                                                             \
+            TAILQ_ENTRY(tag) links;                                         \
+            SLIST_ENTRY(tag) free_link;                                     \
+        };                                                                  \
+    };                                                                      \
+                                                                            \
+    SLIST_HEAD(tag##s_free_list, tag);
+
+#define SET_DECLARE_FREELIST(tag)                                           \
+    extern struct tag##s_free_list tag##s_free_list;
+
+#define SET_DEFINE_FREELIST(tag)                                            \
+    struct tag##s_free_list tag##s_free_list =                              \
+            SLIST_HEAD_INITIALIZER(tag##s_free_list);
 
 #define SET_INIT(set)                                                       \
     do {                                                                    \
@@ -53,6 +67,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define SET_NEXT(i)                     TAILQ_NEXT(i, links)
 #define SET_COUNT(set)                  ((set)->count)
 #define SET_EMPTY(set)                  ((set)->count == 0)
+
+/* put an element back on the free list. internal to set implementation. */
+
+#define SET_FREE(tag, i)  SLIST_INSERT_HEAD(&tag##s_free_list, i, free_link)
+
+/* allocate a number of element structs and returns the first one, queuing
+   the rest on the free list. internal to the set implementation. */
+
+#define SET_DECLARE_ALLOC(tag)                                              \
+    struct tag *tag##s_alloc(void);
+
+#define SET_DEFINE_ALLOC(tag, slab_qty)                                     \
+    struct tag *tag##s_alloc(void)                                          \
+    {                                                                       \
+        struct tag *slab;                                                   \
+        int i;                                                              \
+                                                                            \
+        slab = safe_malloc(sizeof(struct tag) * slab_qty);                  \
+                                                                            \
+        for (i = 1; i < slab_qty; ++i)                                      \
+            SET_FREE(tag, slab + i);                                        \
+                                                                            \
+        return slab;                                                        \
+    }
+
+#define SET_ALLOC(tag, ptr)                                                 \
+    do {                                                                    \
+        if (ptr = SLIST_FIRST(&tag##s_free_list))                           \
+            SLIST_REMOVE_HEAD(&tag##s_free_list, free_link);                \
+        else                                                                \
+            ptr = tag##s_alloc();                                           \
+    } while (0)
 
 /* lookup returns the entry associated with the element.
    if no such element exists and SET_LOOKUP_CREATE, then
@@ -83,7 +129,7 @@ typedef int set_lookup_flags;
         }                                                                   \
                                                                             \
         if (flags & SET_LOOKUP_CREATE) {                                    \
-            new = safe_malloc(sizeof(struct tag));                          \
+            SET_ALLOC(tag, new);                                            \
             new->element_name = element;                                    \
                                                                             \
             if (entry)                                                      \
@@ -97,11 +143,11 @@ typedef int set_lookup_flags;
             return 0;                                                       \
     }
 
-#define SET_FREE_ENTRY(set, entry)                                          \
+#define SET_FREE_ENTRY(tag, set, entry)                                     \
     do {                                                                    \
         --((set)->count);                                                   \
         TAILQ_REMOVE(set, entry, links);                                    \
-        free(entry);                                                        \
+        SET_FREE(tag, entry);                                               \
     } while(0)
 
 /* remove an element from the set (if it exists) */
@@ -117,7 +163,7 @@ typedef int set_lookup_flags;
                                                                             \
         TAILQ_FOREACH(entry, set, links)                                    \
             if (entry->element_name == element) {                           \
-                SET_FREE_ENTRY(set, entry);                                 \
+                SET_FREE_ENTRY(tag, set, entry);                            \
                 break;                                                      \
             }                                                               \
     }
@@ -172,7 +218,7 @@ typedef int set_lookup_flags;
                 src_e = TAILQ_NEXT(src_e, links);                           \
             } else if (dst_e->element_name < src_e->element_name) {         \
                 tmp = TAILQ_NEXT(dst_e, links);                             \
-                SET_FREE_ENTRY(dst, dst_e);                                 \
+                SET_FREE_ENTRY(tag, dst, dst_e);                            \
                 dst_e = tmp;                                                \
             } else if (dst_e->element_name > src_e->element_name)           \
                 src_e = TAILQ_NEXT(src_e, links);                           \
@@ -180,7 +226,7 @@ typedef int set_lookup_flags;
                                                                             \
         while (dst_e) {                                                     \
             tmp = TAILQ_NEXT(dst_e, links);                                 \
-            SET_FREE_ENTRY(dst, dst_e);                                     \
+            SET_FREE_ENTRY(tag, dst, dst_e);                                \
             dst_e = tmp;                                                    \
         }                                                                   \
     }
@@ -239,7 +285,7 @@ typedef int set_lookup_flags;
         struct tag *entry;                                                  \
                                                                             \
         while (entry = TAILQ_FIRST(set))                                    \
-            SET_FREE_ENTRY(set, entry);                                     \
+            SET_FREE_ENTRY(tag, set, entry);                                \
     }
 
 #endif /* SET_H */

@@ -28,6 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "output.h"
 #include "regs.h"
 
+SET_DEFINE_FREELIST(reg)
+SET_DEFINE_ALLOC(reg, 1000)
 SET_DEFINE_LOOKUP(reg, pseudo_reg, reg)
 SET_DEFINE_REMOVE(reg, pseudo_reg, reg)
 SET_DEFINE_DIFF(reg, reg)
