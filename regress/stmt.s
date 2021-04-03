@@ -119,10 +119,10 @@ L35:
 	movq _break_block(%rip),%r13
 	call _block_new
 	movq %rax,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	call _block_new
 	movq %rax,%r10
-	movq %r10,-16(%rbp)
+	movq %r10,-16(%rbp)	 # spill
 	movl $0,%ebx
 	movl $0,%r12d
 	movl $0,%r15d
@@ -172,10 +172,10 @@ L46:
 L48:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdx
 	call _block_add_successor
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,_current_block(%rip)
 	cmpq $0,%r12
 	jz L50
@@ -186,7 +186,7 @@ L49:
 	movq %rax,%rbx
 	movq _break_block(%rip),%rdx
 	movq %rbx,%rdi
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rsi
 	call _gen_branch
 	movq %rbx,%rdi
@@ -195,11 +195,11 @@ L49:
 L50:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdx
 	call _block_add_successor
 L51:
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,_current_block(%rip)
 	call _statement
 	movq _current_block(%rip),%rdi
@@ -217,7 +217,7 @@ L52:
 L54:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdx
 	call _block_add_successor
 	movq _break_block(%rip),%rsi
@@ -488,7 +488,7 @@ L115:
 	pushq %r15
 L116:
 	movq _switch_block(%rip),%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	movq _default_block(%rip),%r15
 	movq _break_block(%rip),%r14
 	movl _saw_default(%rip),%r13d
@@ -570,7 +570,7 @@ L131:
 	call _block_switch_done
 	movq _break_block(%rip),%rsi
 	movq %rsi,_current_block(%rip)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,_switch_block(%rip)
 	movq %r14,_break_block(%rip)
 	movq %r15,_default_block(%rip)

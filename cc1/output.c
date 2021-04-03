@@ -309,7 +309,10 @@ static void output_insn(struct insn *insn)
     }
 
     if (insn->flags & INSN_FLAG_VOLATILE)
-        output("\t\t # volatile");
+        output("\t # volatile");
+
+    if (insn->flags & INSN_FLAG_SPILL)
+        output("\t # spill");
 
     output("\n");
 }

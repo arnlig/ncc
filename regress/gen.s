@@ -578,9 +578,9 @@ L132:
 	movq %rdi,%r15
 	movl %ecx,%ebx
 	movq %rsi,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 L128:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rsi
 	movq %rsi,%rdi
 	movl $0,%esi
@@ -604,28 +604,28 @@ L128:
 	movslq %ebx,%rsi
 	movq %rsi,%rcx
 	shlq %cl,%r13
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rsi
 	movq %rsi,%rdi
 	call _symbol_temp
 	movq %rax,%r10
-	movq %r10,-16(%rbp)
-	movq -8(%rbp),%r10
+	movq %r10,-16(%rbp)	 # spill
+	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rsi
 	movq %rsi,%rdi
 	call _symbol_temp
 	movq %rax,%r10
-	movq %r10,-24(%rbp)
+	movq %r10,-24(%rbp)	 # spill
 	movslq %ebx,%rsi
 	movl $64,%edi
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%rbx
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_leaf
 	movq %rax,%r12
-	movq -24(%rbp),%r10
+	movq -24(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rsi
@@ -639,7 +639,7 @@ L128:
 	movq _current_block(%rip),%rdi
 	leaq 8(%rdi),%rdi
 	call _insn_append
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
@@ -648,11 +648,11 @@ L128:
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%rbx
-	movq -24(%rbp),%r10
+	movq -24(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%r12
-	movq -24(%rbp),%r10
+	movq -24(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rsi
@@ -670,11 +670,11 @@ L128:
 	notq %rsi
 	andq %r14,%rsi
 	movq %rsi,%rbx
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	movq %r15,%rsi
 	call _gen_load
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
@@ -683,11 +683,11 @@ L128:
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%rbx
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%r12
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rsi
@@ -701,15 +701,15 @@ L128:
 	movq _current_block(%rip),%rdi
 	leaq 8(%rdi),%rdi
 	call _insn_append
-	movq -24(%rbp),%r10
+	movq -24(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rbx
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%r12
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rsi
@@ -723,10 +723,10 @@ L128:
 	movq _current_block(%rip),%rdi
 	leaq 8(%rdi),%rdi
 	call _insn_append
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_free
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_sym
 	movq %rax,%rsi
@@ -1103,7 +1103,7 @@ L198:
 	movq %rax,%rdi
 	call _tree_sym
 	movq %rax,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	movq 32(%r12),%rsi
 	movq %rsi,%rdi
 	movl $0,%esi
@@ -1118,7 +1118,7 @@ L200:
 	movq %rsi,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_leaf
 	pushq %rbx
@@ -1169,7 +1169,7 @@ L201:
 	movq %r14,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_leaf
 	pushq %rbx
@@ -1218,11 +1218,11 @@ L202:
 L203:
 	movq %rbx,%rdi
 	call _tree_free
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rax
 	jmp L199
 L204:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_free
 	movq %rbx,%rax
@@ -1388,13 +1388,13 @@ L257:
 	pushq %r15
 L265:
 	movq %rdi,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 L258:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rdi
 	call _symbol_temp
 	movq %rax,%r10
-	movq %r10,-16(%rbp)
+	movq %r10,-16(%rbp)	 # spill
 	call _block_new
 	movq %rax,%r15
 	call _block_new
@@ -1408,7 +1408,7 @@ L258:
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%r12
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	pushq %r12
@@ -1424,7 +1424,7 @@ L258:
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%r12
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	pushq %r12
@@ -1443,47 +1443,47 @@ L258:
 	movl $10,%esi
 	movq %rbx,%rdx
 	call _block_add_successor
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 24(%r10),%rdi
 	movl $0,%esi
 	call _gen
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %rax,24(%r10)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movl (%r10),%esi
 	cmpl $184549413,%esi
 	jnz L261
 L260:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 24(%r10),%rdi
 	movq %r14,%rsi
 	movq %r15,%rdx
 	call _gen_branch
 	jmp L262
 L261:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 24(%r10),%rdi
 	movq %r15,%rsi
 	movq %r13,%rdx
 	call _gen_branch
 L262:
 	movq %r15,_current_block(%rip)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 32(%r10),%rdi
 	movl $0,%esi
 	call _gen
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %rax,32(%r10)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq 32(%r10),%rdi
 	movq %r14,%rsi
 	movq %r13,%rdx
 	call _gen_branch
 	movq %rbx,_current_block(%rip)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_free
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_sym
 L259:
@@ -1704,7 +1704,7 @@ L319:
 	call _tree_v
 	movq %rax,%rsi
 	movq %rsi,%r10
-	movq %r10,-32(%rbp)
+	movq %r10,-32(%rbp)	 # spill
 	jmp L321
 L320:
 	leaq 8(%r13),%rsi
@@ -1712,12 +1712,12 @@ L320:
 	call _symbol_temp
 	movq %rax,%rsi
 	movq %rsi,%r10
-	movq %r10,-40(%rbp)
+	movq %r10,-40(%rbp)	 # spill
 	movq %rsi,%rdi
 	call _tree_sym
 	movq %rax,%rsi
 	movq %rsi,%r10
-	movq %r10,-32(%rbp)
+	movq %r10,-32(%rbp)	 # spill
 L321:
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
@@ -1726,7 +1726,7 @@ L321:
 	cmpq $0,%rsi
 	jz L331
 L322:
-	movq -40(%rbp),%r10
+	movq -40(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _tree_sym
 	movq %rax,%rsi
@@ -1866,7 +1866,7 @@ L344:
 	movq %rsi,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
-	movq -40(%rbp),%r10
+	movq -40(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	call _operand_sym
 	movq %rax,%rsi
@@ -1890,7 +1890,7 @@ L345:
 	call _insns_insert_before
 	movq %r13,%rdi
 	call _tree_free
-	movq -32(%rbp),%r10
+	movq -32(%rbp),%r10	 # spill
 	movq %r10,%rax
 L301:
 	popq %r15

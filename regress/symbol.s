@@ -256,16 +256,16 @@ L111:
 L159:
 	movq %rdx,%r15
 	movq %rsi,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	movq %rdi,%r12
 L112:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	movl $1024,%esi
 	call _symbol_new
 	movq %rax,%r10
-	movq %r10,-16(%rbp)
-	movq -16(%rbp),%r10
+	movq %r10,-16(%rbp)	 # spill
+	movq -16(%rbp),%r10	 # spill
 	leaq 32(%r10),%rdi
 	movq %r15,%rsi
 	call _type_copy
@@ -282,7 +282,7 @@ L117:
 	jnz L115
 L114:
 	movl $0,%r14d
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq 32(%r10),%rsi
 	movq (%rsi),%rdi
 	movq $2305843009213693952,%rax
@@ -358,7 +358,7 @@ L129:
 	shlq $32,%rsi
 	movq $270582939648,%rax
 	andq %rax,%rsi
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq 32(%r10),%rax
 	movq (%rax),%rdx
 	orq %rsi,%rdx
@@ -389,7 +389,7 @@ L126:
 	idivq %rsi
 	movq %rax,%rsi
 	imull %r13d,%esi
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movl %esi,64(%r10)
 	movl 12(%r12),%esi
 	andl $2,%esi
@@ -443,11 +443,11 @@ L154:
 	cmpq $0,%rsi
 	jnz L149
 L150:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	cmpq $0,%r10
 	jnz L149
 L147:
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movl 64(%r10),%esi
 	movslq %esi,%rax
 	movq (%r15),%rsi
@@ -457,7 +457,7 @@ L147:
 	call _members_absorb
 L149:
 	leaq 48(%r12),%rdi
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rsi
 	call _members_append
 L113:
@@ -969,7 +969,7 @@ L416:
 	call _symbol_lookup
 	movq %rax,%rbx
 	movq %rbx,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	cmpq $0,%rbx
 	jz L419
 L418:
@@ -1027,7 +1027,7 @@ L419:
 	call _symbol_new
 	movq %rax,%rbx
 	movq %rbx,%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	leaq 32(%rbx),%rdi
 	movq %r15,%rsi
 	call _type_copy
@@ -1035,7 +1035,7 @@ L419:
 	movl %r12d,%esi
 	call _symbol_insert
 L420:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rax
 L417:
 	popq %r15

@@ -14,10 +14,10 @@ L3:
 	pushq %r15
 L240:
 	movq %rdi,%r10
-	movq %r10,-16(%rbp)
+	movq %r10,-16(%rbp)	 # spill
 L4:
 	movl $0,%r14d
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
 	movq %rsi,%rbx
 L6:
@@ -633,7 +633,7 @@ L9:
 	cmpl $0,%r14d
 	jz L220
 L218:
-	movq -16(%rbp),%r10
+	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
 	movl %r15d,%esi
 	call _block_known_ccs

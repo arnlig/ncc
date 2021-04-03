@@ -31,7 +31,7 @@ L8:
 	movl %esi,%esi
 	shlq $4,%rsi
 	leaq _buckets(%rsi),%r10
-	movq %r10,-8(%rbp)
+	movq %r10,-8(%rbp)	 # spill
 	movq _buckets(%rsi),%r13
 L9:
 	cmpq $0,%r13
@@ -62,7 +62,7 @@ L27:
 	jmp L29
 L28:
 	movq 32(%r13),%rsi
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %rsi,8(%r10)
 L29:
 	movq 24(%r13),%rsi
@@ -90,25 +90,25 @@ L31:
 	call _memcpy
 	movb $0,40(%r15,%r12)
 L34:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq (%r10),%rsi
 	movq %rsi,24(%r13)
 	cmpq $0,%rsi
 	jz L38
 L37:
 	leaq 24(%r13),%rsi
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq (%r10),%rdi
 	movq %rsi,32(%rdi)
 	jmp L39
 L38:
 	leaq 24(%r13),%rsi
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %rsi,8(%r10)
 L39:
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r13,(%r10)
-	movq -8(%rbp),%r10
+	movq -8(%rbp),%r10	 # spill
 	movq %r10,32(%r13)
 	movq %r13,%rax
 L4:

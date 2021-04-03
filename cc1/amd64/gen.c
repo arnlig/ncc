@@ -302,8 +302,7 @@ static struct amd64_operand *memorize(struct amd64_operand *o)
 
 static void apply_flags(struct insn *insn, insn_flags flags)
 {
-    if (flags & INSN_FLAG_VOLATILE)
-        insn->flags |= INSN_FLAG_VOLATILE;
+    insn->flags |= flags & (INSN_FLAG_VOLATILE | INSN_FLAG_SPILL);
 }
 
 /* I_LOAD */
@@ -1209,7 +1208,8 @@ void amd64_gen_spill_in(pseudo_reg reg, struct symbol *sym)
     struct amd64_operand *mem;
 
     mem = spill0(sym);
-    choose(load_choices, mem, amd64_operand_reg(mem->ts, reg));
+    apply_flags(choose(load_choices, mem, amd64_operand_reg(mem->ts, reg)),
+                INSN_FLAG_SPILL);
 }
 
 void amd64_gen_spill_out(pseudo_reg reg, struct symbol *sym)
@@ -1217,7 +1217,8 @@ void amd64_gen_spill_out(pseudo_reg reg, struct symbol *sym)
     struct amd64_operand *mem;
 
     mem = spill0(sym);
-    choose(store_choices, amd64_operand_reg(mem->ts, reg), mem);
+    apply_flags(choose(store_choices, amd64_operand_reg(mem->ts, reg), mem),
+                INSN_FLAG_SPILL);
 }
 
 /* vi: set ts=4 expandtab: */

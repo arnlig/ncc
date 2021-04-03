@@ -284,14 +284,19 @@ typedef unsigned insn_index;
 
 typedef insn_index insn_count;
 
-    /* instruction-related flags; for now, only INSN_FLAG_VOLATILE is defined,
-       which is attached to I_LOAD/I_STORE instructions to indicate the access
-       is associated with a volatile pointer, and thus it can't be eliminated,
-       or merged with/reordered with respect to other accesses. */
+    /* instruction-related flags:
+
+       INSN_FLAG_VOLATILE is attached to I_LOAD/I_STORE instructions to
+       indicate the access is associated with a volatile pointer, thus it
+       can't be eliminated/merged/reordered with respect to other accesses.
+
+       INSN_FLAG_SPILL is attached to spill I_LOAD/I_STOREs. this lets us
+       know that these reads/writes don't interact with other accesses. */
 
 typedef int insn_flags;
 
 #define INSN_FLAG_VOLATILE      ( 0x00000001 )
+#define INSN_FLAG_SPILL         ( 0x00000002 )
 
 struct insns { TAILQ_HEAD(, insn); insn_index next_index; };
 
