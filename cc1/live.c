@@ -75,6 +75,7 @@ static struct range *range_new(struct live *live, pseudo_reg reg,
     new->reg = reg;
     new->def = def;
     new->last = last;
+    new->uses = 0;
 
     for (r = LIVE_FIRST(live); r; r = LIVE_NEXT(r))
         if (RANGE_AFTER(r, new)) {
@@ -187,7 +188,9 @@ static void live_use(struct live *live, pseudo_reg reg, insn_index use)
     if (match)
         match->last = use;
     else
-        range_new(live, reg, INSN_INDEX_BEFORE, use);
+        match = range_new(live, reg, INSN_INDEX_BEFORE, use);
+
+    ++(match->uses);
 }
 
 static blocks_iter_ret live_analyze_local(struct block *b)
@@ -345,8 +348,8 @@ void live_debug(struct live *live)
     output(";        USE: %R\n", &live->use);
 
     LIVE_FOREACH(r, live)
-        output(";      RANGE: %r def=%i last=%i\n",
-            r->reg, r->def, r->last);
+        output(";      RANGE: %r def=%i uses=%d last=%i\n",
+            r->reg, r->def, r->uses, r->last);
 }
 
 /* vi: set ts=4 expandtab: */

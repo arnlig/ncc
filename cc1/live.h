@@ -53,10 +53,11 @@ struct range
     pseudo_reg reg;
     insn_index def;
     insn_index last;
+    int uses;
     TAILQ_ENTRY(range) links;
 };
 
-#define RANGE_DEAD_STORE(r)     ((r)->def == (r)->last)
+#define RANGE_DEAD(r)       ((r)->uses == 0)
 
 /* and a struct live holds the live-variable analysis data for a block.
    this includes the sets of live-in and live-out registers, as well as

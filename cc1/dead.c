@@ -63,7 +63,7 @@ static blocks_iter_ret dead0(struct block *b)
 
         REGS_FOREACH(reg, &regs) {
             r = range_by_def(&b->live, reg->reg, insn->index);
-            if (!RANGE_DEAD_STORE(r)) goto skip;
+            if (!RANGE_DEAD(r)) goto skip;
         }
     
         insn_replace(insn, I_NOP);
