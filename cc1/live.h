@@ -81,6 +81,7 @@ extern void live_analyze(void);
 extern struct range *range_by_def(struct live *, pseudo_reg, insn_index);
 extern struct range *range_by_use(struct live *, pseudo_reg, insn_index);
 extern void live_interf(struct live *, pseudo_reg, struct regs *);
+extern bool live_kill_insn(struct live *, insn_index);
 
 extern void live_debug(struct live *);
 

@@ -37,12 +37,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
    are not recognized as dead here, because they have side effects. this
    is harmless: we make another pass after the target code is generated
    and the dead store will be eliminated then.
-
-   we don't remove the insns, but rather replace them with I_NOPs. this
-   necessitates a subsequent nop() pass, but preserves the live data
-   well enough for us to continue eliminations in the current block. */
+ 
+   we don't remove instructions, we replace them with I_NOPs to keep the
+   live data intact. even if we've partially-invalidated the live data,
+   we continue through an iteration until we've eliminated all the dead
+   stores we can before recomputing it. theoretically this keeps the
+   number of recomputations to a minimum, though it does require that
+   we subsequently kill the I_NOPs with a [low-cost] nop() pass. */
 
 static bool changed;
+static bool invalidated;
 
 static blocks_iter_ret dead0(struct block *b)
 {
@@ -50,27 +54,36 @@ static blocks_iter_ret dead0(struct block *b)
     struct reg *reg;
     struct range *r;
     struct insn *insn;
+    int changes;
 
-    INSNS_FOREACH(insn, &b->insns) {
-        if (insn->op == I_NOP) goto skip;
-        if (insn_defs_mem(insn)) goto skip;
-        if (insn_side_effects(insn)) goto skip;
+    do {
+        changes = 0;
 
-        insn_defs_regs(insn, &regs);
+        INSNS_FOREACH(insn, &b->insns) {
+            if (insn->op == I_NOP) goto skip;
+            if (insn_defs_mem(insn)) goto skip;
+            if (insn_side_effects(insn)) goto skip;
 
-        if (insn_defs_cc(insn))
-            REGS_ADD(&regs, PSEUDO_REG_CC);
+            insn_defs_regs(insn, &regs);
 
-        REGS_FOREACH(reg, &regs) {
-            r = range_by_def(&b->live, reg->reg, insn->index);
-            if (!RANGE_DEAD(r)) goto skip;
-        }
+            if (insn_defs_cc(insn))
+                REGS_ADD(&regs, PSEUDO_REG_CC);
+
+            REGS_FOREACH(reg, &regs) {
+                r = range_by_def(&b->live, reg->reg, insn->index);
+                if (!RANGE_DEAD(r)) goto skip;
+            }
     
-        insn_replace(insn, I_NOP);
-        changed = TRUE;
+            ++changes;
+            changed = TRUE;
+            insn_replace(insn, I_NOP);
+
+            if (!live_kill_insn(&b->live, insn->index))
+                invalidated = TRUE;
 skip:
-        regs_clear(&regs);
-    }
+            regs_clear(&regs);
+        }
+    } while (changes);
 
     return BLOCKS_ITER_OK;
 }
@@ -79,14 +92,19 @@ void dead(void)
 {
     bool need_nop = FALSE;
 
+    invalidated = TRUE;
+
     do {
+        if (invalidated)
+            live_analyze();
+
         changed = FALSE;
-        live_analyze();
+        invalidated = FALSE;
         blocks_iter(dead0);
-            
+
         if (changed)
             need_nop = TRUE;
-    } while (changed);
+    } while (changed && invalidated);
 
     if (need_nop)
         nop();

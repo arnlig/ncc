@@ -335,6 +335,48 @@ void live_interf(struct live *live, pseudo_reg reg, struct regs *regs)
     }
 }
 
+/* the caller has killed an insn in the block corresponding to the
+   live data. update the live data as best we can, and return TRUE if
+   the live data remains valid, FALSE otherwise. in the latter case,
+   the data is still usable, it's just overly pessimistic.
+
+   incremental update is possible when:
+
+        1. all the registers DEFd by the instruction are dead, and
+        2. this is the only USE of the live ranges for the registers
+           USEd in this instruction, and they were not LIVE IN
+
+   the ranges for the DEFd registers are simply removed, the ranges for
+   the USEd registers are made dead stores.
+
+   if we tracked ALL uses of a range, rather than just a count, we would
+   be successful more often. that may or may not be worth the trouble. */
+
+bool live_kill_insn(struct live *live, insn_index index)
+{
+    struct range *r;
+    struct range *next;
+
+    for (r = LIVE_FIRST(live); r; r = next) {
+        next = LIVE_NEXT(r);
+
+        if (r->def == index) {
+            if (r->uses != 0)
+                return FALSE;
+
+            range_free(live, r);
+        } else if (r->last == index) {
+            if ((r->uses != 1) || (r->def == INSN_INDEX_BEFORE))
+                return FALSE;
+
+            r->uses = 0;
+            r->last = r->def;
+        }
+    }
+
+    return TRUE;
+}
+
 /* dump the live information for
    debugging purposes */
 
