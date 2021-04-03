@@ -76,7 +76,6 @@ L29:
 	movl $0,%eax
 L31:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $0,%ecx
 	jz L33
 L32:
@@ -84,19 +83,16 @@ L32:
 	jz L35
 L34:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl %esi,%ecx
 	jnz L39
 L37:
 	movl $0,%esi
 L39:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $92,%ecx
 	jnz L36
 L43:
 	movzbl 1(%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl %esi,%ecx
 	jnz L36
 L40:
@@ -104,17 +100,14 @@ L40:
 	jmp L36
 L35:
 	movzbl _in_comment(%rip),%ecx
-	movzbl %cl,%ecx
 	cmpl $0,%ecx
 	jz L48
 L47:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $42,%ecx
 	jnz L52
 L53:
 	movzbl 1(%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $47,%ecx
 	jnz L52
 L50:
@@ -125,12 +118,10 @@ L52:
 	jmp L36
 L48:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $47,%ecx
 	jnz L58
 L60:
 	movzbl 1(%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $42,%ecx
 	jnz L58
 L57:
@@ -140,20 +131,16 @@ L57:
 	jmp L36
 L58:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $34,%ecx
 	jz L64
 L67:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $39,%ecx
 	jnz L36
 L64:
 	movzbl (%rdi),%esi
-	movzbl %sil,%esi
 L36:
 	movzbl (%rdi),%ecx
-	movzbl %cl,%ecx
 	cmpl $32,%ecx
 	jnz L72
 L71:
@@ -205,8 +192,7 @@ L91:
 	movq %rdi,%rax
 	addq $1,%rdi
 	movq %rdi,24(%rsi)
-	movzbl (%rax),%esi
-	movzbl %sil,%eax
+	movzbl (%rax),%eax
 	jmp L93
 L92:
 	movq _input_stack(%rip),%rsi
@@ -218,7 +204,6 @@ L93:
 	jnz L95
 L94:
 	movzbl _in_comment(%rip),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L99
 L97:
@@ -289,8 +274,7 @@ L124:
 	movq %rdi,%rax
 	addq $1,%rdi
 	movq %rdi,24(%rsi)
-	movzbl (%rax),%esi
-	movzbl %sil,%eax
+	movzbl (%rax),%eax
 	jmp L126
 L125:
 	movq _input_stack(%rip),%rsi
@@ -352,7 +336,6 @@ L149:
 L151:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L153
 L152:

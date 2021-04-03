@@ -126,14 +126,12 @@ L48:
 	call _vstring_putc
 L50:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L52
 L51:
 	movq %rbx,%rsi
 	addq $1,%rbx
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	leaq 8(%r12),%rdi
 	call _backslash
 	jmp L50
@@ -193,8 +191,7 @@ L71:
 	call _strtoul
 	movq %rax,%rbx
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $76,%eax
 	jnz L74
@@ -204,8 +201,7 @@ L72:
 	movq %rsi,-8(%rbp)
 L74:
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $85,%eax
 	jnz L77
@@ -213,8 +209,7 @@ L75:
 	movl $-2147483591,%r13d
 L77:
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $76,%eax
 	jnz L80
@@ -225,7 +220,6 @@ L78:
 L80:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L81
 L84:
@@ -286,7 +280,6 @@ L99:
 L101:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $39,%esi
 	jz L105
 L103:
@@ -675,17 +668,14 @@ L384:
 L256:
 	movq %r14,%rbx
 	movzbl (%r14),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jle L259
 L261:
-	movzbl (%r14),%esi
-	movzbq %sil,%rsi
+	movzbq (%r14),%rsi
 	cmpq $128,%rsi
 	jae L259
 L258:
-	movzbl (%r14),%esi
-	movzbq %sil,%rsi
+	movzbq (%r14),%rsi
 	movl _classes(,%rsi,4),%r12d
 	jmp L375
 L259:
@@ -712,7 +702,6 @@ L270:
 	movl $1,%r13d
 L272:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L277
 L275:
@@ -731,9 +720,7 @@ L277:
 	movq %rbx,%rsi
 	addq $1,%rbx
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	movzbl (%r14),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L285
 L286:
@@ -744,7 +731,6 @@ L285:
 	jnz L293
 L291:
 	movzbl -1(%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $92,%esi
 	jnz L293
 L292:
@@ -761,7 +747,6 @@ L382:
 	jnz L266
 L347:
 	movzbl 1(%r14),%esi
-	movzbl %sil,%esi
 	cmpl $62,%esi
 	jnz L266
 L348:
@@ -778,9 +763,7 @@ L352:
 	jae L267
 L353:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	movzbl (%r14),%eax
-	movzbl %al,%eax
 	cmpl %eax,%esi
 	jnz L356
 L358:
@@ -795,7 +778,6 @@ L355:
 	jmp L352
 L356:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L267
 L365:
@@ -810,12 +792,10 @@ L362:
 	jmp L352
 L296:
 	movzbl 1(%r14),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jnz L298
 L300:
 	movzbl 2(%r14),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jnz L298
 L297:
@@ -824,7 +804,6 @@ L297:
 	jmp L267
 L298:
 	movzbl (%r14),%esi
-	movzbl %sil,%esi
 	leal -48(%rsi),%esi
 	cmpl $10,%esi
 	jb L310
@@ -832,37 +811,30 @@ L305:
 	leaq 1(%r14),%rbx
 	jmp L267
 L310:
-	movzbl (%rbx),%esi
-	movzbq %sil,%rsi
+	movzbq (%rbx),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $7,%esi
 	cmpl $0,%esi
 	jnz L311
 L317:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jz L311
 L313:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $95,%esi
 	jnz L267
 L311:
-	movzbl (%rbx),%esi
-	movzbl %sil,%edi
+	movzbl (%rbx),%edi
 	call _toupper
 	cmpl $69,%eax
 	jnz L323
 L324:
 	movzbl 1(%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $45,%esi
 	jz L321
 L328:
 	movzbl 1(%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $43,%esi
 	jnz L323
 L321:
@@ -871,26 +843,21 @@ L323:
 	addq $1,%rbx
 	jmp L310
 L339:
-	movzbl (%rbx),%esi
-	movzbq %sil,%rsi
+	movzbq (%rbx),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $7,%esi
 	cmpl $0,%esi
 	jnz L340
 L342:
 	movzbl (%rbx),%esi
-	movzbl %sil,%esi
 	cmpl $95,%esi
 	jnz L267
 L340:
 	addq $1,%rbx
 	jmp L339
 L334:
-	movzbl (%rbx),%esi
-	movzbq %sil,%rsi
+	movzbq (%rbx),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $8,%esi
 	cmpl $0,%esi
 	jz L267
@@ -899,7 +866,6 @@ L335:
 	jmp L334
 L371:
 	movzbl (%r14),%esi
-	movzbl %sil,%esi
 	andl $255,%esi
 	pushq %rsi
 	pushq $L372
@@ -966,7 +932,6 @@ L392:
 	movq %rax,%rbx
 	movq -32(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L393
 L396:
@@ -1728,7 +1693,6 @@ L743:
 	movq 24(%rbx),%r12
 L745:
 	movzbl (%r12),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L724
 L746:
@@ -1743,7 +1707,6 @@ L748:
 	movq %r12,%rsi
 	addq $1,%r12
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	leaq 8(%r13),%rdi
 	call _backslash
 	jmp L745

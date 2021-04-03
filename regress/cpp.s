@@ -382,7 +382,6 @@ L169:
 	movq %rsp,%rbp
 L170:
 	movzbl _need_sync(%rip),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L173
 L180:
@@ -544,13 +543,11 @@ L236:
 L239:
 	movq (%rbx),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $45,%esi
 	jnz L238
 L237:
 	movq (%rbx),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 L273:
 	cmpl $68,%esi
 	jz L254
@@ -563,7 +560,6 @@ L247:
 	movq %rsi,(%rbx)
 	movq (%rbx),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L251
 L250:

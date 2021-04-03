@@ -103,8 +103,7 @@ L19:
 	movq 8(%rsi),%rdi
 	cmpq $0,%rdi
 	setz %dil
-	movzbl %dil,%edi
-	movslq %edi,%rdi
+	movzbq %dil,%rdi
 	movq %rdi,8(%rsi)
 	jmp L5
 L31:
@@ -299,8 +298,7 @@ L136:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setbe %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	jmp L138
 L137:
@@ -310,8 +308,7 @@ L137:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setle %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 L138:
 	movl $-2147483592,(%rbx)
@@ -323,8 +320,7 @@ L140:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setz %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	movl $-2147483592,(%rbx)
 	jmp L157
@@ -335,8 +331,7 @@ L142:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setnz %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	movl $-2147483592,(%rbx)
 	jmp L157
@@ -370,8 +365,7 @@ L131:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setb %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	jmp L133
 L132:
@@ -381,8 +375,7 @@ L132:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setl %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 L133:
 	movl $-2147483592,(%rbx)
@@ -433,8 +426,7 @@ L126:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	seta %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	jmp L128
 L127:
@@ -444,8 +436,7 @@ L127:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setg %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 L128:
 	movl $-2147483592,(%rbx)
@@ -566,8 +557,7 @@ L121:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setae %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 	jmp L123
 L122:
@@ -577,8 +567,7 @@ L122:
 	movq 8(%rdi),%rdi
 	cmpq %rdi,%rsi
 	setge %sil
-	movzbl %sil,%esi
-	movslq %esi,%rsi
+	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
 L123:
 	movl $-2147483592,(%rbx)

@@ -91,17 +91,14 @@ L33:
 	movq %rsp,%rbp
 L36:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbq %sil,%rsi
+	movzbq (%rsi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $7,%esi
 	cmpl $0,%esi
 	jnz L43
 L39:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $95,%esi
 	jnz L38
 L43:
@@ -138,13 +135,11 @@ L55:
 	pushq %r13
 L56:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%r13d
+	movzbl (%rsi),%r13d
 	movl $1,%ebx
 L58:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	movl %esi,%r12d
 	cmpl $0,%esi
 	jz L60
@@ -207,7 +202,6 @@ L88:
 L91:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $34,%esi
 	jnz L93
 L92:
@@ -217,10 +211,8 @@ L92:
 	subq %rsi,%rbx
 L94:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbq %sil,%rsi
+	movzbq (%rsi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $8,%esi
 	cmpl $0,%esi
 	jz L91
@@ -252,7 +244,6 @@ L103:
 L106:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $34,%esi
 	jz L113
 L107:
@@ -281,17 +272,14 @@ L113:
 	jz L103
 L116:
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbq %sil,%rsi
+	movzbq (%rsi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $8,%esi
 	cmpl $0,%esi
 	jz L103
 L114:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $10,%esi
 	jnz L113
 L120:
@@ -338,7 +326,6 @@ L132:
 L134:
 	movq _begin(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $39,%esi
 	jz L138
 L136:
@@ -364,42 +351,35 @@ L147:
 	movl $0,%ebx
 L149:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbq %sil,%rsi
+	movzbq (%rsi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $7,%esi
 	cmpl $0,%esi
 	jnz L150
 L156:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jz L150
 L152:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $95,%esi
 	jnz L151
 L150:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $69,%eax
 	jnz L171
 L163:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $43,%esi
 	jz L160
 L167:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $45,%esi
 	jnz L171
 L160:
@@ -426,8 +406,7 @@ L151:
 	call _strtoul
 	movq %rax,_token+8(%rip)
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $85,%eax
 	jnz L179
@@ -438,8 +417,7 @@ L177:
 	movq %rsi,-8(%rbp)
 L179:
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $76,%eax
 	jnz L182
@@ -450,8 +428,7 @@ L180:
 	movq %rsi,-8(%rbp)
 L182:
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 	cmpl $85,%eax
 	jnz L185
@@ -476,8 +453,7 @@ L193:
 	call _strtod
 	movsd %xmm0,_token+8(%rip)
 	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	movzbl %sil,%edi
+	movzbl (%rsi),%edi
 	call _toupper
 L255:
 	cmpl $70,%eax
@@ -590,7 +566,6 @@ L224:
 L227:
 	movq _begin(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $48,%esi
 	jnz L231
 L230:
@@ -618,17 +593,14 @@ L263:
 	call _refill
 L265:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movzbq %sil,%rsi
+	movzbq (%rsi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	movzbl %sil,%esi
 	andl $8,%esi
 	cmpl $0,%esi
 	jz L267
 L268:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $10,%esi
 	jz L267
 L272:
@@ -649,7 +621,6 @@ L273:
 L267:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 L613:
 	cmpl $48,%esi
 	jae L682
@@ -671,7 +642,6 @@ L644:
 L466:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L470
 L468:
@@ -692,7 +662,6 @@ L641:
 L507:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $62,%esi
 	jnz L517
 L508:
@@ -704,10 +673,8 @@ L508:
 L517:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L521
 L519:
@@ -719,7 +686,6 @@ L519:
 L521:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L525
 L523:
@@ -737,13 +703,11 @@ L525:
 L528:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jnz L531
 L532:
 	movq _pos(%rip),%rsi
 	movzbl 2(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $46,%esi
 	jnz L531
 L529:
@@ -755,7 +719,6 @@ L529:
 L531:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	leal -48(%rsi),%esi
 	cmpl $10,%esi
 	jb L550
@@ -775,10 +738,8 @@ L637:
 L496:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L500
 L498:
@@ -790,7 +751,6 @@ L498:
 L500:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L504
 L502:
@@ -817,7 +777,6 @@ L296:
 L449:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L453
 L451:
@@ -858,7 +817,6 @@ L626:
 L483:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L487
 L485:
@@ -876,10 +834,8 @@ L487:
 L428:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L432
 L430:
@@ -891,7 +847,6 @@ L430:
 L432:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L436
 L434:
@@ -940,7 +895,6 @@ L282:
 L339:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L343
 L341:
@@ -997,10 +951,8 @@ L676:
 L411:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L415
 L413:
@@ -1012,7 +964,6 @@ L413:
 L415:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L419
 L417:
@@ -1050,7 +1001,6 @@ L668:
 L398:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L402
 L400:
@@ -1112,10 +1062,8 @@ L655:
 L318:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L326
 L320:
@@ -1140,7 +1088,6 @@ L651:
 L279:
 	movq _pos(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	andl $255,%esi
 	pushq %rsi
 	pushq $L611
@@ -1163,16 +1110,13 @@ L290:
 L347:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L352
 L353:
 	movq _pos(%rip),%rsi
 	movzbl 2(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L352
 L350:
@@ -1184,10 +1128,8 @@ L350:
 L352:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L360
 L358:
@@ -1199,7 +1141,6 @@ L358:
 L360:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L364
 L362:
@@ -1217,16 +1158,13 @@ L364:
 L368:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L373
 L374:
 	movq _pos(%rip),%rsi
 	movzbl 2(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L373
 L371:
@@ -1238,10 +1176,8 @@ L371:
 L373:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl %edi,%esi
 	jnz L381
 L379:
@@ -1253,7 +1189,6 @@ L379:
 L381:
 	movq _pos(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $61,%esi
 	jnz L385
 L383:
@@ -1518,10 +1453,8 @@ L803:
 L806:
 	movslq %edi,%rax
 	movq _text(,%rax,8),%rax
-	movzbl (%rax),%eax
-	movzbq %al,%rax
+	movzbq (%rax),%rax
 	movzbl ___ctype+1(%rax),%eax
-	movzbl %al,%eax
 	andl $7,%eax
 	cmpl $0,%eax
 	jz L810

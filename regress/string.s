@@ -21,7 +21,6 @@ L5:
 L6:
 	shll $4,%ebx
 	movzbl (%r14,%rsi),%edi
-	movzbl %dil,%edi
 	xorl %edi,%ebx
 	addq $1,%rsi
 	jmp L5

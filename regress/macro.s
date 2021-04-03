@@ -17,7 +17,6 @@ L7:
 	movq 16(%rdi),%rsi
 L9:
 	movzbl (%rsi),%edi
-	movzbl %dil,%edi
 	cmpl $0,%edi
 	jz L5
 L10:
@@ -25,7 +24,6 @@ L10:
 	movq %rsi,%rdi
 	addq $1,%rsi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	xorl %edi,%eax
 	jmp L9
 L5:

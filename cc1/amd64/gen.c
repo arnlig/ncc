@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../symbol.h"
 #include "amd64.h"
 #include "insn.h"
+#include "peep.h"
 #include "reg.h"
 #include "gen.h"
 
@@ -1177,6 +1178,10 @@ void amd64_gen(void)
        operands, so eliminate them now. */
 
     dead();
+
+    /* some machine-specific optimizations */
+
+    amd64_peep();
 }
 
 /* called by the register allocator to generate spills

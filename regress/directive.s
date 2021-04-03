@@ -80,7 +80,6 @@ L28:
 L33:
 	movq _state_stack(%rip),%rdi
 	movzbl (%rdi),%edi
-	movzbl %dil,%edi
 	cmpl $0,%edi
 	jnz L30
 L31:
@@ -174,7 +173,6 @@ L71:
 L76:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L73
 L74:
@@ -207,7 +205,6 @@ L87:
 L89:
 	movq _state_stack(%rip),%rsi
 	movzbl 2(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L93
 L91:
@@ -217,7 +214,6 @@ L91:
 L93:
 	movq _state_stack(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L86
 L95:
@@ -249,7 +245,6 @@ L106:
 L108:
 	movq _state_stack(%rip),%rsi
 	movzbl 2(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L112
 L110:
@@ -259,7 +254,6 @@ L110:
 L112:
 	movq _state_stack(%rip),%rsi
 	movzbl 1(%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	setz %sil
 	movzbl %sil,%edi
@@ -562,7 +556,6 @@ L270:
 L274:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L228
 L271:
@@ -594,7 +587,6 @@ L243:
 L247:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L228
 L244:
@@ -630,7 +622,6 @@ L259:
 L263:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L228
 L260:
@@ -660,7 +651,6 @@ L251:
 L255:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L228
 L252:
@@ -678,7 +668,6 @@ L228:
 L287:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jz L224
 L283:
@@ -696,7 +685,6 @@ L224:
 L294:
 	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
-	movzbl %sil,%esi
 	cmpl $0,%esi
 	jnz L210
 L291:

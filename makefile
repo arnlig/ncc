@@ -66,11 +66,11 @@ cpp/cpp: $(CPP_OBJS) $(COMMON_OBJS)
 
 AMD64_HDRS=	cc1/amd64/target_block.h cc1/amd64/target_insn.h \
 		cc1/amd64/amd64.h cc1/amd64/gen.h cc1/amd64/insn.h \
-		cc1/amd64/reg.h
+		cc1/amd64/peep.h cc1/amd64/reg.h
 
 AMD64_OBJS=	cc1/amd64/target.o \
 		cc1/amd64/amd64.o cc1/amd64/gen.o cc1/amd64/insn.o \
-		cc1/amd64/reg.o
+		cc1/amd64/peep.o cc1/amd64/reg.o
 
 CC1_HDRS=	cc1/cc1.h cc1/algebra.h cc1/bitset.h cc1/blks.h cc1/block.h \
 		cc1/cast.h cc1/con.h cc1/copy.h cc1/dead.h cc1/dealias.h \
@@ -129,6 +129,7 @@ cc1/webs.o:		cc1/webs.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/amd64/amd64.o:   	cc1/amd64/amd64.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/amd64/gen.o:	cc1/amd64/gen.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/amd64/insn.o:   	cc1/amd64/insn.c $(CC1_HDRS) $(COMMON_HDRS)
+cc1/amd64/peep.o:   	cc1/amd64/peep.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/amd64/reg.o:	cc1/amd64/reg.c $(CC1_HDRS) $(COMMON_HDRS)
 cc1/amd64/target.o:   	cc1/amd64/target.c $(CC1_HDRS) $(COMMON_HDRS)
 
