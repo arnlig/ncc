@@ -28,22 +28,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 void *sbrk(ssize_t inc)
 {
-    char *current;
+    char *old;
     char *new;
 
-    current = __brk(0);
+    old = __brk(0);
 
     if (inc != 0) {
-        new = current + inc;
-        current = __brk(new);
+        new = __brk(old + inc);
 
-        if (current < new) {
+        if (new == old) {
             errno = ENOMEM;
             return (void *) -1;
         }
     }
 
-    return current;
+    return old;
 }
 
 int brk(void *addr)
