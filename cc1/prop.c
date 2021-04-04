@@ -52,7 +52,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define CONP_CONSTRUCT(x)   (*(x) = 0)
 #define CONP_DESTRUCT(x)    operand_free(*(x))
 #define CONP_DUP(dst,src)   ((*(dst)) = operand_dup(*(src)))
-#define CONP_SAME(x, y)     ((*(x) == *(y)) || operand_is_same(*(x), *(y)))
+#define CONP_SAME(x, y)     operand_is_same(*(x), *(y))
 
 static ASSOC_DEFINE_CLEAR(conp, value, CONP_DESTRUCT)
 static ASSOC_DEFINE_INSERT(conp, pseudo_reg, reg, value, CONP_CONSTRUCT)

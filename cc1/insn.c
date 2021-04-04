@@ -173,10 +173,16 @@ bool operand_is_one(struct operand *opr) { OPERAND_IS(1); }
 
 bool operand_is_same(struct operand *opr1, struct operand *opr2)
 {
+    if ((opr1 == 0) && (opr2 == 0))
+        return TRUE;
+
+    if ((opr1 == 0) || (opr2 == 0) || (opr1->ts != opr2->ts))
+        return FALSE;
+
     if (OPERAND_REG(opr1) && OPERAND_REG(opr2) && (opr1->reg == opr2->reg))
         return TRUE;
 
-    if (OPERAND_CON(opr1) && OPERAND_CON(opr2) && (opr1->ts == opr2->ts)) {
+    if (OPERAND_CON(opr1) && OPERAND_CON(opr2)) {
         if ((opr1->ts & T_INTEGRAL)
           && (opr1->sym == opr2->sym)
           && (opr1->con.i == opr2->con.i))
