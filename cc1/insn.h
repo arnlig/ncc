@@ -49,10 +49,19 @@ typedef int operand_class;  /* O_* */
 #define O_CON       1       /* constant value */
 #define O_REG       2       /* pseudo_reg */
 
+/* value numbering assigns numbers directly to the IR operands, see slvn.c */
+
+typedef int value_number;   /* VALUE_NUMBER_* */
+
+#define VALUE_NUMBER_NONE   0
+
+#define VALUE_NUMBER_PRINTF "%d"
+
 struct operand
 {
     operand_class class;
     type_bits ts;
+    value_number number;
     
     union
     {
@@ -66,6 +75,7 @@ struct operand
     };
 };
 
+#define OPERAND_CLASS(o)        ((o) ? ((o)->class) : O_NONE)
 #define OPERAND_REG(o)          ((o) && ((o)->class == O_REG))
 #define OPERAND_CON(o)          ((o) && ((o)->class == O_CON))
 #define OPERAND_PURE_CON(o)     (OPERAND_CON(o) && ((o)->sym == 0))
@@ -153,6 +163,11 @@ typedef int insn_op;    /* I_* */
 #define I_FLAG_ARGUMENT     ( 0x00040000 )
 #define I_ARGUMENT(i)       ((i) & I_FLAG_ARGUMENT)
 
+    /* if the instruction is eligible for value numbering */
+
+#define I_FLAG_SLVN         ( 0x00020000 )
+#define I_SLVN(i)           ((i) & I_FLAG_SLVN)
+
     /* I_TEXT() is used to index insn_text[] in output.c */
 
 #define I_TEXT(op)      ((op) & 0xFF)
@@ -160,10 +175,11 @@ typedef int insn_op;    /* I_* */
 #define I_NOP           (  0 | I_FLAG_SAFE_CC )  /* placeholder, must be 0 */
 
 #define I_FRAME         (  1 | I_FLAG_DST | I_FLAG_SRC1                 \
-                             | I_FLAG_SAFE_CC                           )
+                             | I_FLAG_SAFE_CC | I_FLAG_SLVN             )
 
 #define I_LOAD          (  2 | I_FLAG_DST | I_FLAG_SRC1                 \
-                             | I_FLAG_USE_MEM | I_FLAG_SAFE_CC          )
+                             | I_FLAG_USE_MEM | I_FLAG_SAFE_CC          \
+                             | I_FLAG_SLVN                              )
 
 #define I_STORE         (  3 | I_FLAG_DST | I_FLAG_SRC1                 \
                              | I_FLAG_USE_DST                           \
@@ -194,11 +210,11 @@ typedef int insn_op;    /* I_* */
                              | I_FLAG_SIDE                              ) 
 
 #define I_MOVE          ( 11 | I_FLAG_DST | I_FLAG_SRC1                 \
-                             | I_FLAG_SAFE_CC                           )
+                             | I_FLAG_SAFE_CC | I_FLAG_SLVN             )
 
-#define I_CAST          ( 12 | I_FLAG_DST | I_FLAG_SRC1 )
-#define I_NEG           ( 13 | I_FLAG_DST | I_FLAG_SRC1 )
-#define I_COM           ( 14 | I_FLAG_DST | I_FLAG_SRC1 )
+#define I_CAST          ( 12 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
+#define I_NEG           ( 13 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
+#define I_COM           ( 14 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
 
     /* binary operators with their obvious meanings. for non-commutative
        operators, <src1> is the left operand, and <src2> is the right. */
@@ -207,26 +223,34 @@ typedef int insn_op;    /* I_* */
                              | I_FLAG_DEF_CC                            )
 
 #define I_ADD           ( 16 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP                              )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                )
 
-#define I_SUB           ( 17 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2 )
+#define I_SUB           ( 17 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_SLVN                              )
 
 #define I_MUL           ( 18 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP                              )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                )
 
-#define I_DIV           ( 19 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2 )
-#define I_MOD           ( 20 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2 )
-#define I_SHR           ( 21 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2 )
-#define I_SHL           ( 22 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2 )
+#define I_DIV           ( 19 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_SLVN                              )
+
+#define I_MOD           ( 20 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_SLVN                              )
+
+#define I_SHR           ( 21 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_SLVN                              )
+
+#define I_SHL           ( 22 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_SLVN                              )
 
 #define I_XOR           ( 23 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP                              )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                )
 
 #define I_OR            ( 24 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP                              )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                )
 
 #define I_AND           ( 25 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP                              )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                )
 
     /* SET_cc sets <dst> to 1 if the condition is satisfied, 0 otherwise.
        order is important: same order as CC_INDEX() to make mapping trivial.
@@ -264,6 +288,12 @@ typedef int insn_op;    /* I_* */
 
 #define I_SET_B         ( 35 | I_FLAG_DST | I_FLAG_USE_CC                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
+
+    /* value numbering needs a DEF to map registers to numbers,
+       so sometimes we have to fake one. these don't appear in
+       actual IR blocks - see slvn.c. */
+
+#define I_NUMBER        ( 36 | I_FLAG_DST )
 
     /* instructions in a block are numbered sequentially, starting at
        INSN_INDEX_FIRST and extending up to (unlikely) INSN_INDEX_LAST.

@@ -156,6 +156,10 @@ void output(char *fmt, ...)
             case 'u':   fprintf(out_fp, "%u", va_arg(args, unsigned));
                         break;
 
+            case 'v':   fprintf(out_fp, VALUE_NUMBER_PRINTF,
+                                        va_arg(args, value_number));
+                        break;
+
             case 'x':   fprintf(out_fp, "0x%x", va_arg(args, int));
                         break;
 
@@ -256,6 +260,9 @@ void output_select(output_seg new_seg)
 
 static void output_operand(struct operand *opr)
 {
+    if (debug_flag_v && (opr->number != VALUE_NUMBER_NONE))
+        output("@%v ", opr->number);
+
     output("<%t> ", opr->ts);
 
     if (opr->class == O_CON) {
@@ -281,7 +288,8 @@ static char *insn_text[] =          /* indexed by I_TEXT() (see code.h) */
     /* 20 */    "MOD",          "SHR",          "SHL",          "XOR",
     /* 24 */    "OR",           "AND",          "SET_Z",        "SET_NZ",
     /* 28 */    "SET_G",        "SET_LE",       "SET_GE",       "SET_L",
-    /* 32 */    "SET_A",        "SET_BE",       "SET_AE",       "SET_B"
+    /* 32 */    "SET_A",        "SET_BE",       "SET_AE",       "SET_B",
+    /* 36 */    "NUMBER"
 };
 
 static void output_insn(struct insn *insn)

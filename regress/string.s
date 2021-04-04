@@ -55,9 +55,8 @@ L24:
 	cmpq $0,%rsi
 	jz L28
 L27:
-	movq 32(%r13),%rsi
-	movq 24(%r13),%rdi
-	movq %rsi,32(%rdi)
+	movq 32(%r13),%rdi
+	movq %rdi,32(%rsi)
 	jmp L29
 L28:
 	movq 32(%r13),%rsi
@@ -90,18 +89,17 @@ L31:
 	movb $0,40(%r15,%r12)
 L34:
 	movq -8(%rbp),%r10	 # spill
-	movq (%r10),%rsi
-	movq %rsi,24(%r13)
-	cmpq $0,%rsi
+	movq (%r10),%rdi
+	leaq 24(%r13),%rsi
+	movq %rdi,24(%r13)
+	cmpq $0,%rdi
 	jz L38
 L37:
-	leaq 24(%r13),%rsi
 	movq -8(%rbp),%r10	 # spill
 	movq (%r10),%rdi
 	movq %rsi,32(%rdi)
 	jmp L39
 L38:
-	leaq 24(%r13),%rsi
 	movq -8(%rbp),%r10	 # spill
 	movq %rsi,8(%r10)
 L39:
@@ -261,44 +259,41 @@ L45:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
+	pushq %r12
+	pushq %r13
 L46:
 	movl $0,%esi
 L52:
 	movslq %esi,%rdi
 	shlq $4,%rdi
+	leaq _buckets(%rdi),%rax
 	movq $0,_buckets(%rdi)
-	movslq %esi,%rdi
-	shlq $4,%rdi
-	leaq _buckets(%rdi),%rdi
-	movslq %esi,%rax
-	shlq $4,%rax
-	movq %rdi,_buckets+8(%rax)
+	movq %rax,_buckets+8(%rdi)
 	addl $1,%esi
 	cmpl $32,%esi
 	jl L52
 L51:
-	movl $0,%ebx
+	movl $0,%r12d
 L55:
-	movslq %ebx,%rsi
+	movslq %r12d,%rsi
 	cmpq $33,%rsi
 	jae L47
 L56:
-	movslq %ebx,%rsi
-	shlq $4,%rsi
-	leaq _keywords+4(%rsi),%rdi
+	movslq %r12d,%rbx
+	shlq $4,%rbx
+	leaq _keywords+4(%rbx),%r13
+	movq %r13,%rdi
 	call _strlen
-	movslq %ebx,%rsi
-	shlq $4,%rsi
-	leaq _keywords+4(%rsi),%rdi
+	movq %r13,%rdi
 	movq %rax,%rsi
 	call _string_new
-	movslq %ebx,%rsi
-	shlq $4,%rsi
-	movl _keywords(%rsi),%esi
+	movl _keywords(%rbx),%esi
 	movl %esi,16(%rax)
-	addl $1,%ebx
+	addl $1,%r12d
 	jmp L55
 L47:
+	popq %r13
+	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
@@ -316,13 +311,11 @@ L66:
 L67:
 	movslq %eax,%rcx
 	shlq $4,%rcx
-	movl _keywords(%rcx),%ecx
-	cmpl %esi,%ecx
+	movl _keywords(%rcx),%edx
+	cmpl %esi,%edx
 	jnz L68
 L70:
-	movslq %eax,%rsi
-	shlq $4,%rsi
-	leaq _keywords+4(%rsi),%rsi
+	leaq _keywords+4(%rcx),%rsi
 	pushq %rsi
 	pushq $L73
 	pushq %rdi
@@ -453,25 +446,28 @@ L123:
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
+	pushq %r13
 L128:
-	movq %rdi,%rbx
+	movq %rdi,%r13
 L124:
-	movl 20(%rbx),%edi
+	movl 20(%r13),%edi
 	call _symbol_anonymous
-	movq %rax,%r12
-	movl 64(%r12),%esi
-	movl %esi,20(%rbx)
-	leaq 32(%r12),%rdi
+	movq %rax,%rbx
+	movl 64(%rbx),%esi
+	movl %esi,20(%r13)
+	leaq 32(%rbx),%r12
+	movq %r12,%rdi
 	movl $8192,%esi
 	call _type_append_bits
-	movq 8(%rbx),%rsi
+	movq 8(%r13),%rsi
 	leaq 1(%rsi),%rsi
 	movq %rsi,8(%rax)
-	leaq 32(%r12),%rdi
+	movq %r12,%rdi
 	movl $2,%esi
 	call _type_append_bits
-	movq %r12,%rax
+	movq %rbx,%rax
 L125:
+	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp

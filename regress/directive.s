@@ -73,28 +73,25 @@ L40:
 L28:
 	movl $16,%edi
 	call _safe_malloc
-	movq %rax,%rsi
-	movq _state_stack(%rip),%rdi
-	cmpq $0,%rdi
+	movq _state_stack(%rip),%rsi
+	cmpq $0,%rsi
 	jz L30
 L33:
-	movq _state_stack(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl $0,%edi
+	movzbl (%rsi),%esi
+	cmpl $0,%esi
 	jnz L30
 L31:
 	movb $0,(%rax)
 	movb $1,1(%rax)
 	jmp L32
 L30:
-	movl %ebx,%edi
-	movb %dil,1(%rax)
+	movb %bl,1(%rax)
 	movb %bl,(%rax)
 L32:
 	movb $0,2(%rax)
-	movq _state_stack(%rip),%rdi
-	movq %rdi,8(%rsi)
-	movq %rsi,_state_stack(%rip)
+	movq _state_stack(%rip),%rsi
+	movq %rsi,8(%rax)
+	movq %rax,_state_stack(%rip)
 L29:
 	popq %rbx
 	popq %rbp
@@ -106,8 +103,7 @@ L44:
 	movq %rsp,%rbp
 L45:
 	movq _state_stack(%rip),%rdi
-	movq _state_stack(%rip),%rsi
-	movq 8(%rsi),%rsi
+	movq 8(%rdi),%rsi
 	movq %rsi,_state_stack(%rip)
 	call _free
 L46:
@@ -171,7 +167,6 @@ L71:
 	cmpq $0,%rsi
 	jz L73
 L76:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jnz L73
@@ -222,9 +217,8 @@ L95:
 	movq _state_stack(%rip),%rsi
 	movb %al,1(%rsi)
 	movq _state_stack(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _state_stack(%rip),%rdi
-	movb %sil,(%rdi)
+	movzbl 1(%rsi),%edi
+	movb %dil,(%rsi)
 L86:
 	popq %rbx
 	popq %rbp
@@ -253,11 +247,10 @@ L110:
 	addq $8,%rsp
 L112:
 	movq _state_stack(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $0,%esi
-	setz %sil
-	movzbl %sil,%edi
-	movq _state_stack(%rip),%rsi
+	movzbl 1(%rsi),%edi
+	cmpl $0,%edi
+	setz %dil
+	movzbl %dil,%edi
 	movb %dil,(%rsi)
 	movq _state_stack(%rip),%rsi
 	movb $1,2(%rsi)
@@ -289,9 +282,11 @@ L131:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
+	pushq %r12
 L141:
 	movq %rdi,%rbx
 L132:
+	leaq -16(%rbp),%r12
 	movq $0,-16(%rbp)
 	movq %rbx,%rdi
 	call _list_strip_all
@@ -303,9 +298,9 @@ L132:
 	cmpq $0,%rsi
 	jz L136
 L134:
-	leaq -16(%rbp),%rdx
 	movq %rbx,%rdi
 	movl $52,%esi
+	movq %r12,%rdx
 	call _list_match
 L136:
 	movq -8(%rbp),%rdi
@@ -334,6 +329,7 @@ L139:
 	call _token_free
 	movb $1,_need_sync(%rip)
 L133:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
@@ -387,7 +383,6 @@ L158:
 	cmpq $0,%rsi
 	jz L163
 L167:
-	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	cmpl $52,%esi
 	jz L162
@@ -396,7 +391,6 @@ L163:
 	cmpq $0,%rsi
 	jz L160
 L171:
-	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	cmpl $536871946,%esi
 	jz L162
@@ -410,7 +404,6 @@ L162:
 	cmpq $0,%rsi
 	jz L176
 L178:
-	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	cmpl $52,%esi
 	jnz L176
@@ -430,7 +423,6 @@ L176:
 	cmpq $0,%rsi
 	jz L183
 L185:
-	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	cmpl $536871946,%esi
 	jnz L183
@@ -443,11 +435,9 @@ L189:
 	cmpq $0,%rsi
 	jz L191
 L192:
-	movq (%rbx),%rsi
 	cmpq $0,%rsi
 	jz L190
 L196:
-	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	cmpl $536871944,%esi
 	jz L191
@@ -525,7 +515,7 @@ L218:
 	call _lookup
 	movl %eax,%r12d
 	movq 32(%r13),%rdi
-	cmpl $10,%r12d
+	cmpl $10,%eax
 	jnz L223
 	jz L224
 L219:
@@ -554,7 +544,6 @@ L270:
 	cmpq $0,%rsi
 	jz L271
 L274:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jz L228
@@ -585,7 +574,6 @@ L243:
 	cmpq $0,%rsi
 	jz L244
 L247:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jz L228
@@ -620,7 +608,6 @@ L259:
 	cmpq $0,%rsi
 	jz L260
 L263:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jz L228
@@ -649,7 +636,6 @@ L251:
 	cmpq $0,%rsi
 	jz L252
 L255:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jz L228
@@ -666,7 +652,6 @@ L228:
 	cmpq $0,%rsi
 	jz L283
 L287:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jz L224
@@ -683,7 +668,6 @@ L224:
 	cmpq $0,%rsi
 	jz L210
 L294:
-	movq _state_stack(%rip),%rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jnz L210

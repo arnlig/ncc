@@ -51,6 +51,7 @@ bool debug_flag_i;  /* intermediate code: do not invoke target generator */
 bool debug_flag_l;  /* live variable analysis: dump before each block */
 bool debug_flag_r;  /* reaching definitions: dump before discarding */
 bool debug_flag_s;  /* symbols: dump before each function and at end */
+bool debug_flag_v;  /* value numbers: show on IR instructions */
 
 /* report a warning or error to the user. using
    a printf()-style format string. if it's FATAL,
@@ -184,6 +185,7 @@ int main(int argc, char **argv)
                 case 'l':   debug_flag_l = TRUE; break;
                 case 'r':   debug_flag_r = TRUE; break;
                 case 's':   debug_flag_s = TRUE; break;
+                case 'v':   debug_flag_v = TRUE; break;
 
                 default:    goto usage;
                 }

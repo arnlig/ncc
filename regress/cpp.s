@@ -8,18 +8,15 @@ L4:
 	cmpq $0,%rsi
 	jz L7
 L6:
-	movq _input_stack(%rip),%rsi
-	movl 8(%rsi),%esi
-	shll $31,%esi
-	sarl $31,%esi
-	cmpl $0,%esi
+	movl 8(%rsi),%edi
+	shll $31,%edi
+	sarl $31,%edi
+	cmpl $0,%edi
 	jz L11
 L10:
-	movq _input_stack(%rip),%rsi
 	leaq 9(%rsi),%rsi
 	jmp L12
 L11:
-	movq _input_stack(%rip),%rsi
 	movq 24(%rsi),%rsi
 L12:
 	pushq %rsi
@@ -32,8 +29,6 @@ L12:
 	cmpl $0,%esi
 	jz L8
 L13:
-	movq _input_stack(%rip),%rsi
-	movl 32(%rsi),%esi
 	pushq %rsi
 	pushq $L16
 	pushq $___stderr
@@ -57,11 +52,10 @@ L8:
 	movl $10,%edi
 	movq $___stderr,%rsi
 	call _fputc
-	movq _out_fp(%rip),%rsi
-	cmpq $0,%rsi
+	movq _out_fp(%rip),%rdi
+	cmpq $0,%rdi
 	jz L21
 L19:
-	movq _out_fp(%rip),%rdi
 	call _fclose
 	movq _out_path(%rip),%rdi
 	call _remove
@@ -111,7 +105,7 @@ L40:
 L44:
 	movq 32(%r14),%rsi
 	movl $0,%edi
-	movl $0,%eax
+	movl %edi,%eax
 L47:
 	cmpq $0,%rsi
 	jz L49
@@ -197,12 +191,12 @@ L89:
 L131:
 	movq %rdi,%rbx
 L90:
-	leaq -16(%rbp),%rdi
+	leaq -16(%rbp),%rsi
+	movq %rsi,%rdi
 	movl $16,%ecx
 	xorl %eax,%eax
 	rep
 	stosb
-	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movl $0,%r13d
 	movq (%rbx),%r12
@@ -242,7 +236,6 @@ L111:
 	cmpq $0,%rsi
 	jz L112
 L114:
-	movq (%rbx),%rsi
 	movq -8(%rbp),%rdi
 	movq %rsi,(%rdi)
 	movq -8(%rbp),%rsi
@@ -254,8 +247,9 @@ L114:
 	movq %rbx,8(%rbx)
 L112:
 	leal 1(%r13),%edx
-	leaq -16(%rbp),%rsi
+	leaq -16(%rbp),%r12
 	movq %rbx,%rdi
+	movq %r12,%rsi
 	call _list_move
 	movq %rbx,%rdi
 	call _macro_replace
@@ -263,7 +257,6 @@ L112:
 	cmpq $0,%rsi
 	jz L121
 L123:
-	movq -16(%rbp),%rsi
 	movq 8(%rbx),%rdi
 	movq %rsi,(%rdi)
 	movq 8(%rbx),%rsi
@@ -272,8 +265,7 @@ L123:
 	movq -8(%rbp),%rsi
 	movq %rsi,8(%rbx)
 	movq $0,-16(%rbp)
-	leaq -16(%rbp),%rsi
-	movq %rsi,-8(%rbp)
+	movq %r12,-8(%rbp)
 L121:
 	movl $1,%eax
 L91:
@@ -295,9 +287,8 @@ L136:
 	cmpq $0,%rsi
 	jz L142
 L141:
-	movq 40(%rbx),%rsi
-	movq 32(%rbx),%rdi
-	movq %rsi,40(%rdi)
+	movq 40(%rbx),%rdi
+	movq %rdi,40(%rsi)
 	jmp L143
 L142:
 	movq 40(%rbx),%rsi
@@ -317,12 +308,11 @@ L144:
 	call _error
 	addq $16,%rsp
 L146:
-	movl _last_class(%rip),%esi
-	cmpl $0,%esi
+	movl _last_class(%rip),%edi
+	cmpl $0,%edi
 	jz L150
 L151:
 	movl (%rbx),%esi
-	movl _last_class(%rip),%edi
 	call _token_separate
 	cmpl $0,%eax
 	jz L150
@@ -386,33 +376,28 @@ L170:
 	jnz L173
 L180:
 	movq _input_stack(%rip),%rsi
-	movl 32(%rsi),%esi
-	movl L172(%rip),%edi
-	cmpl %esi,%edi
+	movl 32(%rsi),%edi
+	movl L172(%rip),%esi
+	cmpl %edi,%esi
 	jg L173
 L176:
-	movq _input_stack(%rip),%rsi
-	movl 32(%rsi),%esi
-	leal -20(%rsi),%esi
-	movl L172(%rip),%edi
-	cmpl %esi,%edi
+	leal -20(%rdi),%edi
+	cmpl %edi,%esi
 	jge L188
 L173:
 	movq _input_stack(%rip),%rsi
 	movl 32(%rsi),%esi
 	movl %esi,L172(%rip)
 	movq _input_stack(%rip),%rsi
-	movl 8(%rsi),%esi
-	shll $31,%esi
-	sarl $31,%esi
-	cmpl $0,%esi
+	movl 8(%rsi),%edi
+	shll $31,%edi
+	sarl $31,%edi
+	cmpl $0,%edi
 	jz L186
 L185:
-	movq _input_stack(%rip),%rsi
 	leaq 9(%rsi),%rsi
 	jmp L187
 L186:
-	movq _input_stack(%rip),%rsi
 	movq 24(%rsi),%rsi
 L187:
 	movq _out_fp(%rip),%rdi
@@ -450,26 +435,25 @@ L196:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
+	pushq %r12
 L197:
-	leaq -16(%rbp),%rdi
+	leaq -16(%rbp),%rsi
+	movq %rsi,%rdi
 	movl $16,%ecx
 	xorl %eax,%eax
 	rep
 	stosb
-	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movq _input_stack(%rip),%rsi
-	movl 8(%rsi),%esi
-	shll $31,%esi
-	sarl $31,%esi
-	cmpl $0,%esi
+	movl 8(%rsi),%edi
+	shll $31,%edi
+	sarl $31,%edi
+	cmpl $0,%edi
 	jz L201
 L200:
-	movq _input_stack(%rip),%rsi
 	leaq 9(%rsi),%rsi
 	jmp L202
 L201:
-	movq _input_stack(%rip),%rsi
 	movq 24(%rsi),%rsi
 L202:
 	movq _out_fp(%rip),%rdi
@@ -480,11 +464,11 @@ L202:
 	addq $24,%rsp
 	movb $0,_need_sync(%rip)
 L204:
-	movq -16(%rbp),%rsi
-	cmpq $0,%rsi
+	leaq -16(%rbp),%rsi
+	movq -16(%rbp),%rdi
+	cmpq $0,%rdi
 	jnz L215
 L210:
-	leaq -16(%rbp),%rsi
 	movl $1,%edi
 	call _input_tokens
 	cmpl $-1,%eax
@@ -494,32 +478,34 @@ L207:
 	movl $10,%edi
 	call _fputc
 L198:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
 L215:
+	leaq -16(%rbp),%rdi
 	movq -16(%rbp),%rsi
 	cmpq $0,%rsi
 	jz L204
 L216:
-	leaq -16(%rbp),%rdi
 	call _directive
 L218:
+	leaq -16(%rbp),%rbx
 	movq -16(%rbp),%rsi
 	cmpq $0,%rsi
 	jz L215
 L219:
 	call _sync
-	leaq -16(%rbp),%rdi
+	movq %rbx,%rdi
 	call _replace
-	movl %eax,%ebx
-	cmpl $1,%ebx
+	movl %eax,%r12d
+	cmpl $1,%r12d
 	jz L218
 L223:
-	leaq -16(%rbp),%rdi
+	movq %rbx,%rdi
 	call _output
-	cmpl $-1,%ebx
+	cmpl $-1,%r12d
 	jnz L218
 	jz L215
 L232:
@@ -541,34 +527,29 @@ L236:
 	cmpq $0,%rsi
 	jz L238
 L239:
-	movq (%rbx),%rsi
-	movzbl (%rsi),%esi
-	cmpl $45,%esi
+	movzbl (%rsi),%edi
+	cmpl $45,%edi
 	jnz L238
 L237:
-	movq (%rbx),%rsi
-	movzbl 1(%rsi),%esi
+	movzbl 1(%rsi),%edi
 L273:
-	cmpl $68,%esi
+	cmpl $68,%edi
 	jz L254
 L274:
-	cmpl $73,%esi
+	cmpl $73,%edi
 	jnz L251
 L247:
-	movq (%rbx),%rsi
-	addq $2,%rsi
+	leaq 2(%rsi),%rsi
 	movq %rsi,(%rbx)
-	movq (%rbx),%rsi
-	movzbl (%rsi),%esi
+	movq (%rbx),%rdi
+	movzbl (%rdi),%esi
 	cmpl $0,%esi
 	jz L251
 L250:
-	movq (%rbx),%rdi
 	call _input_dir
 	jmp L245
 L254:
-	movq (%rbx),%rsi
-	addq $2,%rsi
+	leaq 2(%rsi),%rsi
 	movq %rsi,(%rbx)
 	movq (%rbx),%rdi
 	call _macro_cmdline

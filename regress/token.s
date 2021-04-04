@@ -11,7 +11,7 @@ L3:
 	pushq %rbx
 	pushq %r12
 L20:
-	movl %edi,%r12d
+	movl %edi,%ebx
 L4:
 	movq _pool(%rip),%rsi
 	cmpq $0,%rsi
@@ -19,35 +19,34 @@ L4:
 L6:
 	movl $48,%edi
 	call _safe_malloc
-	movq %rax,%rbx
+	movq %rax,%r12
 	jmp L8
 L7:
-	movq _pool(%rip),%rbx
-	movq 32(%rbx),%rsi
-	cmpq $0,%rsi
+	movq %rsi,%r12
+	movq 32(%rsi),%rdi
+	cmpq $0,%rdi
 	jz L13
 L12:
-	movq 40(%rbx),%rsi
-	movq 32(%rbx),%rdi
-	movq %rsi,40(%rdi)
+	movq 40(%rsi),%rax
+	movq %rax,40(%rdi)
 	jmp L14
 L13:
-	movq 40(%rbx),%rsi
-	movq %rsi,_pool+8(%rip)
+	movq 40(%rsi),%rdi
+	movq %rdi,_pool+8(%rip)
 L14:
-	movq 32(%rbx),%rsi
-	movq 40(%rbx),%rdi
-	movq %rsi,(%rdi)
+	movq 32(%rsi),%rdi
+	movq 40(%rsi),%rsi
+	movq %rdi,(%rsi)
 L8:
-	movl %r12d,(%rbx)
-	andl $2147483648,%r12d
-	cmpl $0,%r12d
+	movl %ebx,(%r12)
+	andl $2147483648,%ebx
+	cmpl $0,%ebx
 	jnz L17
 L15:
-	leaq 8(%rbx),%rdi
+	leaq 8(%r12),%rdi
 	call _vstring_init
 L17:
-	movq %rbx,%rax
+	movq %r12,%rax
 L5:
 	popq %r12
 	popq %rbx
@@ -60,21 +59,23 @@ L23:
 	movq %rsp,%rbp
 	subq $24,%rsp
 	pushq %rbx
+	pushq %r12
 L24:
-	leaq -24(%rbp),%rsi
+	leaq -24(%rbp),%rbx
 	pushq %rdi
 	pushq $L26
-	pushq %rsi
+	pushq %rbx
 	call _sprintf
 	addq $24,%rsp
 	movl $51,%edi
 	call _alloc
-	movq %rax,%rbx
-	leaq -24(%rbp),%rsi
-	leaq 8(%rbx),%rdi
+	movq %rax,%r12
+	leaq 8(%r12),%rdi
+	movq %rbx,%rsi
 	call _vstring_puts
-	movq %rbx,%rax
+	movq %r12,%rax
 L25:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
@@ -264,11 +265,11 @@ L96:
 L97:
 	movq 24(%r12),%rsi
 L98:
+	leaq -8(%rbp),%rdi
 	movq %rsi,-8(%rbp)
 	movq -8(%rbp),%rsi
 	addq $1,%rsi
 	movq %rsi,-8(%rbp)
-	leaq -8(%rbp),%rdi
 	call _escape
 	movl %eax,%ebx
 	cmpl $-1,%ebx
@@ -315,17 +316,16 @@ L114:
 	leaq 8(%rbx),%rdi
 	call _vstring_free
 L117:
-	movq _pool(%rip),%rsi
-	movq %rsi,32(%rbx)
-	cmpq $0,%rsi
+	movq _pool(%rip),%rdi
+	leaq 32(%rbx),%rsi
+	movq %rdi,32(%rbx)
+	cmpq $0,%rdi
 	jz L121
 L120:
-	leaq 32(%rbx),%rsi
 	movq _pool(%rip),%rdi
 	movq %rsi,40(%rdi)
 	jmp L122
 L121:
-	leaq 32(%rbx),%rsi
 	movq %rsi,_pool+8(%rip)
 L122:
 	movq %rbx,_pool(%rip)
@@ -440,39 +440,33 @@ L205:
 	jmp L138
 L207:
 	movslq %eax,%rcx
-	movl _modifiers(,%rcx,8),%ecx
-	cmpl $0,%ecx
+	movl _modifiers(,%rcx,8),%eax
+	cmpl $0,%eax
 	jz L141
 L217:
 	cmpl %edi,%esi
 	jz L220
 L227:
-	movslq %eax,%rdi
-	movl _modifiers(,%rdi,8),%edi
-	cmpl %edi,%esi
+	cmpl %eax,%esi
 	jz L220
 L223:
-	movslq %eax,%rdi
-	movl _modifiers+4(,%rdi,8),%edi
+	movl _modifiers+4(,%rcx,8),%edi
 	cmpl %edi,%esi
 	jnz L222
 L220:
 	movl $1,%eax
 	jmp L138
 L222:
+	andl $255,%eax
 	movslq %eax,%rdi
-	movl _modifiers(,%rdi,8),%edi
-	andl $255,%edi
-	movslq %edi,%rax
-	cmpq $15,%rax
+	cmpq $15,%rdi
 	jae L141
 L234:
-	movslq %edi,%rax
-	movl _modifiers(,%rax,8),%eax
+	movslq %eax,%rdi
+	movl _modifiers(,%rdi,8),%eax
 	cmpl %eax,%esi
 	jz L236
 L239:
-	movslq %edi,%rdi
 	movl _modifiers+4(,%rdi,8),%edi
 	cmpl %edi,%esi
 	jnz L141
@@ -668,14 +662,15 @@ L384:
 L256:
 	movq %r14,%rbx
 	movzbl (%r14),%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	cmpl $0,%edi
 	jle L259
 L261:
-	movzbq (%r14),%rsi
-	cmpq $128,%rsi
+	movzbq %sil,%rdi
+	cmpq $128,%rdi
 	jae L259
 L258:
-	movzbq (%r14),%rsi
+	movzbq %sil,%rsi
 	movl _classes(,%rsi,4),%r12d
 	jmp L375
 L259:
@@ -772,8 +767,7 @@ L358:
 	cmpl $0,%esi
 	jz L356
 L355:
-	movslq %edi,%rsi
-	movl _modifiers(,%rsi,8),%r12d
+	movl %esi,%r12d
 	addq $1,%rbx
 	jmp L352
 L356:
@@ -786,8 +780,7 @@ L365:
 	cmpl $0,%esi
 	jz L267
 L362:
-	movslq %edi,%rsi
-	movl _modifiers+4(,%rsi,8),%r12d
+	movl %esi,%r12d
 	addq $1,%rbx
 	jmp L352
 L296:
@@ -812,16 +805,16 @@ L305:
 	jmp L267
 L310:
 	movzbq (%rbx),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $7,%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	movzbl ___ctype+1(%rdi),%edi
+	andl $7,%edi
+	cmpl $0,%edi
 	jnz L311
 L317:
-	movzbl (%rbx),%esi
+	movzbl %sil,%esi
 	cmpl $46,%esi
 	jz L311
 L313:
-	movzbl (%rbx),%esi
 	cmpl $95,%esi
 	jnz L267
 L311:
@@ -834,7 +827,6 @@ L324:
 	cmpl $45,%esi
 	jz L321
 L328:
-	movzbl 1(%rbx),%esi
 	cmpl $43,%esi
 	jnz L323
 L321:
@@ -844,12 +836,13 @@ L323:
 	jmp L310
 L339:
 	movzbq (%rbx),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $7,%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	movzbl ___ctype+1(%rdi),%edi
+	andl $7,%edi
+	cmpl $0,%edi
 	jnz L340
 L342:
-	movzbl (%rbx),%esi
+	movzbl %sil,%esi
 	cmpl $95,%esi
 	jnz L267
 L340:
@@ -897,11 +890,13 @@ L387:
 	movq %rsp,%rbp
 	subq $32,%rsp
 	pushq %rbx
+	pushq %r12
 L406:
 	movq %rdi,%rdx
 	movq %rsi,%rbx
 L388:
-	leaq -24(%rbp),%rdi
+	leaq -24(%rbp),%r12
+	movq %r12,%rdi
 	movl $24,%ecx
 	xorl %eax,%eax
 	rep
@@ -910,11 +905,11 @@ L388:
 	andl $4294967294,%esi
 	orl $1,%esi
 	movl %esi,-24(%rbp)
-	leaq -24(%rbp),%rsi
 	movq %rdx,%rdi
+	movq %r12,%rsi
 	call _token_text
-	leaq -24(%rbp),%rsi
 	movq %rbx,%rdi
+	movq %r12,%rsi
 	call _token_text
 	leaq -32(%rbp),%rsi
 	movl -24(%rbp),%edi
@@ -958,6 +953,7 @@ L403:
 L395:
 	movq %rbx,%rax
 L389:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
@@ -968,14 +964,13 @@ L409:
 	pushq %rbp
 	movq %rsp,%rbp
 L410:
-	movl (%rdi),%eax
-	movl (%rsi),%ecx
-	cmpl %ecx,%eax
+	movl (%rdi),%ecx
+	movl (%rsi),%eax
+	cmpl %eax,%ecx
 	jnz L414
 L412:
-	movl (%rdi),%eax
-	andl $536870912,%eax
-	cmpl $0,%eax
+	andl $536870912,%ecx
+	cmpl $0,%ecx
 	jz L417
 L415:
 	movl $1,%eax
@@ -1166,7 +1161,6 @@ L481:
 	cmpq $0,%rsi
 	jz L480
 L482:
-	movq (%rbx),%rsi
 	movq %rsi,%rdi
 	cmpq %rsi,%r12
 	jz L480
@@ -1175,9 +1169,8 @@ L488:
 	cmpq $0,%rsi
 	jz L492
 L491:
-	movq 40(%rdi),%rsi
-	movq 32(%rdi),%rax
-	movq %rsi,40(%rax)
+	movq 40(%rdi),%rax
+	movq %rax,40(%rsi)
 	jmp L493
 L492:
 	movq 40(%rdi),%rsi
@@ -1220,32 +1213,33 @@ L513:
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
+	pushq %r13
 L537:
-	movq %rdi,%rbx
+	movq %rdi,%r12
 L514:
-	movq (%rbx),%r12
+	movq (%r12),%rbx
 L516:
-	cmpq $0,%r12
+	cmpq $0,%rbx
 	jz L515
 L517:
-	movl (%r12),%esi
+	movl (%rbx),%esi
 	cmpl $48,%esi
 	jnz L518
 L520:
-	leaq 8(%r12),%rdi
+	leaq 8(%rbx),%r13
+	movq %r13,%rdi
 	call _vstring_free
-	leaq 8(%r12),%rdi
+	movq %r13,%rdi
 	call _vstring_init
-	leaq 8(%r12),%rdi
+	movq %r13,%rdi
 	movl $32,%esi
 	call _vstring_putc
 L523:
-	movq 32(%r12),%rsi
-	movq %rsi,%rdi
-	cmpq $0,%rsi
+	movq 32(%rbx),%rdi
+	cmpq $0,%rdi
 	jz L518
 L526:
-	movl (%rsi),%esi
+	movl (%rdi),%esi
 	cmpl $48,%esi
 	jnz L518
 L530:
@@ -1253,13 +1247,12 @@ L530:
 	cmpq $0,%rsi
 	jz L534
 L533:
-	movq 40(%rdi),%rsi
-	movq 32(%rdi),%rax
-	movq %rsi,40(%rax)
+	movq 40(%rdi),%rax
+	movq %rax,40(%rsi)
 	jmp L535
 L534:
 	movq 40(%rdi),%rsi
-	movq %rsi,8(%rbx)
+	movq %rsi,8(%r12)
 L535:
 	movq 32(%rdi),%rsi
 	movq 40(%rdi),%rax
@@ -1267,9 +1260,10 @@ L535:
 	call _token_free
 	jmp L523
 L518:
-	movq 32(%r12),%r12
+	movq 32(%rbx),%rbx
 	jmp L516
 L515:
+	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
@@ -1307,9 +1301,8 @@ L558:
 	cmpq $0,%rsi
 	jz L562
 L561:
-	movq 40(%rdi),%rsi
-	movq 32(%rdi),%rax
-	movq %rsi,40(%rax)
+	movq 40(%rdi),%rax
+	movq %rax,40(%rsi)
 	jmp L563
 L562:
 	movq 40(%rdi),%rsi
@@ -1344,7 +1337,6 @@ L572:
 	cmpl $48,%esi
 	jz L588
 L577:
-	movl (%rdi),%esi
 	cmpl $1073741883,%esi
 	jnz L576
 L581:
@@ -1369,9 +1361,8 @@ L588:
 	cmpq $0,%rsi
 	jz L592
 L591:
-	movq 40(%rdi),%rsi
-	movq 32(%rdi),%rax
-	movq %rsi,40(%rax)
+	movq 40(%rdi),%rax
+	movq %rax,40(%rsi)
 	jmp L593
 L592:
 	movq 40(%rdi),%rsi
@@ -1436,20 +1427,19 @@ L619:
 	pushq %rbp
 	movq %rsp,%rbp
 L632:
-	movq %rdi,%rax
+	movq %rdi,%rcx
 L620:
-	movq (%rax),%rdi
-	movq 32(%rdi),%rcx
-	cmpq $0,%rcx
+	movq (%rcx),%rdi
+	movq 32(%rdi),%rax
+	cmpq $0,%rax
 	jz L626
 L625:
-	movq 40(%rdi),%rax
-	movq 32(%rdi),%rcx
-	movq %rax,40(%rcx)
+	movq 40(%rdi),%rcx
+	movq %rcx,40(%rax)
 	jmp L627
 L626:
-	movq 40(%rdi),%rcx
-	movq %rcx,8(%rax)
+	movq 40(%rdi),%rax
+	movq %rax,8(%rcx)
 L627:
 	movq 32(%rdi),%rax
 	movq 40(%rdi),%rcx
@@ -1475,13 +1465,11 @@ L646:
 	movq %rsi,%rdi
 L636:
 	movq 32(%rdi),%rbx
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,%rbx
 	jz L642
 L641:
 	movq 40(%rdi),%rsi
-	movq 32(%rdi),%rax
-	movq %rsi,40(%rax)
+	movq %rsi,40(%rbx)
 	jmp L643
 L642:
 	movq 40(%rdi),%rsi
@@ -1700,7 +1688,6 @@ L746:
 	cmpl $52,%esi
 	jz L748
 L751:
-	movl (%rbx),%esi
 	cmpl $53,%esi
 	jnz L749
 L748:
@@ -1783,12 +1770,12 @@ L781:
 L782:
 	movq %rbx,%rdi
 	call _token_copy
-	movq $0,32(%rax)
-	movq 8(%r12),%rsi
-	movq %rsi,40(%rax)
-	movq 8(%r12),%rsi
-	movq %rax,(%rsi)
 	leaq 32(%rax),%rsi
+	movq $0,32(%rax)
+	movq 8(%r12),%rdi
+	movq %rdi,40(%rax)
+	movq 8(%r12),%rdi
+	movq %rax,(%rdi)
 	movq %rsi,8(%r12)
 	movq 32(%rbx),%rbx
 	jmp L781
@@ -1816,9 +1803,8 @@ L795:
 	cmpl $0,%esi
 	jz L794
 L796:
-	movq (%r14),%rsi
-	movq %rsi,%r12
-	cmpq $0,%rsi
+	movq (%r14),%r12
+	cmpq $0,%r12
 	jnz L802
 L798:
 	pushq $L801
@@ -1829,23 +1815,22 @@ L802:
 	cmpq $0,%rsi
 	jz L806
 L805:
-	movq 40(%r12),%rsi
-	movq 32(%r12),%rdi
-	movq %rsi,40(%rdi)
+	movq 40(%r12),%rdi
+	movq %rdi,40(%rsi)
 	jmp L807
 L806:
 	movq 40(%r12),%rsi
 	movq %rsi,8(%r14)
 L807:
-	movq 32(%r12),%rsi
-	movq 40(%r12),%rdi
-	movq %rsi,(%rdi)
-	movq $0,32(%r12)
-	movq 8(%rbx),%rsi
-	movq %rsi,40(%r12)
-	movq 8(%rbx),%rsi
-	movq %r12,(%rsi)
 	leaq 32(%r12),%rsi
+	movq 32(%r12),%rdi
+	movq 40(%r12),%rax
+	movq %rdi,(%rax)
+	movq $0,32(%r12)
+	movq 8(%rbx),%rdi
+	movq %rdi,40(%r12)
+	movq 8(%rbx),%rdi
+	movq %r12,(%rdi)
 	movq %rsi,8(%rbx)
 	jmp L795
 L794:
@@ -1932,21 +1917,21 @@ L862:
 	cmpq $0,%rsi
 	jz L870
 L867:
-	movq 40(%rsi),%rdi
-	movq %rdi,40(%rdx)
-	movq %rsi,32(%rdx)
-	movq 40(%rsi),%rdi
-	movq %rdx,(%rdi)
+	movq 40(%rsi),%rax
 	leaq 32(%rdx),%rdi
+	movq %rax,40(%rdx)
+	movq %rsi,32(%rdx)
+	movq 40(%rsi),%rax
+	movq %rdx,(%rax)
 	movq %rdi,40(%rsi)
 	jmp L863
 L870:
-	movq $0,32(%rdx)
-	movq 8(%rdi),%rsi
-	movq %rsi,40(%rdx)
-	movq 8(%rdi),%rsi
-	movq %rdx,(%rsi)
 	leaq 32(%rdx),%rsi
+	movq $0,32(%rdx)
+	movq 8(%rdi),%rax
+	movq %rax,40(%rdx)
+	movq 8(%rdi),%rax
+	movq %rdx,(%rax)
 	movq %rsi,8(%rdi)
 L863:
 	popq %rbp
@@ -1964,18 +1949,16 @@ L890:
 	movq %rdi,%r13
 	movq %rsi,%r12
 L880:
-	movq (%rbx),%rsi
-	movq %rsi,%rdx
-	cmpq $0,%rsi
+	movq (%rbx),%rdx
+	cmpq $0,%rdx
 	jz L879
 L883:
 	movq 32(%rdx),%rsi
 	cmpq $0,%rsi
 	jz L887
 L886:
-	movq 40(%rdx),%rsi
-	movq 32(%rdx),%rdi
-	movq %rsi,40(%rdi)
+	movq 40(%rdx),%rdi
+	movq %rdi,40(%rsi)
 	jmp L888
 L887:
 	movq 40(%rdx),%rsi
@@ -2009,12 +1992,12 @@ L894:
 L896:
 	movl $1073741883,%edi
 	call _alloc
-	movq $0,32(%rax)
-	movq 8(%rbx),%rsi
-	movq %rsi,40(%rax)
-	movq 8(%rbx),%rsi
-	movq %rax,(%rsi)
 	leaq 32(%rax),%rsi
+	movq $0,32(%rax)
+	movq 8(%rbx),%rdi
+	movq %rdi,40(%rax)
+	movq 8(%rbx),%rdi
+	movq %rax,(%rdi)
 	movq %rsi,8(%rbx)
 L895:
 	popq %rbx

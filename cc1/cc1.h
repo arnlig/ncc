@@ -94,6 +94,7 @@ extern bool debug_flag_i;
 extern bool debug_flag_l;
 extern bool debug_flag_r;
 extern bool debug_flag_s;
+extern bool debug_flag_v;
 
 /* the generally-useful constant-value container */
 

@@ -54,6 +54,7 @@ static struct operand *operand_new(operand_class class, type_bits ts)
     opr->class = class;
     opr->ts = type_machine_bits(ts);
     opr->ts = T_BASE(opr->ts);
+    opr->number = VALUE_NUMBER_NONE;
 
     return opr;
 }

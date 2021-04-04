@@ -17,15 +17,15 @@ L9:
 L3:
 	movl $48,%edi
 	call _safe_malloc
-	movq %rax,%rbx
-	movq %rbx,%r14
-	leaq 8(%rbx),%rdi
+	movq %rax,%r14
+	leaq 8(%r14),%rbx
+	movq %rbx,%rdi
 	call _vstring_init
-	leaq 8(%rbx),%rdi
+	movq %rbx,%rdi
 	movq %r12,%rsi
 	call _vstring_puts
-	movq %r13,(%rbx)
-	movl $0,32(%rbx)
+	movq %r13,(%r14)
+	movl $0,32(%r14)
 	movq _input_stack(%rip),%rsi
 	movq %rsi,40(%r14)
 	movq %r14,_input_stack(%rip)
@@ -44,9 +44,8 @@ L13:
 	movq %rsp,%rbp
 	pushq %rbx
 L14:
-	movq _input_stack(%rip),%rsi
-	movq %rsi,%rbx
-	movq 40(%rsi),%rsi
+	movq _input_stack(%rip),%rbx
+	movq 40(%rbx),%rsi
 	cmpq $0,%rsi
 	jnz L19
 L16:
@@ -73,42 +72,41 @@ L28:
 	movq %rsp,%rbp
 L29:
 	movl $0,%esi
-	movl $0,%eax
+	movl $0,%ecx
 L31:
-	movzbl (%rdi),%ecx
-	cmpl $0,%ecx
+	movzbl (%rdi),%edx
+	cmpl $0,%edx
 	jz L33
 L32:
 	cmpl $0,%esi
 	jz L35
 L34:
-	movzbl (%rdi),%ecx
-	cmpl %esi,%ecx
+	cmpl %esi,%edx
 	jnz L39
 L37:
 	movl $0,%esi
 L39:
-	movzbl (%rdi),%ecx
-	cmpl $92,%ecx
+	movzbl (%rdi),%eax
+	cmpl $92,%eax
 	jnz L36
 L43:
-	movzbl 1(%rdi),%ecx
-	cmpl %esi,%ecx
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%edx
+	cmpl %esi,%edx
 	jnz L36
 L40:
-	addq $1,%rdi
+	movq %rax,%rdi
 	jmp L36
 L35:
-	movzbl _in_comment(%rip),%ecx
-	cmpl $0,%ecx
+	movzbl _in_comment(%rip),%eax
+	cmpl $0,%eax
 	jz L48
 L47:
-	movzbl (%rdi),%ecx
-	cmpl $42,%ecx
+	cmpl $42,%edx
 	jnz L52
 L53:
-	movzbl 1(%rdi),%ecx
-	cmpl $47,%ecx
+	movzbl 1(%rdi),%eax
+	cmpl $47,%eax
 	jnz L52
 L50:
 	movb $32,1(%rdi)
@@ -117,12 +115,11 @@ L52:
 	movb $32,(%rdi)
 	jmp L36
 L48:
-	movzbl (%rdi),%ecx
-	cmpl $47,%ecx
+	cmpl $47,%edx
 	jnz L58
 L60:
-	movzbl 1(%rdi),%ecx
-	cmpl $42,%ecx
+	movzbl 1(%rdi),%eax
+	cmpl $42,%eax
 	jnz L58
 L57:
 	movb $32,(%rdi)
@@ -130,35 +127,34 @@ L57:
 	movb $1,_in_comment(%rip)
 	jmp L36
 L58:
-	movzbl (%rdi),%ecx
-	cmpl $34,%ecx
+	movzbl (%rdi),%eax
+	cmpl $34,%eax
 	jz L64
 L67:
-	movzbl (%rdi),%ecx
-	cmpl $39,%ecx
+	cmpl $39,%eax
 	jnz L36
 L64:
 	movzbl (%rdi),%esi
 L36:
-	movzbl (%rdi),%ecx
-	cmpl $32,%ecx
+	movzbl (%rdi),%eax
+	cmpl $32,%eax
 	jnz L72
 L71:
-	cmpq $0,%rax
+	cmpq $0,%rcx
 	jnz L73
 L74:
-	movq %rdi,%rax
+	movq %rdi,%rcx
 	jmp L73
 L72:
-	movl $0,%eax
+	movl $0,%ecx
 L73:
 	addq $1,%rdi
 	jmp L31
 L33:
-	cmpq $0,%rax
+	cmpq $0,%rcx
 	jz L30
 L77:
-	movb $0,(%rax)
+	movb $0,(%rcx)
 L30:
 	popq %rbp
 	ret
@@ -178,7 +174,6 @@ L88:
 	cmpq $0,%rsi
 	jz L90
 L89:
-	movq _input_stack(%rip),%rsi
 	movq (%rsi),%rsi
 	movl (%rsi),%edi
 	addl $-1,%edi
@@ -334,20 +329,19 @@ L159:
 L149:
 	movl $0,%ebx
 L151:
-	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
-	cmpl $0,%esi
-	jz L153
-L152:
 	leaq -8(%rbp),%rsi
 	movq -8(%rbp),%rdi
+	movzbl (%rdi),%eax
+	cmpl $0,%eax
+	jz L153
+L152:
 	call _token_scan
-	movq $0,32(%rax)
-	movq 8(%r12),%rsi
-	movq %rsi,40(%rax)
-	movq 8(%r12),%rsi
-	movq %rax,(%rsi)
 	leaq 32(%rax),%rsi
+	movq $0,32(%rax)
+	movq 8(%r12),%rdi
+	movq %rdi,40(%rax)
+	movq 8(%r12),%rdi
+	movq %rax,(%rdi)
 	movq %rsi,8(%r12)
 	addl $1,%ebx
 	jmp L151
@@ -399,24 +393,21 @@ L174:
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-	pushq %r13
 L181:
-	movq %rdi,%r13
+	movq %rdi,%r12
 L175:
 	movl $32,%edi
 	call _safe_malloc
 	movq %rax,%rbx
-	movq %rbx,%r12
 	movq %rbx,%rdi
 	call _vstring_init
 	movq %rbx,%rdi
-	movq %r13,%rsi
+	movq %r12,%rsi
 	call _vstring_puts
 	movq _system_dirs(%rip),%rsi
-	movq %rsi,24(%r12)
-	movq %r12,_system_dirs(%rip)
+	movq %rsi,24(%rbx)
+	movq %rbx,_system_dirs(%rip)
 L176:
-	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
@@ -430,29 +421,31 @@ L184:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
+	pushq %r14
 L239:
-	movq %rdi,%r13
-	movl %esi,%ebx
+	movq %rdi,%r14
+	movl %esi,%r12d
 L185:
 	leaq -24(%rbp),%rdi
 	call _vstring_init
-	movq _system_dirs(%rip),%r12
+	movq _system_dirs(%rip),%r13
 L188:
-	leaq -24(%rbp),%rdi
+	leaq -24(%rbp),%rbx
+	movq %rbx,%rdi
 	call _vstring_clear
 L235:
-	cmpl $0,%ebx
+	cmpl $0,%r12d
 	jz L195
 L236:
-	cmpl $1,%ebx
+	cmpl $1,%r12d
 	jz L210
 L237:
-	cmpl $2,%ebx
+	cmpl $2,%r12d
 	jnz L193
 L198:
 	movq _input_stack(%rip),%rsi
 	leaq 8(%rsi),%rsi
-	leaq -24(%rbp),%rdi
+	movq %rbx,%rdi
 	call _vstring_concat
 L199:
 	movl -24(%rbp),%esi
@@ -472,40 +465,42 @@ L208:
 	cmpq $0,%rsi
 	jz L201
 L202:
-	leaq -24(%rbp),%rdi
+	leaq -24(%rbp),%rbx
+	movq %rbx,%rdi
 	call _vstring_last
 	movzbl %al,%esi
 	cmpl $47,%esi
 	jz L201
 L200:
-	leaq -24(%rbp),%rdi
+	movq %rbx,%rdi
 	call _vstring_rubout
 	jmp L199
 L201:
 	leaq -24(%rbp),%rdi
-	movq %r13,%rsi
+	movq %r14,%rsi
 	call _vstring_puts
-	movl $1,%ebx
+	movl $1,%r12d
 	jmp L193
 L210:
-	cmpq $0,%r12
+	cmpq $0,%r13
 	jnz L213
 L211:
-	pushq %r13
+	pushq %r14
 	pushq $L214
 	call _error
 	addq $16,%rsp
 L213:
-	leaq -24(%rbp),%rdi
-	movq %r12,%rsi
+	leaq -24(%rbp),%rbx
+	movq %rbx,%rdi
+	movq %r13,%rsi
 	call _vstring_concat
-	leaq -24(%rbp),%rdi
+	movq %rbx,%rdi
 	movl $47,%esi
 	call _vstring_putc
-	leaq -24(%rbp),%rdi
-	movq %r13,%rsi
+	movq %rbx,%rdi
+	movq %r14,%rsi
 	call _vstring_puts
-	movq 24(%r12),%r12
+	movq 24(%r13),%r13
 L193:
 	movl -24(%rbp),%esi
 	shll $31,%esi
@@ -524,8 +519,8 @@ L221:
 	jnz L188
 	jz L196
 L195:
-	leaq -24(%rbp),%rdi
-	movq %r13,%rsi
+	movq %rbx,%rdi
+	movq %r14,%rsi
 	call _vstring_puts
 L196:
 	movl -24(%rbp),%esi
@@ -545,7 +540,7 @@ L226:
 	cmpq $0,%rbx
 	jnz L229
 L227:
-	pushq %r13
+	pushq %r14
 	pushq $L230
 	call _error
 	addq $16,%rsp
@@ -566,6 +561,7 @@ L233:
 	leaq -24(%rbp),%rdi
 	call _vstring_free
 L186:
+	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx

@@ -17,7 +17,8 @@ L7:
 	pushq %r12
 L8:
 	movq _pos(%rip),%rdi
-	movq _invalid(%rip),%rsi
+	movq _invalid(%rip),%rdx
+	movq %rdx,%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
 	jge L9
@@ -26,12 +27,10 @@ L13:
 	cmpl $-1,%esi
 	jz L9
 L10:
-	movq _begin(%rip),%rbx
+	movq _begin(%rip),%rsi
+	movq %rsi,%rbx
 	subq $_buf,%rbx
-	movq _invalid(%rip),%rdx
-	movq _begin(%rip),%rsi
 	subq %rsi,%rdx
-	movq _begin(%rip),%rsi
 	movq $_buf,%rdi
 	call _memmove
 	movq _begin(%rip),%rsi
@@ -43,11 +42,10 @@ L10:
 	movq _invalid(%rip),%rsi
 	subq %rbx,%rsi
 	movq %rsi,_invalid(%rip)
-	movq _invalid(%rip),%rdi
-	movq $_buf+4096,%rsi
-	subq %rdi,%rsi
-	movq %rsi,%rbx
-	cmpq $0,%rsi
+	movq _invalid(%rip),%rsi
+	movq $_buf+4096,%rbx
+	subq %rsi,%rbx
+	cmpq $0,%rbx
 	jnz L19
 L17:
 	pushq $L20
@@ -91,15 +89,15 @@ L33:
 	movq %rsp,%rbp
 L36:
 	movq _pos(%rip),%rsi
-	movzbq (%rsi),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $7,%esi
-	cmpl $0,%esi
+	movzbq (%rsi),%rdi
+	movl %edi,%eax
+	movzbl ___ctype+1(%rax),%eax
+	andl $7,%eax
+	cmpl $0,%eax
 	jnz L43
 L39:
-	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	cmpl $95,%esi
+	movzbl %dil,%edi
+	cmpl $95,%edi
 	jnz L38
 L43:
 	movq _pos(%rip),%rsi
@@ -114,10 +112,8 @@ L46:
 	call _refill
 	jmp L36
 L38:
-	movq _pos(%rip),%rsi
 	movq _begin(%rip),%rdi
 	subq %rdi,%rsi
-	movq _begin(%rip),%rdi
 	call _string_new
 	movq %rax,_token+8(%rip)
 	movq _token+8(%rip),%rsi
@@ -139,13 +135,11 @@ L56:
 	movl $1,%ebx
 L58:
 	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
-	movl %esi,%r12d
-	cmpl $0,%esi
+	movzbl (%rsi),%r12d
+	cmpl $0,%r12d
 	jz L60
 L61:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rsi),%rsi
 	movq %rsi,_pos(%rip)
 	movq _pos(%rip),%rdi
 	movq _invalid(%rip),%rsi
@@ -211,14 +205,13 @@ L92:
 	subq %rsi,%rbx
 L94:
 	movq _pos(%rip),%rsi
-	movzbq (%rsi),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $8,%esi
-	cmpl $0,%esi
+	movzbq (%rsi),%rdi
+	movzbl ___ctype+1(%rdi),%edi
+	andl $8,%edi
+	cmpl $0,%edi
 	jz L91
 L97:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rsi),%rsi
 	movq %rsi,_pos(%rip)
 	movq _pos(%rip),%rdi
 	movq _invalid(%rip),%rsi
@@ -232,8 +225,8 @@ L93:
 	movq _begin(%rip),%rsi
 	leaq (%rsi,%rbx),%rsi
 	movq %rsi,_pos(%rip)
-	movq _begin(%rip),%r12
 	movq _begin(%rip),%rsi
+	movq %rsi,%r12
 	leaq 1(%rsi),%rsi
 	movq %rsi,-8(%rbp)
 L103:
@@ -242,12 +235,12 @@ L103:
 	cmpq %rdi,%rsi
 	jz L105
 L106:
+	leaq -8(%rbp),%rdi
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
 	cmpl $34,%esi
 	jz L113
 L107:
-	leaq -8(%rbp),%rdi
 	call _escape
 	movl %eax,%ebx
 	cmpl $-1,%ebx
@@ -271,15 +264,14 @@ L113:
 	cmpq %rdi,%rsi
 	jz L103
 L116:
-	movq -8(%rbp),%rsi
-	movzbq (%rsi),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $8,%esi
-	cmpl $0,%esi
+	movzbq (%rdi),%rsi
+	movl %esi,%edi
+	movzbl ___ctype+1(%rdi),%edi
+	andl $8,%edi
+	cmpl $0,%edi
 	jz L103
 L114:
-	movq -8(%rbp),%rsi
-	movzbl (%rsi),%esi
+	movzbl %sil,%esi
 	cmpl $10,%esi
 	jnz L113
 L120:
@@ -288,9 +280,8 @@ L120:
 	movl %esi,_error_line_no(%rip)
 	jmp L113
 L105:
-	movq _begin(%rip),%rsi
-	subq %rsi,%r12
 	movq _begin(%rip),%rdi
+	subq %rdi,%r12
 	movq %r12,%rsi
 	call _string_new
 	movq %rax,_token+8(%rip)
@@ -348,22 +339,20 @@ L146:
 	pushq %r12
 L147:
 	movl $0,%r12d
-	movl $0,%ebx
+	movl %r12d,%ebx
 L149:
 	movq _pos(%rip),%rsi
 	movzbq (%rsi),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $7,%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	movzbl ___ctype+1(%rdi),%edi
+	andl $7,%edi
+	cmpl $0,%edi
 	jnz L150
 L156:
-	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
+	movzbl %sil,%esi
 	cmpl $46,%esi
 	jz L150
 L152:
-	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
 	cmpl $95,%esi
 	jnz L151
 L150:
@@ -378,8 +367,6 @@ L163:
 	cmpl $43,%esi
 	jz L160
 L167:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
 	cmpl $45,%esi
 	jnz L171
 L160:
@@ -448,8 +435,9 @@ L189:
 	jz L188
 L193:
 	movl $0,_errno(%rip)
-	leaq -8(%rbp),%rsi
+	leaq -8(%rbp),%rbx
 	movq _begin(%rip),%rdi
+	movq %rbx,%rsi
 	call _strtod
 	movsd %xmm0,_token+8(%rip)
 	movq -8(%rbp),%rsi
@@ -471,8 +459,8 @@ L240:
 	movq %rsi,-8(%rbp)
 	jmp L238
 L242:
-	leaq -8(%rbp),%rsi
 	movq _begin(%rip),%rdi
+	movq %rbx,%rsi
 	call _strtof
 	cvtss2sd %xmm0,%xmm0
 	movsd %xmm0,_token+8(%rip)
@@ -552,7 +540,6 @@ L219:
 	movl $6,%eax
 	jmp L148
 L220:
-	movq _token+8(%rip),%rsi
 	movl $4294967295,%edi
 	cmpq %rdi,%rsi
 	jbe L224
@@ -560,7 +547,6 @@ L223:
 	movl $5,%eax
 	jmp L148
 L224:
-	movq _token+8(%rip),%rsi
 	cmpq $2147483647,%rsi
 	jbe L228
 L227:
@@ -592,20 +578,19 @@ L263:
 	movq %rsi,_begin(%rip)
 	call _refill
 L265:
-	movq _pos(%rip),%rsi
-	movzbq (%rsi),%rsi
-	movzbl ___ctype+1(%rsi),%esi
-	andl $8,%esi
-	cmpl $0,%esi
+	movq _pos(%rip),%rdi
+	movzbq (%rdi),%rsi
+	movl %esi,%eax
+	movzbl ___ctype+1(%rax),%eax
+	andl $8,%eax
+	cmpl $0,%eax
 	jz L267
 L268:
-	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
+	movzbl %sil,%esi
 	cmpl $10,%esi
 	jz L267
 L272:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movq _pos(%rip),%rdi
 	movq _invalid(%rip),%rsi
@@ -619,8 +604,8 @@ L273:
 	movq %rsi,_begin(%rip)
 	jmp L265
 L267:
-	movq _pos(%rip),%rsi
-	movzbl (%rsi),%esi
+	movq _pos(%rip),%rdi
+	movzbl (%rdi),%esi
 L613:
 	cmpl $48,%esi
 	jae L682
@@ -640,19 +625,16 @@ L644:
 	cmpl $47,%esi
 	jnz L279
 L466:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%eax
+	cmpl $61,%eax
 	jnz L470
 L468:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $45088819,%eax
 	jmp L264
 L470:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $202375198,%eax
 	jmp L264
@@ -660,71 +642,56 @@ L641:
 	cmpl $45,%esi
 	jnz L279
 L507:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $62,%esi
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%ecx
+	cmpl $62,%ecx
 	jnz L517
 L508:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $26,%eax
 	jmp L264
 L517:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	cmpl %esi,%ecx
 	jnz L521
 L519:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $28,%eax
 	jmp L264
 L521:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%ecx
 	jnz L525
 L523:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $95420464,%eax
 	jmp L264
 L525:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	movq %rax,_pos(%rip)
 	movl $253755425,%eax
 	jmp L264
 L528:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
+	movzbl 1(%rdi),%esi
 	cmpl $46,%esi
 	jnz L531
 L532:
-	movq _pos(%rip),%rsi
-	movzbl 2(%rsi),%esi
+	movzbl 2(%rdi),%esi
 	cmpl $46,%esi
 	jnz L531
 L529:
-	movq _pos(%rip),%rsi
-	addq $3,%rsi
+	leaq 3(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $19,%eax
 	jmp L264
 L531:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	leal -48(%rsi),%esi
-	cmpl $10,%esi
+	movq _pos(%rip),%rdi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%edi
+	leal -48(%rdi),%edi
+	cmpl $10,%edi
 	jb L550
 L537:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $18,%eax
 	jmp L264
@@ -736,64 +703,51 @@ L637:
 	cmpl $43,%esi
 	jnz L279
 L496:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%ecx
+	cmpl %esi,%ecx
 	jnz L500
 L498:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $27,%eax
 	jmp L264
 L500:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%ecx
 	jnz L504
 L502:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $78643249,%eax
 	jmp L264
 L504:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	movq %rax,_pos(%rip)
 	movl $236978208,%eax
 	jmp L264
 L634:
 	cmpl $41,%esi
 	jnz L279
 L296:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $13,%eax
 	jmp L264
 L449:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%eax
+	cmpl $61,%eax
 	jnz L453
 L451:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $28311602,%eax
 	jmp L264
 L453:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $219414559,%eax
 	jmp L264
 L292:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $524309,%eax
 	jmp L264
@@ -815,50 +769,39 @@ L626:
 	cmpl $37,%esi
 	jnz L279
 L483:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%eax
+	cmpl $61,%eax
 	jnz L487
 L485:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $61866039,%eax
 	jmp L264
 L487:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $470810678,%eax
 	jmp L264
 L428:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%ecx
+	cmpl %esi,%ecx
 	jnz L432
 L430:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $395313195,%eax
 	jmp L264
 L432:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%ecx
 	jnz L436
 L434:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $145752108,%eax
 	jmp L264
 L436:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	movq %rax,_pos(%rip)
 	movl $375390250,%eax
 	jmp L264
 L616:
@@ -879,45 +822,38 @@ L618:
 	cmpl $0,%esi
 	jnz L279
 L606:
-	movq _pos(%rip),%rsi
-	movq _invalid(%rip),%rdi
-	cmpq %rsi,%rdi
+	movq _invalid(%rip),%rsi
+	cmpq %rdi,%rsi
 	jnz L279
 L607:
 	movl $0,%eax
 	jmp L264
 L282:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $11,%eax
 	jmp L264
 L339:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%eax
+	cmpl $61,%eax
 	jnz L343
 L341:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $424673333,%eax
 	jmp L264
 L343:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $29,%eax
 	jmp L264
 L284:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $10,%eax
 	jmp L264
 L294:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $262156,%eax
 	jmp L264
@@ -940,8 +876,7 @@ L679:
 	cmpl $126,%esi
 	jnz L279
 L306:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $25,%eax
 	jmp L264
@@ -949,38 +884,29 @@ L676:
 	cmpl $124,%esi
 	jnz L279
 L411:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%ecx
+	cmpl %esi,%ecx
 	jnz L415
 L413:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $463470638,%eax
 	jmp L264
 L415:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%ecx
 	jnz L419
 L417:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $162529327,%eax
 	jmp L264
 L419:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	movq %rax,_pos(%rip)
 	movl $444596269,%eax
 	jmp L264
 L300:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $17,%eax
 	jmp L264
@@ -999,25 +925,21 @@ L668:
 	cmpl $94,%esi
 	jnz L279
 L398:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	leaq 1(%rdi),%rsi
+	movzbl 1(%rdi),%eax
+	cmpl $61,%eax
 	jnz L402
 L400:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $179306552,%eax
 	jmp L264
 L402:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $191889428,%eax
 	jmp L264
 L298:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $16,%eax
 	jmp L264
@@ -1032,8 +954,7 @@ L659:
 	cmpl $63,%esi
 	jnz L279
 L286:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $24,%eax
 	jmp L264
@@ -1044,8 +965,7 @@ L662:
 	cmpl $91,%esi
 	jnz L279
 L302:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $14,%eax
 	jmp L264
@@ -1060,22 +980,17 @@ L655:
 	cmpl $61,%esi
 	jnz L279
 L318:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	leaq 1(%rdi),%rax
+	movzbl 1(%rdi),%ecx
+	cmpl %esi,%ecx
 	jnz L326
 L320:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $407896116,%eax
 	jmp L264
 L326:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	movq %rax,_pos(%rip)
 	movl $11534393,%eax
 	jmp L264
 L650:
@@ -1096,116 +1011,91 @@ L279:
 	addq $24,%rsp
 	jmp L264
 L288:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $486539286,%eax
 	jmp L264
 L290:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $524311,%eax
 	jmp L264
 L347:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	movzbl 1(%rdi),%eax
+	cmpl %esi,%eax
 	jnz L352
 L353:
-	movq _pos(%rip),%rsi
-	movzbl 2(%rsi),%esi
+	movzbl 2(%rdi),%esi
 	cmpl $61,%esi
 	jnz L352
 L350:
-	movq _pos(%rip),%rsi
-	addq $3,%rsi
+	leaq 3(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $112197673,%eax
 	jmp L264
 L352:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	movq _pos(%rip),%rcx
+	leaq 1(%rcx),%rsi
+	movzbl 1(%rcx),%edi
+	movzbl (%rcx),%eax
+	cmpl %eax,%edi
 	jnz L360
 L358:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rcx),%rsi
 	movq %rsi,_pos(%rip)
 	movl $338690087,%eax
 	jmp L264
 L360:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%edi
 	jnz L364
 L362:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rcx),%rsi
 	movq %rsi,_pos(%rip)
 	movl $356515880,%eax
 	jmp L264
 L364:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $322961446,%eax
 	jmp L264
 L368:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	movzbl 1(%rdi),%eax
+	cmpl %esi,%eax
 	jnz L373
 L374:
-	movq _pos(%rip),%rsi
-	movzbl 2(%rsi),%esi
+	movzbl 2(%rdi),%esi
 	cmpl $61,%esi
 	jnz L373
 L371:
-	movq _pos(%rip),%rsi
-	addq $3,%rsi
+	leaq 3(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $128974885,%eax
 	jmp L264
 L373:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	movq _pos(%rip),%rdi
-	movzbl (%rdi),%edi
-	cmpl %edi,%esi
+	movq _pos(%rip),%rcx
+	leaq 1(%rcx),%rsi
+	movzbl 1(%rcx),%edi
+	movzbl (%rcx),%eax
+	cmpl %eax,%edi
 	jnz L381
 L379:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rcx),%rsi
 	movq %rsi,_pos(%rip)
 	movl $288358435,%eax
 	jmp L264
 L381:
-	movq _pos(%rip),%rsi
-	movzbl 1(%rsi),%esi
-	cmpl $61,%esi
+	cmpl $61,%edi
 	jnz L385
 L383:
-	movq _pos(%rip),%rsi
-	addq $2,%rsi
+	leaq 2(%rcx),%rsi
 	movq %rsi,_pos(%rip)
 	movl $306184228,%eax
 	jmp L264
 L385:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 	movl $272629794,%eax
 	jmp L264
 L304:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
+	leaq 1(%rdi),%rsi
 	movq %rsi,_pos(%rip)
 	movl $15,%eax
 	jmp L264
@@ -1250,6 +1140,7 @@ L698:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
+	pushq %r12
 L706:
 	movq %rdi,%rbx
 L699:
@@ -1257,8 +1148,9 @@ L699:
 	cmpl $0,%esi
 	jnz L703
 L701:
-	leaq -16(%rbp),%rdi
+	leaq -16(%rbp),%r12
 	movq $_token,%rsi
+	movq %r12,%rdi
 	movl $16,%ecx
 	rep
 	movsb
@@ -1268,7 +1160,7 @@ L701:
 	movl $16,%ecx
 	rep
 	movsb
-	leaq -16(%rbp),%rsi
+	movq %r12,%rsi
 	movq $_token,%rdi
 	movl $16,%ecx
 	rep
@@ -1280,6 +1172,7 @@ L703:
 	rep
 	movsb
 L700:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
@@ -1446,26 +1339,20 @@ L801:
 	cmpq $58,%rcx
 	jae L804
 L803:
-	movslq %edi,%rax
-	movq _text(,%rax,8),%rax
-	cmpq $0,%rax
+	movslq %edi,%rdi
+	movq _text(,%rdi,8),%rdi
+	cmpq $0,%rdi
 	jz L802
 L806:
-	movslq %edi,%rax
-	movq _text(,%rax,8),%rax
-	movzbq (%rax),%rax
+	movzbq (%rdi),%rax
 	movzbl ___ctype+1(%rax),%eax
 	andl $7,%eax
 	cmpl $0,%eax
 	jz L810
 L809:
-	movslq %edi,%rdi
-	movq _text(,%rdi,8),%rdi
 	call _fputs
 	jmp L802
 L810:
-	movslq %edi,%rdi
-	movq _text(,%rdi,8),%rdi
 	pushq %rdi
 	pushq $L812
 	pushq %rsi
@@ -1594,11 +1481,11 @@ L870:
 	movq %rsp,%rbp
 L871:
 	movl 16(%rbp),%esi
-	andl $131072,%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	andl $131072,%edi
+	cmpl $0,%edi
 	jnz L873
 L876:
-	movl 16(%rbp),%esi
 	cmpl $262145,%esi
 	jnz L875
 L880:

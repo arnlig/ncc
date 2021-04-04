@@ -71,7 +71,7 @@ L10:
 	call _operand_reg
 	pushq %r12
 	pushq %rax
-	pushq $1611137025
+	pushq $1611268097
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -95,7 +95,8 @@ L39:
 	movq %rdi,%rbx
 L19:
 	movq 32(%rbx),%rsi
-	movq (%rsi),%rsi
+	movq (%rsi),%rdi
+	movq %rdi,%rsi
 	andq $131071,%rsi
 	andq $65536,%rsi
 	cmpq $0,%rsi
@@ -106,8 +107,7 @@ L23:
 	cmpl $0,%esi
 	jz L26
 L28:
-	movq 32(%rbx),%rsi
-	movq (%rsi),%rsi
+	movq %rdi,%rsi
 	andq $262144,%rsi
 	cmpq $0,%rsi
 	jnz L26
@@ -116,9 +116,6 @@ L25:
 	cmpl $2147483649,%esi
 	jz L33
 L32:
-	movl 56(%rbx),%esi
-	movq 32(%rbx),%rdi
-	movq (%rdi),%rdi
 	call _operand_reg
 	movq %rax,%r12
 	movq %rbx,%rdi
@@ -129,7 +126,7 @@ L32:
 	call _operand_reg
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -153,7 +150,7 @@ L33:
 	call _operand_reg
 	pushq %r12
 	pushq %rax
-	pushq $1644691458
+	pushq $1644822530
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -228,7 +225,7 @@ L51:
 	call _operand_sym
 	pushq %rbx
 	pushq %rax
-	pushq $1644691458
+	pushq $1644822530
 	call _insn_new
 	addq $24,%rsp
 	movq 8(%r13),%rsi
@@ -316,14 +313,14 @@ L73:
 	movq 32(%rsi),%r12
 	movq %r12,%rdi
 	call _symbol_storage
-	movl 12(%r12),%esi
+	movl 12(%r12),%edi
+	movl %edi,%esi
 	andl $256,%esi
 	cmpl $0,%esi
 	jz L77
 L75:
-	movl 12(%r12),%esi
-	andl $-257,%esi
-	movl %esi,12(%r12)
+	andl $-257,%edi
+	movl %edi,12(%r12)
 	movl 12(%r12),%esi
 	orl $64,%esi
 	movl %esi,12(%r12)
@@ -338,7 +335,7 @@ L77:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611137025
+	pushq $1611268097
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -441,7 +438,7 @@ L94:
 	pushq %rbx
 	pushq %r12
 	pushq %rax
-	pushq $1879048214
+	pushq $1879179286
 	call _insn_new
 	addq $32,%rsp
 	movq _current_block(%rip),%rsi
@@ -461,7 +458,7 @@ L94:
 	pushq %rbx
 	pushq %r12
 	pushq %rax
-	pushq $1879048213
+	pushq $1879179285
 	call _insn_new
 	addq $32,%rsp
 	movq _current_block(%rip),%rsi
@@ -486,55 +483,47 @@ L101:
 	pushq %r14
 L123:
 	movl %esi,%r12d
-	movq %rdi,%r14
+	movq %rdi,%rbx
 L102:
-	movl $0,%ebx
-	movq 24(%r14),%rdi
+	movl $0,%r14d
+	movq 24(%rbx),%rdi
 	movl $0,%esi
 	call _gen
-	movq %rax,24(%r14)
-	movq 8(%r14),%rsi
+	movq %rax,24(%rbx)
+	leaq 8(%rbx),%rdi
+	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $65536,%rsi
 	cmpq $0,%rsi
 	jnz L106
 L104:
-	leaq 8(%r14),%rdi
 	call _symbol_temp
 	movq %rax,%r13
-	movq %r13,%rbx
-	movq 24(%r14),%rsi
+	movq %r13,%r14
+	movq 24(%rbx),%rsi
 	movq %r13,%rdi
 	call _gen_load
-	movq 24(%r14),%rsi
+	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $32768,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rdi
+	andq $131071,%rdi
+	andq $32768,%rdi
+	cmpq $0,%rdi
 	jz L106
 L110:
-	movq 24(%r14),%rsi
-	movq 8(%rsi),%rsi
 	movq 16(%rsi),%rsi
 	movq (%rsi),%rsi
-	movl $2147483648,%edi
-	andq %rdi,%rsi
-	cmpq $0,%rsi
+	movl $2147483648,%eax
+	movq %rsi,%rdi
+	andq %rax,%rdi
+	cmpq $0,%rdi
 	jz L106
 L107:
-	movq 24(%r14),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
-	movq (%rsi),%rdx
-	movq $270582939648,%rsi
-	andq %rsi,%rdx
+	movq $270582939648,%rdi
+	movq %rsi,%rdx
+	andq %rdi,%rdx
 	sarq $32,%rdx
-	movq 24(%r14),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
-	movq (%rsi),%rsi
 	movq $34909494181888,%rdi
 	andq %rdi,%rsi
 	sarq $38,%rsi
@@ -544,13 +533,13 @@ L106:
 	cmpl $1,%r12d
 	jz L116
 L114:
-	movq %r14,%rdi
+	movq %rbx,%rdi
 	call _tree_free
 L116:
-	cmpq $0,%rbx
+	cmpq $0,%r14
 	jz L118
 L117:
-	movq %rbx,%rdi
+	movq %r14,%rdi
 	call _tree_sym
 	jmp L103
 L118:
@@ -574,15 +563,16 @@ L127:
 	pushq %r14
 	pushq %r15
 L132:
-	movl %edx,%r12d
-	movq %rdi,%r15
-	movl %ecx,%ebx
+	movl %edx,%ebx
+	movq %rdi,%r10
+	movq %r10,-24(%rbp)	 # spill
+	movl %ecx,%r12d
 	movq %rsi,%r10
 	movq %r10,-8(%rbp)	 # spill
 L128:
 	movq -8(%rbp),%r10	 # spill
-	leaq 8(%r10),%rsi
-	movq %rsi,%rdi
+	leaq 8(%r10),%r13
+	movq %r13,%rdi
 	movl $0,%esi
 	call _type_sizeof
 	movq %rax,%rsi
@@ -593,30 +583,25 @@ L128:
 	movq $-1,%rsi
 	movq %rdi,%rcx
 	shrq %cl,%rsi
-	movq %rsi,%r14
-	movslq %r12d,%rsi
+	movq %rsi,%r15
+	movslq %ebx,%rsi
 	movl $64,%edi
 	subq %rsi,%rdi
 	movq $-1,%rsi
 	movq %rdi,%rcx
 	shrq %cl,%rsi
-	movq %rsi,%r13
-	movslq %ebx,%rsi
+	movq %rsi,%r14
+	movslq %r12d,%rsi
 	movq %rsi,%rcx
-	shlq %cl,%r13
-	movq -8(%rbp),%r10	 # spill
-	leaq 8(%r10),%rsi
-	movq %rsi,%rdi
+	shlq %cl,%r14
+	movq %r13,%rdi
 	call _symbol_temp
 	movq %rax,%r10
 	movq %r10,-16(%rbp)	 # spill
-	movq -8(%rbp),%r10	 # spill
-	leaq 8(%r10),%rsi
-	movq %rsi,%rdi
+	movq %r13,%rdi
 	call _symbol_temp
-	movq %rax,%r10
-	movq %r10,-24(%rbp)	 # spill
-	movslq %ebx,%rsi
+	movq %rax,%r13
+	movslq %r12d,%rsi
 	movl $64,%edi
 	movl $0,%edx
 	call _operand_i
@@ -625,14 +610,13 @@ L128:
 	movq %r10,%rdi
 	call _operand_leaf
 	movq %rax,%r12
-	movq -24(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq %r13,%rdi
 	call _operand_sym
 	movq %rax,%rsi
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1879048214
+	pushq $1879179286
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -644,35 +628,34 @@ L128:
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	movq %rsi,%rdi
-	movq %r13,%rsi
+	movq %r14,%rsi
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%rbx
-	movq -24(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq %r13,%rdi
 	call _operand_sym
 	movq %rax,%r12
-	movq -24(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq %r13,%rdi
 	call _operand_sym
 	movq %rax,%rsi
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880096793
+	pushq $1880227865
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
 	leaq 8(%rdi),%rdi
 	call _insn_append
-	movq %r13,%rsi
+	movq %r14,%rsi
 	notq %rsi
-	andq %r14,%rsi
+	andq %r15,%rsi
 	movq %rsi,%rbx
 	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdi
-	movq %r15,%rsi
+	movq -24(%rbp),%r10	 # spill
+	movq %r10,%rsi
 	call _gen_load
 	movq -8(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
@@ -694,15 +677,14 @@ L128:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880096793
+	pushq $1880227865
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
 	leaq 8(%rdi),%rdi
 	call _insn_append
-	movq -24(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq %r13,%rdi
 	call _operand_sym
 	movq %rax,%rbx
 	movq -16(%rbp),%r10	 # spill
@@ -716,7 +698,7 @@ L128:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880096792
+	pushq $1880227864
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -756,54 +738,40 @@ L137:
 	call _gen
 	movq %rax,32(%rbx)
 	movq 24(%rbx),%rsi
-	movl (%rsi),%esi
-	cmpl $1073741829,%esi
+	movl (%rsi),%edi
+	cmpl $1073741829,%edi
 	jnz L140
 L139:
-	movq 24(%rbx),%rsi
 	movq 24(%rsi),%rdi
 	movl $0,%esi
 	call _gen
 	movq 24(%rbx),%rsi
 	movq %rax,24(%rsi)
 	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $32768,%rsi
-	cmpq $0,%rsi
+	movq 24(%rsi),%rdi
+	movq 8(%rdi),%rsi
+	movq (%rsi),%rax
+	andq $131071,%rax
+	andq $32768,%rax
+	cmpq $0,%rax
 	jz L144
 L145:
-	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
 	movq 16(%rsi),%rsi
-	movq (%rsi),%rsi
-	movl $2147483648,%edi
-	andq %rdi,%rsi
+	movq (%rsi),%rdx
+	movl $2147483648,%eax
+	movq %rdx,%rsi
+	andq %rax,%rsi
 	cmpq $0,%rsi
 	jz L144
 L142:
-	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
-	movq (%rsi),%rcx
 	movq $270582939648,%rsi
+	movq %rdx,%rcx
 	andq %rsi,%rcx
 	sarq $32,%rcx
-	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
-	movq (%rsi),%rdx
 	movq $34909494181888,%rsi
 	andq %rsi,%rdx
 	sarq $38,%rdx
 	movq 32(%rbx),%rsi
-	movq 24(%rbx),%rdi
-	movq 24(%rdi),%rdi
 	call _insert
 	movq %rax,32(%rbx)
 L144:
@@ -814,15 +782,12 @@ L144:
 	movq 24(%rbx),%rsi
 	movq 24(%rsi),%rsi
 	movq 8(%rsi),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $32768,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rdi
+	andq $131071,%rdi
+	andq $32768,%rdi
+	cmpq $0,%rdi
 	jz L141
 L152:
-	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
 	movq 16(%rsi),%rsi
 	movq (%rsi),%rsi
 	movl $2147483648,%edi
@@ -841,7 +806,7 @@ L149:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -852,15 +817,11 @@ L149:
 	movq 24(%rsi),%rsi
 	movq 8(%rsi),%rsi
 	movq 16(%rsi),%rsi
-	movq (%rsi),%rdx
-	movq $270582939648,%rsi
-	andq %rsi,%rdx
-	sarq $32,%rdx
-	movq 24(%rbx),%rsi
-	movq 24(%rsi),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
 	movq (%rsi),%rsi
+	movq $270582939648,%rdi
+	movq %rsi,%rdx
+	andq %rdi,%rdx
+	sarq $32,%rdx
 	movq $34909494181888,%rdi
 	andq %rdi,%rsi
 	sarq $38,%rsi
@@ -880,7 +841,7 @@ L140:
 	call _operand_leaf
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -916,6 +877,7 @@ L163:
 	movl $0,%esi
 	call _gen
 	movq %rax,24(%r13)
+	leaq 8(%r13),%rdi
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
@@ -928,7 +890,6 @@ L165:
 	call _tree_v
 	jmp L164
 L166:
-	leaq 8(%r13),%rdi
 	call _symbol_temp
 	movq %rax,%rbx
 	movq 24(%r13),%rdi
@@ -938,7 +899,7 @@ L166:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1610612748
+	pushq $1610743820
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -971,10 +932,10 @@ L176:
 	cmpl $1082130439,%esi
 	jnz L179
 L178:
-	movl $1610612749,%r13d
+	movl $1610743821,%r13d
 	jmp L180
 L179:
-	movl $1610612750,%r13d
+	movl $1610743822,%r13d
 L180:
 	movq 24(%r14),%rdi
 	movl $0,%esi
@@ -1012,16 +973,16 @@ L185:
 .data
 .align 4
 _bin:
-	.int 1880096791
-	.int 1879048211
-	.int 1880096786
-	.int 1880096784
-	.int 1879048209
-	.int 1879048213
-	.int 1879048214
-	.int 1880096793
-	.int 1880096792
-	.int 1879048212
+	.int 1880227863
+	.int 1879179283
+	.int 1880227858
+	.int 1880227856
+	.int 1879179281
+	.int 1879179285
+	.int 1879179286
+	.int 1880227865
+	.int 1880227864
+	.int 1879179284
 .text
 _gen_binary:
 L188:
@@ -1110,11 +1071,10 @@ L198:
 	call _gen
 	movq %rax,32(%r12)
 	movq 24(%r12),%rsi
-	movl (%rsi),%esi
-	cmpl $2147483650,%esi
+	movl (%rsi),%edi
+	cmpl $2147483650,%edi
 	jnz L201
 L200:
-	movq 24(%r12),%rsi
 	movq %rsi,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
@@ -1123,7 +1083,7 @@ L200:
 	call _operand_leaf
 	pushq %rbx
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq %rax,%rsi
@@ -1161,7 +1121,6 @@ L200:
 	movq %rax,%rbx
 	jmp L202
 L201:
-	movq 24(%r12),%rsi
 	movq %rsi,%rdi
 	movl $1,%esi
 	call _gen_fetch
@@ -1174,7 +1133,7 @@ L201:
 	call _operand_leaf
 	pushq %rbx
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq %rax,%rsi
@@ -1413,7 +1372,7 @@ L258:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	leaq 8(%r14),%rdi
@@ -1429,7 +1388,7 @@ L258:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	leaq 8(%r13),%rdi
@@ -1508,6 +1467,7 @@ L269:
 L286:
 	movq %rdi,%r15
 L270:
+	leaq 8(%r15),%rdi
 	movq 8(%r15),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
@@ -1518,7 +1478,6 @@ L272:
 	movl $0,%r14d
 	jmp L274
 L273:
-	leaq 8(%r15),%rdi
 	call _symbol_temp
 	movq %rax,%r14
 L274:
@@ -1554,7 +1513,7 @@ L275:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -1584,7 +1543,7 @@ L278:
 	call _operand_sym
 	pushq %rbx
 	pushq %rax
-	pushq $1611137035
+	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -1653,8 +1612,8 @@ L299:
 L352:
 	movq %rdi,%r13
 L305:
-	movq $0,-24(%rbp)
 	leaq -24(%rbp),%rsi
+	movq $0,-24(%rbp)
 	movq %rsi,-16(%rbp)
 	movl $2,-8(%rbp)
 	movq 24(%r13),%rsi
@@ -1665,23 +1624,18 @@ L305:
 	movq %rsi,24(%r13)
 	movq 24(%r13),%rsi
 	movq 8(%rsi),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $32768,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rdi
+	andq $131071,%rdi
+	andq $32768,%rdi
+	cmpq $0,%rdi
 	jz L309
 L315:
-	movq 24(%r13),%rsi
-	movq 8(%rsi),%rsi
 	movq 16(%rsi),%rsi
-	movq (%rsi),%rsi
-	andq $16384,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rdi
+	andq $16384,%rdi
+	cmpq $0,%rdi
 	jz L309
 L311:
-	movq 24(%r13),%rsi
-	movq 8(%rsi),%rsi
-	movq 16(%rsi),%rsi
 	movq (%rsi),%rsi
 	movq $-9223372036854775808,%rdi
 	andq %rdi,%rsi
@@ -1694,11 +1648,12 @@ L309:
 	movl $539230215,%esi
 L310:
 	movl %esi,%r15d
-	movq 8(%r13),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $1,%rsi
-	cmpq $0,%rsi
+	leaq 8(%r13),%rsi
+	movq 8(%r13),%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	andq $1,%rdi
+	cmpq $0,%rdi
 	jz L320
 L319:
 	call _tree_v
@@ -1707,7 +1662,6 @@ L319:
 	movq %r10,-32(%rbp)	 # spill
 	jmp L321
 L320:
-	leaq 8(%r13),%rsi
 	movq %rsi,%rdi
 	call _symbol_temp
 	movq %rax,%rsi
@@ -1733,37 +1687,34 @@ L322:
 	movq %rsi,%rdi
 	call _tree_addrof
 	movq %rax,%rsi
-	movq 32(%r13),%rdi
-	movq %rdi,48(%rsi)
-	cmpq $0,%rdi
+	movq 32(%r13),%rax
+	leaq 48(%rsi),%rdi
+	movq %rax,48(%rsi)
+	cmpq $0,%rax
 	jz L329
 L328:
-	leaq 48(%rsi),%rdi
 	movq 32(%r13),%rax
 	movq %rdi,56(%rax)
 	jmp L330
 L329:
-	leaq 48(%rsi),%rdi
 	movq %rdi,40(%r13)
 L330:
-	movq %rsi,32(%r13)
 	leaq 32(%r13),%rdi
+	movq %rsi,32(%r13)
 	movq %rdi,56(%rsi)
 L331:
 	movq 40(%r13),%rsi
 	movq 8(%rsi),%rsi
-	movq (%rsi),%rsi
-	movq %rsi,%rbx
-	cmpq $0,%rsi
+	movq (%rsi),%rbx
+	cmpq $0,%rbx
 	jz L333
 L334:
 	movq 48(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L338
 L337:
-	movq 56(%rbx),%rsi
-	movq 48(%rbx),%rdi
-	movq %rsi,56(%rdi)
+	movq 56(%rbx),%rdi
+	movq %rdi,56(%rsi)
 	jmp L339
 L338:
 	movq 56(%rbx),%rsi
@@ -1772,14 +1723,14 @@ L339:
 	movq 48(%rbx),%rsi
 	movq 56(%rbx),%rdi
 	movq %rsi,(%rdi)
-	movq 8(%rbx),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $65536,%rsi
-	cmpq $0,%rsi
+	leaq 8(%rbx),%rsi
+	movq 8(%rbx),%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	andq $65536,%rdi
+	cmpq $0,%rdi
 	jz L341
 L340:
-	leaq 8(%rbx),%rsi
 	movq %rsi,%rdi
 	movl $0,%esi
 	call _type_sizeof
@@ -1790,8 +1741,8 @@ L340:
 	movq %rsi,%rdi
 	movl $0,%esi
 	call _gen
-	movq %rax,%r12
-	movq %r12,%rbx
+	movq %rax,%rbx
+	movq %rbx,%r12
 	movq _target(%rip),%rsi
 	movq 16(%rsi),%rsi
 	movq %rsi,%rdi
@@ -1799,7 +1750,7 @@ L340:
 	movl $0,%edx
 	call _operand_i
 	movq %rax,%r14
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _operand_leaf
 	movq %rax,%rsi
 	pushq %r14
@@ -1816,7 +1767,7 @@ L341:
 	movl $0,%esi
 	call _gen
 	movq %rax,%rsi
-	movq %rsi,%rbx
+	movq %rsi,%r12
 	movq %rsi,%rdi
 	call _operand_leaf
 	movq %rax,%rsi
@@ -1828,22 +1779,20 @@ L341:
 	leaq -24(%rbp),%rdi
 	call _insn_prepend
 L342:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_free
 	jmp L331
 L333:
 	movq 8(%r13),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
+	movq (%rsi),%rdi
+	andq $131071,%rdi
+	movq %rdi,%rsi
 	andq $1,%rsi
 	cmpq $0,%rsi
 	jnz L343
 L346:
-	movq 8(%r13),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $65536,%rsi
-	cmpq $0,%rsi
+	andq $65536,%rdi
+	cmpq $0,%rdi
 	jz L344
 L343:
 	movq 24(%r13),%rsi

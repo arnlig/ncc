@@ -124,8 +124,8 @@ L35:
 	movq %rax,%r10
 	movq %r10,-16(%rbp)	 # spill
 	movl $0,%ebx
-	movl $0,%r12d
-	movl $0,%r15d
+	movq %rbx,%r12
+	movq %rbx,%r15
 	call _block_new
 	movq %rax,_continue_block(%rip)
 	call _block_new
@@ -512,17 +512,15 @@ L118:
 	addq $16,%rsp
 L120:
 	movq 8(%rbx),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
+	movq (%rsi),%rdi
+	andq $131071,%rdi
+	movq %rdi,%rsi
 	andq $14,%rsi
 	cmpq $0,%rsi
 	jnz L122
 L125:
-	movq 8(%rbx),%rsi
-	movq (%rsi),%rsi
-	andq $131071,%rsi
-	andq $48,%rsi
-	cmpq $0,%rsi
+	andq $48,%rdi
+	cmpq $0,%rdi
 	jz L124
 L122:
 	movq %rbx,%rdi
@@ -613,14 +611,14 @@ L149:
 L150:
 	call _lex
 	movq _switch_block(%rip),%rsi
-	movq 320(%rsi),%rsi
+	movq 336(%rsi),%rsi
 	movq 8(%rsi),%rdi
 	movl $1,%esi
 	call _int_expression
-	movq %rax,-8(%rbp)
 	leaq -8(%rbp),%rsi
+	movq %rax,-8(%rbp)
 	movq _switch_block(%rip),%rdi
-	movq 320(%rdi),%rdi
+	movq 336(%rdi),%rdi
 	movq 8(%rdi),%rdi
 	call _con_normalize
 	movl $486539286,%edi
@@ -699,6 +697,7 @@ L176:
 	movq %rsp,%rbp
 	subq $32,%rsp
 	pushq %rbx
+	pushq %r12
 L179:
 	movl _token(%rip),%esi
 L216:
@@ -718,9 +717,10 @@ L241:
 	jnz L181
 L186:
 	leaq -16(%rbp),%rbx
-	leaq -32(%rbp),%rdi
+	leaq -32(%rbp),%r12
+	movq %r12,%rdi
 	call _lex_peek
-	leaq -32(%rbp),%rsi
+	movq %r12,%rsi
 	movq %rbx,%rdi
 	movl $16,%ecx
 	rep
@@ -825,6 +825,7 @@ L205:
 L193:
 	call _goto_statement
 L178:
+	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
