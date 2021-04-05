@@ -38,6 +38,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 typedef __off_t fpos_t;
 
+#ifndef __SIZE_T
+#define __SIZE_T
+typedef __size_t size_t;
+#endif /* __SIZE_T */
+
 /* focus point of all stdio activity */
 
 typedef struct __iobuf
@@ -90,6 +95,8 @@ extern FILE *fopen(const char *, const char *);
 extern int printf(const char *, ...);
 extern int puts(const char *);
 extern int remove(const char *);
+extern void setbuf(FILE *, char *);
+extern int setvbuf(FILE *, char *, int, size_t);
 extern int sprintf(char *, const char *, ...);
 extern int ungetc(int, FILE *);
 extern int vfprintf(FILE *, const char *, __va_list);

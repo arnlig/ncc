@@ -43,10 +43,11 @@ OBJS=		amd64/syscall.o \
 		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
 		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
 		memchr.o memcmp.o memcpy.o memmove.o memset.o modf.o printf.o \
-		puts.o remove.o sprintf.o stdio.o strcat.o strchr.o strcmp.o \
-		strcpy.o strerror.o strftime.o strlen.o strncat.o strncmp.o \
-		strncpy.o strrchr.o strtod.o strtof.o strtol.o tcgetattr.o \
-		tolower.o toupper.o ungetc.o vfprintf.o vsprintf.o wait.o
+		puts.o remove.o setbuf.o setvbuf.o sprintf.o stdio.o strcat.o \
+		strchr.o strcmp.o strcpy.o strerror.o strftime.o strlen.o \
+		strncat.o strncmp.o strncpy.o strrchr.o strtod.o strtof.o \
+		strtol.o tcgetattr.o tolower.o toupper.o ungetc.o vfprintf.o \
+		vsprintf.o wait.o
 
 libc.a:		$(OBJS)
 	rm -f libc.a
@@ -97,6 +98,8 @@ modf.o:			modf.c $(HDRS)
 printf.o:		printf.c $(HDRS)
 puts.o:			puts.c $(HDRS)
 remove.o:		remove.c $(HDRS)
+setbuf.o:		setbuf.c $(HDRS)
+setvbuf.o:		setvbuf.c $(HDRS)
 sprintf.o:		sprintf.c $(HDRS)
 stdio.o:		stdio.c $(HDRS)
 strcat.o:		strcat.c $(HDRS)
