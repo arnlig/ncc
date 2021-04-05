@@ -188,7 +188,7 @@ L69:
 L70:
 	movq 24(%r12),%rdi
 L71:
-	movl $0,%edx
+	xorl %edx,%edx
 	call _strtoul
 	movq %rax,%rbx
 	movq -8(%rbp),%rsi
@@ -510,7 +510,7 @@ L153:
 	movl $1,%eax
 	jmp L138
 L141:
-	movl $0,%eax
+	xorl %eax,%eax
 L138:
 	popq %rbp
 	ret
@@ -674,7 +674,7 @@ L258:
 	movl _classes(,%rsi,4),%r12d
 	jmp L375
 L259:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L375:
 	cmpl $0,%r12d
 	jz L371
@@ -732,7 +732,7 @@ L292:
 	movl $1,%r13d
 	jmp L272
 L293:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 	jmp L272
 L380:
 	cmpl $536870952,%r12d
@@ -993,7 +993,7 @@ L421:
 	call _vstring_same
 	jmp L411
 L414:
-	movl $0,%eax
+	xorl %eax,%eax
 L411:
 	popq %rbp
 	ret
@@ -1543,7 +1543,7 @@ L681:
 	cmpq $0,%r12
 	jz L679
 L678:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L666
 L679:
 	movl $1,%eax
@@ -1590,7 +1590,7 @@ L696:
 	jmp L694
 L697:
 	movq (%rbx),%r12
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L704:
 	cmpq $0,%r12
 	jz L693
@@ -1868,7 +1868,7 @@ L825:
 	movl $1,%eax
 	jmp L817
 L826:
-	movl $0,%eax
+	xorl %eax,%eax
 L817:
 	popq %rbp
 	ret
@@ -1904,7 +1904,7 @@ L848:
 	movl $1,%eax
 	jmp L840
 L849:
-	movl $0,%eax
+	xorl %eax,%eax
 L840:
 	popq %rbp
 	ret

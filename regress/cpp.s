@@ -99,12 +99,12 @@ L85:
 	movq %rdi,%r12
 	movq %rsi,%r14
 L40:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 	movq _input_stack(%rip),%rsi
 	movl 32(%rsi),%r13d
 L44:
 	movq 32(%r14),%rsi
-	movl $0,%edi
+	xorl %edi,%edi
 	movl %edi,%eax
 L47:
 	cmpq $0,%rsi
@@ -121,7 +121,7 @@ L49:
 	cmpq $0,%rsi
 	jnz L56
 L54:
-	movl $0,%edi
+	xorl %edi,%edi
 	movq %r12,%rsi
 	call _input_tokens
 	cmpl $-1,%eax
@@ -143,7 +143,7 @@ L66:
 	cmpq $0,%rsi
 	jnz L71
 L69:
-	movl $0,%edi
+	xorl %edi,%edi
 	movq %r12,%rsi
 	call _input_tokens
 	cmpl $-1,%eax
@@ -198,13 +198,13 @@ L90:
 	rep
 	stosb
 	movq %rsi,-8(%rbp)
-	movl $0,%r13d
+	xorl %r13d,%r13d
 	movq (%rbx),%r12
 	movl (%r12),%esi
 	cmpl $49,%esi
 	jz L94
 L92:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L91
 L94:
 	leaq 8(%r12),%rdi
@@ -217,7 +217,7 @@ L99:
 	cmpl $0,%esi
 	jz L98
 L96:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L91
 L98:
 	movl 24(%rax),%esi
@@ -588,12 +588,12 @@ L266:
 	addq $16,%rsp
 L268:
 	movq (%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _input_open
 	call _loop
 	movq _out_fp(%rip),%rdi
 	call _fclose
-	movl $0,%eax
+	xorl %eax,%eax
 L235:
 	popq %r12
 	popq %rbx

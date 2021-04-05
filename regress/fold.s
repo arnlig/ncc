@@ -16,7 +16,7 @@ L240:
 	movq %rdi,%r10
 	movq %r10,-16(%rbp)	 # spill
 L4:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 	movq -16(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
 	movq %rsi,%rbx
@@ -26,7 +26,7 @@ L6:
 L7:
 	movq %rbx,%rdi
 	call _insn_normalize
-	movl $0,%r12d
+	xorl %r12d,%r12d
 	movq 24(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L12
@@ -575,7 +575,7 @@ L205:
 	cmpl $0,%eax
 	jz L8
 L214:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 L8:
 	movq 40(%rbx),%rsi
 	movq %rsi,%rbx
@@ -589,7 +589,7 @@ L218:
 	movl %r15d,%esi
 	call _block_known_ccs
 L220:
-	movl $0,%eax
+	xorl %eax,%eax
 L5:
 	popq %r15
 	popq %r14

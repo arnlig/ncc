@@ -13,8 +13,8 @@ L42:
 	movq %rdi,%r14
 	movq %rsi,%r12
 L3:
-	movl $0,%ebx
-	movl $0,%esi
+	xorl %ebx,%ebx
+	xorl %esi,%esi
 L5:
 	cmpq %r12,%rsi
 	jae L8
@@ -262,7 +262,7 @@ L45:
 	pushq %r12
 	pushq %r13
 L46:
-	movl $0,%esi
+	xorl %esi,%esi
 L52:
 	movslq %esi,%rdi
 	shlq $4,%rdi
@@ -273,7 +273,7 @@ L52:
 	cmpl $32,%esi
 	jl L52
 L51:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L55:
 	movslq %r12d,%rsi
 	cmpq $33,%rsi
@@ -303,7 +303,7 @@ L63:
 	pushq %rbp
 	movq %rsp,%rbp
 L64:
-	movl $0,%eax
+	xorl %eax,%eax
 L66:
 	movslq %eax,%rcx
 	cmpq $33,%rcx
@@ -341,7 +341,7 @@ L101:
 	movq %rsi,%r14
 	movq %rdi,%r13
 L80:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L82:
 	cmpq %r14,%rbx
 	jae L85
@@ -353,7 +353,7 @@ L86:
 	movzbl 40(%r13,%rbx),%r12d
 	jmp L88
 L87:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L88:
 	movq %rbx,%rsi
 	andq $7,%rsi
@@ -403,7 +403,7 @@ L104:
 	pushq %rbx
 	pushq %r12
 L105:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L108:
 	movslq %r12d,%rsi
 	shlq $4,%rsi

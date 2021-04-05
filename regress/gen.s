@@ -13,8 +13,8 @@ L5:
 	movq %rdx,%r14
 L2:
 	movl $64,%edi
-	movl $0,%esi
-	movl $0,%edx
+	xorl %esi,%esi
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r13
 	movq %rbx,%rdi
@@ -29,7 +29,7 @@ L2:
 	movq %rax,%rsi
 	call _insn_append
 	movq _current_block(%rip),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	movq %r14,%rdx
 	call _block_add_successor
 	movq _current_block(%rip),%rdi
@@ -62,7 +62,7 @@ L10:
 	movl 64(%r12),%esi
 	movslq %esi,%rsi
 	movl $64,%edi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r12
 	movq _target(%rip),%rsi
@@ -303,7 +303,7 @@ L80:
 	movq %rdi,%r13
 L73:
 	movq 24(%r13),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r13)
 	leaq 8(%r13),%rdi
@@ -328,7 +328,7 @@ L77:
 	movl 64(%r12),%esi
 	movslq %esi,%rsi
 	movl $64,%edi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r12
 	movq %rbx,%rdi
@@ -364,11 +364,11 @@ L89:
 	movq %rdi,%r13
 L85:
 	movq 24(%r13),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r13)
 	movq 32(%r13),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%r13)
 	leaq 8(%r13),%rdi
@@ -377,7 +377,7 @@ L85:
 	movq _target(%rip),%rsi
 	movq 16(%rsi),%rdi
 	movq %rax,%rsi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq 32(%r13),%rdi
@@ -418,7 +418,7 @@ L97:
 	movq %rdi,%r14
 L94:
 	leaq 32(%r14),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	leal (,%rax,8),%r13d
 	leal (%r12,%rbx),%esi
@@ -427,7 +427,7 @@ L94:
 	subl %r12d,%r13d
 	movslq %edi,%rsi
 	movl $64,%edi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq %r14,%rdi
@@ -447,7 +447,7 @@ L94:
 	call _insn_append
 	movslq %r13d,%rsi
 	movl $64,%edi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq %r14,%rdi
@@ -485,9 +485,9 @@ L123:
 	movl %esi,%r12d
 	movq %rdi,%rbx
 L102:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 	movq 24(%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%rbx)
 	leaq 8(%rbx),%rdi
@@ -573,7 +573,7 @@ L128:
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%r13
 	movq %r13,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
 	leal (,%rsi,8),%esi
@@ -603,7 +603,7 @@ L128:
 	movq %rax,%r13
 	movslq %r12d,%rsi
 	movl $64,%edi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq -8(%rbp),%r10	 # spill
@@ -629,7 +629,7 @@ L128:
 	andq $131071,%rsi
 	movq %rsi,%rdi
 	movq %r14,%rsi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq %r13,%rdi
@@ -663,7 +663,7 @@ L128:
 	andq $131071,%rsi
 	movq %rsi,%rdi
 	movq %rbx,%rsi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%rbx
 	movq -16(%rbp),%r10	 # spill
@@ -734,7 +734,7 @@ L158:
 	movq %rdi,%rbx
 L137:
 	movq 32(%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%rbx)
 	movq 24(%rbx),%rsi
@@ -743,7 +743,7 @@ L137:
 	jnz L140
 L139:
 	movq 24(%rsi),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq 24(%rbx),%rsi
 	movq %rax,24(%rsi)
@@ -854,7 +854,7 @@ L141:
 	movq %rbx,%rdi
 	call _tree_chop_binary
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 L138:
 	popq %r13
@@ -874,7 +874,7 @@ L171:
 	movq %rdi,%r13
 L163:
 	movq 24(%r13),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r13)
 	leaq 8(%r13),%rdi
@@ -938,7 +938,7 @@ L179:
 	movl $1610743822,%r13d
 L180:
 	movq 24(%r14),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r14)
 	leaq 8(%r14),%rdi
@@ -996,11 +996,11 @@ L193:
 	movq %rdi,%r14
 L189:
 	movq 24(%r14),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r14)
 	movq 32(%r14),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%r14)
 	leaq 8(%r14),%rdi
@@ -1067,7 +1067,7 @@ L198:
 	movq %r10,-8(%rbp)	 # spill
 	movq 32(%r12),%rsi
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%r12)
 	movq 24(%r12),%rsi
@@ -1210,11 +1210,11 @@ L214:
 	call _symbol_temp
 	movq %rax,%r14
 	movq 24(%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%rbx)
 	movq 32(%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%rbx)
 	movq 32(%rbx),%rdi
@@ -1254,7 +1254,7 @@ L222:
 	movl $1,%r12d
 	jmp L218
 L220:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 	jmp L218
 L239:
 	movq 24(%rbx),%rsi
@@ -1364,7 +1364,7 @@ L258:
 	movq %rax,%rbx
 	movl $64,%edi
 	movl $1,%esi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r12
 	movq -16(%rbp),%r10	 # spill
@@ -1379,8 +1379,8 @@ L258:
 	movq %rax,%rsi
 	call _insn_append
 	movl $64,%edi
-	movl $0,%esi
-	movl $0,%edx
+	xorl %esi,%esi
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r12
 	movq -16(%rbp),%r10	 # spill
@@ -1404,7 +1404,7 @@ L258:
 	call _block_add_successor
 	movq -8(%rbp),%r10	 # spill
 	movq 24(%r10),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq -8(%rbp),%r10	 # spill
 	movq %rax,24(%r10)
@@ -1429,7 +1429,7 @@ L262:
 	movq %r15,_current_block(%rip)
 	movq -8(%rbp),%r10	 # spill
 	movq 32(%r10),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq -8(%rbp),%r10	 # spill
 	movq %rax,32(%r10)
@@ -1475,7 +1475,7 @@ L270:
 	cmpq $0,%rsi
 	jz L273
 L272:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 	jmp L274
 L273:
 	call _symbol_temp
@@ -1488,7 +1488,7 @@ L274:
 	call _block_new
 	movq %rax,%r13
 	movq 24(%r15),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r15)
 	movq 24(%r15),%rdi
@@ -1498,7 +1498,7 @@ L274:
 	movq %r12,_current_block(%rip)
 	movq 32(%r15),%rsi
 	movq 24(%rsi),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq 32(%r15),%rsi
 	movq %rax,24(%rsi)
@@ -1528,7 +1528,7 @@ L277:
 	movq %rbx,_current_block(%rip)
 	movq 32(%r15),%rsi
 	movq 32(%rsi),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq 32(%r15),%rsi
 	movq %rax,32(%rsi)
@@ -1584,7 +1584,7 @@ L295:
 	movq %rdi,%rbx
 L291:
 	movq 24(%rbx),%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%rbx)
 	movq %rbx,%rdi
@@ -1592,7 +1592,7 @@ L291:
 	movq %rbx,%rdi
 	call _tree_chop_binary
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 L292:
 	popq %rbx
@@ -1618,7 +1618,7 @@ L305:
 	movl $2,-8(%rbp)
 	movq 24(%r13),%rsi
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,%rsi
 	movq %rsi,24(%r13)
@@ -1732,14 +1732,14 @@ L339:
 	jz L341
 L340:
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%r14
 	movq %rbx,%rdi
 	call _tree_addrof
 	movq %rax,%rsi
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,%rbx
 	movq %rbx,%r12
@@ -1747,7 +1747,7 @@ L340:
 	movq 16(%rsi),%rsi
 	movq %rsi,%rdi
 	movq %r14,%rsi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r14
 	movq %rbx,%rdi
@@ -1764,7 +1764,7 @@ L340:
 	jmp L342
 L341:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen
 	movq %rax,%rsi
 	movq %rsi,%r12
@@ -1878,7 +1878,7 @@ L358:
 	jz L360
 L361:
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_debug
 L360:
 	movl (%rbx),%esi
@@ -1918,7 +1918,7 @@ L499:
 	jnz L366
 L374:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _gen_fetch
 	movq %rax,%rbx
 	jmp L366
@@ -2106,7 +2106,7 @@ L366:
 L424:
 	movq %rbx,%rdi
 	call _tree_free
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L357
 L425:
 	movq %rbx,%rax

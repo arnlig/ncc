@@ -123,7 +123,7 @@ L35:
 	call _block_new
 	movq %rax,%r10
 	movq %r10,-16(%rbp)	 # spill
-	movl $0,%ebx
+	xorl %ebx,%ebx
 	movq %rbx,%r12
 	movq %rbx,%r15
 	call _block_new
@@ -335,7 +335,7 @@ L79:
 	pushq %r12
 	pushq %r13
 L80:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 	call _lex
 	movl _token(%rip),%esi
 	cmpl $524311,%esi
@@ -368,7 +368,7 @@ L84:
 	jz L90
 L89:
 	movq $_func_ret_type,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%r12
 	movq %r13,%rdi
@@ -381,7 +381,7 @@ L89:
 	movq _target(%rip),%rsi
 	movq 16(%rsi),%rdi
 	movq %r12,%rsi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _operand_i
 	movq %rax,%r12
 	movq %rbx,%rdi
@@ -416,7 +416,7 @@ L95:
 	call _operand_leaf
 	jmp L97
 L96:
-	movl $0,%eax
+	xorl %eax,%eax
 L97:
 	pushq %rax
 	pushq $538968074

@@ -43,7 +43,7 @@ L48:
 	ja L8
 L15:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _unary
@@ -54,14 +54,14 @@ L15:
 	jmp L5
 L13:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _unary
 	jmp L5
 L17:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _unary
@@ -72,7 +72,7 @@ L17:
 	jmp L5
 L21:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _expression
@@ -95,7 +95,7 @@ L24:
 	jmp L5
 L19:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _unary
@@ -179,7 +179,7 @@ L66:
 	leaq -24(%rbp),%rsi
 	movq %r12,%rdi
 	call _list_pop
-	movl $0,%edi
+	xorl %edi,%edi
 	call _token_int
 	movq %rax,%rbx
 	movq -8(%rbp),%rsi
@@ -225,7 +225,7 @@ L152:
 	movl $1,%esi
 	jmp L154
 L153:
-	movl $0,%esi
+	xorl %esi,%esi
 L154:
 	movslq %esi,%rsi
 	movq %rsi,8(%rbx)
@@ -256,7 +256,7 @@ L146:
 	movl $1,%esi
 	jmp L148
 L147:
-	movl $0,%esi
+	xorl %esi,%esi
 L148:
 	movslq %esi,%rsi
 	movq %rsi,8(%rbx)
@@ -618,7 +618,7 @@ L208:
 	movq %r12,%rsi
 	call _list_pop
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _expression
@@ -638,7 +638,7 @@ L211:
 	addq $8,%rsp
 L213:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
 	call _ternary
@@ -724,10 +724,10 @@ L242:
 	jz L240
 L245:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 	jmp L242
 L240:
@@ -759,7 +759,7 @@ L260:
 	call _list_drop
 	movq %rax,%r13
 	movq %r13,%r12
-	movl $0,%edi
+	xorl %edi,%edi
 	call _token_int
 	movq %rbx,%rdi
 	movq %r13,%rsi
@@ -824,7 +824,7 @@ L285:
 	movl $1,%r14d
 	jmp L287
 L286:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 L287:
 	cmpq $0,%r12
 	jz L292
@@ -855,7 +855,7 @@ L300:
 	call _list_insert
 	jmp L302
 L301:
-	movl $0,%edi
+	xorl %edi,%edi
 	call _token_int
 	movq %rbx,%rdi
 	movq %r12,%rsi

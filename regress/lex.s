@@ -158,7 +158,7 @@ L69:
 	cmpl $0,%ebx
 	jz L76
 L75:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 	jmp L58
 L76:
 	cmpl $92,%r12d
@@ -338,7 +338,7 @@ L146:
 	pushq %rbx
 	pushq %r12
 L147:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 	movl %r12d,%ebx
 L149:
 	movq _pos(%rip),%rsi
@@ -389,7 +389,7 @@ L151:
 	movl $0,_errno(%rip)
 	leaq -8(%rbp),%rsi
 	movq _begin(%rip),%rdi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _strtoul
 	movq %rax,_token+8(%rip)
 	movq -8(%rbp),%rsi
@@ -826,7 +826,7 @@ L606:
 	cmpq %rdi,%rsi
 	jnz L279
 L607:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L264
 L282:
 	leaq 1(%rdi),%rsi
@@ -1497,7 +1497,7 @@ L873:
 	movl $1,%eax
 	jmp L872
 L875:
-	movl $0,%eax
+	xorl %eax,%eax
 L872:
 	popq %rbp
 	ret

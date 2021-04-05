@@ -273,7 +273,7 @@ L117:
 	cmpq $0,%rsi
 	jnz L115
 L114:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 	movq -16(%rbp),%r10	 # spill
 	movq 32(%r10),%rsi
 	movq (%rsi),%rdi
@@ -283,7 +283,7 @@ L114:
 	jmp L116
 L115:
 	movq %r15,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
 	leaq (,%rsi,8),%rsi
@@ -298,7 +298,7 @@ L116:
 	cmpl $0,%esi
 	jz L122
 L121:
-	movl $0,%edi
+	xorl %edi,%edi
 	jmp L123
 L122:
 	movq 32(%r14),%rsi
@@ -623,7 +623,7 @@ L238:
 	pushq %rbp
 	movq %rsp,%rbp
 L239:
-	movl $0,%esi
+	xorl %esi,%esi
 L245:
 	movslq %esi,%rdi
 	shlq $4,%rdi
@@ -634,7 +634,7 @@ L245:
 	cmpl $32,%esi
 	jle L245
 L244:
-	movl $0,%edi
+	xorl %edi,%edi
 L252:
 	movslq %edi,%rsi
 	movq $0,_reg_buckets(,%rsi,8)
@@ -715,7 +715,7 @@ L278:
 	movq %r8,%rax
 	jmp L276
 L279:
-	movl $0,%eax
+	xorl %eax,%eax
 L272:
 	popq %rbp
 	ret
@@ -739,7 +739,7 @@ L310:
 	cmpl $0,%esi
 	jnz L306
 L309:
-	movl $0,%eax
+	xorl %eax,%eax
 L306:
 	popq %rbp
 	ret
@@ -751,7 +751,7 @@ L320:
 	pushq %rbx
 	pushq %r12
 L323:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L327:
 	movslq %ebx,%rsi
 	shlq $4,%rsi
@@ -805,14 +805,14 @@ L351:
 	cmpl $0,%esi
 	jz L356
 L353:
-	movl $0,%edi
+	xorl %edi,%edi
 	call _scope_debug
 	movl $1,%edi
 	call _scope_debug
 	movl $2,%edi
 	call _scope_debug
 L356:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 L360:
 	movslq %r13d,%rsi
 	shlq $4,%rsi
@@ -1097,7 +1097,7 @@ L468:
 L476:
 	movl %edi,%ebx
 L469:
-	movl $0,%edi
+	xorl %edi,%edi
 	movl $16,%esi
 	call _symbol_new
 	movq %rax,%r12
@@ -1125,7 +1125,7 @@ L479:
 L484:
 	movq %rdi,%r12
 L480:
-	movl $0,%edi
+	xorl %edi,%edi
 	movl $256,%esi
 	call _symbol_new
 	movq %rax,%rbx
@@ -1155,7 +1155,7 @@ L487:
 L492:
 	movq %rdi,%r12
 L488:
-	movl $0,%edi
+	xorl %edi,%edi
 	movl $128,%esi
 	call _symbol_new
 	movq %rax,%rbx
@@ -1356,7 +1356,7 @@ L573:
 L602:
 	movl %edi,%r12d
 L576:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 L580:
 	movslq %r14d,%rsi
 	shlq $4,%rsi
@@ -1382,7 +1382,7 @@ L593:
 L598:
 	movq $0,48(%rbx)
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _symbol_insert
 	jmp L585
 L596:
@@ -1415,7 +1415,7 @@ L629:
 	movl %esi,%r12d
 	movl %edi,%ebx
 L609:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 L613:
 	movslq %r14d,%rsi
 	shlq $4,%rsi
@@ -1530,7 +1530,7 @@ L656:
 	call _output
 	addq $16,%rsp
 L658:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L660:
 	movslq %r12d,%rsi
 	cmpq $18,%rsi
@@ -1688,7 +1688,7 @@ L708:
 	call _output
 	addq $8,%rsp
 L724:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 L728:
 	movslq %r13d,%rsi
 	shlq $4,%rsi
@@ -1732,7 +1732,7 @@ L756:
 	pushq %rbx
 	pushq %r12
 L759:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L763:
 	movslq %r12d,%rsi
 	shlq $4,%rsi
@@ -1791,7 +1791,7 @@ L785:
 L811:
 	movq %rdi,%r13
 L788:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L792:
 	movslq %ebx,%rsi
 	shlq $4,%rsi

@@ -553,7 +553,7 @@ L234:
 	movzbl %sil,%eax
 	jmp L225
 L227:
-	movl $0,%eax
+	xorl %eax,%eax
 L225:
 	popq %rbp
 	ret
@@ -590,7 +590,7 @@ L255:
 	movzbl %sil,%eax
 	jmp L246
 L248:
-	movl $0,%eax
+	xorl %eax,%eax
 L246:
 	popq %rbp
 	ret
@@ -784,7 +784,7 @@ L358:
 	movq %rbx,%rdi
 	call _tree_free
 	movl $64,%edi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_i
 	jmp L268
 L356:
@@ -1893,7 +1893,7 @@ L860:
 	pushq $L855
 	call _output
 	addq $16,%rsp
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L861:
 	cmpl %ebx,%r12d
 	jge L864

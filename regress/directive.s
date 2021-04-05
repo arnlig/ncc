@@ -27,7 +27,7 @@ L4:
 	cmpl $49,%esi
 	jnz L8
 L6:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L9:
 	movslq %ebx,%rsi
 	cmpq $12,%rsi
@@ -137,7 +137,7 @@ L59:
 	movl $1,%edi
 	jmp L61
 L60:
-	movl $0,%edi
+	xorl %edi,%edi
 L61:
 	cmpl $6,%ebx
 	jnz L63
@@ -171,7 +171,7 @@ L76:
 	cmpl $0,%esi
 	jnz L73
 L74:
-	movl $0,%edi
+	xorl %edi,%edi
 	call _state_push
 	jmp L72
 L73:
@@ -428,7 +428,7 @@ L185:
 	jnz L183
 L182:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_pop
 L189:
 	movq (%rbx),%rsi
@@ -454,7 +454,7 @@ L190:
 L191:
 	movq %rbx,%rdi
 	movl $536871944,%esi
-	movl $0,%edx
+	xorl %edx,%edx
 	call _list_match
 	movl $1,%r12d
 	jmp L177
@@ -673,7 +673,7 @@ L294:
 	jnz L210
 L291:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _list_cut
 L210:
 	popq %r13

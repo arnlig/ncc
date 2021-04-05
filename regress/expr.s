@@ -527,7 +527,7 @@ L211:
 	movq %r12,%rdi
 	call _type_copy
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 	movq %rax,%rdi
 	call _tree_rvalue
@@ -668,7 +668,7 @@ L223:
 	imulq $12,%rax
 	movl _map+4(%rax),%ecx
 	movl _map+8(%rax),%r12d
-	movl $0,%eax
+	xorl %eax,%eax
 L276:
 	cmpl $11534393,%ebx
 	jz L231
@@ -684,7 +684,7 @@ L229:
 L231:
 	movl $20,%edx
 L227:
-	movl $0,%r8d
+	xorl %r8d,%r8d
 L233:
 	cmpl %r12d,%r8d
 	jge L236
@@ -802,7 +802,7 @@ L287:
 	movslq %esi,%rsi
 	imulq $12,%rsi
 	movl _map(%rsi),%r13d
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movl %r13d,%edi
 	movq %rbx,%rsi
@@ -825,7 +825,7 @@ L292:
 	movl $1,%esi
 	jmp L294
 L293:
-	movl $0,%esi
+	xorl %esi,%esi
 L294:
 	movq %rbx,%rdi
 	call _permute_voids
@@ -1165,7 +1165,7 @@ L399:
 	stosb
 	movq %rsi,-8(%rbp)
 	movq %rdx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%r13
 	movl _token(%rip),%esi
@@ -1183,7 +1183,7 @@ L405:
 	movl $1,%r14d
 	jmp L407
 L406:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 L407:
 	movq %rax,%rdi
 	call _tree_addrof
@@ -1271,7 +1271,7 @@ L422:
 	call _type_clear
 	call _lex
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 	movq %rax,%rsi
 	cmpl $0,%r14d
@@ -1297,7 +1297,7 @@ L433:
 	movq %rsp,%rbp
 	pushq %rbx
 L434:
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
 	movl $14,%edi
@@ -1336,7 +1336,7 @@ L438:
 	movq %rbx,%rdi
 	call _scale
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 L435:
 	popq %rbx
@@ -1362,7 +1362,7 @@ L451:
 	stosb
 	movq %rsi,-8(%rbp)
 	movq %rdx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
@@ -1642,7 +1642,7 @@ L544:
 	call _cast
 	movq %rax,%rsi
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
@@ -1667,7 +1667,7 @@ L545:
 	addq $16,%rsp
 L547:
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 	movq %rax,%rsi
 	movq %rsi,%rax
@@ -1719,7 +1719,7 @@ L582:
 L580:
 	leaq -16(%rbp),%rbx
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
 	movq _target(%rip),%rdi
@@ -1748,7 +1748,7 @@ L536:
 	call _cast
 	movq %rax,%rsi
 	movq %rsi,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%r12
 	movq 8(%r12),%rsi
@@ -1822,7 +1822,7 @@ L617:
 	call _lex_match
 	call _cast
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
@@ -1925,7 +1925,7 @@ L666:
 	call _binary
 	movq %rax,%r13
 	movq %rbx,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rdi
 	movq %r13,%rsi
@@ -1952,7 +1952,7 @@ L674:
 	pushq %r13
 	pushq %r14
 L675:
-	movl $0,%r14d
+	xorl %r14d,%r14d
 	movl $10485760,%edi
 	call _binary
 	movq %rax,%rbx
@@ -1967,7 +1967,7 @@ L677:
 	call _lex
 	call _comma
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%r12
 	movl $486539286,%edi
@@ -2013,7 +2013,7 @@ L682:
 	jz L679
 L683:
 	movq %r13,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 	movq %rax,%rdi
 	call _tree_rvalue
@@ -2097,7 +2097,7 @@ L708:
 	movl $1,%r12d
 	jmp L710
 L709:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 L710:
 	movl $42,%edi
 	movq %r13,%rsi
@@ -2112,7 +2112,7 @@ L710:
 	jz L707
 L711:
 	movq %r13,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_fetch
 	movq %rax,%rbx
 L707:
@@ -2155,7 +2155,7 @@ L735:
 L736:
 	call _ternary
 	movq %rax,%rdi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rdi
 	call _tree_simplify
@@ -2190,7 +2190,7 @@ L748:
 	cmpl $0,%esi
 	jz L751
 L750:
-	movl $0,%r13d
+	xorl %r13d,%r13d
 	jmp L752
 L751:
 	movl $1,%r13d
@@ -2268,7 +2268,7 @@ L800:
 	pushq %rbx
 L801:
 	movl $128,%edi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _int_expression
 	movl %eax,%ebx
 	cmpl $134217728,%ebx
@@ -2294,7 +2294,7 @@ L812:
 L821:
 	movl %esi,%r12d
 L813:
-	movl $0,%esi
+	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
@@ -2310,7 +2310,7 @@ L815:
 	addq $16,%rsp
 L817:
 	movl $64,%edi
-	movl $0,%esi
+	xorl %esi,%esi
 	call _tree_i
 	movq %rbx,%rdi
 	movq %rax,%rsi
@@ -2346,7 +2346,7 @@ L837:
 	movq %rsi,%r13
 	movq %rdi,%r12
 L833:
-	movl $0,%edi
+	xorl %edi,%edi
 	movl $128,%esi
 	call _symbol_new
 	movq %rax,%rbx

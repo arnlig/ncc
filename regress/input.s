@@ -71,8 +71,8 @@ L28:
 	pushq %rbp
 	movq %rsp,%rbp
 L29:
-	movl $0,%esi
-	movl $0,%ecx
+	xorl %esi,%esi
+	xorl %ecx,%ecx
 L31:
 	movzbl (%rdi),%edx
 	cmpl $0,%edx
@@ -84,7 +84,7 @@ L34:
 	cmpl %esi,%edx
 	jnz L39
 L37:
-	movl $0,%esi
+	xorl %esi,%esi
 L39:
 	movzbl (%rdi),%eax
 	cmpl $92,%eax
@@ -146,7 +146,7 @@ L74:
 	movq %rdi,%rcx
 	jmp L73
 L72:
-	movl $0,%ecx
+	xorl %ecx,%ecx
 L73:
 	addq $1,%rdi
 	jmp L31
@@ -237,12 +237,12 @@ L112:
 	pushq %rbx
 	pushq %r12
 L113:
-	movl $0,%r12d
+	xorl %r12d,%r12d
 	call _unwind
 	cmpl $-1,%eax
 	jnz L118
 L116:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L114
 L118:
 	movq _input_stack(%rip),%rsi
@@ -327,7 +327,7 @@ L159:
 	movq %rdi,%r12
 	movq %rsi,-8(%rbp)
 L149:
-	movl $0,%ebx
+	xorl %ebx,%ebx
 L151:
 	leaq -8(%rbp),%rsi
 	movq -8(%rbp),%rdi
@@ -513,7 +513,7 @@ L219:
 L220:
 	movq -8(%rbp),%rdi
 L221:
-	movl $0,%esi
+	xorl %esi,%esi
 	call _access
 	cmpl $0,%eax
 	jnz L188

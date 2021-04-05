@@ -132,6 +132,19 @@ static bool signzero(struct insn *insn)
     return TRUE;
 }
 
+/* the lowest of low-hanging fruit, the oldest optimization in
+   the world: replace movl $0, <reg> with xorl <reg>, <reg>. */
+
+static void zero(struct insn *insn)
+{
+    if ((insn->op == AMD64_I_MOVL)
+      && AMD64_OPERAND_ZERO(insn->amd64[0])
+      && AMD64_OPERAND_REG(insn->amd64[1])) {
+        insn_replace(insn, AMD64_I_ZERO, amd64_operand_dup(insn->amd64[1]),
+                                         amd64_operand_dup(insn->amd64[1]));
+    }
+}
+
 /* our approach is simple: iterate over every instruction in
    the block and see if anyone can improve it. if so, start
    again at the top of the block to ensure we transform any
@@ -142,9 +155,13 @@ static blocks_iter_ret peep0(struct block *b)
     struct insn *insn;
 
 again:
-    INSNS_FOREACH(insn, &b->insns)
+    INSNS_FOREACH(insn, &b->insns) {
+        zero(insn);
+
         if (signzero(insn))
             goto again;
+    }
+        
 
     return BLOCKS_ITER_OK;
 }

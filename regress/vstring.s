@@ -134,7 +134,7 @@ L53:
 	cmpq $0,%rsi
 	jnz L50
 L48:
-	movl $0,%eax
+	xorl %eax,%eax
 	jmp L47
 L50:
 	movl (%rdi),%esi
@@ -529,7 +529,7 @@ L143:
 	movl $1,%eax
 	jmp L142
 L144:
-	movl $0,%eax
+	xorl %eax,%eax
 L142:
 	popq %rbp
 	ret
