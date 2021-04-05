@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "cc1.h"
 #include "con.h"
 #include "cast.h"
+#include "field.h"
 #include "symbol.h"
 #include "output.h"
 #include "type.h"
@@ -554,11 +555,9 @@ struct tree *tree_rewrite_volatile(struct tree *tree)
     return tree;
 }
 
-/* called right before gen() processes a tree. we take the
-   opportunity to do some optimizations that are easier on
-   trees than linear IR. for the moment, this is limited to
-   cast cleanup, but reassociation and other optimizations
-   could go here, too. */
+/* called right before gen() processes a tree. we
+   take the opportunity to do some optimizations
+   that are easier on trees than linear IR. */
 
 struct tree *tree_opt(struct tree *tree)
 {
@@ -566,6 +565,8 @@ struct tree *tree_opt(struct tree *tree)
 
     if (tree->op == E_CAST)
         tree = cast_opt(tree);
+
+    tree = field_opt(tree);
 
     return tree;
 }

@@ -1815,7 +1815,8 @@ L799:
 	call _cast_opt
 	movq %rax,%rbx
 L801:
-	movq %rbx,%rax
+	movq %rbx,%rdi
+	call _field_opt
 L756:
 	popq %rbx
 	movq %rbp,%rsp
@@ -2121,6 +2122,7 @@ L809:
 .globl _type_append_bits
 .globl _safe_malloc
 .globl _tree_opt
+.globl _field_opt
 .globl _cast_opt
 .globl _tree_free
 .globl _tree_rvalue

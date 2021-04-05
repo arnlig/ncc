@@ -34,8 +34,7 @@ L9:
 	jae L8
 L10:
 	movl 8(%r12),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L17
 L16:
@@ -342,8 +341,7 @@ L145:
 L146:
 	call _list_stringize
 	movl 8(%rax),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L150
 L149:
@@ -464,8 +462,7 @@ L183:
 	addq $8,%rsp
 L177:
 	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L202
 L201:

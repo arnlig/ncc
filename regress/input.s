@@ -301,8 +301,7 @@ L132:
 	jmp L121
 L136:
 	movl L115(%rip),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L138
 L137:
@@ -448,16 +447,15 @@ L198:
 	movq %rbx,%rdi
 	call _vstring_concat
 L199:
-	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl -24(%rbp),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L207
 L206:
-	movl -24(%rbp),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rsi
 	jmp L208
 L207:
 	movq -16(%rbp),%rsi
@@ -503,8 +501,7 @@ L213:
 	movq 24(%r13),%r13
 L193:
 	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L220
 L219:
@@ -524,8 +521,7 @@ L195:
 	call _vstring_puts
 L196:
 	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L225
 L224:
@@ -546,8 +542,7 @@ L227:
 	addq $16,%rsp
 L229:
 	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L232
 L231:

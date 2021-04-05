@@ -4,15 +4,14 @@ L1:
 	pushq %rbp
 	movq %rsp,%rbp
 L2:
-	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L5
 L4:
-	movl (%rdi),%esi
-	andl $4294967041,%esi
-	movl %esi,(%rdi)
+	andl $4294967041,%eax
+	movl %eax,(%rdi)
 	movb $0,1(%rdi)
 	jmp L3
 L5:
@@ -46,8 +45,7 @@ L18:
 	movq %rsp,%rbp
 L19:
 	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jnz L20
 L21:
@@ -65,16 +63,15 @@ L28:
 L42:
 	movq %rdi,%rbx
 L29:
-	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L35
 L34:
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rsi
 	jmp L36
 L35:
 	movq 8(%rbx),%rsi
@@ -87,21 +84,20 @@ L31:
 	addq $8,%rsp
 L33:
 	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
-	cmpl $0,%esi
+	movl %esi,%edi
+	andl $1,%edi
+	cmpl $0,%edi
 	jz L39
 L38:
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	addl $-1,%esi
-	leal (,%rsi,2),%esi
-	andl $254,%esi
-	movl (%rbx),%edi
-	andl $4294967041,%edi
-	orl %esi,%edi
-	movl %edi,(%rbx)
+	movl %esi,%edi
+	shll $24,%edi
+	sarl $25,%edi
+	addl $-1,%edi
+	leal (,%rdi,2),%edi
+	andl $254,%edi
+	andl $4294967041,%esi
+	orl %edi,%esi
+	movl %esi,(%rbx)
 	jmp L30
 L39:
 	movq 8(%rbx),%rsi
@@ -117,16 +113,15 @@ L45:
 	pushq %rbp
 	movq %rsp,%rbp
 L46:
-	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L52
 L51:
-	movl (%rdi),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rsi
 	jmp L53
 L52:
 	movq 8(%rdi),%rsi
@@ -137,16 +132,15 @@ L48:
 	xorl %eax,%eax
 	jmp L47
 L50:
-	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L56
 L55:
-	movl (%rdi),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	leal -1(%rsi),%esi
+	shll $24,%eax
+	sarl $25,%eax
+	leal -1(%rax),%esi
 	movslq %esi,%rsi
 	movzbl 1(%rdi,%rsi),%eax
 	jmp L47
@@ -172,16 +166,15 @@ L98:
 	movq %rsi,%r14
 	movq %rdx,%r15
 L65:
-	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L68
 L67:
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rsi
 	jmp L69
 L68:
 	movq 8(%rbx),%rsi
@@ -195,8 +188,7 @@ L70:
 	addq $8,%rsp
 L72:
 	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L78
 L77:
@@ -227,16 +219,15 @@ L89:
 	movq %r12,%rdi
 	call _safe_malloc
 	movq %rax,%r13
-	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L92
 L91:
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rdx
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rdx
 	leaq 1(%rbx),%rsi
 	movq %r13,%rdi
 	call _memcpy
@@ -257,16 +248,15 @@ L93:
 	movq %r12,(%rbx)
 	movq %r13,16(%rbx)
 L76:
-	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L95
 L94:
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rsi
 	leaq 1(%rbx,%rsi),%rdi
 	movq %r14,%rsi
 	movq %r15,%rdx
@@ -317,23 +307,21 @@ L101:
 L117:
 	movb %sil,-8(%rbp)
 L102:
-	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L108
 L107:
-	movl (%rdi),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rsi
 	jmp L109
 L108:
 	movq 8(%rdi),%rsi
 L109:
 	movl (%rdi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L111
 L110:
@@ -346,23 +334,22 @@ L112:
 	cmpq %rax,%rsi
 	ja L105
 L104:
-	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl (%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L114
 L113:
-	movl (%rdi),%eax
-	shll $24,%eax
-	sarl $25,%eax
-	movl %eax,%esi
-	addl $1,%eax
-	leal (,%rax,2),%eax
-	andl $254,%eax
-	movl (%rdi),%ecx
-	andl $4294967041,%ecx
-	orl %eax,%ecx
-	movl %ecx,(%rdi)
+	movl %eax,%ecx
+	shll $24,%ecx
+	sarl $25,%ecx
+	movl %ecx,%esi
+	addl $1,%ecx
+	leal (,%rcx,2),%ecx
+	andl $254,%ecx
+	andl $4294967041,%eax
+	orl %ecx,%eax
+	movl %eax,(%rdi)
 	movslq %esi,%rsi
 	movzbl -8(%rbp),%eax
 	movb %al,1(%rdi,%rsi)
@@ -398,23 +385,21 @@ L120:
 	pushq %rbp
 	movq %rsp,%rbp
 L121:
-	movl (%rsi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	movl (%rsi),%ecx
+	movl %ecx,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L124
 L123:
-	movl (%rsi),%eax
-	shll $24,%eax
-	sarl $25,%eax
-	movslq %eax,%rdx
+	shll $24,%ecx
+	sarl $25,%ecx
+	movslq %ecx,%rdx
 	jmp L125
 L124:
 	movq 8(%rsi),%rdx
 L125:
 	movl (%rsi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L127
 L126:
@@ -455,54 +440,50 @@ L140:
 	pushq %rbp
 	movq %rsp,%rbp
 L141:
-	movl (%rdi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	movl (%rdi),%ecx
+	movl %ecx,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L151
 L150:
-	movl (%rdi),%eax
-	shll $24,%eax
-	sarl $25,%eax
-	movslq %eax,%rax
-	jmp L152
-L151:
-	movq 8(%rdi),%rax
-L152:
-	movl (%rsi),%ecx
-	shll $31,%ecx
-	sarl $31,%ecx
-	cmpl $0,%ecx
-	jz L154
-L153:
-	movl (%rsi),%ecx
 	shll $24,%ecx
 	sarl $25,%ecx
 	movslq %ecx,%rcx
+	jmp L152
+L151:
+	movq 8(%rdi),%rcx
+L152:
+	movl (%rsi),%edx
+	movl %edx,%eax
+	andl $1,%eax
+	cmpl $0,%eax
+	jz L154
+L153:
+	shll $24,%edx
+	sarl $25,%edx
+	movslq %edx,%rax
 	jmp L155
 L154:
-	movq 8(%rsi),%rcx
+	movq 8(%rsi),%rax
 L155:
-	cmpq %rcx,%rax
+	cmpq %rax,%rcx
 	jnz L144
 L146:
-	movl (%rdi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	movl (%rdi),%ecx
+	movl %ecx,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L157
 L156:
-	movl (%rdi),%eax
-	shll $24,%eax
-	sarl $25,%eax
-	movslq %eax,%rdx
+	shll $24,%ecx
+	sarl $25,%ecx
+	movslq %ecx,%rdx
 	jmp L158
 L157:
 	movq 8(%rdi),%rdx
 L158:
 	movl (%rsi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L160
 L159:
@@ -512,8 +493,7 @@ L160:
 	movq 16(%rsi),%rsi
 L161:
 	movl (%rdi),%eax
-	shll $31,%eax
-	sarl $31,%eax
+	andl $1,%eax
 	cmpl $0,%eax
 	jz L163
 L162:

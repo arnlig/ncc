@@ -6,8 +6,7 @@ L3:
 L4:
 	xorl %eax,%eax
 	movl (%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L7
 L6:
@@ -212,8 +211,7 @@ L78:
 L80:
 	movq _input_stack(%rip),%rsi
 	movl 8(%rsi),%edi
-	shll $31,%edi
-	sarl $31,%edi
+	andl $1,%edi
 	cmpl $0,%edi
 	jz L82
 L81:
@@ -468,8 +466,7 @@ L174:
 	jz L179
 L177:
 	movl (%r12),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L182
 L181:
@@ -500,8 +497,7 @@ L187:
 	jz L186
 L184:
 	movl (%r12),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L197
 L196:
@@ -654,8 +650,7 @@ L250:
 	jz L255
 L253:
 	movl (%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L258
 L257:
@@ -899,8 +894,7 @@ L325:
 	jz L366
 L364:
 	movl (%r15),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L369
 L368:
@@ -921,8 +915,7 @@ L366:
 	jnz L373
 L371:
 	movl (%r15),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L376
 L375:
@@ -941,8 +934,7 @@ L373:
 	jz L380
 L378:
 	movl (%r15),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L383
 L382:

@@ -178,8 +178,7 @@ L67:
 	movl $0,_errno(%rip)
 	leaq -8(%rbp),%rsi
 	movl 8(%r12),%edi
-	shll $31,%edi
-	sarl $31,%edi
+	andl $1,%edi
 	cmpl $0,%edi
 	jz L70
 L69:
@@ -255,8 +254,7 @@ L108:
 	movq %rdi,%r12
 L94:
 	movl 8(%r12),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L97
 L96:
@@ -913,8 +911,7 @@ L388:
 	call _token_text
 	leaq -32(%rbp),%rsi
 	movl -24(%rbp),%edi
-	shll $31,%edi
-	sarl $31,%edi
+	andl $1,%edi
 	cmpl $0,%edi
 	jz L391
 L390:
@@ -936,8 +933,7 @@ L396:
 	jz L395
 L393:
 	movl -24(%rbp),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L402
 L401:
@@ -1049,23 +1045,21 @@ L443:
 	call _error
 	addq $8,%rsp
 L445:
-	movl 8(%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl 8(%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L448
 L447:
-	movl 8(%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rdx
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rdx
 	jmp L449
 L448:
 	movq 16(%rbx),%rdx
 L449:
 	movl 8(%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L451
 L450:
@@ -1102,23 +1096,21 @@ L460:
 	call _error
 	addq $8,%rsp
 L462:
-	movl 8(%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl 8(%rbx),%edi
+	movl %edi,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L465
 L464:
-	movl 8(%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%r12
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%r12
 	jmp L466
 L465:
 	movq 16(%rbx),%r12
 L466:
 	movl 8(%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L468
 L467:
@@ -1340,16 +1332,15 @@ L577:
 	cmpl $1073741883,%esi
 	jnz L576
 L581:
-	movl 8(%rdi),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	movl 8(%rdi),%eax
+	movl %eax,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L586
 L585:
-	movl 8(%rdi),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rsi
 	jmp L587
 L586:
 	movq 16(%rdi),%rsi
@@ -1670,8 +1661,7 @@ L737:
 	jz L724
 L732:
 	movl 8(%rbx),%esi
-	shll $31,%esi
-	sarl $31,%esi
+	andl $1,%esi
 	cmpl $0,%esi
 	jz L743
 L742:
