@@ -91,13 +91,15 @@ struct amd64_operand *amd64_operand_sym(struct symbol *sym)
 
 /* return an AMD64_O_CON with the given type and value */
 
-struct amd64_operand *amd64_operand_con(type_bits ts, long i)
+struct amd64_operand *amd64_operand_con(type_bits ts, long i,
+                                        struct symbol *sym)
 {
     struct amd64_operand *o;
 
     o = amd64_operand_new(ts);
     o->class = AMD64_O_CON;
     o->i = i;
+    o->sym = sym;
 
     return o;
 }

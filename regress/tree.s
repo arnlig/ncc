@@ -272,7 +272,7 @@ L123:
 	call _tree_unary
 	movq %rax,%rbx
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	leaq 8(%rbx),%rdi
 	call _type_copy
 	movq %rbx,%rax
@@ -365,7 +365,7 @@ L165:
 	movq %rax,%r12
 	movq %r12,%rbx
 	movq 24(%r12),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	leaq 8(%r12),%rdi
 	call _type_deref
 	movq 8(%r12),%rsi
@@ -429,7 +429,7 @@ L190:
 	movq %rax,%r12
 	movq %r12,%rbx
 	movq 24(%r12),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	leaq 8(%r12),%rdi
 	call _type_ref
 	movq 24(%r12),%rsi
@@ -643,7 +643,7 @@ L308:
 	notq %rdi
 	movq %rdi,24(%rsi)
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -667,7 +667,7 @@ L301:
 	movq %rdi,24(%rsi)
 L302:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -861,17 +861,17 @@ L399:
 L401:
 	movq 24(%rax),%rdi
 	movq 24(%rsi),%rsi
-	leaq (%rdi,%rsi),%rsi
+	addq %rdi,%rsi
 	movq %rsi,24(%rax)
 	jmp L400
 L402:
 	movq 24(%rax),%rdi
 	movq 24(%rsi),%rsi
-	leaq (%rdi,%rsi),%rsi
+	addq %rdi,%rsi
 	movq %rsi,24(%rax)
 L400:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -908,7 +908,7 @@ L416:
 	movq %rdi,24(%rax)
 L414:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1027,7 +1027,7 @@ L505:
 	movq %rdi,24(%rsi)
 L506:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1058,7 +1058,7 @@ L527:
 	movq %rdi,24(%rsi)
 L528:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1098,7 +1098,7 @@ L472:
 	movq %rdi,24(%rsi)
 L470:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1126,7 +1126,7 @@ L516:
 	movq %rdi,24(%rsi)
 L517:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1165,7 +1165,7 @@ L494:
 	movq %rdi,24(%rsi)
 L495:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1354,7 +1354,7 @@ L444:
 	movq %rax,24(%rsi)
 L442:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1394,7 +1394,7 @@ L458:
 	movq %rdx,24(%rsi)
 L459:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1467,7 +1467,7 @@ L483:
 	movq %rdi,24(%rsi)
 L484:
 	movq 24(%rbx),%rsi
-	leaq 24(%rsi),%rsi
+	addq $24,%rsi
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	call _con_normalize
@@ -1961,7 +1961,7 @@ L899:
 	cmpl $0,%esi
 	jnz L854
 L892:
-	leal 1(%rbx),%ebx
+	addl $1,%ebx
 	movq 24(%r13),%rdi
 	movl %ebx,%esi
 	call _tree_debug

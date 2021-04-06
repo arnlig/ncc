@@ -954,7 +954,7 @@ static void stack_alloc(int bytes)
     bytes = ROUND_UP(bytes, AMD64_STACK_ALIGN);
 
     EMIT(insn_new(AMD64_I_SUBQ,
-                  amd64_operand_con(T_LONG, bytes),
+                  amd64_operand_con(T_LONG, bytes, 0),
                   amd64_operand_reg(T_LONG, AMD64_REG_RSP)));
 
     stack_allocked += bytes;
@@ -988,7 +988,7 @@ static void call1(struct insn *call_insn)
         } else if (arg_insn->op == I_BLKARG) {
             stack_alloc(arg_insn->src2->con.i);
             o = amd64_operand_import(arg_insn->src1);
-            blkcopy(o, amd64_operand_con(T_LONG, arg_insn->src2->con.i),
+            blkcopy(o, amd64_operand_con(T_LONG, arg_insn->src2->con.i, 0),
                        amd64_operand_reg(T_LONG, AMD64_REG_RSP));
         }
     } while (arg_insn != first_arg_insn);
@@ -1035,7 +1035,7 @@ static void call(struct insn *call_insn, struct amd64_operand *src,
     
     if (stack_allocked)
         EMIT(insn_new(AMD64_I_ADDQ,
-                      amd64_operand_con(T_LONG, stack_allocked),
+                      amd64_operand_con(T_LONG, stack_allocked, 0),
                       amd64_operand_reg(T_LONG, AMD64_REG_RSP)));
 
     if (dst) {

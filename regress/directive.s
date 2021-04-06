@@ -306,7 +306,7 @@ L136:
 	call _token_convert_number
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
-	leaq -1(%rsi),%rsi
+	addq $-1,%rsi
 	movq _input_stack(%rip),%rdi
 	movl %esi,32(%rdi)
 	movq -16(%rbp),%rsi
@@ -317,9 +317,9 @@ L137:
 	leaq 8(%rsi),%rdi
 	call _vstring_clear
 	movq -16(%rbp),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq _input_stack(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _vstring_concat
 	movq -16(%rbp),%rdi
 	call _token_free

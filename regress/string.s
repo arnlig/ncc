@@ -424,7 +424,7 @@ L115:
 	call _output
 	addq $16,%rsp
 	movq 8(%rbx),%rsi
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	movq %rbx,%rdi
 	call _string_emit
 L113:
@@ -460,7 +460,7 @@ L124:
 	movl $8192,%esi
 	call _type_append_bits
 	movq 8(%r13),%rsi
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	movq %rsi,8(%rax)
 	movq %r12,%rdi
 	movl $2,%esi

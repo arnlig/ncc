@@ -217,11 +217,11 @@ L100:
 	jmp L94
 L93:
 	movq _begin(%rip),%rsi
-	leaq (%rsi,%rbx),%rsi
+	addq %rbx,%rsi
 	movq %rsi,_pos(%rip)
 	movq _begin(%rip),%rsi
 	movq %rsi,%r12
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	movq %rsi,-8(%rbp)
 L103:
 	movq _pos(%rip),%rsi
@@ -581,7 +581,7 @@ L268:
 	cmpl $10,%esi
 	jz L267
 L272:
-	leaq 1(%rdi),%rdi
+	addq $1,%rdi
 	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
@@ -678,7 +678,7 @@ L531:
 	movq _pos(%rip),%rdi
 	leaq 1(%rdi),%rsi
 	movzbl 1(%rdi),%edi
-	leal -48(%rdi),%edi
+	addl $-48,%edi
 	cmpl $10,%edi
 	jb L550
 L537:
@@ -1400,7 +1400,7 @@ L846:
 	jnz L819
 L837:
 	movq _token+8(%rip),%rsi
-	leaq 40(%rsi),%rsi
+	addq $40,%rsi
 	pushq %rsi
 	pushq $L838
 	pushq %rbx

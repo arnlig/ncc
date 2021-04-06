@@ -91,7 +91,10 @@ extern void amd64_operand_free(struct amd64_operand *);
 extern struct amd64_operand *amd64_operand_dup(struct amd64_operand *);
 extern struct amd64_operand *amd64_operand_import(struct operand *);
 extern struct amd64_operand *amd64_operand_based(pseudo_reg, int);
-extern struct amd64_operand *amd64_operand_con(type_bits, long);
+
+extern struct amd64_operand *amd64_operand_con(type_bits, long,
+                                               struct symbol *);
+
 extern struct amd64_operand *amd64_operand_sym(struct symbol *);
 extern struct amd64_operand *amd64_operand_reg(type_bits, pseudo_reg);
 extern struct amd64_operand *amd64_operand_scaled(type_bits, pseudo_reg, int);

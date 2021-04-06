@@ -448,7 +448,7 @@ L83:
 	movq 8(%rsi),%rsi
 	movq -24(%rbp),%rdi
 	movq 8(%rdi),%rdi
-	leaq (%rsi,%rdi),%rsi
+	addq %rdi,%rsi
 	movq %rsi,8(%rbx)
 	jmp L157
 L167:
@@ -654,13 +654,13 @@ L222:
 	jz L226
 L225:
 	movq -16(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq (%rbx),%rdi
 	movq %rsi,40(%rdi)
 	jmp L227
 L226:
 	movq -16(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq %rsi,8(%rbx)
 L227:
 	movq -16(%rbp),%rsi
@@ -678,13 +678,13 @@ L228:
 	jz L232
 L231:
 	movq -24(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq (%rbx),%rdi
 	movq %rsi,40(%rdi)
 	jmp L233
 L232:
 	movq -24(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq %rsi,8(%rbx)
 L233:
 	movq -24(%rbp),%rsi

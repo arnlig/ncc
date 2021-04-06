@@ -92,7 +92,7 @@ L38:
 	shll $24,%edi
 	sarl $25,%edi
 	addl $-1,%edi
-	leal (,%rdi,2),%edi
+	shll $1,%edi
 	andl $254,%edi
 	andl $4294967041,%esi
 	orl %edi,%esi
@@ -264,7 +264,7 @@ L94:
 	shll $24,%esi
 	sarl $25,%esi
 	addl %r15d,%esi
-	leal (,%rsi,2),%esi
+	shll $1,%esi
 	andl $254,%esi
 	movl (%rbx),%edi
 	andl $4294967041,%edi
@@ -278,7 +278,7 @@ L94:
 L95:
 	movq 16(%rbx),%rsi
 	movq 8(%rbx),%rdi
-	leaq (%rsi,%rdi),%rdi
+	addq %rsi,%rdi
 	movq %r14,%rsi
 	movq %r15,%rdx
 	call _memcpy
@@ -328,7 +328,7 @@ L110:
 L111:
 	movq (%rdi),%rax
 L112:
-	leaq -2(%rax),%rax
+	addq $-2,%rax
 	cmpq %rax,%rsi
 	ja L105
 L104:
@@ -343,7 +343,7 @@ L113:
 	sarl $25,%ecx
 	movl %ecx,%esi
 	addl $1,%ecx
-	leal (,%rcx,2),%ecx
+	shll $1,%ecx
 	andl $254,%ecx
 	andl $4294967041,%eax
 	orl %ecx,%eax
@@ -401,7 +401,7 @@ L125:
 	cmpl $0,%eax
 	jz L127
 L126:
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	jmp L128
 L127:
 	movq 16(%rsi),%rsi
@@ -485,7 +485,7 @@ L158:
 	cmpl $0,%eax
 	jz L160
 L159:
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	jmp L161
 L160:
 	movq 16(%rsi),%rsi
@@ -495,7 +495,7 @@ L161:
 	cmpl $0,%eax
 	jz L163
 L162:
-	leaq 1(%rdi),%rdi
+	addq $1,%rdi
 	jmp L164
 L163:
 	movq 16(%rdi),%rdi

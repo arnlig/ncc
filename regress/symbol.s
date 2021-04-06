@@ -219,7 +219,7 @@ L104:
 	call _type_copy
 	movl %r14d,%esi
 	movl 64(%rbx),%edi
-	leal (%rsi,%rdi),%esi
+	addl %edi,%esi
 	movl %esi,64(%r12)
 	leaq 48(%r13),%rdi
 	movq %r12,%rsi
@@ -284,7 +284,7 @@ L115:
 	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
-	leaq (,%rsi,8),%rsi
+	shlq $3,%rsi
 	movq %rsi,%r13
 L116:
 	movq %r15,%rdi
@@ -357,7 +357,7 @@ L125:
 	leal (,%rbx,8),%esi
 	leal -1(,%rbx,8),%eax
 	movslq %eax,%rax
-	leaq (%rdi,%rax),%rdi
+	addq %rax,%rdi
 	movslq %esi,%rsi
 	movq %rdi,%rax
 	cqto
@@ -490,7 +490,7 @@ L183:
 	leal (,%rax,8),%esi
 	leal -1(,%rax,8),%eax
 	movslq %eax,%rax
-	leaq (%rdi,%rax),%rax
+	addq %rdi,%rax
 	movslq %esi,%rsi
 	xorl %edx,%edx
 	divq %rsi
@@ -520,7 +520,7 @@ L192:
 	andl $31,%eax
 	movl %eax,%eax
 	shlq $4,%rax
-	leaq _buckets(%rax),%rax
+	addq $_buckets,%rax
 	jmp L194
 L193:
 	movq $_buckets+512,%rax
@@ -675,7 +675,7 @@ L273:
 	andl $31,%eax
 	movl %eax,%eax
 	shlq $4,%rax
-	leaq _buckets(%rax),%rax
+	addq $_buckets,%rax
 	jmp L275
 L274:
 	movq $_buckets+512,%rax

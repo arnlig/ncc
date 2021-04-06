@@ -443,7 +443,7 @@ L237:
 	jnz L193
 L198:
 	movq _input_stack(%rip),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq %rbx,%rdi
 	call _vstring_concat
 L199:

@@ -134,7 +134,7 @@ L45:
 	jnz L56
 L54:
 	movq 32(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	call _tree_cast
 	movq %rax,24(%rbx)
 L56:
@@ -147,7 +147,7 @@ L56:
 	jnz L34
 L57:
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	call _tree_cast
 	movq %rax,32(%rbx)
 L34:
@@ -291,7 +291,7 @@ L129:
 	jnz L118
 L126:
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq %rax,%rdi
 	call _tree_cast
 	movq %rax,32(%rbx)
@@ -309,7 +309,7 @@ L147:
 	call _tree_cast
 	movq %rax,%rbx
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	leaq 8(%rbx),%rdi
 	call _type_requalify
 	movq %rbx,%rax
@@ -523,7 +523,7 @@ L211:
 	movq %r12,%rdi
 	call _type_clear
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq %r12,%rdi
 	call _type_copy
 	movq %rbx,%rdi
@@ -745,8 +745,8 @@ L259:
 	cmpq $0,%rcx
 	jz L279
 L248:
-	leaq 8(%rsi),%rsi
-	leaq 8(%rdi),%rdi
+	addq $8,%rsi
+	addq $8,%rdi
 	call _type_compat
 L279:
 	cmpl $1,%eax
@@ -1768,7 +1768,7 @@ L597:
 	call _tree_unary
 	movq %rax,%rbx
 	movq 24(%rbx),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	leaq 8(%rbx),%rdi
 	call _type_copy
 	movq %rbx,%rax
@@ -1995,7 +1995,7 @@ L680:
 	movq %r13,%rdi
 	call _type_clear
 	movq 24(%r12),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq %r13,%rdi
 	call _type_copy
 	movl $1,%r14d

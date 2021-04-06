@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "insn.h"
 #include "reg.h"
 #include "gen.h"
+#include "peep.h"
 
 struct target amd64_target =
 {
@@ -70,7 +71,8 @@ struct target amd64_target =
     amd64_reg_spills,
     amd64_gen_spill_in,
     amd64_gen_spill_out,
-    amd64_logues
+    amd64_logues,
+    amd64_post_peep
 };
 
 /* vi: set ts=4 expandtab: */

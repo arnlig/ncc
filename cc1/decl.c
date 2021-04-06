@@ -762,9 +762,11 @@ static void function_definition(struct symbol *sym, struct type *type)
         gen_args();
         target->gen();
 
-        if (!debug_flag_g)
+        if (!debug_flag_g) {
             graph_alloc();
-
+            target->opt();
+        }
+    
         target->logues();
     }
 

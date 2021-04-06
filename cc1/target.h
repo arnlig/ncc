@@ -88,6 +88,7 @@ struct target
     void (*gen_spill_in)(pseudo_reg, struct symbol *);
     void (*gen_spill_out)(pseudo_reg, struct symbol *);
     void (*logues)(void);
+    void (*opt)(void);
 };
 
 extern struct target *target;       /* the selected target */

@@ -13,7 +13,7 @@ L6:
 	cmpl $0,%edi
 	jz L11
 L10:
-	leaq 9(%rsi),%rsi
+	addq $9,%rsi
 	jmp L12
 L11:
 	movq 24(%rsi),%rsi
@@ -378,7 +378,7 @@ L180:
 	cmpl %edi,%esi
 	jg L173
 L176:
-	leal -20(%rdi),%edi
+	addl $-20,%edi
 	cmpl %edi,%esi
 	jge L188
 L173:
@@ -391,7 +391,7 @@ L173:
 	cmpl $0,%edi
 	jz L186
 L185:
-	leaq 9(%rsi),%rsi
+	addq $9,%rsi
 	jmp L187
 L186:
 	movq 24(%rsi),%rsi
@@ -446,7 +446,7 @@ L197:
 	cmpl $0,%edi
 	jz L201
 L200:
-	leaq 9(%rsi),%rsi
+	addq $9,%rsi
 	jmp L202
 L201:
 	movq 24(%rsi),%rsi

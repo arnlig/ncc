@@ -168,13 +168,13 @@ L91:
 L93:
 	movq 24(%rsi),%rsi
 	movq 24(%rax),%rdi
-	leaq (%rsi,%rdi),%rsi
+	addq %rdi,%rsi
 	movq %rsi,-8(%rbp)
 	jmp L92
 L94:
 	movq 24(%rsi),%rsi
 	movq 24(%rax),%rdi
-	leaq (%rsi,%rdi),%rsi
+	addq %rdi,%rsi
 	movq %rsi,-8(%rbp)
 L92:
 	leaq -8(%rbp),%rsi

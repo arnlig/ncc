@@ -265,7 +265,7 @@ L97:
 L98:
 	leaq -8(%rbp),%rdi
 	movq %rsi,-8(%rbp)
-	leaq 1(%rsi),%rsi
+	addq $1,%rsi
 	movq %rsi,-8(%rbp)
 	call _escape
 	movl %eax,%ebx
@@ -794,7 +794,7 @@ L297:
 	jmp L267
 L298:
 	movzbl (%r14),%esi
-	leal -48(%rsi),%esi
+	addl $-48,%esi
 	cmpl $10,%esi
 	jb L310
 L305:
@@ -983,8 +983,8 @@ L419:
 	movzbl %sil,%eax
 	jmp L411
 L421:
-	leaq 8(%rsi),%rsi
-	leaq 8(%rdi),%rdi
+	addq $8,%rsi
+	addq $8,%rdi
 	call _vstring_same
 	jmp L411
 L414:
@@ -1113,7 +1113,7 @@ L466:
 	cmpl $0,%esi
 	jz L468
 L467:
-	leaq 9(%rbx),%rbx
+	addq $9,%rbx
 	jmp L469
 L468:
 	movq 24(%rbx),%rbx

@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define AMD64_PEEP_H
 
 extern void amd64_peep(void);
+extern void amd64_post_peep(void);
 
 #endif /* AMD64_PEEP_H */
 

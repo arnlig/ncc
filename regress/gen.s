@@ -575,7 +575,7 @@ L128:
 	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
-	leal (,%rsi,8),%esi
+	shll $3,%esi
 	movslq %esi,%rsi
 	movl $64,%edi
 	subq %rsi,%rdi
@@ -620,7 +620,7 @@ L128:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq -8(%rbp),%r10	 # spill
 	movq 8(%r10),%rsi
@@ -645,7 +645,7 @@ L128:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq %r14,%rsi
 	notq %rsi
@@ -681,7 +681,7 @@ L128:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq %r13,%rdi
 	call _operand_sym
@@ -702,7 +702,7 @@ L128:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq -8(%rbp),%r10	 # spill
 	movq %r10,%rdi
@@ -1087,7 +1087,7 @@ L200:
 	addq $24,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq 32(%r12),%rsi
 	movq %rsi,%rdi
@@ -1113,7 +1113,7 @@ L200:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq %r12,%rdi
 	call _tree_chop_binary
@@ -1137,7 +1137,7 @@ L201:
 	addq $24,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq 32(%r12),%rsi
 	movq %rsi,%rdi
@@ -1161,7 +1161,7 @@ L201:
 	addq $32,%rsp
 	movq %rax,%rsi
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	movq 32(%r12),%rsi
 	movq %rsi,%rdi
@@ -1802,7 +1802,7 @@ L343:
 	movq %rax,%rsi
 	movq %rsi,%rbx
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 	jmp L345
 L344:
@@ -1822,12 +1822,12 @@ L344:
 	movq %rax,%rsi
 	movq %rsi,%rbx
 	movq _current_block(%rip),%rdi
-	leaq 8(%rdi),%rdi
+	addq $8,%rdi
 	call _insn_append
 L345:
 	leaq -24(%rbp),%rax
 	movq _current_block(%rip),%rsi
-	leaq 8(%rsi),%rsi
+	addq $8,%rsi
 	movq %rsi,%rdi
 	movq %rbx,%rsi
 	movq %rax,%rdx

@@ -19,7 +19,7 @@ L9:
 	cmpl $0,%edi
 	jz L5
 L10:
-	leal (,%rax,8),%eax
+	shll $3,%eax
 	movq %rsi,%rdi
 	addq $1,%rsi
 	movzbl (%rdi),%edi
@@ -426,7 +426,7 @@ L160:
 	movq -32(%rbp),%rdi
 	movq %rdi,(%rsi)
 	movq -32(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq %rsi,-8(%rbp)
 	movq %rbx,%rdi
 	call _list_strip_ends
@@ -1368,7 +1368,7 @@ L525:
 	movq -24(%rbp),%rdi
 	movq %rdi,(%rsi)
 	movq -24(%rbp),%rsi
-	leaq 32(%rsi),%rsi
+	addq $32,%rsi
 	movq %rsi,8(%rbx)
 	jmp L522
 L512:

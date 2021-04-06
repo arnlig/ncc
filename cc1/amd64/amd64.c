@@ -186,8 +186,8 @@ void amd64_logues(void)
     if (amd64_local_addr) {
         BLOCK_APPEND_INSN(entry_block,
                           insn_new(AMD64_I_SUBQ,
-                                 amd64_operand_con(T_LONG, amd64_local_addr),
-                                 amd64_operand_reg(T_LONG, AMD64_REG_RSP)));
+                               amd64_operand_con(T_LONG, amd64_local_addr, 0),
+                               amd64_operand_reg(T_LONG, AMD64_REG_RSP)));
 
         BLOCK_PREPEND_INSN(exit_block,
                            insn_new(AMD64_I_MOVQ,
