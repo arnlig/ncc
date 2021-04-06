@@ -30,10 +30,10 @@ amd64/crt0.o:	amd64/crt0.s
 
 HDRS=		include/ctype.h include/fcntl.h include/float.h \
 		include/limits.h include/math.h include/ncc.h \
-		include/stdarg.h include/stddef.h include/stdio.h \
-		include/stdlib.h include/string.h include/termios.h \
-		include/time.h include/unistd.h include/sys/ioctl.h \
-		include/sys/types.h include/sys/wait.h
+		include/stdarg.h include/stddef.h include/stdint.h \
+		include/stdio.h include/stdlib.h include/string.h \
+		include/termios.h include/time.h include/unistd.h \
+		include/sys/ioctl.h include/sys/types.h include/sys/wait.h
 
 OBJS=		amd64/syscall.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \

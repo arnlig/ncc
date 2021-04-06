@@ -1,8 +1,6 @@
-/* malloc.c - dynamic memory allocation                    ncc standard library
+/* malloc.c - dynamic memory allocator                     ncc standard library
 
-Copyright (c) 1987, 1997, 2001 Prentice Hall. All rights reserved.
-Copyright (c) 1987 Vrije Universiteit, Amsterdam, The Netherlands.
-Copyright (c) 2021 Charles E. Youse (charles@gnuless.org).
+Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -13,10 +11,6 @@ modification, are permitted provided that the following conditions are met:
 * Redistributions in binary form must reproduce the above copyright notice,
   this list of conditions and the following disclaimer in the documentation
   and/or other materials provided with the distribution.
-
-* Neither the name of Prentice Hall nor the names of the software authors or
-  contributors may be used to endorse or promote products derived from this
-  software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -31,143 +25,136 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <stdlib.h>
 #include <unistd.h>
-#include <errno.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <string.h>
 
-/* a short explanation of the data structure and algorithms: an area
-   returned by malloc() is called a slot. each slot contains the number
-   of bytes requested, but preceeded by an extra pointer to the next the
-   slot in memory. _bottom and _top point to the first/last slot. more
-   memory is asked for using brk() and appended to top. the list of free
-   slots is maintained to keep malloc() fast. _empty points the the first
-   free slot. free slots are linked together by a pointer at the start of
-   the user visable part, so just after the next-slot pointer. free slots
-   are merged together by free(). */
+/* this is a simple but fast allocator in the vein of Chris Kingsley's
+   allocator (as found in 4.3BSD). we round up every request to a power
+   of two, and return regions of that size (minus overhead). we never
+   return memory to the system, instead keeping freed regions in buckets
+   for later re-use. this works well in a virtual memory environment, for
+   two reasons:
+        
+        1. we are not really allocating memory, but address space. if the
+           caller requests a 520k allocation and we give them a 1GB region,
+           the caller will (should) never touch the unused portion, and thus
+           the VM system will never have occasion to assign real memory there.
+        2. there's little need to return unused memory to the system. if an
+           unused region lives in a free bucket for too long, the system will
+           eventually page it to disk. disk storage is cheap, and so are the
+           I/O operations (even if they are ultimately wasted).
 
-static void *_bottom;
-static void *_top;
-static void *_empty;
+   we allocate small objects in PAGE_SIZE slabs, since extra spaces in pages
+   really WOULD get wasted. */
 
-typedef long ptrint;
+#define PAGE_SIZE       4096
 
-#define BRKSIZE         4096        /* allocation alignment */
+#define ROUND_UP(a,b)       ((((a) + ((b) - 1)) / (b)) * (b))
 
-#define PTRSIZE         ((int) sizeof(void *))
-#define ALIGN(x,a)      (((x) + (a - 1)) & ~(a - 1))
-#define NEXT_SLOT(p)    (*(void **) ((p) - PTRSIZE))
-#define NEXT_FREE(p)    (*(void **) (p))
+#define LOG2_SMALLEST   5           /* log2 smallest block (32 bytes) */
+#define LOG2_LARGEST    30          /* log2 largest block (1GB) */
 
-static int grow(size_t len)
+#define NR_BUCKETS      ((LOG2_LARGEST - LOG2_SMALLEST) + 1)
+
+#define BUCKET_TO_SIZE(b)       (((size_t) 1) << ((b) + LOG2_SMALLEST))
+
+#define REGION_MAGIC    0x4B696E67      /* 'King', homage to original */
+
+struct region
 {
-    char *p;
+    /* regions are allocated starting on page boundaries, and the header union
+       is 8 bytes, so data is guaranteed aligned on an 8-byte boundary. */
 
-    if ((char *) _top + len < (char *) _top
-      || (p = (char *) ALIGN((ptrint) _top + len, BRKSIZE)) < (char *) _top)
-    {
-        errno = ENOMEM;
-        return(0);
-    }
+    union {
+        struct region *next_free;       /* when in a bucket */
 
-    if (brk(p) != 0)
+        struct {
+            int magic;                  /* REGION_MAGIC */
+            int bucket;                 /* bucket this came from */
+        };
+    };
+
+    char data[];                        /* user data starts here */
+};
+
+static struct region *buckets[NR_BUCKETS];
+
+/* get memory from the system to put at least
+   one free region in the given bucket. returns
+   the number of regions added to the bucket. */
+
+static int refill(int bucket)
+{
+    size_t size;
+    uintptr_t brk;
+    int alloc;
+    struct region *new;
+    int n;
+    int i;
+
+    size = BUCKET_TO_SIZE(bucket);
+    brk = (uintptr_t) sbrk(0);
+    alloc = ROUND_UP(brk, PAGE_SIZE) - brk;
+
+    if (size < PAGE_SIZE)
+        n = (PAGE_SIZE / size);
+    else
+        n = 1;
+
+    alloc += n * size;
+    new = sbrk(alloc);
+
+    if (new == (void *) -1)
         return 0;
 
-    NEXT_SLOT((char *) _top) = p;
-    NEXT_SLOT(p) = 0;
-    free(_top);
-    _top = p;
+    for (i = 0; i < n; ++i) {
+        new->next_free = buckets[bucket];
+        buckets[bucket] = new;
+        new = (struct region *) (((char *) new) + size);
+    }
 
-    return 1;
+    return n;
 }
 
-void *malloc(size_t size)
+void *malloc(size_t bytes)
 {
-    char *prev; 
-    char *p;
-    char *next;
-    char *new;
-    size_t len;
-    unsigned ntries;
+    struct region *r;
+    int bucket;
 
-    if (size == 0)
+    bytes += offsetof(struct region, data);
+    
+    for (bucket = 0; bucket < NR_BUCKETS; ++bucket)
+        if (bytes <= BUCKET_TO_SIZE(bucket))
+            break;
+
+    if (bucket == NR_BUCKETS)
         return 0;
 
-    for (ntries = 0; ntries < 2; ++ntries) {
-        if ((len = ALIGN(size, PTRSIZE) + PTRSIZE) < (2 * PTRSIZE)) {
-            errno = ENOMEM;
+    if (buckets[bucket] == 0)
+        if (refill(bucket) == 0)
             return 0;
-        }
 
-        if (_bottom == 0) {
-            if ((p = sbrk(2 * PTRSIZE)) == (char *) -1)
-                return 0;
+    r = buckets[bucket];
+    buckets[bucket] = r->next_free;
+    
+    r->bucket = bucket;
+    r->magic = REGION_MAGIC;
 
-            p = (char *) ALIGN((ptrint) p, PTRSIZE);
-            p += PTRSIZE;
-            _top = _bottom = p;
-            NEXT_SLOT(p) = 0;
-        }
-
-        for (prev = 0, p = _empty; p != 0; prev = p, p = NEXT_FREE(p)) {
-            next = NEXT_SLOT(p);
-            new = p + len;
-
-            if (new > next || new <= p)     /* too small */
-                continue;
-
-            if (new + PTRSIZE < next) {     /* too big, so split */
-                /* + PTRSIZE avoids tiny slots on free list */
-                NEXT_SLOT(new) = next;
-                NEXT_SLOT(p) = new;
-                NEXT_FREE(new) = NEXT_FREE(p);
-                NEXT_FREE(p) = new;
-            }
-
-            if (prev)
-                NEXT_FREE(prev) = NEXT_FREE(p);
-            else
-                _empty = NEXT_FREE(p);
-
-            return p;
-        }
-
-        if (grow(len) == 0)
-            break;
-    }
-
-    return 0;
+    return r->data;
 }
 
 void free(void *ptr)
 {
-    char *prev;
-    char *next;
-    char *p = ptr;
+    struct region *r;
+    int bucket;
 
-    if (p == 0)
-        return;
+    r = (struct region *) ((char *) ptr - offsetof(struct region, data));
 
-    for (prev = 0, next = _empty; next; prev = next, next = NEXT_FREE(next))
-        if (p < next)
-            break;
-
-    NEXT_FREE(p) = next;
-
-    if (prev)
-        NEXT_FREE(prev) = p;
-    else
-        _empty = p;
-
-    if (next) {
-        if (NEXT_SLOT(p) == next) {         /* merge p and next */
-            NEXT_SLOT(p) = NEXT_SLOT(next);
-            NEXT_FREE(p) = NEXT_FREE(next);
-        }
-    }
-
-    if (prev) {
-        if (NEXT_SLOT(prev) == p) {         /* merge prev and p */
-            NEXT_SLOT(prev) = NEXT_SLOT(p);
-            NEXT_FREE(prev) = NEXT_FREE(p);
-        }
+    if (r->magic == REGION_MAGIC) {
+        bucket = r->bucket;
+        r->next_free = buckets[bucket];
+        buckets[bucket] = r;
     }
 }
 
