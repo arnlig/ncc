@@ -534,19 +534,17 @@ L274:
 	cmpl $73,%edi
 	jnz L251
 L247:
-	leaq 2(%rsi),%rsi
-	movq %rsi,(%rbx)
-	movq (%rbx),%rdi
-	movzbl (%rdi),%esi
+	leaq 2(%rsi),%rdi
+	movq %rdi,(%rbx)
+	movzbl 2(%rsi),%esi
 	cmpl $0,%esi
 	jz L251
 L250:
 	call _input_dir
 	jmp L245
 L254:
-	leaq 2(%rsi),%rsi
-	movq %rsi,(%rbx)
-	movq (%rbx),%rdi
+	leaq 2(%rsi),%rdi
+	movq %rdi,(%rbx)
 	call _macro_cmdline
 	cmpl $0,%eax
 	jz L251
@@ -566,14 +564,12 @@ L251:
 	call _exit
 	jmp L235
 L263:
-	movq 8(%rbx),%rsi
-	movq %rsi,_out_path(%rip)
-	movq _out_path(%rip),%rdi
+	movq 8(%rbx),%rdi
+	movq %rdi,_out_path(%rip)
 	movq $L265,%rsi
 	call _fopen
 	movq %rax,_out_fp(%rip)
-	movq _out_fp(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,%rax
 	jnz L268
 L266:
 	movq _out_path(%rip),%rsi

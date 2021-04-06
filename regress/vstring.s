@@ -31,7 +31,6 @@ L12:
 	andl $4294967294,%esi
 	orl $1,%esi
 	movl %esi,(%rdi)
-	movl (%rdi),%esi
 	andl $4294967041,%esi
 	movl %esi,(%rdi)
 	movb $0,1(%rdi)
@@ -271,10 +270,9 @@ L94:
 	andl $4294967041,%edi
 	orl %esi,%edi
 	movl %edi,(%rbx)
-	movl (%rbx),%esi
-	shll $24,%esi
-	sarl $25,%esi
-	movslq %esi,%rsi
+	shll $24,%edi
+	sarl $25,%edi
+	movslq %edi,%rsi
 	movb $0,1(%rbx,%rsi)
 	jmp L66
 L95:

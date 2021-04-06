@@ -125,7 +125,7 @@ L35:
 	movq %r10,-16(%rbp)	 # spill
 	xorl %ebx,%ebx
 	movq %rbx,%r12
-	movq %rbx,%r15
+	movq %r12,%r15
 	call _block_new
 	movq %rax,_continue_block(%rip)
 	call _block_new
@@ -193,7 +193,8 @@ L49:
 	call _tree_free
 	jmp L51
 L50:
-	movq _current_block(%rip),%rdi
+	movq -8(%rbp),%r10	 # spill
+	movq %r10,%rdi
 	movl $10,%esi
 	movq -16(%rbp),%r10	 # spill
 	movq %r10,%rdx
@@ -611,14 +612,14 @@ L149:
 L150:
 	call _lex
 	movq _switch_block(%rip),%rsi
-	movq 336(%rsi),%rsi
+	movq 344(%rsi),%rsi
 	movq 8(%rsi),%rdi
 	movl $1,%esi
 	call _int_expression
 	leaq -8(%rbp),%rsi
 	movq %rax,-8(%rbp)
 	movq _switch_block(%rip),%rdi
-	movq 336(%rdi),%rdi
+	movq 344(%rdi),%rdi
 	movq 8(%rdi),%rdi
 	call _con_normalize
 	movl $486539286,%edi

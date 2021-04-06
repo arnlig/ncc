@@ -42,7 +42,6 @@ L10:
 	movq _invalid(%rip),%rsi
 	subq %rbx,%rsi
 	movq %rsi,_invalid(%rip)
-	movq _invalid(%rip),%rsi
 	movq $_buf+4096,%rbx
 	subq %rsi,%rbx
 	cmpq $0,%rbx
@@ -72,7 +71,6 @@ L23:
 	cmpq %rbx,%r12
 	jae L9
 L25:
-	movq _invalid(%rip),%rsi
 	movb $0,(%rsi)
 	movl _fd(%rip),%edi
 	call _close
@@ -100,10 +98,9 @@ L39:
 	cmpl $95,%edi
 	jnz L38
 L43:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
 	movq _pos(%rip),%rdi
+	addq $1,%rdi
+	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
@@ -116,8 +113,7 @@ L38:
 	subq %rdi,%rsi
 	call _string_new
 	movq %rax,_token+8(%rip)
-	movq _token+8(%rip),%rsi
-	movl 16(%rsi),%eax
+	movl 16(%rax),%eax
 L35:
 	popq %rbp
 	ret
@@ -139,9 +135,8 @@ L58:
 	cmpl $0,%r12d
 	jz L60
 L61:
-	leaq 1(%rsi),%rsi
-	movq %rsi,_pos(%rip)
-	movq _pos(%rip),%rdi
+	leaq 1(%rsi),%rdi
+	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
@@ -211,9 +206,8 @@ L94:
 	cmpl $0,%edi
 	jz L91
 L97:
-	leaq 1(%rsi),%rsi
-	movq %rsi,_pos(%rip)
-	movq _pos(%rip),%rdi
+	leaq 1(%rsi),%rdi
+	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
@@ -259,12 +253,11 @@ L113:
 	movq -8(%rbp),%rsi
 	addq $1,%rsi
 	movq %rsi,-8(%rbp)
-	movq _pos(%rip),%rsi
-	movq -8(%rbp),%rdi
-	cmpq %rdi,%rsi
+	movq _pos(%rip),%rdi
+	cmpq %rsi,%rdi
 	jz L103
 L116:
-	movzbq (%rdi),%rsi
+	movzbq (%rsi),%rsi
 	movl %esi,%edi
 	movzbl ___ctype+1(%rdi),%edi
 	andl $8,%edi
@@ -306,7 +299,6 @@ L130:
 	call _escape
 	movslq %eax,%rsi
 	movq %rsi,_token+8(%rip)
-	movq _token+8(%rip),%rsi
 	cmpq $-1,%rsi
 	jnz L134
 L132:
@@ -374,10 +366,9 @@ L160:
 	addq $1,%rsi
 	movq %rsi,_pos(%rip)
 L171:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
 	movq _pos(%rip),%rdi
+	addq $1,%rdi
+	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
@@ -590,9 +581,8 @@ L268:
 	cmpl $10,%esi
 	jz L267
 L272:
-	leaq 1(%rdi),%rsi
-	movq %rsi,_pos(%rip)
-	movq _pos(%rip),%rdi
+	leaq 1(%rdi),%rdi
+	movq %rdi,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rdi,%rsi
 	cmpq $3,%rsi
@@ -1241,8 +1231,7 @@ L733:
 	call _open
 	addq $16,%rsp
 	movl %eax,_fd(%rip)
-	movl _fd(%rip),%esi
-	cmpl $-1,%esi
+	cmpl $-1,%eax
 	jnz L737
 L735:
 	pushq %rbx

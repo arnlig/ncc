@@ -321,9 +321,8 @@ L73:
 L75:
 	andl $-257,%edi
 	movl %edi,12(%r12)
-	movl 12(%r12),%esi
-	orl $64,%esi
-	movl %esi,12(%r12)
+	orl $64,%edi
+	movl %edi,12(%r12)
 L77:
 	movl 64(%r12),%esi
 	movslq %esi,%rsi
@@ -834,7 +833,7 @@ L149:
 	movq %rax,32(%rbx)
 	jmp L141
 L140:
-	movq 32(%rbx),%rdi
+	movq %rax,%rdi
 	call _operand_leaf
 	movq %rax,%r12
 	movq 24(%rbx),%rdi
@@ -1217,7 +1216,7 @@ L214:
 	xorl %esi,%esi
 	call _gen
 	movq %rax,32(%rbx)
-	movq 32(%rbx),%rdi
+	movq %rax,%rdi
 	call _operand_leaf
 	movq %rax,%r13
 	movq 24(%rbx),%rdi
@@ -1413,15 +1412,13 @@ L258:
 	cmpl $184549413,%esi
 	jnz L261
 L260:
-	movq -8(%rbp),%r10	 # spill
-	movq 24(%r10),%rdi
+	movq %rax,%rdi
 	movq %r14,%rsi
 	movq %r15,%rdx
 	call _gen_branch
 	jmp L262
 L261:
-	movq -8(%rbp),%r10	 # spill
-	movq 24(%r10),%rdi
+	movq %rax,%rdi
 	movq %r15,%rsi
 	movq %r13,%rdx
 	call _gen_branch
@@ -1433,8 +1430,7 @@ L262:
 	call _gen
 	movq -8(%rbp),%r10	 # spill
 	movq %rax,32(%r10)
-	movq -8(%rbp),%r10	 # spill
-	movq 32(%r10),%rdi
+	movq %rax,%rdi
 	movq %r14,%rsi
 	movq %r13,%rdx
 	call _gen_branch
@@ -1491,7 +1487,7 @@ L274:
 	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r15)
-	movq 24(%r15),%rdi
+	movq %rax,%rdi
 	movq %r12,%rsi
 	movq %rbx,%rdx
 	call _gen_branch
@@ -1622,7 +1618,6 @@ L305:
 	call _gen
 	movq %rax,%rsi
 	movq %rsi,24(%r13)
-	movq 24(%r13),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rdi
 	andq $131071,%rdi

@@ -34,6 +34,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "prop.h"
 #include "testz.h"
 #include "slvn.h"
+#include "load.h"
 #include "opt.h"
 
 /* remove unreachable code. our technique is simple: do a depth-first
@@ -164,6 +165,10 @@ void optimize(void)
     copy();
     fold();
     prop();
+    slvn();
+    copy();
+    load();
+    copy();
     slvn();
     copy();
     coal();

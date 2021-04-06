@@ -617,10 +617,8 @@ L272:
 	andl $1073741824,%esi
 	cmpl $0,%esi
 	jz L270
-L269:
-	movl %edi,%esi
 L592:
-	cmpl $1073741832,%esi
+	cmpl $1073741832,%edi
 	jz L280
 L278:
 	movq 24(%rbx),%rsi

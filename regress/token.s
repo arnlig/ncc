@@ -265,8 +265,7 @@ L97:
 L98:
 	leaq -8(%rbp),%rdi
 	movq %rsi,-8(%rbp)
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
+	leaq 1(%rsi),%rsi
 	movq %rsi,-8(%rbp)
 	call _escape
 	movl %eax,%ebx
@@ -1149,12 +1148,11 @@ L495:
 	movq %rdi,%rbx
 	movq %rsi,%r12
 L481:
-	movq (%rbx),%rsi
-	cmpq $0,%rsi
+	movq (%rbx),%rdi
+	cmpq $0,%rdi
 	jz L480
 L482:
-	movq %rsi,%rdi
-	cmpq %rsi,%r12
+	cmpq %rdi,%r12
 	jz L480
 L488:
 	movq 32(%rdi),%rsi

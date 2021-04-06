@@ -30,7 +30,6 @@ L4:
 	movl L6(%rip),%esi
 	addl $1,%esi
 	movl %esi,L6(%rip)
-	movl L6(%rip),%esi
 	movl %esi,16(%rbx)
 	movl $2147483649,48(%rbx)
 L27:
@@ -56,7 +55,6 @@ L20:
 	movl _last_asm_label(%rip),%esi
 	addl $1,%esi
 	movl %esi,_last_asm_label(%rip)
-	movl _last_asm_label(%rip),%esi
 	movl %esi,64(%rbx)
 L21:
 	leaq 32(%rbx),%rsi
@@ -498,9 +496,8 @@ L183:
 	divq %rsi
 	imulq %rsi,%rax
 	movq %rax,32(%rbx)
-	movq 32(%rbx),%rsi
-	shrq $3,%rsi
-	movq %rsi,32(%rbx)
+	shrq $3,%rax
+	movq %rax,32(%rbx)
 	movl 12(%rbx),%esi
 	orl $-2147483648,%esi
 	movl %esi,12(%rbx)
@@ -1758,9 +1755,8 @@ L776:
 L778:
 	andl $-257,%eax
 	movl %eax,12(%rdi)
-	movl 12(%rdi),%esi
-	orl $128,%esi
-	movl %esi,12(%rdi)
+	orl $128,%eax
+	movl %eax,12(%rdi)
 L780:
 	movl $1002,%esi
 	call _symbol_move

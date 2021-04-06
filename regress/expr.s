@@ -271,28 +271,28 @@ L122:
 L119:
 	call _tree_simplify
 	movq %rax,32(%rbx)
-	movq 32(%rbx),%rdi
-	movl (%rdi),%esi
+	movl (%rax),%esi
 	cmpl $2147483649,%esi
 	jnz L118
 L137:
-	movq 8(%rdi),%rsi
+	movq 8(%rax),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $1022,%rsi
 	cmpq $0,%rsi
 	jz L118
 L133:
-	movq 24(%rdi),%rsi
+	movq 24(%rax),%rsi
 	cmpq $0,%rsi
 	jnz L118
 L129:
-	movq 32(%rdi),%rsi
+	movq 32(%rax),%rsi
 	cmpq $0,%rsi
 	jnz L118
 L126:
 	movq 24(%rbx),%rsi
 	leaq 8(%rsi),%rsi
+	movq %rax,%rdi
 	call _tree_cast
 	movq %rax,32(%rbx)
 L118:

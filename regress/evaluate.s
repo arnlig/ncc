@@ -148,11 +148,9 @@ L61:
 	movq (%r12),%rdi
 	leaq -8(%rbp),%rsi
 	movq %rdi,-8(%rbp)
-	movq -8(%rbp),%rdi
 	movq 32(%rdi),%rdi
 	leaq -16(%rbp),%rbx
 	movq %rdi,-16(%rbp)
-	movq -16(%rbp),%rdi
 	cmpq $0,%rdi
 	jz L55
 L67:
@@ -607,7 +605,6 @@ L206:
 	movq (%rbx),%rsi
 	leaq -8(%rbp),%r12
 	movq %rsi,-8(%rbp)
-	movq -8(%rbp),%rsi
 	movq %rbx,%rdi
 	movl $536870957,%edx
 	call _list_next_is

@@ -145,7 +145,6 @@ L49:
 	movl _predefs+8(%rbx),%esi
 	movl %esi,24(%r12)
 	xorl %eax,%eax
-	movl 24(%r12),%esi
 L65:
 	cmpl $32,%esi
 	jnz L54
@@ -1338,8 +1337,7 @@ L511:
 	cmpq $0,%rsi
 	jz L522
 L516:
-	movq -8(%rbp),%rdi
-	movq %rsi,(%rdi)
+	movq %rsi,-16(%rbp)
 	movq -8(%rbp),%rsi
 	movq (%rbx),%rdi
 	movq %rsi,40(%rdi)

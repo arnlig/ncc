@@ -153,6 +153,7 @@ struct block
     struct prop prop;               /* constant propagation data */
     struct copy copy;               /* copy propagation data */
     struct lvns lvns;               /* value numbering data */
+    struct insn *store;             /* redundant load data */
     struct operand *control;        /* controlling value of switch block */
     struct webs webs;               /* allocatable webs data */
     struct blks dominators;         /* dominators of this block */
