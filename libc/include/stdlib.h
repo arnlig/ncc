@@ -66,6 +66,9 @@ extern double strtod(const char *, char **);
 extern long strtol(const char *, char **, int);
 extern unsigned long strtoul(const char *, char **, int);
 
+extern void qsort(void *, size_t, size_t,
+                  int (*compar)(const void *, const void *));
+
 #endif /* _STDLIB_H */
 
 /* vi: set ts=4 expandtab: */
