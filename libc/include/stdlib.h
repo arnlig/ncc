@@ -28,7 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include <ncc.h>
 
-#define NULL __NULL
+#define NULL        __NULL
 
 #ifndef __SIZE_T
 #define __SIZE_T
@@ -71,6 +71,11 @@ extern unsigned long strtoul(const char *, char **, int);
 
 extern void qsort(void *, size_t, size_t,
                   int (*compar)(const void *, const void *));
+
+#define RAND_MAX    32767
+
+extern int rand(void);
+extern void srand(unsigned);
 
 #endif /* _STDLIB_H */
 
