@@ -48,6 +48,9 @@ extern void __stdio_cleanup(void);
 extern int atoi(const char *);
 extern long atol(const char *);
 
+extern void *bsearch(const void *, const void *, size_t, size_t,
+                     int (*)(const void *, const void *));
+
 /* __exit() is the system call; exit() ties up the
    library's loose ends before calling __exit(). */
 

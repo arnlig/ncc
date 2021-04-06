@@ -37,8 +37,8 @@ HDRS=		include/ctype.h include/fcntl.h include/float.h \
 
 OBJS=		amd64/syscall.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
-		__pow10.o atoi.o atol.o brk.o clearerr.o ctime.o exit.o \
-		execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
+		__pow10.o atoi.o atol.o brk.o bsearch.o clearerr.o ctime.o \
+		exit.o execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
 		fprintf.o fputc.o fputs.o frexp.o getenv.o isalnum.o \
 		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
 		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
@@ -62,6 +62,7 @@ __pow10.o:		__pow10.c $(HDRS)
 atoi.o:			atoi.c $(HDRS)
 atol.o:			atol.c $(HDRS)
 brk.o:			brk.c $(HDRS)
+bsearch.o: 		bsearch.c $(HDRS)
 clearerr.o:		clearerr.c $(HDRS)
 ctime.o:		ctime.c $(HDRS)
 exit.o:			exit.c $(HDRS)
