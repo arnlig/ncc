@@ -422,6 +422,21 @@ int block_nr_predecessors(struct block *b)
     return nr_cessors(&b->predecessors);
 }
 
+/* return the successor of this block linked
+   to it by condition_code, or 0 if none. */
+
+struct cessor *block_cc_successor(struct block *b, condition_code cc)
+{
+    struct cessor *succ;
+
+    for (succ = CESSORS_FIRST(&b->successors);
+      succ; succ = CESSORS_NEXT(succ))
+        if (succ->cc == cc)
+            return succ;
+
+    return 0;
+}
+
 /* return the CC_ALWAYS successor of a block, or 0
    if the block has no unconditional successor. */
 

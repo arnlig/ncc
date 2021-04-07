@@ -150,9 +150,11 @@ void coal(void)
         ;
 }
 
-/* we try to invoke the optimization passes in some kind of sensible
-   order. each pass is free to re-invoke other passes it believes may
-   benefit from new opportunities that have been uncovered. */
+/* really need to think out what order we're going to invoke these
+   passes, under what circumstances to repeat them, and when passes
+   might re-invoke other passes and such. the interactions between
+   them are real, but we don't want to make compile times long but
+   needlessly invoking passes that don't have anything left to do. */
 
 void optimize(void)
 {
@@ -168,8 +170,8 @@ void optimize(void)
     slvn();
     copy();
     load();
-    copy();
     slvn();
+    prop();
     copy();
     coal();
 }

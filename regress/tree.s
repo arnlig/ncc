@@ -62,9 +62,6 @@ L30:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L31
-L39:
-	cmpl $0,%esi
-	jnz L36
 L43:
 	movl (%rbx),%esi
 	andl $1073741824,%esi
@@ -694,9 +691,6 @@ L270:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L271
-L317:
-	cmpl $0,%esi
-	jnz L314
 L321:
 	movl (%rbx),%esi
 	andl $1073741824,%esi
@@ -1560,9 +1554,6 @@ L649:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L646
-L679:
-	cmpl $0,%esi
-	jnz L676
 L683:
 	movl (%rbx),%esi
 	andl $1073741824,%esi
@@ -1688,9 +1679,6 @@ L711:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L708
-L741:
-	cmpl $0,%esi
-	jnz L738
 L745:
 	movl (%rbx),%esi
 	andl $1073741824,%esi
@@ -1789,9 +1777,6 @@ L761:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L758
-L791:
-	cmpl $0,%esi
-	jnz L788
 L795:
 	movl (%rbx),%esi
 	andl $1073741824,%esi
@@ -1952,9 +1937,6 @@ L882:
 	andl $2147483648,%esi
 	cmpl $0,%esi
 	jnz L854
-L895:
-	cmpl $0,%esi
-	jnz L892
 L899:
 	movl (%r13),%esi
 	andl $1073741824,%esi

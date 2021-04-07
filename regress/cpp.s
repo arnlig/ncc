@@ -104,7 +104,7 @@ L40:
 L44:
 	movq 32(%r14),%rsi
 	xorl %edi,%edi
-	movl %edi,%eax
+	xorl %eax,%eax
 L47:
 	cmpq $0,%rsi
 	jz L49

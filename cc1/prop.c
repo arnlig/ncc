@@ -23,8 +23,8 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include "../common/util.h"
 #include "cc1.h"
 #include "insn.h"
 #include "block.h"
@@ -39,9 +39,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 /* constant propagation. if all definitions that reach a use of a register
    were assignments of the same constant to a register, then we can replace
    that use with the constant. we use common formulation as described in,
-   e.g., the dragon book (9.4.1 in the 2nd edition). we also do a limited
-   form of conditional propagation, and, finally, we perform static switch()
-   resolution when possible. */
+   e.g., the dragon book (9.4.1 in the 2nd edition). we also do a form of
+   conditional propagation, and resolve switches statically if possible. */
 
 static bool changed;
 
@@ -144,13 +143,24 @@ static void conps_set(struct conp *conps, pseudo_reg reg,
 }
 
 /* merge a conps[] table with a predecessor's. this
-   is the meat of the meet function (no pun intended) */
+   is the meat of the meet function (no pun intended).
+   reg/value hold the state conditionally propagated from
+   the predecessor we're merging from; if none, then reg
+   should be PSEUDO_REG_NONE and value is ignored. */
 
-static void conps_merge(struct conp *to, struct conp *from)
+static void conps_merge(struct conp *to, struct conp *from,
+                        pseudo_reg reg, struct operand *value)
 {
+    struct conp fake = { CONP_STATE_CON, value };
+    struct conp *tmp;
     int n;
 
     for (n = 0; n < MAP_SIZE; ++n, ++to, ++from) {
+        if (map[n] == reg) {
+            tmp = from;
+            from = &fake;
+        }
+
         if (to->state != CONP_STATE_NAC) {
             switch (from->state)
             {
@@ -168,6 +178,9 @@ static void conps_merge(struct conp *to, struct conp *from)
                     conp_set(to, CONP_STATE_CON, operand_dup(from->value));
             }
         }
+
+        if (map[n] == reg)
+            from = tmp;
     }
 }
 
@@ -340,11 +353,51 @@ static blocks_iter_ret gen0(struct block *b)
     return BLOCKS_ITER_OK;
 }
 
+/* if a predecessor only reaches us after deciding that a 
+   register is equal to a constant, then return the constant
+   and record the register in *reg. otherwise returns 0 and
+   sets *reg to PSEUDO_REG_NONE. we use this data to patch
+   up the OUT() set of the predecessor during conps_merge(). */
+
+static struct operand *conditional(struct block *b, struct block *pred,
+                                   pseudo_reg *reg)
+{
+    struct cessor *succ;
+    struct insn *last;
+    struct operand *src;
+    struct operand *dst;
+
+    *reg = PSEUDO_REG_NONE;
+
+    if (((succ = block_cc_successor(pred, CC_Z)) == 0) || (succ->b != b))
+        return 0;
+
+    if (((last = INSNS_LAST(&pred->insns)) == 0) || (last->op != I_CMP))
+        return 0;
+    
+    src = last->src1;
+    dst = last->src2;
+
+    if (OPERAND_CON(dst))
+        SWAP(struct operand *, src, dst);
+
+    if (OPERAND_CON(dst))
+        return 0;   /* both constants */
+
+    if (!OPERAND_CON(src))
+        return 0;   /* no constants */
+
+    *reg = dst->reg;
+    return src;
+}
+
 /* the iterative analysis. if the OUT set has
    changed, make sure we rinse and repeat */
 
 static blocks_iter_ret prop0(struct block *b)
 {
+    pseudo_reg dst;
+    struct operand *value;
     struct cessor *pred;
 
     if (b == entry_block)
@@ -353,8 +406,10 @@ static blocks_iter_ret prop0(struct block *b)
     conps_reset(b->prop.in);
 
     for (pred = CESSORS_FIRST(&b->predecessors);
-      pred; pred = CESSORS_NEXT(pred))
-        conps_merge(b->prop.in, pred->b->prop.out);
+      pred; pred = CESSORS_NEXT(pred)) {
+        value = conditional(b, pred->b, &dst);
+        conps_merge(b->prop.in, pred->b->prop.out, dst, value);
+    }
 
     conps_dup(b->prop.tmp, b->prop.in);
     conps_kill(b->prop.tmp, &b->kill);
@@ -395,15 +450,15 @@ static void clear(void)
     regs_clear(&all_defs);
 }
 
-/* conditional propagation. if a block has an unconditional successor
+/* lookahead propagation. if this block has an unconditional successor
    whose sole function is to compare a register with a constant and
    branch accordingly, and the register is a known constant at the exit
-   of the block, then we hoist the comparison and branches to the end of
-   the block. constant folding will later resolve the branch statically.
-   this simple transformation results in a handful of improvements like
-   loop inversion and better code for logical operators. */
+   of this block, then we hoist the comparison and branches from the
+   successor to the end of this block. constant folding will later resolve
+   the branch statically. this simple transformation results in a handful
+   of improvements like loop inversion and better logical operator code. */
 
-static blocks_iter_ret cond0(struct block *b)
+static blocks_iter_ret lookahead0(struct block *b)
 {
     struct cessor *succ;
     struct insn *insn;
@@ -462,7 +517,7 @@ void prop(void)
         blocks_iter(gen0);
         blocks_iter(prop0);
         blocks_iter(rewrite0);
-        blocks_iter(cond0);
+        blocks_iter(lookahead0);
         blocks_iter(switch0);
 
         clear();

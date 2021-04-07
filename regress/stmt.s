@@ -124,8 +124,8 @@ L35:
 	movq %rax,%r10
 	movq %r10,-16(%rbp)	 # spill
 	xorl %ebx,%ebx
-	movq %rbx,%r12
-	movq %r12,%r15
+	xorl %r12d,%r12d
+	xorl %r15d,%r15d
 	call _block_new
 	movq %rax,_continue_block(%rip)
 	call _block_new

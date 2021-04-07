@@ -209,6 +209,7 @@ extern void block_redirect_successors(struct block *, struct block *,
 
 extern struct cessor *block_get_successor_n(struct block *, int);
 extern struct cessor *block_get_predecessor_n(struct block *, int);
+extern struct cessor *block_cc_successor(struct block *, condition_code);
 extern struct cessor *block_always_successor(struct block *);
 extern struct cessor *block_sole_predecessor(struct block *);
 extern void block_switch(struct block *, struct tree *, struct block *);

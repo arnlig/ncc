@@ -331,7 +331,7 @@ L146:
 	pushq %r12
 L147:
 	xorl %r12d,%r12d
-	movl %r12d,%ebx
+	xorl %ebx,%ebx
 L149:
 	movq _pos(%rip),%rsi
 	movzbq (%rsi),%rsi

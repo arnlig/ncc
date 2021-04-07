@@ -146,7 +146,7 @@ L68:
 	cmpq $0,%rsi
 	jnz L77
 L73:
-	movq %rsi,72(%rbx)
+	movq $0,72(%rbx)
 	movq %rbx,(%rdi)
 	jmp L72
 L77:
@@ -181,7 +181,7 @@ L88:
 	movq %rsi,%r12
 	jmp L77
 L92:
-	movq %rsi,72(%rbx)
+	movq $0,72(%rbx)
 	movq %rbx,72(%r12)
 L72:
 	movl _current_scope(%rip),%esi

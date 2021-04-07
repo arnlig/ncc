@@ -676,7 +676,7 @@ L277:
 	cmpl $486539286,%ebx
 	jz L229
 L226:
-	movl %eax,%edx
+	xorl %edx,%edx
 	jmp L227
 L229:
 	movl $8,%edx
