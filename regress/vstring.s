@@ -99,9 +99,7 @@ L38:
 	movl %esi,(%rbx)
 	jmp L30
 L39:
-	movq 8(%rbx),%rsi
-	addq $-1,%rsi
-	movq %rsi,8(%rbx)
+	addq $-1,8(%rbx)
 L30:
 	popq %rbx
 	popq %rbp
@@ -282,9 +280,7 @@ L95:
 	movq %r14,%rsi
 	movq %r15,%rdx
 	call _memcpy
-	movq 8(%rbx),%rsi
-	addq %r15,%rsi
-	movq %rsi,8(%rbx)
+	addq %r15,8(%rbx)
 	movq 16(%rbx),%rsi
 	movq 8(%rbx),%rdi
 	movb $0,(%rsi,%rdi)

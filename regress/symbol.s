@@ -656,9 +656,7 @@ L262:
 	call _error
 	addq $16,%rsp
 L264:
-	movl _current_scope(%rip),%esi
-	addl $1,%esi
-	movl %esi,_current_scope(%rip)
+	addl $1,_current_scope(%rip)
 L261:
 	popq %rbp
 	ret
@@ -1768,9 +1766,7 @@ L764:
 	cmpl $32,%r12d
 	jle L763
 L760:
-	movl _current_scope(%rip),%esi
-	addl $-1,%esi
-	movl %esi,_current_scope(%rip)
+	addl $-1,_current_scope(%rip)
 L758:
 	popq %r12
 	popq %rbx
@@ -1847,9 +1843,7 @@ L822:
 	movl _current_scope(%rip),%edi
 	movl $1002,%esi
 	call _scope_move
-	movl _current_scope(%rip),%esi
-	addl $-1,%esi
-	movl %esi,_current_scope(%rip)
+	addl $-1,_current_scope(%rip)
 L823:
 	popq %rbp
 	ret

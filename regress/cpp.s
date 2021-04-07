@@ -416,9 +416,7 @@ L189:
 	movq _out_fp(%rip),%rsi
 	movl $10,%edi
 	call _fputc
-	movl L172(%rip),%esi
-	addl $1,%esi
-	movl %esi,L172(%rip)
+	addl $1,L172(%rip)
 	movl $0,_last_class(%rip)
 	jmp L188
 L171:

@@ -108,6 +108,9 @@ extern void amd64_operand_normalize(struct amd64_operand *);
 extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
                                                     struct amd64_operand *);
 
+extern bool amd64_operands_same(struct amd64_operand *,
+                               struct amd64_operand *);
+
 #define AMD64_OPERAND_CON(o)        ((o) && ((o)->class == AMD64_O_CON))
 #define AMD64_OPERAND_REG(o)        ((o) && ((o)->class == AMD64_O_REG))
 #define AMD64_OPERAND_EFF(o)        ((o) && ((o)->class == AMD64_O_EFF))
@@ -887,6 +890,42 @@ extern struct amd64_operand *amd64_operands_combine(struct amd64_operand *,
                                     | AMD64_I_ENC_USES(0)                   \
                                     | AMD64_I_ENC_IARGS(iargs)              \
                                     | AMD64_I_ENC_FARGS(fargs)              )
+
+#define AMD64_I_ADDB        AMD64_I ( 88                                    \
+                                    | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(1)                   \
+                                    | AMD64_I_ENC_DEFS(1)                   )
+
+#define AMD64_I_SUBB        AMD64_I ( 89                                    \
+                                    | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(1)                   \
+                                    | AMD64_I_ENC_DEFS(1)                   )
+
+#define AMD64_I_ADDW        AMD64_I ( 90                                    \
+                                    | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(1)                   \
+                                    | AMD64_I_ENC_DEFS(1)                   )
+
+#define AMD64_I_SUBW        AMD64_I ( 91                                    \
+                                    | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(1)                   \
+                                    | AMD64_I_ENC_DEFS(1)                   )
 
 extern void amd64_insn_construct(struct insn *, va_list);
 extern void amd64_insn_destruct(struct insn *);

@@ -33,12 +33,8 @@ L10:
 	subq %rsi,%rdx
 	movq $_buf,%rdi
 	call _memmove
-	movq _begin(%rip),%rsi
-	subq %rbx,%rsi
-	movq %rsi,_begin(%rip)
-	movq _pos(%rip),%rsi
-	subq %rbx,%rsi
-	movq %rsi,_pos(%rip)
+	subq %rbx,_begin(%rip)
+	subq %rbx,_pos(%rip)
 	movq _invalid(%rip),%rsi
 	subq %rbx,%rsi
 	movq %rsi,_invalid(%rip)
@@ -268,9 +264,7 @@ L114:
 	cmpl $10,%esi
 	jnz L113
 L120:
-	movl _error_line_no(%rip),%esi
-	addl $1,%esi
-	movl %esi,_error_line_no(%rip)
+	addl $1,_error_line_no(%rip)
 	jmp L113
 L105:
 	movq _begin(%rip),%rdi
@@ -292,9 +286,7 @@ L129:
 	movq %rsp,%rbp
 L130:
 	call _delimit
-	movq _begin(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_begin(%rip)
+	addq $1,_begin(%rip)
 	movq $_begin,%rdi
 	call _escape
 	movslq %eax,%rsi
@@ -362,9 +354,7 @@ L167:
 	cmpl $45,%esi
 	jnz L171
 L160:
-	movq _pos(%rip),%rsi
-	addq $1,%rsi
-	movq %rsi,_pos(%rip)
+	addq $1,_pos(%rip)
 L171:
 	movq _pos(%rip),%rdi
 	addq $1,%rdi
@@ -390,9 +380,7 @@ L151:
 	jnz L179
 L177:
 	movl $1,%r12d
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L179:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%edi
@@ -401,9 +389,7 @@ L179:
 	jnz L182
 L180:
 	movl $1,%ebx
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L182:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%edi
@@ -412,9 +398,7 @@ L182:
 	jnz L185
 L183:
 	movl $1,%r12d
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L185:
 	movq _pos(%rip),%rsi
 	movq -8(%rbp),%rdi
@@ -445,9 +429,7 @@ L237:
 	jmp L238
 L240:
 	movl $9,_token(%rip)
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 	jmp L238
 L242:
 	movq _begin(%rip),%rdi
@@ -456,9 +438,7 @@ L242:
 	cvtss2sd %xmm0,%xmm0
 	movsd %xmm0,_token+8(%rip)
 	movl $7,_token(%rip)
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L238:
 	movq _pos(%rip),%rsi
 	movq -8(%rbp),%rdi
@@ -1179,9 +1159,7 @@ L712:
 	cmpl $11,%esi
 	jnz L711
 L713:
-	movl _error_line_no(%rip),%esi
-	addl $1,%esi
-	movl %esi,_error_line_no(%rip)
+	addl $1,_error_line_no(%rip)
 	call _lex1
 	movl _token(%rip),%esi
 	cmpl $10,%esi

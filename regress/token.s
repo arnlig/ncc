@@ -196,9 +196,7 @@ L71:
 	cmpl $76,%eax
 	jnz L74
 L72:
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L74:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%edi
@@ -214,9 +212,7 @@ L77:
 	cmpl $76,%eax
 	jnz L80
 L78:
-	movq -8(%rbp),%rsi
-	addq $1,%rsi
-	movq %rsi,-8(%rbp)
+	addq $1,-8(%rbp)
 L80:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi

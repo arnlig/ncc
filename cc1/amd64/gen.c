@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "amd64.h"
 #include "insn.h"
 #include "peep.h"
+#include "fuse.h"
 #include "reg.h"
 #include "gen.h"
 
@@ -1179,9 +1180,10 @@ void amd64_gen(void)
 
     dead();
 
-    /* some machine-specific optimizations */
+    /* pre-allocation machine-specific optimizations */
 
     amd64_peep();
+    amd64_fuse();
 }
 
 /* called by the register allocator to generate spills

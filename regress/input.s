@@ -246,9 +246,7 @@ L116:
 	jmp L114
 L118:
 	movq _input_stack(%rip),%rsi
-	movl 32(%rsi),%edi
-	addl $1,%edi
-	movl %edi,32(%rsi)
+	addl $1,32(%rsi)
 	movq $L115,%rdi
 	call _vstring_clear
 L121:
@@ -295,9 +293,7 @@ L132:
 	movq $L115,%rdi
 	call _vstring_rubout
 	movq _input_stack(%rip),%rsi
-	movl 32(%rsi),%edi
-	addl $1,%edi
-	movl %edi,32(%rsi)
+	addl $1,32(%rsi)
 	jmp L121
 L136:
 	movl L115(%rip),%esi

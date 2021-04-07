@@ -348,6 +348,19 @@ struct amd64_operand *amd64_operands_combine(struct amd64_operand *o1,
     return combo;
 }
 
+/* returns TRUE if the operands are identical */
+
+bool amd64_operands_same(struct amd64_operand *o1, struct amd64_operand *o2)
+{
+    if ((o1->class != o2->class) || (o1->ts != o2->ts)
+      || (o1->reg != o2->reg) || (o1->idx != o2->idx)
+      || (o1->scale != o2->scale) || (o1->sym != o2->sym)
+      || (o1->i != o2->i))
+        return FALSE;
+    else
+        return TRUE;
+}
+
 /* replace all occurrences of reg from with reg to in the operand.
    returns TRUE if a replacement occurred, FALSE otherwise. */
 
@@ -706,7 +719,8 @@ static char *amd64_insn_text[] =        /* keyed to AMD64_I_INDEX() */
     /*  72 */   "mulss",        "mulsd",        "divss",        "divsd",
     /*  76 */   "imull",        "imulq",        "divl",         "divq",
     /*  80 */   "idivl",        "idivq",        "cltd",         "cqto",
-    /*  84 */   "rep",          "movsb",        "stosb",        "call"
+    /*  84 */   "rep",          "movsb",        "stosb",        "call",
+    /*  88 */   "addb",         "subb",         "addw",         "subw"
 };
 
 void amd64_insn_output(struct insn *insn)
