@@ -437,6 +437,21 @@ struct cessor *block_always_successor(struct block *b)
         return 0;
 }
 
+/* return the sole predecessor of a block, if it
+   has but one predecessor, 0 otherwise. */
+
+struct cessor *block_sole_predecessor(struct block *b)
+{
+    struct cessor *pred;
+
+    pred = CESSORS_FIRST(&b->predecessors);
+
+    if (pred && (CESSORS_NEXT(pred) == 0))
+        return pred;
+    else
+        return 0;
+}
+
 /* replace Z/NZ conditional branches with the pair indicated
    by nz (its partner implied by its inverse). returns TRUE
    if the rewrite occurred, or FALSE otherwise. */

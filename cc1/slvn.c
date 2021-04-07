@@ -190,10 +190,8 @@ static void slvn0(struct block *b)
     struct lvn *m;
     struct cessor *pred;
 
-    if (block_nr_predecessors(b) == 1) {
-        pred = block_get_predecessor_n(b, 0);
+    if (pred = block_sole_predecessor(b))
         lvns_dup(&b->lvns, &pred->b->lvns);
-    }
 
     INSNS_FOREACH(insn, &b->insns) {
         if (I_SLVN(insn->op) && !(insn->flags & INSN_FLAG_VOLATILE)) {

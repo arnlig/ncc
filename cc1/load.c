@@ -56,10 +56,8 @@ static void load0(struct block *b)
     struct insn *insn;
     struct cessor *pred;
 
-    if (block_nr_predecessors(b) == 1) {
-        pred = block_get_predecessor_n(b, 0);
+    if (pred = block_sole_predecessor(b))
         b->store = pred->b->store;
-    }
 
     INSNS_FOREACH(insn, &b->insns) {
         if ((insn->op == I_LOAD) && b->store
