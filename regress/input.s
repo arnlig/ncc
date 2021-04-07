@@ -72,7 +72,7 @@ L28:
 	movq %rsp,%rbp
 L29:
 	xorl %esi,%esi
-	xorl %ecx,%ecx
+	xorl %eax,%eax
 L31:
 	movzbl (%rdi),%edx
 	cmpl $0,%edx
@@ -86,27 +86,27 @@ L34:
 L37:
 	xorl %esi,%esi
 L39:
-	movzbl (%rdi),%eax
-	cmpl $92,%eax
+	movzbl (%rdi),%ecx
+	cmpl $92,%ecx
 	jnz L36
 L43:
-	leaq 1(%rdi),%rax
+	leaq 1(%rdi),%rcx
 	movzbl 1(%rdi),%edx
 	cmpl %esi,%edx
 	jnz L36
 L40:
-	movq %rax,%rdi
+	movq %rcx,%rdi
 	jmp L36
 L35:
-	movzbl _in_comment(%rip),%eax
-	cmpl $0,%eax
+	movzbl _in_comment(%rip),%ecx
+	cmpl $0,%ecx
 	jz L48
 L47:
 	cmpl $42,%edx
 	jnz L52
 L53:
-	movzbl 1(%rdi),%eax
-	cmpl $47,%eax
+	movzbl 1(%rdi),%ecx
+	cmpl $47,%ecx
 	jnz L52
 L50:
 	movb $32,1(%rdi)
@@ -118,8 +118,8 @@ L48:
 	cmpl $47,%edx
 	jnz L58
 L60:
-	movzbl 1(%rdi),%eax
-	cmpl $42,%eax
+	movzbl 1(%rdi),%ecx
+	cmpl $42,%ecx
 	jnz L58
 L57:
 	movb $32,(%rdi)
@@ -127,34 +127,34 @@ L57:
 	movb $1,_in_comment(%rip)
 	jmp L36
 L58:
-	movzbl (%rdi),%eax
-	cmpl $34,%eax
+	movzbl (%rdi),%ecx
+	cmpl $34,%ecx
 	jz L64
 L67:
-	cmpl $39,%eax
+	cmpl $39,%ecx
 	jnz L36
 L64:
 	movzbl (%rdi),%esi
 L36:
-	movzbl (%rdi),%eax
-	cmpl $32,%eax
+	movzbl (%rdi),%ecx
+	cmpl $32,%ecx
 	jnz L72
 L71:
-	cmpq $0,%rcx
+	cmpq $0,%rax
 	jnz L73
 L74:
-	movq %rdi,%rcx
+	movq %rdi,%rax
 	jmp L73
 L72:
-	xorl %ecx,%ecx
+	xorl %eax,%eax
 L73:
 	addq $1,%rdi
 	jmp L31
 L33:
-	cmpq $0,%rcx
+	cmpq $0,%rax
 	jz L30
 L77:
-	movb $0,(%rcx)
+	movb $0,(%rax)
 L30:
 	popq %rbp
 	ret

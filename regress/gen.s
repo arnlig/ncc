@@ -481,16 +481,16 @@ L101:
 	pushq %r13
 	pushq %r14
 L123:
-	movl %esi,%r12d
-	movq %rdi,%rbx
+	movl %esi,%r13d
+	movq %rdi,%r12
 L102:
-	xorl %r14d,%r14d
-	movq 24(%rbx),%rdi
+	xorl %ebx,%ebx
+	movq 24(%r12),%rdi
 	xorl %esi,%esi
 	call _gen
-	movq %rax,24(%rbx)
-	leaq 8(%rbx),%rdi
-	movq 8(%rbx),%rsi
+	movq %rax,24(%r12)
+	leaq 8(%r12),%rdi
+	movq 8(%r12),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
 	andq $65536,%rsi
@@ -498,12 +498,12 @@ L102:
 	jnz L106
 L104:
 	call _symbol_temp
-	movq %rax,%r13
-	movq %r13,%r14
-	movq 24(%rbx),%rsi
-	movq %r13,%rdi
+	movq %rax,%r14
+	movq %r14,%rbx
+	movq 24(%r12),%rsi
+	movq %r14,%rdi
 	call _gen_load
-	movq 24(%rbx),%rsi
+	movq 24(%r12),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rdi
 	andq $131071,%rdi
@@ -526,19 +526,19 @@ L107:
 	movq $34909494181888,%rdi
 	andq %rdi,%rsi
 	sarq $38,%rsi
-	movq %r13,%rdi
+	movq %r14,%rdi
 	call _extract
 L106:
-	cmpl $1,%r12d
+	cmpl $1,%r13d
 	jz L116
 L114:
-	movq %rbx,%rdi
+	movq %r12,%rdi
 	call _tree_free
 L116:
-	cmpq $0,%r14
+	cmpq $0,%rbx
 	jz L118
 L117:
-	movq %r14,%rdi
+	movq %rbx,%rdi
 	call _tree_sym
 	jmp L103
 L118:

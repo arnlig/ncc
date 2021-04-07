@@ -386,7 +386,7 @@ L143:
 	rep
 	stosb
 	movq %rsi,-8(%rbp)
-	xorl %r14d,%r14d
+	xorl %r13d,%r13d
 	leaq -24(%rbp),%rdx
 	movq %rbx,%rdi
 	movl $49,%esi
@@ -402,7 +402,7 @@ L145:
 	movq %rbx,%rdi
 	xorl %esi,%esi
 	call _list_pop
-	movl $-2147483648,%r14d
+	movl $-2147483648,%r13d
 	movq (%rbx),%rsi
 	cmpq $0,%rsi
 	jz L160
@@ -448,9 +448,9 @@ L154:
 	xorl %edx,%edx
 	call _list_match
 L147:
-	leaq -16(%rbp),%r13
+	leaq -16(%rbp),%r14
 	movq %rbx,%rdi
-	movq %r13,%rsi
+	movq %r14,%rsi
 	call _list_normalize
 	movq -24(%rbp),%rsi
 	leaq 8(%rsi),%rdi
@@ -492,7 +492,7 @@ L191:
 	jz L184
 L187:
 	movl 24(%r12),%esi
-	cmpl %r14d,%esi
+	cmpl %r13d,%esi
 	jz L186
 L184:
 	movl (%r12),%esi
@@ -521,7 +521,7 @@ L175:
 	movq -24(%rbp),%rsi
 	leaq 8(%rsi),%rdi
 	call _insert
-	movl %r14d,24(%rax)
+	movl %r13d,24(%rax)
 	movq -16(%rbp),%rsi
 	cmpq $0,%rsi
 	jz L208
@@ -534,7 +534,7 @@ L202:
 	movq -8(%rbp),%rsi
 	movq %rsi,40(%rax)
 	movq $0,-16(%rbp)
-	movq %r13,-8(%rbp)
+	movq %r14,-8(%rbp)
 L208:
 	movq (%rbx),%rsi
 	cmpq $0,%rsi

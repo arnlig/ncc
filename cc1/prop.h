@@ -26,16 +26,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef PROP_H
 #define PROP_H
 
-#include "cc1.h"
-#include "assoc.h"
-
-ASSOC_DECLARE(conp, pseudo_reg, reg, struct operand *, value)
+struct conp;
 
 struct prop
 {
-    struct conps in;
-    struct conps gen;
-    struct conps out;
+    struct conp *in;
+    struct conp *gen;
+    struct conp *out;
+    struct conp *tmp;
 };
 
 extern void prop(void);

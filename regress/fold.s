@@ -94,28 +94,28 @@ L12:
 	cmpl $1879179281,%esi
 	jnz L43
 L52:
-	movq 24(%rbx),%rsi
-	cmpq $0,%rsi
+	movq 24(%rbx),%rax
+	cmpq $0,%rax
 	jz L43
 L56:
+	movl (%rax),%esi
+	cmpl $1,%esi
+	jnz L43
+L48:
+	movq 32(%rbx),%rsi
+	cmpq $0,%rsi
+	jz L43
+L60:
 	movl (%rsi),%edi
 	cmpl $1,%edi
 	jnz L43
-L48:
-	movq 32(%rbx),%rdi
-	cmpq $0,%rdi
-	jz L43
-L60:
-	movl (%rdi),%eax
-	cmpl $1,%eax
-	jnz L43
 L44:
-	movq 32(%rdi),%rax
-	movq 32(%rsi),%rsi
-	cmpq %rsi,%rax
+	movq 32(%rsi),%rdi
+	movq 32(%rax),%rax
+	cmpq %rax,%rdi
 	jnz L43
 L41:
-	movq $0,32(%rdi)
+	movq $0,32(%rsi)
 	movq 24(%rbx),%rsi
 	movq $0,32(%rsi)
 L43:

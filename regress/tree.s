@@ -801,22 +801,22 @@ L351:
 	cmpl $276825113,%esi
 	jnz L364
 L373:
-	movq 24(%rbx),%rsi
+	movq 24(%rbx),%rax
+	movl (%rax),%esi
+	cmpl $2147483649,%esi
+	jnz L364
+L369:
+	movq 32(%rbx),%rsi
 	movl (%rsi),%edi
 	cmpl $2147483649,%edi
 	jnz L364
-L369:
-	movq 32(%rbx),%rdi
-	movl (%rdi),%eax
-	cmpl $2147483649,%eax
-	jnz L364
 L365:
-	movq 32(%rdi),%rax
-	movq 32(%rsi),%rsi
-	cmpq %rsi,%rax
+	movq 32(%rsi),%rdi
+	movq 32(%rax),%rax
+	cmpq %rax,%rdi
 	jnz L364
 L362:
-	movq $0,32(%rdi)
+	movq $0,32(%rsi)
 	movq 24(%rbx),%rsi
 	movq $0,32(%rsi)
 L364:

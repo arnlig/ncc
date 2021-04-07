@@ -1630,12 +1630,12 @@ L563:
 	movq %rsi,%rax
 	jmp L533
 L538:
-	movl $1082130439,%r13d
-	movl $8190,%ebx
+	movl $1082130439,%ebx
+	movl $8190,%r13d
 	jmp L536
 L540:
-	movl $1073741832,%r13d
-	movl $8190,%ebx
+	movl $1073741832,%ebx
+	movl $8190,%r13d
 	jmp L536
 L544:
 	call _lex
@@ -1741,8 +1741,8 @@ L558:
 	movq %rsi,%rax
 	jmp L533
 L542:
-	movl $1082130441,%r13d
-	movl $1022,%ebx
+	movl $1082130441,%ebx
+	movl $1022,%r13d
 L536:
 	call _lex
 	call _cast
@@ -1753,7 +1753,7 @@ L536:
 	movq %rax,%r12
 	movq 8(%r12),%rsi
 	movq (%rsi),%rsi
-	andq %rbx,%rsi
+	andq %r13,%rsi
 	cmpq $0,%rsi
 	jnz L597
 L595:
@@ -1763,7 +1763,7 @@ L595:
 	call _error
 	addq $24,%rsp
 L597:
-	movl %r13d,%edi
+	movl %ebx,%edi
 	movq %r12,%rsi
 	call _tree_unary
 	movq %rax,%rbx
@@ -1826,23 +1826,23 @@ L617:
 	call _promote
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
-	movq (%rsi),%rdi
-	andq $131071,%rdi
-	movq %rdi,%rsi
-	andq $40958,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rsi
+	andq $131071,%rsi
+	movq %rsi,%rdi
+	andq $40958,%rdi
+	cmpq $0,%rdi
 	jz L627
 L639:
-	movq -16(%rbp),%rsi
-	movq (%rsi),%rax
+	movq -16(%rbp),%rdi
+	movq (%rdi),%rax
 	andq $131071,%rax
-	movq %rax,%rsi
-	andq $40958,%rsi
-	cmpq $0,%rsi
+	movq %rax,%rdi
+	andq $40958,%rdi
+	cmpq $0,%rdi
 	jz L627
 L635:
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	andq $7168,%rsi
+	cmpq $0,%rsi
 	jz L631
 L643:
 	andq $32768,%rax

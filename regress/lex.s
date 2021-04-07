@@ -1319,38 +1319,37 @@ L800:
 	pushq %rbp
 	movq %rsp,%rbp
 L814:
-	movl %esi,%eax
-	movq %rdi,%rsi
+	movq %rdi,%rax
 L801:
-	movl %eax,%edi
+	movl %esi,%edi
 	andl $255,%edi
 	movslq %edi,%rcx
 	cmpq $58,%rcx
 	jae L804
 L803:
-	movslq %edi,%rdi
-	movq _text(,%rdi,8),%rdi
+	movslq %edi,%rsi
+	movq _text(,%rsi,8),%rdi
 	cmpq $0,%rdi
 	jz L802
 L806:
-	movzbq (%rdi),%rax
-	movzbl ___ctype+1(%rax),%eax
-	andl $7,%eax
-	cmpl $0,%eax
+	movzbq (%rdi),%rsi
+	movzbl ___ctype+1(%rsi),%esi
+	andl $7,%esi
+	cmpl $0,%esi
 	jz L810
 L809:
+	movq %rax,%rsi
 	call _fputs
 	jmp L802
 L810:
 	pushq %rdi
 	pushq $L812
-	pushq %rsi
+	pushq %rax
 	call _fprintf
 	addq $24,%rsp
 	jmp L802
 L804:
-	movq %rsi,%rdi
-	movl %eax,%esi
+	movq %rax,%rdi
 	call _string_print_k
 L802:
 	popq %rbp

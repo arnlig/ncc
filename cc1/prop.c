@@ -23,6 +23,8 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "cc1.h"
 #include "insn.h"
 #include "block.h"
@@ -37,216 +39,385 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 /* constant propagation. if all definitions that reach a use of a register
    were assignments of the same constant to a register, then we can replace
    that use with the constant. we use common formulation as described in,
-   e.g., the dragon book (9.4.1 in the 2nd edition).
-
-   we also perform a limited form of conditional propagation: if a block
-   has an unconditional successor whose sole function is to compare a
-   register with a constant and branch accordingly, and the register is a
-   known constant at the exit of the block, then we hoist the comparison
-   and branches to the end of the block. constant folding will later resolve
-   the branch statically. this simple transformation results in a handful of
-   improvements like loop inversion and better code for logical operators.
-
-   finally, we perform static switch() resolution when possible. */
-
-#define CONP_CONSTRUCT(x)   (*(x) = 0)
-#define CONP_DESTRUCT(x)    operand_free(*(x))
-#define CONP_DUP(dst,src)   ((*(dst)) = operand_dup(*(src)))
-#define CONP_SAME(x, y)     operand_is_same(*(x), *(y))
-
-static ASSOC_DEFINE_CLEAR(conp, value, CONP_DESTRUCT)
-static ASSOC_DEFINE_INSERT(conp, pseudo_reg, reg, value, CONP_CONSTRUCT)
-static ASSOC_DEFINE_UNSET(conp, pseudo_reg, reg, value, CONP_DESTRUCT)
-static ASSOC_DEFINE_LOOKUP(conp, pseudo_reg, reg)
-static ASSOC_DEFINE_DUP(conp, pseudo_reg, reg, value, CONP_DUP)
-static ASSOC_DEFINE_MOVE(conp)
-static ASSOC_DEFINE_SAME(conp, reg, value, CONP_SAME)
-
-#define CONPS_INITIALIZER(ps)   ASSOC_INITIALIZER(ps)
-#define CONPS_INIT(ps)          ASSOC_INIT(ps)
-#define CONPS_COUNT(ps)         ASSOC_COUNT(ps)
-#define CONPS_FOREACH(p, ps)    ASSOC_FOREACH(p, ps)
-#define CONPS_FIRST(ps)         ASSOC_FIRST(ps)
-#define CONPS_NEXT(p)           ASSOC_NEXT(p)
-
-/* update conps to reflect reg -> value.
-   caller yields ownership of the value */
-
-static void conps_update(struct conps *ps, pseudo_reg reg,
-                         struct operand *value)
-{
-    struct conp *p;
-
-    p = conps_insert(ps, reg);
-
-    if (p->value)
-        operand_free(p->value);
-
-    p->value = value;
-}
+   e.g., the dragon book (9.4.1 in the 2nd edition). we also do a limited
+   form of conditional propagation, and, finally, we perform static switch()
+   resolution when possible. */
 
 static bool changed;
 
-/* first, reset the state and compute the GEN() set for
-   the block: those constant definitions present in the
-   block that survive to the end. while we're at it, we
-   initialize the OUT() set for the entry block, which
-   is NAC for all possible constants. note that we must
-   visit the entry_block first for this work properly. */
+/* list of all regs DEFd in this function */
+
+static struct regs all_defs = REGS_INITIALIZER(all_defs);
+
+/* map[] is an index -> pseudo_reg map. obviously that's not helpful
+   for map[] itself, but its indices are the same as the conps[] tables. */
+
+static pseudo_reg *map;
+
+#define MAP_SIZE        (REGS_COUNT(&all_defs))
+
+/* get the index of the specified reg in map[] (and
+   thus any conps[] table), or -1 if not found. */
+
+static int map_compar(const void *r1, const void *r2)
+{
+    return (*(const pseudo_reg *) r1 - *(const pseudo_reg *) r2);
+}
+
+static int map_index(pseudo_reg reg)
+{
+    pseudo_reg *entry;
+    
+    entry = bsearch(&reg, map, MAP_SIZE, sizeof(*map), map_compar);
+    
+    if (entry)
+        return entry - map;
+    else
+        return -1;
+}
+
+/* struct conp tracks the state for one register in a table */
+
+typedef int conp_state;     /* CONP_STATE_ */
+
+#define CONP_STATE_DUNNO        0       /* don't know anything about reg */
+#define CONP_STATE_CON          1       /* it's a constant, see value */
+#define CONP_STATE_NAC          2       /* definitely not constant */
+
+struct conp
+{
+    conp_state state;
+    struct operand *value;      /* if CONP_STATE_CON, 0 otherwise */
+};
+
+/* allocate and initialize a new conps[] table */
+
+static struct conp *conps_new(void)
+{
+    /* safe_malloc zeros the structs, so { CONP_STATE_DUNNO, 0 }
+       is the initial state for each entry, which is perfect */
+
+    return safe_malloc(sizeof(struct conp) * MAP_SIZE);
+}
+
+/* reset the conps[] state back to all-unknowns */
+
+static void conps_reset(struct conp *conps)
+{
+    int i;
+
+    for (i = 0; i < MAP_SIZE; ++i) {
+        if (conps[i].value)
+            operand_free(conps[i].value);
+
+        conps[i].state = CONP_STATE_DUNNO;
+        conps[i].value = 0;
+    }
+}
+
+/* update the conp to the specified state. if
+   CONP_STATE_CON, then ownership of value is
+   yielded to this function; otherwise use 0. */
+
+static void conp_set(struct conp *conp, conp_state state,
+                     struct operand *value)
+{
+    if (conp->value) {
+        operand_free(conp->value);
+        conp->value = 0;
+    }
+
+    conp->state = state;
+    conp->value = value;
+}
+
+/* update the conps[] table entry for reg to
+   the specified state, a la conp_set */
+
+static void conps_set(struct conp *conps, pseudo_reg reg,
+                      conp_state state, struct operand *value)
+{
+    int index;
+
+    index = map_index(reg);
+    conp_set(conps + index, state, value);
+}
+
+/* merge a conps[] table with a predecessor's. this
+   is the meat of the meet function (no pun intended) */
+
+static void conps_merge(struct conp *to, struct conp *from)
+{
+    int n;
+
+    for (n = 0; n < MAP_SIZE; ++n, ++to, ++from) {
+        if (to->state != CONP_STATE_NAC) {
+            switch (from->state)
+            {
+            case CONP_STATE_DUNNO:  break;
+
+            case CONP_STATE_NAC:
+                conp_set(to, CONP_STATE_NAC, 0);
+                break;
+
+            case CONP_STATE_CON:
+                if (to->state == CONP_STATE_CON) {
+                    if (!operand_is_same(to->value, from->value))
+                        conp_set(to, CONP_STATE_NAC, 0);
+                } else
+                    conp_set(to, CONP_STATE_CON, operand_dup(from->value));
+            }
+        }
+    }
+}
+
+/* update a conps[] map with a GEN set, i.e., make a
+   matching CONP_STATE_CON in to for each one in gen. */
+
+static void conps_merge_gen(struct conp *to, struct conp *gen)
+{
+    int n;
+
+    for (n = 0; n < MAP_SIZE; ++n, ++gen, ++to)
+        if (gen->state == CONP_STATE_CON)
+            conp_set(to, CONP_STATE_CON, operand_dup(gen->value));
+}
+
+/* kill all the registers in the kill set, in the
+   conps[] table, that is, set them to unknown */
+
+static void conps_kill(struct conp *conps, struct regs *kill)
+{
+    struct reg *r;
+
+    REGS_FOREACH(r, kill)
+        conps_set(conps, r->reg, CONP_STATE_NAC, 0);
+}
+
+/* if the conps[] table has an entry for reg and it's
+   CONP_STATE_CON, then return its value, otherwise 0 */
+
+static struct operand *conps_value(struct conp *conps, pseudo_reg reg)
+{
+    int index;
+
+    index = map_index(reg);
+
+    if ((index == -1) || (conps[index].state != CONP_STATE_CON))
+        return 0;
+
+    return conps[index].value;
+}
+
+/* returns TRUE if two conps[] tables are equivalent */
+
+static bool conps_same(struct conp *conps1, struct conp *conps2)
+{
+    int n;
+    
+    for (n = 0; n < MAP_SIZE; ++n, ++conps1, ++conps2) {
+        if (conps1->state != conps2->state)
+            return FALSE;
+
+        if ((conps1->state == CONP_STATE_CON)
+          && !operand_is_same(conps1->value, conps2->value))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
+/* turn dst conps[] into an equivalent of src conps[] */
+
+static void conps_dup(struct conp *dst, struct conp *src)
+{
+    int n;
+
+    for (n = 0; n < MAP_SIZE; ++n, ++dst, ++src) {
+        if (src->state == CONP_STATE_CON)
+            conp_set(dst, CONP_STATE_CON, operand_dup(src->value));
+        else
+            conp_set(dst, src->state, 0);
+    }
+}
+
+/* set all conps[] entries to CONP_STATE_NAC */
+
+static void conps_poison(struct conp *dst)
+{
+    int n;
+
+    for (n = 0; n < MAP_SIZE; ++n, ++dst)
+        conp_set(dst, CONP_STATE_NAC, 0);
+}
+
+/* reset and free the conps[] table */
+
+static void conps_free(struct conp *conps)
+{
+    conps_reset(conps);
+    free(conps);
+}
+
+/* compute all_defs set through merging block kill sets,
+   allocate/initialize map[], and create initial conps[]
+   for each block. */
+
+static blocks_iter_ret all0(struct block *b)
+{
+    regs_union(&all_defs, &b->kill);
+    return BLOCKS_ITER_OK;
+}
 
 static blocks_iter_ret init0(struct block *b)
 {
-    struct regs defs = REGS_INITIALIZER(defs);
-    struct reg *defs_r;
+    b->prop.in = conps_new();
+    b->prop.gen = conps_new();
+    b->prop.out = conps_new();
+    b->prop.tmp = conps_new();
+}
+
+static void init(void)
+{
+    struct reg *r;
+    int n;
+
+    blocks_iter(all0);
+    map = safe_malloc(sizeof(pseudo_reg) * MAP_SIZE);
+    
+    n = 0;
+
+    REGS_FOREACH(r, &all_defs)  /* iteration returns regs in ascending */
+        map[n++] = r->reg;      /* order, so, yay, the map is sorted */
+
+    blocks_iter(init0);
+    conps_poison(entry_block->prop.out);
+}
+
+/* perform copy propagation in the block, using
+   the conps[] provided as a starting point, and
+   update the conps[] to reflect the exit state */
+
+static void local(struct block *b, struct conp *conps)
+{
     struct insn *insn;
     struct operand *value;
+    struct regs regs = REGS_INITIALIZER(regs);
+    struct reg *r;
     pseudo_reg dst;
-
-    CONPS_INIT(&b->prop.in);
-    CONPS_INIT(&b->prop.gen);
-    CONPS_INIT(&b->prop.out);
 
     INSNS_FOREACH(insn, &b->insns) {
         if (value = insn_con(insn, &dst)) {
-            conps_update(&b->prop.gen, dst, operand_dup(value));
-            conps_update(&entry_block->prop.out, dst, 0);
+            conps_set(conps, dst, CONP_STATE_CON, value);
             continue;
         }
 
-        insn_defs_regs(insn, &defs);
-    
-        REGS_FOREACH(defs_r, &defs)
-            conps_unset(&b->prop.gen, defs_r->reg);
+        insn_uses_regs(insn, &regs);
 
-        regs_clear(&defs);
+        REGS_FOREACH(r, &regs)
+            if ((value = conps_value(conps, r->reg))
+              && insn_substitute_con(insn, r->reg, value))
+                changed = TRUE;
+
+        regs_clear(&regs);
+
+        insn_defs_regs(insn, &regs);
+
+        REGS_FOREACH(r, &regs)
+            conps_set(conps, r->reg, CONP_STATE_NAC, 0);
+    
+        regs_clear(&regs);
     }
+}
+
+/* we do one pass of local copy propagation before iteration
+   begins - exit state is, conveniently, the GEN() set. */
+
+static blocks_iter_ret gen0(struct block *b)
+{
+    local(b, b->prop.gen);
 
     return BLOCKS_ITER_OK;
 }
 
-/* now, iterate to solve for IN and OUT.
+/* the iterative analysis. if the OUT set has
+   changed, make sure we rinse and repeat */
 
-   IN = merge of all predecessor's OUTs
-   OUT = (IN - KILL) union with GEN
-
-   the rules for merging are as follows:
-
-   1. if any predecessor OUT set has marked the register not-a-constant,
-      (a conp with a null value), then the register is not-a-constant (NAC).
-   2. if a register is a constant in any predecessor's OUT, then all
-      predecessors must agree on the constant, or the register is NAC.
-
-   as usual, we converge when the OUT sets do not change in a pass. */
-
-static void merge(struct block *b)
+static blocks_iter_ret prop0(struct block *b)
 {
-    struct conp *pred_p;
-    struct conp *in_p;
     struct cessor *pred;
-    int n;
-
-    conps_clear(&b->prop.in);
-
-    for (n = 0; pred = block_get_predecessor_n(b, n); ++n) {
-        if (n == 0)
-            conps_dup(&b->prop.in, &pred->b->prop.out);
-        else CONPS_FOREACH(pred_p, &pred->b->prop.out) {
-            in_p = conps_lookup(&b->prop.in, pred_p->reg);
-
-            if (in_p == 0)
-                conps_update(&b->prop.in, pred_p->reg, 
-                                          operand_dup(pred_p->value));
-            else
-                if ((in_p->value == 0) || (pred_p->value == 0)
-                  || !operand_is_same(in_p->value, pred_p->value))
-                    conps_update(&b->prop.in, pred_p->reg, 0);
-        }
-    }
-}
-
-static blocks_iter_ret global0(struct block *b)
-{
-    struct conps new_out = CONPS_INITIALIZER(new_out);
-    struct conp *gen_p;
-    struct reg *kill_r;
 
     if (b == entry_block)
         return BLOCKS_ITER_OK;
 
-    merge(b);
-    conps_dup(&new_out, &b->prop.in);
+    conps_reset(b->prop.in);
 
-    REGS_FOREACH(kill_r, &b->kill)
-        conps_update(&new_out, kill_r->reg, 0);
+    for (pred = CESSORS_FIRST(&b->predecessors);
+      pred; pred = CESSORS_NEXT(pred))
+        conps_merge(b->prop.in, pred->b->prop.out);
 
-    CONPS_FOREACH(gen_p, &b->prop.gen)
-        conps_update(&new_out, gen_p->reg, operand_dup(gen_p->value));
+    conps_dup(b->prop.tmp, b->prop.in);
+    conps_kill(b->prop.tmp, &b->kill);
+    conps_merge_gen(b->prop.tmp, b->prop.gen);
 
-    if (conps_same(&new_out, &b->prop.out)) {
-        conps_clear(&new_out);
+    if (conps_same(b->prop.tmp, b->prop.out))
         return BLOCKS_ITER_OK;
-    } else {
-        conps_clear(&b->prop.out);
-        conps_move(&b->prop.out, &new_out);
+    else {
+        conps_dup(b->prop.out, b->prop.tmp);
         return BLOCKS_ITER_REITER;
     }
 }
 
-/* now, we rewrite, starting with the IN
-   state, updating it as we go along. */
+/* rewriting is simply another local propagation pass,
+   but this time we can use the IN() from other blocks */
 
 static blocks_iter_ret rewrite0(struct block *b)
 {
-    struct regs regs = REGS_INITIALIZER(regs);
-    struct reg *regs_r;
-    struct insn *insn;
-    struct operand *value;
-    struct conps current = CONPS_INITIALIZER(current);
-    struct conp *p;
-    pseudo_reg dst;
-
-    conps_dup(&current, &b->prop.in);
-
-    INSNS_FOREACH(insn, &b->insns) {
-        if (value = insn_con(insn, &dst)) {
-            conps_update(&current, dst, value);
-            continue;
-        }
-
-        CONPS_FOREACH(p, &current)
-            if (p->value && insn_substitute_con(insn, p->reg, p->value))
-                changed = TRUE;
-
-        insn_defs_regs(insn, &regs);
+    local(b, b->prop.in);
     
-        REGS_FOREACH(regs_r, &regs)
-            conps_unset(&current, regs_r->reg);
+    return BLOCKS_ITER_OK;
+}
 
-        regs_clear(&regs);
-    }
-
-    conps_clear(&current);
+static blocks_iter_ret clear0(struct block *b)
+{
+    conps_free(b->prop.in);
+    conps_free(b->prop.gen);
+    conps_free(b->prop.out);
+    conps_free(b->prop.tmp);
 
     return BLOCKS_ITER_OK;
 }
 
-/* conditional propagation - see description in top comment. */
+static void clear(void)
+{
+    blocks_iter(clear0);
+    free(map);
+    regs_clear(&all_defs);
+}
+
+/* conditional propagation. if a block has an unconditional successor
+   whose sole function is to compare a register with a constant and
+   branch accordingly, and the register is a known constant at the exit
+   of the block, then we hoist the comparison and branches to the end of
+   the block. constant folding will later resolve the branch statically.
+   this simple transformation results in a handful of improvements like
+   loop inversion and better code for logical operators. */
 
 static blocks_iter_ret cond0(struct block *b)
 {
     struct cessor *succ;
     struct insn *insn;
-    struct conp *p;
+    struct operand *value;
     pseudo_reg dst;
 
     if ((succ = block_always_successor(b))
       && (succ->b != b)
       && (INSNS_COUNT(&succ->b->insns) == 1)
       && insn_test_con(INSNS_FIRST(&succ->b->insns), &dst)
-      && (p = conps_lookup(&b->prop.out, dst))
-      && OPERAND_PURE_CON(p->value)) {
+      && (value = conps_value(b->prop.out, dst))
+      && OPERAND_PURE_CON(value)) {
         insn = insn_dup(INSNS_FIRST(&succ->b->insns));
-        insn_substitute_con(insn, p->reg, p->value);
+        insn_substitute_con(insn, dst, value);
         BLOCK_APPEND_INSN(b, insn);
         block_dup_successors(b, succ->b);
         changed = TRUE;
@@ -267,8 +438,8 @@ static blocks_iter_ret switch0(struct block *b)
     if (BLOCK_SWITCH(b)) {
         o = b->control;
 
-        if (OPERAND_REG(o) && (p = conps_lookup(&b->prop.out, o->reg)))
-            o = p->value;
+        if (OPERAND_REG(o))
+            o = conps_value(b->prop.out, o->reg);
     
         if (OPERAND_PURE_CON(o)) {
             switch_b = block_switch_lookup(b, o->con.i);
@@ -281,42 +452,25 @@ static blocks_iter_ret switch0(struct block *b)
     return BLOCKS_ITER_OK;
 }
 
-/* clean up after ourselves */
-
-static blocks_iter_ret cleanup0(struct block *b)
-{
-    conps_clear(&b->prop.in);
-    conps_clear(&b->prop.gen);
-    conps_clear(&b->prop.out);
-
-    return BLOCKS_ITER_OK;
-}
-
 void prop(void)
 {
-    changed = FALSE;
-
-    /* sequence the blocks, partly for efficiency, but
-       mostly to ensure that entry_block is hit first by
-       init0, since init0 initializes its OUT() set. */
-
-    blocks_sequence();
-
     do {
+        kill_analyze();
         changed = FALSE;
 
-        blocks_iter(init0);
-        kill_analyze();
-        blocks_iter(global0);
+        init();
+        blocks_iter(gen0);
+        blocks_iter(prop0);
         blocks_iter(rewrite0);
         blocks_iter(cond0);
         blocks_iter(switch0);
-        blocks_iter(cleanup0);
+
+        clear();
 
         if (changed) {
             fold();
-            dead();
             algebra();
+            dead();
             unreach();
         }
     } while (changed);
