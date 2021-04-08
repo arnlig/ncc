@@ -315,6 +315,23 @@ bool block_conditional(struct block *b)
         return FALSE;
 }
 
+/* returns the set of condition codes used by the block's
+   ending conditional branch (empty if it's not conditional) */
+
+ccset block_ccs(struct block *b)
+{
+    struct cessor *succ;
+    ccset ccs;
+
+    CCSET_CLEAR(ccs);
+
+    CESSORS_FOREACH(succ, &b->successors)
+        if (CC_CONDITIONAL(succ->cc))
+            CCSET_SET(ccs, succ->cc);
+
+    return ccs;
+}
+
 /* mark a block as the controlling block of a switch statement. set
    the block's control operand based on the tree given (which must
    be a leaf), and create the CC_DEFAULT successor. this function

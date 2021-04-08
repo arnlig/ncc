@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "../common/list.h"
 #include "cc1.h"
+#include "codes.h"
 #include "regs.h"
 #include "insn.h"
 
@@ -82,6 +83,7 @@ extern struct range *range_by_def(struct live *, pseudo_reg, insn_index);
 extern struct range *range_by_use(struct live *, pseudo_reg, insn_index);
 extern void live_interf(struct live *, pseudo_reg, struct regs *);
 extern bool live_kill_insn(struct live *, insn_index);
+extern ccset live_ccs(struct block *, struct insn *);
 
 extern void live_debug(struct live *);
 

@@ -788,8 +788,7 @@ L281:
 	jz L275
 L277:
 	movl 24(%rax),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L275
 L274:
 	movq %rbx,%rdi
@@ -829,8 +828,7 @@ L294:
 	jz L301
 L303:
 	movl 24(%rax),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jnz L301
 L300:
 	movl $1,%edi

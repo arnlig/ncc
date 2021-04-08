@@ -86,8 +86,7 @@ L36:
 	movzbq (%rsi),%rdi
 	movl %edi,%eax
 	movzbl ___ctype+1(%rax),%eax
-	andl $7,%eax
-	cmpl $0,%eax
+	testl $7,%eax
 	jnz L43
 L39:
 	movzbl %dil,%edi
@@ -197,8 +196,7 @@ L94:
 	movq _pos(%rip),%rsi
 	movzbq (%rsi),%rdi
 	movzbl ___ctype+1(%rdi),%edi
-	andl $8,%edi
-	cmpl $0,%edi
+	testl $8,%edi
 	jz L91
 L97:
 	leaq 1(%rsi),%rdi
@@ -253,8 +251,7 @@ L116:
 	movzbq (%rsi),%rsi
 	movl %esi,%edi
 	movzbl ___ctype+1(%rdi),%edi
-	andl $8,%edi
-	cmpl $0,%edi
+	testl $8,%edi
 	jz L103
 L114:
 	movzbl %sil,%esi
@@ -326,8 +323,7 @@ L149:
 	movzbq (%rsi),%rsi
 	movl %esi,%edi
 	movzbl ___ctype+1(%rdi),%edi
-	andl $7,%edi
-	cmpl $0,%edi
+	testl $7,%edi
 	jnz L150
 L156:
 	movzbl %sil,%esi
@@ -547,8 +543,7 @@ L265:
 	movzbq (%rdi),%rsi
 	movl %esi,%eax
 	movzbl ___ctype+1(%rax),%eax
-	andl $8,%eax
-	cmpl $0,%eax
+	testl $8,%eax
 	jz L267
 L268:
 	movzbl %sil,%esi
@@ -1301,8 +1296,7 @@ L803:
 L806:
 	movzbq (%rdi),%rsi
 	movzbl ___ctype+1(%rsi),%esi
-	andl $7,%esi
-	cmpl $0,%esi
+	testl $7,%esi
 	jz L810
 L809:
 	movq %rax,%rsi
@@ -1433,9 +1427,7 @@ L870:
 	movq %rsp,%rbp
 L871:
 	movl 16(%rbp),%esi
-	movl %esi,%edi
-	andl $131072,%edi
-	cmpl $0,%edi
+	testl $131072,%esi
 	jnz L873
 L876:
 	cmpl $262145,%esi

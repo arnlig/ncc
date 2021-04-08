@@ -4,14 +4,12 @@ L1:
 	pushq %rbp
 	movq %rsp,%rbp
 L2:
-	movl (%rdi),%eax
-	movl %eax,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rdi),%esi
+	testl $1,%esi
 	jz L5
 L4:
-	andl $4294967041,%eax
-	movl %eax,(%rdi)
+	andl $4294967041,%esi
+	movl %esi,(%rdi)
 	movb $0,1(%rdi)
 	jmp L3
 L5:
@@ -44,8 +42,7 @@ L18:
 	movq %rsp,%rbp
 L19:
 	movl (%rdi),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jnz L20
 L21:
 	movq 16(%rdi),%rdi
@@ -61,15 +58,13 @@ L28:
 	pushq %rbx
 L42:
 	movq %rdi,%rbx
-	movl (%rbx),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rbx),%esi
+	testl $1,%esi
 	jz L35
 L34:
-	shll $24,%edi
-	sarl $25,%edi
-	movslq %edi,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	jmp L36
 L35:
 	movq 8(%rbx),%rsi
@@ -82,9 +77,7 @@ L31:
 	addq $8,%rsp
 L33:
 	movl (%rbx),%esi
-	movl %esi,%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	testl $1,%esi
 	jz L39
 L38:
 	movl %esi,%edi
@@ -109,15 +102,13 @@ L45:
 	pushq %rbp
 	movq %rsp,%rbp
 L46:
-	movl (%rdi),%eax
-	movl %eax,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rdi),%esi
+	testl $1,%esi
 	jz L52
 L51:
-	shll $24,%eax
-	sarl $25,%eax
-	movslq %eax,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	jmp L53
 L52:
 	movq 8(%rdi),%rsi
@@ -128,15 +119,13 @@ L48:
 	xorl %eax,%eax
 	jmp L47
 L50:
-	movl (%rdi),%eax
-	movl %eax,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rdi),%esi
+	testl $1,%esi
 	jz L56
 L55:
-	shll $24,%eax
-	sarl $25,%eax
-	leal -1(%rax),%esi
+	shll $24,%esi
+	sarl $25,%esi
+	addl $-1,%esi
 	movslq %esi,%rsi
 	movzbl 1(%rdi,%rsi),%eax
 	jmp L47
@@ -161,15 +150,13 @@ L98:
 	movq %rdi,%rbx
 	movq %rsi,%r14
 	movq %rdx,%r15
-	movl (%rbx),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rbx),%esi
+	testl $1,%esi
 	jz L68
 L67:
-	shll $24,%edi
-	sarl $25,%edi
-	movslq %edi,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	jmp L69
 L68:
 	movq 8(%rbx),%rsi
@@ -183,8 +170,7 @@ L70:
 	addq $8,%rsp
 L72:
 	movl (%rbx),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L78
 L77:
 	movl $23,%esi
@@ -214,15 +200,13 @@ L89:
 	movq %r12,%rdi
 	call _safe_malloc
 	movq %rax,%r13
-	movl (%rbx),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rbx),%esi
+	testl $1,%esi
 	jz L92
 L91:
-	shll $24,%edi
-	sarl $25,%edi
-	movslq %edi,%rdx
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rdx
 	leaq 1(%rbx),%rsi
 	movq %r13,%rdi
 	call _memcpy
@@ -243,15 +227,13 @@ L93:
 	movq %r12,(%rbx)
 	movq %r13,16(%rbx)
 L76:
-	movl (%rbx),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rbx),%esi
+	testl $1,%esi
 	jz L95
 L94:
-	shll $24,%edi
-	sarl $25,%edi
-	movslq %edi,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	leaq 1(%rbx,%rsi),%rdi
 	movq %r14,%rsi
 	movq %r15,%rdx
@@ -298,22 +280,19 @@ L101:
 	subq $8,%rsp
 L117:
 	movb %sil,-8(%rbp)
-	movl (%rdi),%eax
-	movl %eax,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl (%rdi),%esi
+	testl $1,%esi
 	jz L108
 L107:
-	shll $24,%eax
-	sarl $25,%eax
-	movslq %eax,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	jmp L109
 L108:
 	movq 8(%rdi),%rsi
 L109:
 	movl (%rdi),%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	testl $1,%eax
 	jz L111
 L110:
 	movl $23,%eax
@@ -326,9 +305,7 @@ L112:
 	ja L105
 L104:
 	movl (%rdi),%eax
-	movl %eax,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%eax
 	jz L114
 L113:
 	movl %eax,%ecx
@@ -376,22 +353,19 @@ L120:
 	pushq %rbp
 	movq %rsp,%rbp
 L121:
-	movl (%rsi),%ecx
-	movl %ecx,%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	movl (%rsi),%eax
+	testl $1,%eax
 	jz L124
 L123:
-	shll $24,%ecx
-	sarl $25,%ecx
-	movslq %ecx,%rdx
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rdx
 	jmp L125
 L124:
 	movq 8(%rsi),%rdx
 L125:
 	movl (%rsi),%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	testl $1,%eax
 	jz L127
 L126:
 	addq $1,%rsi
@@ -430,51 +404,44 @@ L140:
 	pushq %rbp
 	movq %rsp,%rbp
 L141:
-	movl (%rdi),%ecx
-	movl %ecx,%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	movl (%rdi),%eax
+	testl $1,%eax
 	jz L151
 L150:
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rax
+	jmp L152
+L151:
+	movq 8(%rdi),%rax
+L152:
+	movl (%rsi),%ecx
+	testl $1,%ecx
+	jz L154
+L153:
 	shll $24,%ecx
 	sarl $25,%ecx
 	movslq %ecx,%rcx
-	jmp L152
-L151:
-	movq 8(%rdi),%rcx
-L152:
-	movl (%rsi),%edx
-	movl %edx,%eax
-	andl $1,%eax
-	cmpl $0,%eax
-	jz L154
-L153:
-	shll $24,%edx
-	sarl $25,%edx
-	movslq %edx,%rax
 	jmp L155
 L154:
-	movq 8(%rsi),%rax
+	movq 8(%rsi),%rcx
 L155:
-	cmpq %rax,%rcx
+	cmpq %rcx,%rax
 	jnz L144
 L146:
-	movl (%rdi),%ecx
-	movl %ecx,%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	movl (%rdi),%eax
+	testl $1,%eax
 	jz L157
 L156:
-	shll $24,%ecx
-	sarl $25,%ecx
-	movslq %ecx,%rdx
+	shll $24,%eax
+	sarl $25,%eax
+	movslq %eax,%rdx
 	jmp L158
 L157:
 	movq 8(%rdi),%rdx
 L158:
 	movl (%rsi),%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	testl $1,%eax
 	jz L160
 L159:
 	addq $1,%rsi
@@ -483,8 +450,7 @@ L160:
 	movq 16(%rsi),%rsi
 L161:
 	movl (%rdi),%eax
-	andl $1,%eax
-	cmpl $0,%eax
+	testl $1,%eax
 	jz L163
 L162:
 	addq $1,%rdi

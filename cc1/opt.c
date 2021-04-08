@@ -162,7 +162,7 @@ void optimize(void)
     prune();
     dead();
     nop();
-    testz();
+    testz_early();
     algebra();
     copy();
     fold();
@@ -174,6 +174,7 @@ void optimize(void)
     prop();
     copy();
     coal();
+    testz_middle();
 }
 
 /* vi: set ts=4 expandtab: */

@@ -433,9 +433,7 @@ L229:
 	movl (%rsi),%ecx
 	movl $1,%edi
 	shll %cl,%edi
-	movl %r13d,%eax
-	andl %edi,%eax
-	cmpl $0,%eax
+	testl %edi,%r13d
 	jz L233
 L232:
 	movl $10,(%rsi)
@@ -534,13 +532,38 @@ L264:
 	popq %rbp
 	ret
 L277:
-_block_switch:
+_block_ccs:
 L278:
+	pushq %rbp
+	movq %rsp,%rbp
+L279:
+	xorl %eax,%eax
+	movq 464(%rdi),%rdi
+L281:
+	cmpq $0,%rdi
+	jz L280
+L282:
+	movl (%rdi),%ecx
+	cmpl $10,%ecx
+	jge L283
+L285:
+	movl $1,%esi
+	shll %cl,%esi
+	orl %esi,%eax
+L283:
+	movq 32(%rdi),%rdi
+	jmp L281
+L280:
+	popq %rbp
+	ret
+L292:
+_block_switch:
+L293:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L282:
+L297:
 	movq %rdi,%rbx
 	movq %rsi,%r12
 	movq %rbx,%rdi
@@ -549,337 +572,298 @@ L282:
 	movq %r12,%rdi
 	call _operand_leaf
 	movq %rax,328(%rbx)
-L280:
+L295:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L284:
+L299:
 _block_switch_case:
-L285:
+L300:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L296:
+L311:
 	movq %rdi,%r14
 	movq %rsi,%r12
 	movq %rdx,%r13
 	movq 464(%r14),%rbx
-L288:
+L303:
 	movq 32(%rbx),%rsi
 	movq %rsi,%rbx
 	cmpq $0,%rsi
-	jz L290
-L289:
+	jz L305
+L304:
 	cmpq %r12,16(%rsi)
-	jnz L288
-L291:
-	pushq $L294
+	jnz L303
+L306:
+	pushq $L309
 	pushq $1
 	call _error
 	addq $16,%rsp
-	jmp L288
-L290:
+	jmp L303
+L305:
 	movq %r14,%rdi
 	movl $12,%esi
 	movq %r13,%rdx
 	call _block_add_successor
 	movq %r12,24(%rax)
 	movq %r12,16(%rax)
-L287:
+L302:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L298:
+L313:
 _block_switch_done:
-L299:
+L314:
 	pushq %rbp
 	movq %rsp,%rbp
-L300:
+L315:
 	call _block_coalesce_successors
-L301:
+L316:
 	popq %rbp
 	ret
-L305:
+L320:
 _block_switch_lookup:
-L306:
+L321:
 	pushq %rbp
 	movq %rsp,%rbp
-L307:
+L322:
 	movq 464(%rdi),%rax
 	movq %rax,%rdi
 	movq 8(%rax),%rax
-L309:
+L324:
 	movq 32(%rdi),%rcx
 	movq %rcx,%rdi
 	cmpq $0,%rcx
-	jz L308
-L310:
+	jz L323
+L325:
 	cmpq 16(%rcx),%rsi
-	jb L309
-L315:
+	jb L324
+L330:
 	cmpq 24(%rcx),%rsi
-	ja L309
-L312:
+	ja L324
+L327:
 	movq 8(%rcx),%rax
-L308:
+L323:
 	popq %rbp
 	ret
-L324:
+L339:
 _get_cessor_n:
-L326:
+L341:
 	pushq %rbp
 	movq %rsp,%rbp
-L327:
+L342:
 	movq (%rdi),%rax
-L329:
+L344:
 	cmpl $0,%esi
-	jz L328
-L333:
+	jz L343
+L348:
 	cmpq $0,%rax
-	jz L328
-L331:
+	jz L343
+L346:
 	addl $-1,%esi
 	movq 32(%rax),%rax
-	jmp L329
-L328:
+	jmp L344
+L343:
 	popq %rbp
 	ret
-L341:
+L356:
 _block_get_successor_n:
-L342:
+L357:
 	pushq %rbp
 	movq %rsp,%rbp
-L343:
+L358:
 	addq $464,%rdi
 	call _get_cessor_n
-L344:
+L359:
 	popq %rbp
 	ret
-L349:
+L364:
 _block_get_predecessor_n:
-L350:
+L365:
 	pushq %rbp
 	movq %rsp,%rbp
-L351:
+L366:
 	addq $480,%rdi
 	call _get_cessor_n
-L352:
+L367:
 	popq %rbp
 	ret
-L357:
+L372:
 _nr_cessors:
-L359:
+L374:
 	pushq %rbp
 	movq %rsp,%rbp
-L360:
+L375:
 	xorl %eax,%eax
 	movq (%rdi),%rsi
-L362:
+L377:
 	cmpq $0,%rsi
-	jz L361
-L364:
+	jz L376
+L379:
 	addl $1,%eax
 	movq 32(%rsi),%rsi
-	jmp L362
-L361:
+	jmp L377
+L376:
 	popq %rbp
 	ret
-L370:
+L385:
 _block_nr_successors:
-L371:
+L386:
 	pushq %rbp
 	movq %rsp,%rbp
-L372:
+L387:
 	addq $464,%rdi
 	call _nr_cessors
-L373:
+L388:
 	popq %rbp
 	ret
-L378:
+L393:
 _block_nr_predecessors:
-L379:
+L394:
 	pushq %rbp
 	movq %rsp,%rbp
-L380:
+L395:
 	addq $480,%rdi
 	call _nr_cessors
-L381:
+L396:
 	popq %rbp
 	ret
-L386:
+L401:
 _block_cc_successor:
-L387:
+L402:
 	pushq %rbp
 	movq %rsp,%rbp
-L388:
+L403:
 	movq 464(%rdi),%rax
-L390:
+L405:
 	cmpq $0,%rax
-	jz L393
-L391:
+	jz L408
+L406:
 	movl (%rax),%edi
 	cmpl %esi,%edi
-	jz L389
-L392:
+	jz L404
+L407:
 	movq 32(%rax),%rax
-	jmp L390
-L393:
+	jmp L405
+L408:
 	xorl %eax,%eax
-L389:
+L404:
 	popq %rbp
 	ret
-L402:
+L417:
 _block_always_successor:
-L403:
+L418:
 	pushq %rbp
 	movq %rsp,%rbp
-L404:
+L419:
 	movq 464(%rdi),%rax
 	cmpq $0,%rax
-	jz L407
-L409:
+	jz L422
+L424:
 	movl (%rax),%esi
 	cmpl $10,%esi
-	jz L405
-L407:
+	jz L420
+L422:
 	xorl %eax,%eax
-L405:
+L420:
 	popq %rbp
 	ret
-L418:
+L433:
 _block_sole_predecessor:
-L419:
+L434:
 	pushq %rbp
 	movq %rsp,%rbp
-L420:
+L435:
 	movq 480(%rdi),%rax
 	cmpq $0,%rax
-	jz L423
-L425:
+	jz L438
+L440:
 	cmpq $0,32(%rax)
-	jz L421
-L423:
+	jz L436
+L438:
 	xorl %eax,%eax
-L421:
+L436:
 	popq %rbp
 	ret
-L434:
+L449:
 _block_rewrite_zs:
-L435:
+L450:
 	pushq %rbp
 	movq %rsp,%rbp
-L436:
+L451:
 	xorl %eax,%eax
 	movq 464(%rdi),%rdi
-L438:
+L453:
 	cmpq $0,%rdi
-	jz L437
-L439:
+	jz L452
+L454:
 	movl (%rdi),%ecx
 	cmpl $0,%ecx
-	jz L446
-L455:
+	jz L461
+L470:
 	cmpl $1,%ecx
-	jnz L437
-L448:
+	jnz L452
+L463:
 	movl %esi,(%rdi)
-	jmp L444
-L446:
+	jmp L459
+L461:
 	movl %esi,%eax
 	xorl $1,%eax
 	movl %eax,(%rdi)
-L444:
+L459:
 	movl $1,%eax
 	movq 32(%rdi),%rdi
-	jmp L438
-L437:
+	jmp L453
+L452:
 	popq %rbp
 	ret
-L459:
+L474:
 _block_dup_successors:
-L460:
+L475:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L471:
+L486:
 	movq %rsi,%r12
 	movq %rdi,%rbx
 	movq %rbx,%rdi
 	call _block_remove_successors
 	movq 464(%r12),%r13
-L463:
+L478:
 	cmpq $0,%r13
-	jz L466
-L464:
+	jz L481
+L479:
 	movq 8(%r13),%rdx
 	movl (%r13),%esi
 	movq %rbx,%rdi
 	call _block_add_successor
 	movq 32(%r13),%r13
-	jmp L463
-L466:
+	jmp L478
+L481:
 	movq 328(%r12),%rdi
 	cmpq $0,%rdi
-	jz L462
-L467:
+	jz L477
+L482:
 	call _operand_dup
 	movq %rax,328(%rbx)
-L462:
-	popq %r13
-	popq %r12
-	popq %rbx
-	popq %rbp
-	ret
-L473:
-_block_substitute_reg:
-L474:
-	pushq %rbp
-	movq %rsp,%rbp
-	pushq %rbx
-	pushq %r12
-	pushq %r13
-	pushq %r14
-L486:
-	movl %edx,%r14d
-	movl %esi,%r13d
-	xorl %ebx,%ebx
-	movq 8(%rdi),%r12
 L477:
-	cmpq $0,%r12
-	jz L480
-L478:
-	movq %r12,%rdi
-	movl %r13d,%esi
-	movl %r14d,%edx
-	movl $3,%ecx
-	call _insn_substitute_reg
-	cmpl $0,%eax
-	jz L479
-L481:
-	movl $1,%ebx
-L479:
-	movq 40(%r12),%r12
-	jmp L477
-L480:
-	movl %ebx,%eax
-L476:
-	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
 L488:
-_blocks_substitute_reg:
+_block_substitute_reg:
 L489:
 	pushq %rbp
 	movq %rsp,%rbp
@@ -888,10 +872,10 @@ L489:
 	pushq %r13
 	pushq %r14
 L501:
-	movl %esi,%r14d
-	movl %edi,%r13d
+	movl %edx,%r14d
+	movl %esi,%r13d
 	xorl %ebx,%ebx
-	movq _blocks(%rip),%r12
+	movq 8(%rdi),%r12
 L492:
 	cmpq $0,%r12
 	jz L495
@@ -899,13 +883,14 @@ L493:
 	movq %r12,%rdi
 	movl %r13d,%esi
 	movl %r14d,%edx
-	call _block_substitute_reg
+	movl $3,%ecx
+	call _insn_substitute_reg
 	cmpl $0,%eax
 	jz L494
 L496:
 	movl $1,%ebx
 L494:
-	movq 512(%r12),%r12
+	movq 40(%r12),%r12
 	jmp L492
 L495:
 	movl %ebx,%eax
@@ -917,14 +902,52 @@ L491:
 	popq %rbp
 	ret
 L503:
-_block_split:
+_blocks_substitute_reg:
 L504:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
+	pushq %r14
+L516:
+	movl %esi,%r14d
+	movl %edi,%r13d
+	xorl %ebx,%ebx
+	movq _blocks(%rip),%r12
+L507:
+	cmpq $0,%r12
+	jz L510
+L508:
+	movq %r12,%rdi
+	movl %r13d,%esi
+	movl %r14d,%edx
+	call _block_substitute_reg
+	cmpl $0,%eax
+	jz L509
+L511:
+	movl $1,%ebx
 L509:
+	movq 512(%r12),%r12
+	jmp L507
+L510:
+	movl %ebx,%eax
+L506:
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %rbx
+	popq %rbp
+	ret
+L518:
+_block_split:
+L519:
+	pushq %rbp
+	movq %rsp,%rbp
+	pushq %rbx
+	pushq %r12
+	pushq %r13
+L524:
 	movq %rdi,%r12
 	movl %esi,%r13d
 	call _block_new
@@ -944,15 +967,15 @@ L509:
 	leaq 8(%rbx),%rdi
 	call _insns_push
 	movq %rbx,%rax
-L506:
+L521:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L511:
+L526:
 _block_split_edge:
-L512:
+L527:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
@@ -960,7 +983,7 @@ L512:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-L517:
+L532:
 	movq %rdi,%r13
 	movq %rsi,%r15
 	movl (%r15),%r14d
@@ -979,7 +1002,7 @@ L517:
 	movq %r12,%rdx
 	call _block_add_successor
 	movq %r12,%rax
-L514:
+L529:
 	popq %r15
 	popq %r14
 	popq %r13
@@ -987,81 +1010,79 @@ L514:
 	popq %rbx
 	popq %rbp
 	ret
-L519:
+L534:
 _walk0:
-L521:
+L536:
 	pushq %rbp
 	movq %rsp,%rbp
-L522:
+L537:
 	movl 4(%rdi),%esi
 	andl $-2,%esi
 	movl %esi,4(%rdi)
 	xorl %eax,%eax
-L523:
+L538:
 	popq %rbp
 	ret
-L528:
+L543:
 _walk1:
-L530:
+L545:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L547:
+L562:
 	movq %rdi,%r14
 	movq %rdx,%r12
 	movq %rsi,%rbx
-	movl 4(%r14),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
-	jnz L532
-L533:
-	orl $1,%edi
-	movl %edi,4(%r14)
+	movl 4(%r14),%esi
+	testl $1,%esi
+	jnz L547
+L548:
+	orl $1,%esi
+	movl %esi,4(%r14)
 	cmpq $0,%rbx
-	jz L538
-L536:
+	jz L553
+L551:
 	movq %r14,%rdi
 	call *%rbx
-L538:
+L553:
 	xorl %r13d,%r13d
-L539:
+L554:
 	movq %r14,%rdi
 	movl %r13d,%esi
 	call _block_get_successor_n
 	cmpq $0,%rax
-	jz L542
-L540:
+	jz L557
+L555:
 	movq 8(%rax),%rdi
 	movq %rbx,%rsi
 	movq %r12,%rdx
 	call _walk1
 	addl $1,%r13d
-	jmp L539
-L542:
+	jmp L554
+L557:
 	cmpq $0,%r12
-	jz L532
-L543:
+	jz L547
+L558:
 	movq %r14,%rdi
 	call *%r12
-L532:
+L547:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L549:
+L564:
 _blocks_walk:
-L550:
+L565:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L554:
+L569:
 	movq %rsi,%rbx
 	movq %rdi,%r12
 	movq $_walk0,%rdi
@@ -1070,71 +1091,71 @@ L554:
 	movq %r12,%rsi
 	movq %rbx,%rdx
 	call _walk1
-L552:
+L567:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L556:
+L571:
 _blocks_iter:
-L557:
+L572:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L579:
+L594:
 	movq %rdi,%r13
-L560:
+L575:
 	xorl %ebx,%ebx
 	movq _blocks(%rip),%rdi
-L563:
+L578:
 	cmpq $0,%rdi
-	jz L562
-L564:
+	jz L577
+L579:
 	movq 512(%rdi),%r12
 	call *%r13
 	cmpl $1,%eax
-	jz L571
-L577:
+	jz L586
+L592:
 	cmpl $2,%eax
-	jnz L565
-L573:
+	jnz L580
+L588:
 	movl $1,%ebx
-L565:
+L580:
 	movq %r12,%rdi
-	jmp L563
-L571:
+	jmp L578
+L586:
 	movl $1,%eax
-	jmp L559
-L562:
+	jmp L574
+L577:
 	cmpl $0,%ebx
-	jnz L560
-L561:
+	jnz L575
+L576:
 	xorl %eax,%eax
-L559:
+L574:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L581:
+L596:
 _sequence0:
-L583:
+L598:
 	pushq %rbp
 	movq %rsp,%rbp
-L586:
+L601:
 	movq 512(%rdi),%rsi
 	cmpq $0,%rsi
-	jz L590
-L589:
+	jz L605
+L604:
 	movq 520(%rdi),%rax
 	movq %rax,520(%rsi)
-	jmp L591
-L590:
+	jmp L606
+L605:
 	movq 520(%rdi),%rsi
 	movq %rsi,_blocks+8(%rip)
-L591:
+L606:
 	leaq 512(%rdi),%rsi
 	movq 512(%rdi),%rax
 	movq 520(%rdi),%rcx
@@ -1142,39 +1163,39 @@ L591:
 	movq _blocks(%rip),%rax
 	movq %rax,512(%rdi)
 	cmpq $0,%rax
-	jz L596
-L595:
+	jz L611
+L610:
 	movq _blocks(%rip),%rax
 	movq %rsi,520(%rax)
-	jmp L597
-L596:
+	jmp L612
+L611:
 	movq %rsi,_blocks+8(%rip)
-L597:
+L612:
 	movq %rdi,_blocks(%rip)
 	movq $_blocks,520(%rdi)
-L585:
+L600:
 	popq %rbp
 	ret
-L601:
+L616:
 _blocks_sequence:
-L602:
+L617:
 	pushq %rbp
 	movq %rsp,%rbp
-L603:
+L618:
 	xorl %edi,%edi
 	movq $_sequence0,%rsi
 	call _blocks_walk
-L604:
+L619:
 	popq %rbp
 	ret
-L608:
+L623:
 _func_new:
-L609:
+L624:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-L628:
+L643:
 	movq %rdi,%rsi
 	leaq -16(%rbp),%rbx
 	movq %rbx,%rdi
@@ -1207,10 +1228,9 @@ L628:
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
-	andq $65536,%rsi
-	cmpq $0,%rsi
-	jz L619
-L618:
+	testq $65536,%rsi
+	jz L634
+L633:
 	movq %rbx,%rdi
 	movq $_func_ret_type,%rsi
 	call _type_ref
@@ -1226,41 +1246,41 @@ L618:
 	call *%rsi
 	movq %rbx,%rdi
 	call _type_clear
-	jmp L624
-L619:
+	jmp L639
+L634:
 	movq $0,_func_strun_ret(%rip)
-L624:
+L639:
 	movq $0,_func_regs+8(%rip)
 	movq $_func_regs+8,_func_regs+16(%rip)
 	movl $0,_func_regs(%rip)
-L611:
+L626:
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L630:
+L645:
 _func_free:
-L631:
+L646:
 	pushq %rbp
 	movq %rsp,%rbp
-L634:
+L649:
 	movq _blocks(%rip),%rdi
 	cmpq $0,%rdi
-	jz L636
-L635:
+	jz L651
+L650:
 	call _block_free
-	jmp L634
-L636:
+	jmp L649
+L651:
 	movq $_func_ret_type,%rdi
 	call _type_clear
 	movq $0,_func_strun_ret(%rip)
 	movq $_func_regs,%rdi
 	call _regs_clear
-L633:
+L648:
 	popq %rbp
 	ret
-L640:
-L294:
+L655:
+L309:
 	.byte 100,117,112,108,105,99,97,116
 	.byte 101,32,99,97,115,101,32,108
 	.byte 97,98,101,108,0
@@ -1284,6 +1304,7 @@ L294:
 .comm _func_regs, 24, 8
 .globl _func_regs
 .globl _block_known_ccs
+.globl _block_ccs
 .globl _target
 .comm _func_strun_ret, 8, 8
 .globl _func_strun_ret

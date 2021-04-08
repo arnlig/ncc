@@ -533,6 +533,14 @@ static struct choice cmp_choices[] =
     { 0 }
 };
 
+static struct choice test_choices[] =
+{
+    {   T_CHARS | T_SHORTS | T_INTS,    T_ANY,          AMD64_I_TESTL   },
+    {   T_LONGS,                        T_ANY,          AMD64_I_TESTQ   },
+
+    { 0 }
+};
+
 static struct choice and_choices[] =
 {
     {   T_CHARS | T_SHORTS | T_INTS,    T_ANY,          AMD64_I_ANDL    },
@@ -572,7 +580,7 @@ static void binary(struct choice *choices, struct amd64_operand *src1,
         src2 = demem(src2);
 
     if (dst == 0) {
-        /* I_CMP */
+        /* I_CMP or I_TEST */
         src1 = decon(src1);
         choose(choices, src2, src1);
     } else if (AMD64_OPERANDS_SAME_REG(src1, dst)) {
@@ -1136,6 +1144,8 @@ static void gen0(struct block *b)
         case I_SET_BE:      setcc(AMD64_I_SETBE, dst); break;
         case I_SET_AE:      setcc(AMD64_I_SETAE, dst); break;
         case I_SET_B:       setcc(AMD64_I_SETB, dst); break;
+
+        case I_TEST:        binary(test_choices, src1, src2, dst); break;
         }
 
         invalidate(insn);

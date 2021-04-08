@@ -13,13 +13,11 @@ L20:
 	movq $0,8(%rax)
 	movq %rsi,16(%rax)
 	movl (%rax),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L4
 L11:
 	movl (%rax),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L4
 L15:
 	leaq 32(%rax),%rsi
@@ -41,13 +39,11 @@ L48:
 	jz L25
 L26:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L30
 L32:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L30
 L29:
 	movq 24(%rbx),%rdi
@@ -57,13 +53,11 @@ L29:
 	jmp L31
 L30:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L31
 L43:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L31
 L36:
 	movq 24(%rbx),%rdi
@@ -359,8 +353,7 @@ L186:
 	movq $-2147483649,%rax
 	andq %rax,%rdi
 	movq %rdi,(%rsi)
-	andl $1,%r13d
-	cmpl $0,%r13d
+	testl $1,%r13d
 	jnz L169
 L167:
 	movq 24(%r12),%rsi
@@ -423,8 +416,7 @@ L204:
 L195:
 	movq 32(%rsi),%rsi
 	movl 12(%rsi),%esi
-	andl $48,%esi
-	cmpl $0,%esi
+	testl $48,%esi
 	jz L193
 L192:
 	movq %r12,%rdi
@@ -518,8 +510,7 @@ L226:
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rsi
 	jz L234
 L233:
 	movsd 24(%rdi),%xmm0
@@ -554,8 +545,7 @@ L247:
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
 	andq $131071,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rsi
 	jz L255
 L254:
 	movsd 24(%rdi),%xmm0
@@ -587,34 +577,31 @@ L266:
 L638:
 	movq %rdi,%rbx
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L270
 L272:
-	movl (%rbx),%edi
-	movl %edi,%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	movl (%rbx),%eax
+	testl $1073741824,%eax
 	jz L270
 L592:
-	cmpl $1073741832,%edi
+	cmpl $1073741832,%eax
 	jz L280
 L278:
 	movq 24(%rbx),%rsi
-	movl (%rsi),%eax
-	cmpl $2147483649,%eax
+	movl (%rsi),%edi
+	cmpl $2147483649,%edi
 	jnz L271
 L285:
 	cmpq $0,32(%rsi)
 	jnz L271
 L594:
-	cmpl $1073741828,%edi
+	cmpl $1073741828,%eax
 	jz L312
 L595:
-	cmpl $1082130439,%edi
+	cmpl $1082130439,%eax
 	jz L297
 L596:
-	cmpl $1082130441,%edi
+	cmpl $1082130441,%eax
 	jnz L271
 L308:
 	movq 24(%rsi),%rdi
@@ -631,8 +618,7 @@ L308:
 L297:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	testq $7168,%rdi
 	jz L301
 L300:
 	movsd 24(%rsi),%xmm0
@@ -669,18 +655,15 @@ L280:
 	jmp L268
 L270:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L271
 L321:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L271
 L314:
 	movl (%rbx),%esi
-	andl $536870912,%esi
-	cmpl $0,%esi
+	testl $536870912,%esi
 	jz L327
 L328:
 	movq 24(%rbx),%rsi
@@ -799,45 +782,42 @@ L380:
 	cmpq $0,32(%rsi)
 	jnz L271
 L377:
-	movq 24(%rbx),%rax
-	movl (%rax),%edi
-	cmpl $2147483649,%edi
+	movq 24(%rbx),%rdi
+	movl (%rdi),%eax
+	cmpl $2147483649,%eax
 	jnz L386
 L384:
-	movl (%rbx),%edi
-	cmpl $276825113,%edi
+	movl (%rbx),%eax
+	cmpl $276825113,%eax
 	jz L409
 L607:
-	cmpl $813695768,%edi
+	cmpl $813695768,%eax
 	jnz L386
 L395:
-	movq 8(%rbx),%rdi
-	movq (%rdi),%rcx
-	movq %rcx,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq 8(%rbx),%rax
+	movq (%rax),%rax
+	testq $7168,%rax
 	jz L399
 L398:
-	movsd 24(%rax),%xmm1
+	movsd 24(%rdi),%xmm1
 	movsd 24(%rsi),%xmm0
 	addsd %xmm0,%xmm1
-	movsd %xmm1,24(%rax)
+	movsd %xmm1,24(%rdi)
 	jmp L400
 L399:
-	andq $340,%rcx
-	cmpq $0,%rcx
+	testq $340,%rax
 	jz L402
 L401:
-	movq 24(%rax),%rdi
+	movq 24(%rdi),%rax
 	movq 24(%rsi),%rsi
-	addq %rdi,%rsi
-	movq %rsi,24(%rax)
+	addq %rax,%rsi
+	movq %rsi,24(%rdi)
 	jmp L400
 L402:
-	movq 24(%rax),%rdi
+	movq 24(%rdi),%rax
 	movq 24(%rsi),%rsi
-	addq %rdi,%rsi
-	movq %rsi,24(%rax)
+	addq %rax,%rsi
+	movq %rsi,24(%rdi)
 L400:
 	movq 24(%rbx),%rsi
 	addq $24,%rsi
@@ -848,32 +828,29 @@ L400:
 	call _tree_chop_binary
 	jmp L268
 L409:
-	movq 8(%rbx),%rdi
-	movq (%rdi),%rcx
-	movq %rcx,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq 8(%rbx),%rax
+	movq (%rax),%rax
+	testq $7168,%rax
 	jz L413
 L412:
-	movsd 24(%rax),%xmm1
+	movsd 24(%rdi),%xmm1
 	movsd 24(%rsi),%xmm0
 	subsd %xmm0,%xmm1
-	movsd %xmm1,24(%rax)
+	movsd %xmm1,24(%rdi)
 	jmp L414
 L413:
-	andq $340,%rcx
-	cmpq $0,%rcx
+	testq $340,%rax
 	jz L416
 L415:
-	movq 24(%rax),%rdi
+	movq 24(%rdi),%rax
 	movq 24(%rsi),%rsi
-	subq %rsi,%rdi
-	movq %rdi,24(%rax)
+	subq %rsi,%rax
+	movq %rax,24(%rdi)
 	jmp L414
 L416:
-	movq 24(%rax),%rdi
-	subq 24(%rsi),%rdi
-	movq %rdi,24(%rax)
+	movq 24(%rdi),%rax
+	subq 24(%rsi),%rax
+	movq %rax,24(%rdi)
 L414:
 	movq 24(%rbx),%rsi
 	addq $24,%rsi
@@ -911,8 +888,7 @@ L531:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	andq $131071,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	testq $7168,%rdi
 	jz L535
 L534:
 	movsd 24(%rsi),%xmm0
@@ -940,8 +916,7 @@ L539:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
 	andq $131071,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	testq $7168,%rdi
 	jz L543
 L542:
 	movsd 24(%rsi),%xmm0
@@ -975,8 +950,7 @@ L630:
 L501:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rdi
 	jz L505
 L504:
 	movq 24(%rsi),%rdi
@@ -1005,8 +979,7 @@ L627:
 L523:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rdi
 	jz L527
 L526:
 	movq 24(%rsi),%rdi
@@ -1031,10 +1004,8 @@ L528:
 	jmp L268
 L465:
 	movq 8(%rbx),%rdi
-	movq (%rdi),%rax
-	movq %rax,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq (%rdi),%rdi
+	testq $7168,%rdi
 	jz L469
 L468:
 	movsd 24(%rsi),%xmm1
@@ -1044,8 +1015,7 @@ L468:
 	movsd %xmm1,24(%rsi)
 	jmp L470
 L469:
-	andq $340,%rax
-	cmpq $0,%rax
+	testq $340,%rdi
 	jz L472
 L471:
 	movq 24(%rsi),%rdi
@@ -1072,8 +1042,7 @@ L470:
 L512:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rdi
 	jz L516
 L515:
 	movq 24(%rsi),%rdi
@@ -1110,8 +1079,7 @@ L622:
 L490:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rdi
 	jz L494
 L493:
 	movq 24(%rsi),%rdi
@@ -1140,11 +1108,9 @@ L619:
 	jnz L271
 L569:
 	movq 8(%rbx),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	movq %rax,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	testq $7168,%rdi
 	jz L573
 L572:
 	movsd 24(%rsi),%xmm0
@@ -1155,8 +1121,7 @@ L572:
 	movzbl %sil,%r12d
 	jmp L574
 L573:
-	andq $340,%rax
-	cmpq $0,%rax
+	testq $340,%rdi
 	jz L576
 L575:
 	movq 24(%rsi),%rsi
@@ -1181,11 +1146,9 @@ L574:
 	jmp L268
 L580:
 	movq 8(%rbx),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	movq %rax,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	testq $7168,%rdi
 	jz L584
 L583:
 	movsd 24(%rsi),%xmm0
@@ -1196,8 +1159,7 @@ L583:
 	movzbl %sil,%r12d
 	jmp L585
 L584:
-	andq $340,%rax
-	cmpq $0,%rax
+	testq $340,%rdi
 	jz L587
 L586:
 	movq 24(%rsi),%rsi
@@ -1229,11 +1191,9 @@ L615:
 	jnz L271
 L547:
 	movq 8(%rbx),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	movq %rax,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	testq $7168,%rdi
 	jz L551
 L550:
 	movsd 24(%rsi),%xmm0
@@ -1244,8 +1204,7 @@ L550:
 	movzbl %sil,%r12d
 	jmp L552
 L551:
-	andq $340,%rax
-	cmpq $0,%rax
+	testq $340,%rdi
 	jz L554
 L553:
 	movq 24(%rsi),%rsi
@@ -1278,10 +1237,8 @@ L430:
 	jnz L433
 L437:
 	movq 8(%rbx),%rsi
-	movq (%rsi),%rdi
-	movq %rdi,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	movq (%rsi),%rsi
+	testq $7168,%rsi
 	jz L441
 L440:
 	movq 24(%rbx),%rsi
@@ -1292,8 +1249,7 @@ L440:
 	movsd %xmm1,24(%rsi)
 	jmp L442
 L441:
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rsi
 	jz L444
 L443:
 	movq 24(%rbx),%rsi
@@ -1332,8 +1288,7 @@ L447:
 L454:
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $340,%rsi
-	cmpq $0,%rsi
+	testq $340,%rsi
 	jz L458
 L457:
 	movq 24(%rbx),%rsi
@@ -1366,11 +1321,9 @@ L450:
 	jmp L268
 L558:
 	movq 8(%rbx),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	movq %rax,%rdi
-	andq $7168,%rdi
-	cmpq $0,%rdi
+	movq (%rdi),%rdi
+	andq $131071,%rdi
+	testq $7168,%rdi
 	jz L562
 L561:
 	movsd 24(%rsi),%xmm0
@@ -1381,8 +1334,7 @@ L561:
 	movzbl %sil,%r12d
 	jmp L563
 L562:
-	andq $340,%rax
-	cmpq $0,%rax
+	testq $340,%rdi
 	jz L565
 L564:
 	movq 24(%rsi),%rsi
@@ -1408,8 +1360,7 @@ L563:
 L479:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $340,%rdi
-	cmpq $0,%rdi
+	testq $340,%rdi
 	jz L483
 L482:
 	movq 24(%rsi),%rdi
@@ -1457,13 +1408,11 @@ L689:
 	stosb
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L649
 L651:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L649
 L648:
 	movq 24(%rbx),%rdi
@@ -1515,13 +1464,11 @@ L670:
 	jmp L646
 L649:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L646
 L683:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L646
 L676:
 	movq 24(%rbx),%rdi
@@ -1560,8 +1507,7 @@ L697:
 L702:
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $262144,%rsi
-	cmpq $0,%rsi
+	testq $262144,%rsi
 	jz L707
 L699:
 	movq %rbx,%rdi
@@ -1581,13 +1527,11 @@ L707:
 	stosb
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L711
 L713:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L711
 L710:
 	movq 24(%rbx),%rdi
@@ -1639,13 +1583,11 @@ L732:
 	jmp L708
 L711:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L708
 L745:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L708
 L738:
 	movq 24(%rbx),%rdi
@@ -1678,13 +1620,11 @@ L804:
 	stosb
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L761
 L763:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L761
 L760:
 	movq 24(%rbx),%rdi
@@ -1736,13 +1676,11 @@ L782:
 	jmp L758
 L761:
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L758
 L795:
 	movl (%rbx),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L758
 L788:
 	movq 24(%rbx),%rdi
@@ -1870,13 +1808,11 @@ L868:
 	call _output
 	addq $8,%rsp
 	movl (%r13),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L882
 L884:
 	movl (%r13),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jz L882
 L881:
 	leal 1(%rbx),%esi
@@ -1894,13 +1830,11 @@ L889:
 	jmp L888
 L882:
 	movl (%r13),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jnz L854
 L899:
 	movl (%r13),%esi
-	andl $1073741824,%esi
-	cmpl $0,%esi
+	testl $1073741824,%esi
 	jnz L854
 L892:
 	addl $1,%ebx

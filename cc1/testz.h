@@ -26,7 +26,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef TESTZ_H
 #define TESTZ_H
 
-extern void testz(void);
+extern void testz_early(void);
+extern void testz_middle(void);
 
 #endif /* TESTZ_H */
 

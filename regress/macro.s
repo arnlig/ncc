@@ -6,8 +6,7 @@ L3:
 L4:
 	xorl %eax,%eax
 	movl (%rdi),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L7
 L6:
 	leaq 1(%rdi),%rsi
@@ -206,8 +205,7 @@ L78:
 L80:
 	movq _input_stack(%rip),%rsi
 	movl 8(%rsi),%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	testl $1,%edi
 	jz L82
 L81:
 	leaq 9(%rsi),%rdi
@@ -452,13 +450,11 @@ L147:
 	jz L175
 L174:
 	movl 24(%r12),%esi
-	andl $63,%esi
-	cmpl $0,%esi
+	testl $63,%esi
 	jz L179
 L177:
 	movl (%r12),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L182
 L181:
 	leaq 1(%r12),%rsi
@@ -488,8 +484,7 @@ L187:
 	jz L186
 L184:
 	movl (%r12),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L197
 L196:
 	leaq 1(%r12),%rsi
@@ -635,13 +630,11 @@ L248:
 	jz L252
 L250:
 	movl 24(%rbx),%esi
-	andl $63,%esi
-	cmpl $0,%esi
+	testl $63,%esi
 	jz L255
 L253:
 	movl (%rbx),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L258
 L257:
 	leaq 1(%rbx),%rsi
@@ -882,8 +875,7 @@ L325:
 	jz L366
 L364:
 	movl (%r15),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L369
 L368:
 	leaq 1(%r15),%rsi
@@ -903,8 +895,7 @@ L366:
 	jnz L373
 L371:
 	movl (%r15),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L376
 L375:
 	leaq 1(%r15),%rsi
@@ -922,8 +913,7 @@ L373:
 	jz L380
 L378:
 	movl (%r15),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L383
 L382:
 	leaq 1(%r15),%rsi
@@ -1207,16 +1197,14 @@ L466:
 	jz L468
 L471:
 	movl 24(%r13),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L470
 L468:
 	xorl %eax,%eax
 	jmp L463
 L470:
 	movl 24(%r13),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L477
 L476:
 	movq 32(%rbx),%rdi

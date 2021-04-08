@@ -33,8 +33,7 @@ L9:
 	jae L8
 L10:
 	movl 8(%r12),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L17
 L16:
 	leaq 9(%r12),%rsi
@@ -126,8 +125,7 @@ L66:
 	jz L60
 L58:
 	movl 24(%rax),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jnz L60
 L59:
 	movl $1,%edi
@@ -331,8 +329,7 @@ L145:
 L146:
 	call _list_stringize
 	movl 8(%rax),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L150
 L149:
 	leaq 9(%rax),%rsi
@@ -451,8 +448,7 @@ L183:
 	addq $8,%rsp
 L177:
 	movl -24(%rbp),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L202
 L201:
 	leaq -23(%rbp),%rdi

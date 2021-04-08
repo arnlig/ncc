@@ -293,6 +293,12 @@ typedef int insn_op;    /* I_* */
 
 #define I_NUMBER        ( 36 | I_FLAG_DST )
 
+    /* TEST is an AND instruction that tosses the result and is only
+       guaranteed to set the Z condition code based on the result */
+
+#define I_TEST          ( 37              | I_FLAG_SRC1 | I_FLAG_SRC2   \
+                             | I_FLAG_DEF_CC                            )
+
     /* instructions in a block are numbered sequentially, starting at
        INSN_INDEX_FIRST and extending up to (unlikely) INSN_INDEX_LAST.
        these indexes are used for, e.g., describing local live ranges.

@@ -138,6 +138,7 @@ TAILQ_HEAD(blocks, block);      /* struct blocks */
 extern struct block *block_new(void);
 extern void block_free(struct block *);
 extern bool block_conditional(struct block *);
+extern ccset block_ccs(struct block *);
 extern struct block *block_split(struct block *, insn_index);
 extern struct block *block_split_edge(struct block *, struct cessor *);
 

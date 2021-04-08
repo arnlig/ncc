@@ -133,9 +133,7 @@ L53:
 	pushq %rbp
 	movq %rsp,%rbp
 L54:
-	movq %rdi,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rdi
 	jz L57
 L56:
 	movsd L64(%rip),%xmm0
@@ -157,9 +155,7 @@ L67:
 	pushq %rbp
 	movq %rsp,%rbp
 L68:
-	movq %rdi,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rdi
 	jz L71
 L70:
 	movsd L78(%rip),%xmm0
@@ -213,9 +209,7 @@ L102:
 	call _operand_reg
 	jmp L91
 L96:
-	movq %rbx,%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rbx
 	jz L98
 L97:
 	movsd 24(%rdi),%xmm0
@@ -248,8 +242,7 @@ L117:
 	jnz L115
 L114:
 	movq 8(%rdi),%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rsi
 	jz L126
 L125:
 	movsd 24(%rdi),%xmm0
@@ -285,8 +278,7 @@ L142:
 	jnz L140
 L139:
 	movq 8(%rdi),%rsi
-	andq $7168,%rsi
-	cmpq $0,%rsi
+	testq $7168,%rsi
 	jz L151
 L150:
 	movsd 24(%rdi),%xmm0
@@ -371,8 +363,7 @@ L215:
 	jnz L206
 L204:
 	movq 8(%rdi),%rax
-	andq $1022,%rax
-	cmpq $0,%rax
+	testq $1022,%rax
 	jz L221
 L226:
 	movq 32(%rsi),%rax
@@ -388,8 +379,7 @@ L219:
 	jmp L163
 L221:
 	movq 8(%rdi),%rax
-	andq $7168,%rax
-	cmpq $0,%rax
+	testq $7168,%rax
 	jz L206
 L231:
 	movsd 24(%rdi),%xmm0
@@ -425,9 +415,7 @@ L267:
 	movl %esi,%eax
 	movq %rdx,%rsi
 	movl %eax,(%rdi)
-	movl %eax,%ecx
-	andl $2147483648,%ecx
-	cmpl $0,%ecx
+	testl $2147483648,%eax
 	jz L255
 L254:
 	movq _target(%rip),%rax
@@ -435,26 +423,21 @@ L254:
 	call *%rax
 	jmp L253
 L255:
-	movl %eax,%ecx
-	andl $1073741824,%ecx
-	cmpl $0,%ecx
+	testl $1073741824,%eax
 	jz L259
 L257:
 	addq $8,%rsi
 	movq -8(%rsi),%rcx
 	movq %rcx,16(%rdi)
 L259:
-	movl %eax,%ecx
-	andl $536870912,%ecx
-	cmpl $0,%ecx
+	testl $536870912,%eax
 	jz L262
 L260:
 	addq $8,%rsi
 	movq -8(%rsi),%rcx
 	movq %rcx,24(%rdi)
 L262:
-	andl $268435456,%eax
-	cmpl $0,%eax
+	testl $268435456,%eax
 	jz L253
 L263:
 	addq $8,%rsi
@@ -472,8 +455,7 @@ L271:
 L278:
 	movq %rdi,%rbx
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L275
 L274:
 	movq _target(%rip),%rsi
@@ -524,8 +506,7 @@ L289:
 L298:
 	movq %rdi,%rbx
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L293
 L292:
 	movq _target(%rip),%rsi
@@ -983,8 +964,7 @@ L502:
 L525:
 	movq %rdi,%rbx
 	movl (%rbx),%esi
-	andl $1048576,%esi
-	cmpl $0,%esi
+	testl $1048576,%esi
 	jz L504
 L505:
 	movq 24(%rbx),%rsi
@@ -1021,16 +1001,14 @@ L528:
 	movq %rsp,%rbp
 L529:
 	movl 4(%rdi),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L533
 L531:
 	movl $1,%eax
 	jmp L530
 L533:
 	movl (%rdi),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L536
 L535:
 	movq _target(%rip),%rsi
@@ -1039,8 +1017,7 @@ L535:
 	jmp L530
 L536:
 	movl (%rdi),%esi
-	andl $2097152,%esi
-	cmpl $0,%esi
+	testl $2097152,%esi
 	setnz %sil
 	movzbl %sil,%eax
 L530:
@@ -1053,8 +1030,7 @@ L544:
 	movq %rsp,%rbp
 L545:
 	movl (%rdi),%eax
-	andl $2147483648,%eax
-	cmpl $0,%eax
+	testl $2147483648,%eax
 	jz L548
 L547:
 	movq _target(%rip),%rax
@@ -1094,8 +1070,7 @@ L568:
 	movq %rsp,%rbp
 L569:
 	movl (%rdi),%eax
-	andl $2147483648,%eax
-	cmpl $0,%eax
+	testl $2147483648,%eax
 	jz L572
 L571:
 	movq _target(%rip),%rax
@@ -1139,8 +1114,7 @@ L646:
 	movl %esi,%r13d
 	movq %rdi,%rbx
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L596
 L595:
 	movq _target(%rip),%rsi
@@ -1153,8 +1127,7 @@ L595:
 L596:
 	xorl %eax,%eax
 	movl (%rbx),%esi
-	andl $4194304,%esi
-	cmpl $0,%esi
+	testl $4194304,%esi
 	jz L616
 L602:
 	movq 16(%rbx),%rdi
@@ -1224,8 +1197,7 @@ L649:
 L650:
 	xorl %eax,%eax
 	movl (%rdi),%r8d
-	andl $2147483648,%r8d
-	cmpl $0,%r8d
+	testl $2147483648,%r8d
 	jz L653
 L652:
 	movq _target(%rip),%rax
@@ -1233,14 +1205,11 @@ L652:
 	call *%rax
 	jmp L651
 L653:
-	movl %ecx,%r8d
-	andl $2,%r8d
-	cmpl $0,%r8d
+	testl $2,%ecx
 	jz L658
 L659:
 	movl (%rdi),%r8d
-	andl $4194304,%r8d
-	cmpl $0,%r8d
+	testl $4194304,%r8d
 	jnz L658
 L663:
 	movq 16(%rdi),%r8
@@ -1258,13 +1227,11 @@ L666:
 	movl %edx,24(%r8)
 	movl $1,%eax
 L658:
-	andl $1,%ecx
-	cmpl $0,%ecx
+	testl $1,%ecx
 	jz L651
 L677:
 	movl (%rdi),%ecx
-	andl $4194304,%ecx
-	cmpl $0,%ecx
+	testl $4194304,%ecx
 	jz L697
 L683:
 	movq 16(%rdi),%rcx
@@ -1321,8 +1288,7 @@ L730:
 	movq %rsp,%rbp
 L731:
 	movl (%rdi),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L734
 L733:
 	movq _target(%rip),%rsi
@@ -1331,8 +1297,7 @@ L733:
 	jmp L732
 L734:
 	movl (%rdi),%esi
-	andl $67108864,%esi
-	cmpl $0,%esi
+	testl $67108864,%esi
 	setnz %sil
 	movzbl %sil,%eax
 L732:
@@ -1345,8 +1310,7 @@ L742:
 	movq %rsp,%rbp
 L743:
 	movl (%rdi),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L746
 L745:
 	movq _target(%rip),%rsi
@@ -1356,9 +1320,7 @@ L745:
 L746:
 	xorl %eax,%eax
 	movl (%rdi),%esi
-	movl %esi,%edi
-	andl $8388608,%edi
-	cmpl $0,%edi
+	testl $8388608,%esi
 	jz L744
 L749:
 	leal -1082654746(%rsi),%ecx
@@ -1374,8 +1336,7 @@ L757:
 	movq %rsp,%rbp
 L758:
 	movl (%rdi),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L761
 L760:
 	movq _target(%rip),%rsi
@@ -1384,8 +1345,7 @@ L760:
 	jmp L759
 L761:
 	movl (%rdi),%esi
-	andl $16777216,%esi
-	cmpl $0,%esi
+	testl $16777216,%esi
 	setnz %sil
 	movzbl %sil,%eax
 L759:
@@ -1398,8 +1358,7 @@ L769:
 	movq %rsp,%rbp
 L770:
 	movl (%rdi),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L773
 L772:
 	movq _target(%rip),%rsi
@@ -1408,8 +1367,7 @@ L772:
 	jmp L771
 L773:
 	movl (%rdi),%esi
-	andl $33554432,%esi
-	cmpl $0,%esi
+	testl $33554432,%esi
 	setnz %sil
 	movzbl %sil,%eax
 L771:
@@ -1422,8 +1380,7 @@ L781:
 	movq %rsp,%rbp
 L782:
 	movl (%rdi),%eax
-	andl $2147483648,%eax
-	cmpl $0,%eax
+	testl $2147483648,%eax
 	jz L785
 L784:
 	movq _target(%rip),%rax
@@ -1508,8 +1465,7 @@ L847:
 L864:
 	movq %rdi,%rbx
 	movl (%rbx),%edi
-	andl $2147483648,%edi
-	cmpl $0,%edi
+	testl $2147483648,%edi
 	jz L851
 L850:
 	movq _target(%rip),%rdi
@@ -1551,8 +1507,7 @@ L867:
 	movq %rsp,%rbp
 L868:
 	movl (%rdi),%eax
-	andl $2147483648,%eax
-	cmpl $0,%eax
+	testl $2147483648,%eax
 	jz L871
 L870:
 	movq _target(%rip),%rax
@@ -1572,8 +1527,7 @@ L885:
 	jnz L875
 L877:
 	movl (%rdi),%edi
-	andl $4194304,%edi
-	cmpl $0,%edi
+	testl $4194304,%edi
 	jnz L875
 L874:
 	cmpq $0,%rsi
@@ -1605,8 +1559,7 @@ L961:
 	movq %rdi,%rbx
 	xorl %r13d,%r13d
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L902
 L901:
 	movq _target(%rip),%rsi
@@ -1617,8 +1570,7 @@ L901:
 	jmp L900
 L902:
 	movl (%rbx),%esi
-	andl $4194304,%esi
-	cmpl $0,%esi
+	testl $4194304,%esi
 	jz L925
 L908:
 	movq 16(%rbx),%rsi

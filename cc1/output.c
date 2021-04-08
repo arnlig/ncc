@@ -289,7 +289,7 @@ static char *insn_text[] =          /* indexed by I_TEXT() (see code.h) */
     /* 24 */    "OR",           "AND",          "SET_Z",        "SET_NZ",
     /* 28 */    "SET_G",        "SET_LE",       "SET_GE",       "SET_L",
     /* 32 */    "SET_A",        "SET_BE",       "SET_AE",       "SET_B",
-    /* 36 */    "NUMBER"
+    /* 36 */    "NUMBER",       "TEST"
 };
 
 static void output_insn(struct insn *insn)

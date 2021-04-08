@@ -380,6 +380,33 @@ bool live_kill_insn(struct live *live, insn_index index)
     return TRUE;
 }
 
+/* returns the set of condition_codes defined by the insn
+   in the block which are actually used by subsequent code.
+   errs pessimistically (CCSET_ALL) if not sure- currently
+   we only track a usage count (not all uses) so if there
+   is more than one use, that's what the answer will be. */
+
+ccset live_ccs(struct block *b, struct insn *insn)
+{
+    struct range *r;
+    ccset ccs;
+
+    CCSET_CLEAR(ccs);
+    r = range_by_def(&b->live, PSEUDO_REG_CC, insn->index);
+
+    if (r && !RANGE_DEAD(r)) {
+        if (r->uses == 1) {
+            if (r->last == INSN_INDEX_BRANCH)
+                ccs = block_ccs(b);
+            else
+                ccs = insn_uses_cc(insn);
+        } else
+            ccs = CCSET_ALL;
+    }
+
+    return ccs;
+}
+
 /* dump the live information for
    debugging purposes */
 

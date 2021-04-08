@@ -53,8 +53,7 @@ L21:
 	movq 8(%r12),%r12
 	jmp L19
 L22:
-	andl $1,%edx
-	cmpl $0,%edx
+	testl $1,%edx
 	jz L32
 L34:
 	movq _blks_free_list(%rip),%rsi

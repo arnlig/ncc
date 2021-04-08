@@ -9,8 +9,7 @@ L4:
 	jz L7
 L6:
 	movl 8(%rsi),%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	testl $1,%edi
 	jz L11
 L10:
 	addq $9,%rsi
@@ -210,16 +209,14 @@ L94:
 	jz L96
 L99:
 	movl 24(%rax),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L98
 L96:
 	xorl %eax,%eax
 	jmp L91
 L98:
 	movl 24(%rax),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L111
 L104:
 	movq %rbx,%rdi
@@ -295,8 +292,7 @@ L143:
 	movq 40(%rbx),%rdi
 	movq %rsi,(%rdi)
 	movl (%rbx),%esi
-	andl $2147483648,%esi
-	cmpl $0,%esi
+	testl $2147483648,%esi
 	jz L146
 L144:
 	movl (%rbx),%esi
@@ -318,15 +314,13 @@ L148:
 	movl $32,%edi
 	call _fputc
 L150:
-	movl 8(%rbx),%edi
-	movl %edi,%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	movl 8(%rbx),%esi
+	testl $1,%esi
 	jz L159
 L158:
-	shll $24,%edi
-	sarl $25,%edi
-	movslq %edi,%rsi
+	shll $24,%esi
+	sarl $25,%esi
+	movslq %esi,%rsi
 	jmp L160
 L159:
 	movq 16(%rbx),%rsi
@@ -335,8 +329,7 @@ L160:
 	jz L157
 L155:
 	movl 8(%rbx),%esi
-	andl $1,%esi
-	cmpl $0,%esi
+	testl $1,%esi
 	jz L162
 L161:
 	leaq 9(%rbx),%rdi
@@ -385,8 +378,7 @@ L173:
 	movl %esi,L172(%rip)
 	movq _input_stack(%rip),%rsi
 	movl 8(%rsi),%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	testl $1,%edi
 	jz L186
 L185:
 	addq $9,%rsi
@@ -438,8 +430,7 @@ L197:
 	movq %rsi,-8(%rbp)
 	movq _input_stack(%rip),%rsi
 	movl 8(%rsi),%edi
-	andl $1,%edi
-	cmpl $0,%edi
+	testl $1,%edi
 	jz L201
 L200:
 	addq $9,%rsi

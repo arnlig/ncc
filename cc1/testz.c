@@ -23,7 +23,6 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#include <stdio.h>
 #include "../common/list.h"
 #include "cc1.h"
 #include "assoc.h"
@@ -94,7 +93,7 @@ static ASSOC_DEFINE_CLEAR(setcc, cc, ASSOC_NULL_DESTRUCT)
 
 static bool changed;
 
-static blocks_iter_ret testz0(struct block *b)
+static blocks_iter_ret early0(struct block *b)
 {
     struct regs regs = REGS_INITIALIZER(regs);
     struct reg *reg;
@@ -160,15 +159,81 @@ out:
     return BLOCKS_ITER_OK;
 }
 
-void testz(void)
+void testz_early(void)
 {
     do {
         changed = FALSE;
-        blocks_iter(testz0);
+        blocks_iter(early0);
             
         if (changed)
             dead();
     } while (changed);
+}
+
+/* after the bulk of the machine-independent optimizations are done,
+   we look for opportunities to replace
+
+                <dst> := AND <src1>, <src2>
+                         CMP 0, <dst> (or CMP <dst>, 0)
+
+   with                  TEST <src1>, <src2>
+
+   if <dst> is dead, and the only dependencies on the CMP insn are Z/NZ.
+   this is common enough to warrant special treatment- and besides saving
+   an operation, it saves a register (and thus reduces register pressure).
+
+   we do this later in the process so we don't obscure the comparison from
+   earlier passes (specifically, conditional constant propagation). */
+
+static blocks_iter_ret middle0(struct block *b)
+{
+    struct insn *insn;
+    struct insn *next;
+    struct range *r;
+    ccset ccs;
+    ccset zs;
+    pseudo_reg reg;
+
+    CCSET_CLEAR(zs);
+    CCSET_SET(zs, CC_Z);
+    CCSET_SET(zs, CC_NZ);
+
+    INSNS_FOREACH(insn, &b->insns) {
+        if (insn->op != I_AND)
+            continue;
+
+        if ((next = INSNS_NEXT(insn)) == 0)
+            break;
+
+        if (!insn_test_z(next, &reg))
+            continue;
+
+        if (reg != insn->dst->reg)
+            continue;
+
+        r = range_by_def(&b->live, insn->dst->reg, insn->index);
+
+        if (r && (r->last != next->index))
+            continue;
+    
+        ccs = live_ccs(b, next);
+
+        if (!CCSET_SAME(ccs, CCSET_INTERSECT(ccs, zs)))
+            continue;
+
+        insn_replace(insn, I_TEST, operand_dup(insn->src1),
+                                   operand_dup(insn->src2));
+        insn_replace(next, I_NOP);
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
+void testz_middle(void)
+{
+    live_analyze();
+    blocks_iter(middle0);
+    nop();
 }
 
 /* vi: set ts=4 expandtab: */

@@ -351,9 +351,7 @@ L86:
 L87:
 	xorl %r12d,%r12d
 L88:
-	movq %rbx,%rsi
-	andq $7,%rsi
-	cmpq $0,%rsi
+	testq $7,%rbx
 	jnz L90
 L89:
 	cmpq $0,%rbx
