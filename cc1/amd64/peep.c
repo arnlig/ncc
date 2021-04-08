@@ -27,13 +27,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../cc1.h"
 #include "../insn.h"
 #include "../block.h"
+#include "../live.h"
 #include "insn.h"
 #include "peep.h"
 
 /* these are not all peephole optimizations in the strictest sense,
-   but rather a miscellaneous collection of improvements that fit into
-   the simple block-by-block, insn-by-insn iteration done here, and do
-   not require any kind of serious analysis.
+   but rather a miscellaneous collection of improvements.
 
    at some point, we may need to create some more general insn-matching
    framework rather than the ad hoc methods here. rainy day, perhaps. */
@@ -133,39 +132,19 @@ static bool signzero(struct insn *insn)
 }
 
 /* the lowest of low-hanging fruit, the oldest optimization in
-   the world: replace movl $0, <reg> with xorl <reg>, <reg>. */
+   the world: replace movl $0, <reg> with xorl <reg>, <reg>.
 
-static void zero(struct insn *insn)
+   we can't do this if the condition codes are live, since a move
+   leaves them unaffected, but xor does not. */
+
+static void zero(struct block *b, struct insn *insn)
 {
-    if ((insn->op == AMD64_I_MOVL)
+    if (((insn->op == AMD64_I_MOVL) || (insn->op == AMD64_I_MOVQ))
       && AMD64_OPERAND_ZERO(insn->amd64[0])
-      && AMD64_OPERAND_REG(insn->amd64[1])) {
+      && AMD64_OPERAND_REG(insn->amd64[1])
+      && (range_by_use(&b->live, PSEUDO_REG_CC, insn->index) == 0))
         insn_replace(insn, AMD64_I_ZERO, amd64_operand_dup(insn->amd64[1]),
                                          amd64_operand_dup(insn->amd64[1]));
-    }
-}
-
-static blocks_iter_ret peep0(struct block *b)
-{
-    struct insn *insn;
-
-again:
-    INSNS_FOREACH(insn, &b->insns) {
-        zero(insn);
-
-        if (signzero(insn))
-            goto again;
-    }
-        
-
-    return BLOCKS_ITER_OK;
-}
-
-/* amd64_peep() runs before register allocation */
-
-void amd64_peep(void)
-{
-    blocks_iter(peep0);
 }
 
 /* sometimes the code generator creates sequences like:
@@ -241,9 +220,30 @@ static void revert(struct insn *insn)
     }
 }
 
-/* amd64_post_peep() runs after register allocation */
+/* amd64_peep() runs before register allocation,
+   whereas amd64_post_peep() runs after. */
 
-static blocks_iter_ret peep1(struct block *b)
+static blocks_iter_ret peep0(struct block *b)
+{
+    struct insn *insn;
+
+again:
+    INSNS_FOREACH(insn, &b->insns) {
+        zero(b, insn);
+
+        if (signzero(insn))
+            goto again;
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
+void amd64_peep(void)
+{
+    blocks_iter(peep0);
+}
+
+static blocks_iter_ret post0(struct block *b)
 {
     struct insn *insn;
 
@@ -255,7 +255,7 @@ static blocks_iter_ret peep1(struct block *b)
 
 void amd64_post_peep(void)
 {
-    blocks_iter(peep1);
+    blocks_iter(post0);
 }
 
 /* vi: set ts=4 expandtab: */
