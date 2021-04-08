@@ -511,7 +511,7 @@ L206:
 	cmpl $0,%r14d
 	jz L205
 L203:
-	leal -1216872474(%rsi),%ecx
+	leal -1082654746(%rsi),%ecx
 	movl $1,%esi
 	shll %cl,%esi
 	movl %r15d,%edi

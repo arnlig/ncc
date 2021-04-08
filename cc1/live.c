@@ -200,11 +200,14 @@ static blocks_iter_ret live_analyze_local(struct block *b)
     struct insn *insn;
     struct range *r;
     pseudo_reg reg;
+    ccset ccs;
 
     live_clear(&b->live);
 
     INSNS_FOREACH(insn, &b->insns) {
-        if (insn_uses_cc(insn))
+        ccs = insn_uses_cc(insn);
+
+        if (!CCSET_EMPTY(ccs))
             live_use(&b->live, PSEUDO_REG_CC, insn->index);
 
         if (insn_defs_cc(insn))

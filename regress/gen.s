@@ -1273,7 +1273,7 @@ L226:
 L218:
 	movq %r14,%rdi
 	call _operand_sym
-	leal 1216872474(%r12),%esi
+	leal 1082654746(%r12),%esi
 	pushq %rax
 	pushq %rsi
 	call _insn_new

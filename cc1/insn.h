@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <limits.h>
 #include "../common/tailq.h"
 #include "cc1.h"
+#include "codes.h"
 #include "type.h"
 #include "amd64/target_insn.h"
 
@@ -116,10 +117,7 @@ typedef int insn_op;    /* I_* */
 #define I_FLAG_SRC1         ( 0x20000000 )
 #define I_FLAG_SRC2         ( 0x10000000 )
 
-    /* if the instruction uses (defs) the condition codes */
-
-#define I_FLAG_USE_CC       ( 0x08000000 )
-#define I_USE_CC(i)         ((i) & I_FLAG_USE_CC)
+    /* if the instruction defs the condition codes */
 
 #define I_FLAG_DEF_CC       ( 0x04000000 )
 #define I_DEF_CC(i)         ((i) & I_FLAG_DEF_CC)
@@ -259,34 +257,34 @@ typedef int insn_op;    /* I_* */
 #define I_SET_CC_FROM_CC(cc)    (I_SET_Z + CC_INDEX(cc))
 #define I_CC_FROM_SET_CC(i)     ((i) - I_SET_Z)
 
-#define I_SET_Z         ( 26 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_Z         ( 26 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_NZ        ( 27 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_NZ        ( 27 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_G         ( 28 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_G         ( 28 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_LE        ( 29 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_LE        ( 29 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_GE        ( 30 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_GE        ( 30 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_L         ( 31 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_L         ( 31 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_A         ( 32 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_A         ( 32 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_BE        ( 33 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_BE        ( 33 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_AE        ( 34 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_AE        ( 34 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
-#define I_SET_B         ( 35 | I_FLAG_DST | I_FLAG_USE_CC                   \
+#define I_SET_B         ( 35 | I_FLAG_DST                                   \
                              | I_FLAG_IS_SET_CC | I_FLAG_SAFE_CC            )
 
     /* value numbering needs a DEF to map registers to numbers,
@@ -392,7 +390,7 @@ extern void insn_commute(struct insn *);
 extern void insn_normalize(struct insn *);
 extern bool insn_copy(struct insn *, pseudo_reg *, pseudo_reg *);
 extern bool insn_defs_cc(struct insn *);
-extern bool insn_uses_cc(struct insn *);
+extern ccset insn_uses_cc(struct insn *);
 extern bool insn_defs_mem(struct insn *);
 extern bool insn_uses_mem(struct insn *);
 extern bool insn_defs_regs(struct insn *, struct regs *);

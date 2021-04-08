@@ -461,11 +461,20 @@ bool amd64_insn_defs_cc(struct insn *insn)
     return (insn->op & AMD64_I_FLAG_DEFCC) != 0;
 }
 
-/* if the instruction reads the condition codes */
+/* return the codes used by the insn. for
+   now, be pessimistic and say all of 'em
+   if any are used. */
 
-bool amd64_insn_uses_cc(struct insn *insn)
+ccset amd64_insn_uses_cc(struct insn *insn)
 {
-    return (insn->op & AMD64_I_FLAG_USECC) != 0;
+    ccset ccs;
+
+    CCSET_CLEAR(ccs);
+
+    if (insn->op & AMD64_I_FLAG_USECC)
+        ccs = CCSET_ALL;
+
+    return ccs;
 }
 
 /* if the instruction has side effects. note

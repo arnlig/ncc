@@ -84,9 +84,14 @@ typedef int condition_code;     /* CC_* */
 
 typedef int ccset;
 
-#define CCSET_CLEAR(s)          ((s) = 0)
-#define CCSET_SET(s, cc)        ((s) |= 1 << CC_INDEX(cc))
-#define CCSET_IS_SET(s, cc)     ((s) & (1 << CC_INDEX(cc)))
+#define CCSET_CLEAR(s)              ((s) = 0)
+#define CCSET_SET(s, cc)            ((s) |= 1 << CC_INDEX(cc))
+#define CCSET_IS_SET(s, cc)         ((s) & (1 << CC_INDEX(cc)))
+#define CCSET_EMPTY(s)              ((s) == 0)
+#define CCSET_SAME(s1, s2)          ((s1) == (s2))
+#define CCSET_INTERSECT(s1, s2)     ((s1) & (s2))
+#define CCSET_UNION(s1, s2)         ((s1) | (s2))
+#define CCSET_ALL                   ( 0xFFFFFFFF )
 
 #endif /* CODES_H */
 

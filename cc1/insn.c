@@ -596,14 +596,23 @@ bool insn_defs_cc(struct insn *insn)
         return (I_DEF_CC(insn->op) != 0);
 }
 
-/* returns TRUE if the instruction uses the condition codes */
+/* return the set of condition_codes used
+   by the insn, (empty if none used. */
 
-bool insn_uses_cc(struct insn *insn)
+ccset insn_uses_cc(struct insn *insn)
 {
+    ccset ccs;
+
     if (I_TARGET(insn->op))
         return target->insn_uses_cc(insn);
-    else
-        return (I_USE_CC(insn->op) != 0);
+    else {
+        CCSET_CLEAR(ccs);
+        
+        if (I_IS_SET_CC(insn->op))
+            CCSET_SET(ccs, I_CC_FROM_SET_CC(insn->op));
+        
+        return ccs;
+    }
 }
 
 /* returns TRUE if the instruction writes to memory */

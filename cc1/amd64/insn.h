@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <limits.h>
 #include "../cc1.h"
 #include "../type.h"
+#include "../codes.h"
 #include "../insn.h"
 
 struct regs;
@@ -964,7 +965,7 @@ extern void amd64_insn_construct(struct insn *, va_list);
 extern void amd64_insn_destruct(struct insn *);
 extern void amd64_insn_output(struct insn *);
 extern bool amd64_insn_defs_cc(struct insn *);
-extern bool amd64_insn_uses_cc(struct insn *);
+extern ccset amd64_insn_uses_cc(struct insn *);
 extern bool amd64_insn_side_effects(struct insn *);
 extern bool amd64_insn_defs_mem(struct insn *);
 extern bool amd64_insn_uses_mem(struct insn *);

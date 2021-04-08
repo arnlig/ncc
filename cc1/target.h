@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define TARGET_H
 
 #include "cc1.h"
+#include "codes.h"
 #include "block.h"
 #include "insn.h"
 #include "type.h"
@@ -74,7 +75,7 @@ struct target
     bool (*insn_defs_regs)(struct insn *, struct regs *);
     bool (*insn_uses_regs)(struct insn *, struct regs *);
     bool (*insn_defs_cc)(struct insn *);
-    bool (*insn_uses_cc)(struct insn *);
+    ccset (*insn_uses_cc)(struct insn *);
     bool (*insn_defs_mem)(struct insn *);
     bool (*insn_uses_mem)(struct insn *);
     bool (*insn_side_effects)(struct insn *);

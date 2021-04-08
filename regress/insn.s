@@ -1354,336 +1354,341 @@ L745:
 	call *%rsi
 	jmp L744
 L746:
+	xorl %eax,%eax
 	movl (%rdi),%esi
-	andl $134217728,%esi
-	cmpl $0,%esi
-	setnz %sil
-	movzbl %sil,%eax
+	movl %esi,%edi
+	andl $8388608,%edi
+	cmpl $0,%edi
+	jz L744
+L749:
+	leal -1082654746(%rsi),%ecx
+	movl $1,%eax
+	shll %cl,%eax
 L744:
 	popq %rbp
 	ret
-L753:
+L756:
 _insn_defs_mem:
-L754:
+L757:
 	pushq %rbp
 	movq %rsp,%rbp
-L755:
+L758:
 	movl (%rdi),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
-	jz L758
-L757:
+	jz L761
+L760:
 	movq _target(%rip),%rsi
 	movq 176(%rsi),%rsi
 	call *%rsi
-	jmp L756
-L758:
+	jmp L759
+L761:
 	movl (%rdi),%esi
 	andl $16777216,%esi
 	cmpl $0,%esi
 	setnz %sil
 	movzbl %sil,%eax
-L756:
+L759:
 	popq %rbp
 	ret
-L765:
+L768:
 _insn_uses_mem:
-L766:
+L769:
 	pushq %rbp
 	movq %rsp,%rbp
-L767:
+L770:
 	movl (%rdi),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
-	jz L770
-L769:
+	jz L773
+L772:
 	movq _target(%rip),%rsi
 	movq 184(%rsi),%rsi
 	call *%rsi
-	jmp L768
-L770:
+	jmp L771
+L773:
 	movl (%rdi),%esi
 	andl $33554432,%esi
 	cmpl $0,%esi
 	setnz %sil
 	movzbl %sil,%eax
-L768:
+L771:
 	popq %rbp
 	ret
-L777:
+L780:
 _insn_test_con:
-L778:
+L781:
 	pushq %rbp
 	movq %rsp,%rbp
-L779:
+L782:
 	movl (%rdi),%eax
 	andl $2147483648,%eax
 	cmpl $0,%eax
-	jz L782
-L781:
+	jz L785
+L784:
 	movq _target(%rip),%rax
 	movq 208(%rax),%rax
 	call *%rax
-	jmp L780
-L782:
+	jmp L783
+L785:
 	movl (%rdi),%eax
 	cmpl $872415247,%eax
-	jnz L786
+	jnz L789
+L791:
+	movq 24(%rdi),%rax
+	cmpq $0,%rax
+	jz L795
+L807:
+	movl (%rax),%ecx
+	cmpl $1,%ecx
+	jnz L795
+L803:
+	cmpq $0,32(%rax)
+	jnz L795
+L799:
+	movq 32(%rdi),%rax
+	cmpq $0,%rax
+	jz L795
+L811:
+	movl (%rax),%eax
+	cmpl $2,%eax
+	jz L788
+L795:
+	movq 32(%rdi),%rax
+	cmpq $0,%rax
+	jz L789
+L823:
+	movl (%rax),%ecx
+	cmpl $1,%ecx
+	jnz L789
+L819:
+	cmpq $0,32(%rax)
+	jnz L789
+L815:
+	movq 24(%rdi),%rax
+	cmpq $0,%rax
+	jz L789
+L827:
+	movl (%rax),%eax
+	cmpl $2,%eax
+	jnz L789
 L788:
-	movq 24(%rdi),%rax
-	cmpq $0,%rax
-	jz L792
-L804:
-	movl (%rax),%ecx
-	cmpl $1,%ecx
-	jnz L792
-L800:
-	cmpq $0,32(%rax)
-	jnz L792
-L796:
-	movq 32(%rdi),%rax
-	cmpq $0,%rax
-	jz L792
-L808:
-	movl (%rax),%eax
-	cmpl $2,%eax
-	jz L785
-L792:
-	movq 32(%rdi),%rax
-	cmpq $0,%rax
-	jz L786
-L820:
-	movl (%rax),%ecx
-	cmpl $1,%ecx
-	jnz L786
-L816:
-	cmpq $0,32(%rax)
-	jnz L786
-L812:
-	movq 24(%rdi),%rax
-	cmpq $0,%rax
-	jz L786
-L824:
-	movl (%rax),%eax
-	cmpl $2,%eax
-	jnz L786
-L785:
 	cmpq $0,%rsi
-	jz L830
-L828:
+	jz L833
+L831:
 	movq 24(%rdi),%rax
 	cmpq $0,%rax
-	jz L832
-L834:
+	jz L835
+L837:
 	movl (%rax),%ecx
 	cmpl $2,%ecx
-	jnz L832
-L831:
+	jnz L835
+L834:
 	movl 24(%rax),%edi
 	movl %edi,(%rsi)
-	jmp L830
-L832:
+	jmp L833
+L835:
 	movq 32(%rdi),%rdi
 	movl 24(%rdi),%edi
 	movl %edi,(%rsi)
-L830:
+L833:
 	movl $1,%eax
-	jmp L780
-L786:
+	jmp L783
+L789:
 	xorl %eax,%eax
-L780:
+L783:
 	popq %rbp
 	ret
-L843:
+L846:
 _insn_test_z:
-L844:
+L847:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L861:
+L864:
 	movq %rdi,%rbx
 	movl (%rbx),%edi
 	andl $2147483648,%edi
 	cmpl $0,%edi
-	jz L848
-L847:
+	jz L851
+L850:
 	movq _target(%rip),%rdi
 	movq 200(%rdi),%rax
 	movq %rbx,%rdi
 	call *%rax
-	jmp L846
-L848:
+	jmp L849
+L851:
 	movq %rbx,%rdi
 	call _insn_test_con
 	cmpl $0,%eax
-	jz L852
-L851:
+	jz L855
+L854:
 	movq 24(%rbx),%rdi
 	call _operand_is_zero
 	cmpl $0,%eax
-	jnz L855
-L854:
+	jnz L858
+L857:
 	movq 32(%rbx),%rdi
 	call _operand_is_zero
 	cmpl $0,%eax
-	jz L856
-L855:
+	jz L859
+L858:
 	movl $1,%eax
-	jmp L846
-L856:
+	jmp L849
+L859:
 	xorl %eax,%eax
-	jmp L846
-L852:
+	jmp L849
+L855:
 	xorl %eax,%eax
-L846:
+L849:
 	popq %rbx
 	popq %rbp
 	ret
-L863:
+L866:
 _insn_defs_regs:
-L864:
+L867:
 	pushq %rbp
 	movq %rsp,%rbp
-L865:
+L868:
 	movl (%rdi),%eax
 	andl $2147483648,%eax
 	cmpl $0,%eax
-	jz L868
-L867:
+	jz L871
+L870:
 	movq _target(%rip),%rax
 	movq 144(%rax),%rax
 	call *%rax
-	jmp L866
-L868:
+	jmp L869
+L871:
 	movq 16(%rdi),%rax
 	cmpq $0,%rax
-	jz L872
-L878:
+	jz L875
+L881:
 	cmpq $0,%rax
-	jz L872
-L882:
+	jz L875
+L885:
 	movl (%rax),%ecx
 	cmpl $2,%ecx
-	jnz L872
-L874:
+	jnz L875
+L877:
 	movl (%rdi),%edi
 	andl $4194304,%edi
 	cmpl $0,%edi
-	jnz L872
-L871:
+	jnz L875
+L874:
 	cmpq $0,%rsi
-	jz L888
-L886:
+	jz L891
+L889:
 	movl 24(%rax),%eax
 	movq %rsi,%rdi
 	movl %eax,%esi
 	movl $1,%edx
 	call _regs_lookup
-L888:
+L891:
 	movl $1,%eax
-	jmp L866
-L872:
+	jmp L869
+L875:
 	xorl %eax,%eax
-L866:
+L869:
 	popq %rbp
 	ret
-L894:
+L897:
 _insn_uses_regs:
-L895:
+L898:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L958:
+L961:
 	movq %rsi,%r12
 	movq %rdi,%rbx
 	xorl %r13d,%r13d
 	movl (%rbx),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
-	jz L899
-L898:
+	jz L902
+L901:
 	movq _target(%rip),%rsi
 	movq 152(%rsi),%rax
 	movq %rbx,%rdi
 	movq %r12,%rsi
 	call *%rax
-	jmp L897
-L899:
+	jmp L900
+L902:
 	movl (%rbx),%esi
 	andl $4194304,%esi
 	cmpl $0,%esi
-	jz L922
-L905:
+	jz L925
+L908:
 	movq 16(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L922
-L911:
+	jz L925
+L914:
 	cmpq $0,%rsi
-	jz L922
-L915:
+	jz L925
+L918:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L922
-L908:
+	jnz L925
+L911:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L922
-L919:
+	jz L925
+L922:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L922:
+L925:
 	movq 24(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L939
-L928:
+	jz L942
+L931:
 	cmpq $0,%rsi
-	jz L939
-L932:
+	jz L942
+L935:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L939
-L925:
+	jnz L942
+L928:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L939
-L936:
+	jz L942
+L939:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L939:
+L942:
 	movq 32(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L940
-L945:
+	jz L943
+L948:
 	cmpq $0,%rsi
-	jz L940
-L949:
+	jz L943
+L952:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L940
-L942:
+	jnz L943
+L945:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L940
-L953:
+	jz L943
+L956:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L940:
+L943:
 	movl %r13d,%eax
-L897:
+L900:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L960:
+L963:
 .globl _regs_lookup
 .globl _insns_swap
 .globl _insn_dup
