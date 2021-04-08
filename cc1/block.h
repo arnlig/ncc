@@ -36,70 +36,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "blks.h"
 #include "copy.h"
 #include "slvn.h"
+#include "codes.h"
 #include "amd64/target_block.h"
 
 struct symbol;
-
-/* we assume an architecture with condition codes, which maps nicely onto
-   AMD64, ARM, SPARC, i386, 68K, etc. (not so nicely onto MIPS, RISC-V...).
-   condition_code is a bit of a misnomer: these are not condition codes,
-   but rather the states that can be deduced from them.
-
-   we map unsigned and floating-point comparisons onto the same set of codes.
-   this reflects the behavior of both x86 SSE and ARM VFP floating-point; if
-   a target comes along that makes this awkward, we can separate them. */
-
-typedef int condition_code;     /* CC_* */
-
-#define CC_Z            0           /* zero/equal */
-#define CC_NZ           1           /* not zero/equal */
-#define CC_G            2           /* (signed) > */
-#define CC_LE           3           /* (signed) <= */
-#define CC_GE           4           /* (signed) >= */
-#define CC_L            5           /* (signed) < */
-#define CC_A            6           /* (unsigned/float) > */
-#define CC_BE           7           /* (unsigned/float) <= */
-#define CC_AE           8           /* (unsigned/float) >= */
-#define CC_B            9           /* (unsigned/float) < */
-
-#define CC_ALWAYS       10
-#define CC_NEVER        11
-
-    /* separate the condition_codes that are actually dependent
-       on the state of the CPU from the ones that aren't */
-
-#define CC_CONDITIONAL(cc)  ((cc) < CC_ALWAYS)
-
-    /* "real" condition codes are those above, which actually indicate some
-       condition, as opposed to the pseudo-CCs below used for switch blocks */
-
-#define CC_NR_REAL      (CC_NEVER + 1)
-#define CC_REAL(cc)     ((cc) < CC_NR_REAL)
-
-    /* invert the truth value of a (real) condition_code. notice that the
-       values of the CC_* constants are arranged such that opposite meanings
-       differ in their lsbs only; this makes CC_INVERT() trivial. */
-
-#define CC_INVERT(cc)       ((cc) ^ 1)
-
-    /* used for controlling block of switch statements, see struct cessor */
-
-#define CC_SWITCH       12
-#define CC_DEFAULT      13
-
-    /* sometimes we need to index by condition_codes, e.g., to map them
-       onto their equivalent I_SETcc instructions. for the moment the CC_*
-       values are agreeable, but they might not always be, so use this. */
-
-#define CC_INDEX(cc)    (cc)
-
-    /* sometimes it's useful to group all condition_codes as a set */
-
-typedef int ccset;
-
-#define CCSET_CLEAR(s)          ((s) = 0)
-#define CCSET_SET(s, cc)        ((s) |= 1 << CC_INDEX(cc))
-#define CCSET_IS_SET(s, cc)     ((s) & (1 << CC_INDEX(cc)))
 
 /* for simplicity we track both successors and predecessors with cessors.
    for successors of a given block, the condition_codes must be exclusive

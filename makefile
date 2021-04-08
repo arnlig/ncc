@@ -80,7 +80,7 @@ CC1_HDRS=	cc1/cc1.h cc1/algebra.h cc1/bitset.h cc1/blks.h cc1/block.h \
 		cc1/output.h cc1/prop.h cc1/regs.h cc1/slvn.h cc1/stmt.h \
 		cc1/string.h cc1/switch.h cc1/symbol.h cc1/target.h \
 		cc1/testz.h cc1/tree.h cc1/type.h cc1/webs.h \
-		cc1/assoc.h cc1/set.h cc1/stack.h \
+		cc1/assoc.h cc1/codes.h cc1/set.h cc1/stack.h \
 		$(AMD64_HDRS)
 
 CC1_OBJS=	cc1/cc1.o cc1/algebra.o cc1/bitset.o cc1/blks.o cc1/block.o \
