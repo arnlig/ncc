@@ -57,11 +57,9 @@ L52:
 	movq %rsi,%r15
 	movq %rdi,%r12
 	leaq -24(%rbp),%rbx
-	movq %rbx,%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movq %rbx,%rdi

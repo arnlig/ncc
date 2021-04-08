@@ -981,6 +981,24 @@ extern bool amd64_operands_same(struct amd64_operand *,
                                     | AMD64_I_ENC_USES(1)                   \
                                     | AMD64_I_ENC_FUSE(1)                   )
 
+#define AMD64_I_STOSQ       AMD64_I ( 94 | AMD64_I_FLAG_DEFMEM )
+
+    /* just like AMD64_I_ZERO, except for an XMM register. */
+
+#define AMD64_I_XMMZERO     AMD64_I ( 95                                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_DEFS(1)                   )
+
+#define AMD64_I_MOVUPS      AMD64_I ( 96                                    \
+                                    | AMD64_I_ENC_OPERANDS(2)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_DEFS(1)                   )
+
 extern void amd64_insn_construct(struct insn *, va_list);
 extern void amd64_insn_destruct(struct insn *);
 extern void amd64_insn_output(struct insn *);

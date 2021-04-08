@@ -188,11 +188,8 @@ L89:
 L131:
 	movq %rdi,%rbx
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
 	xorl %r13d,%r13d
 	movq (%rbx),%r12
@@ -422,11 +419,8 @@ L196:
 	pushq %r12
 L197:
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
 	movq _input_stack(%rip),%rsi
 	movl 8(%rsi),%edi

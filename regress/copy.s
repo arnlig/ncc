@@ -201,16 +201,13 @@ L118:
 	pushq %r12
 	pushq %r13
 L136:
-	movq %rdi,%rdx
 	movq %rsi,%r13
-	leaq -24(%rbp),%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
-	movq 8(%rdx),%rbx
+	movq 8(%rdi),%rbx
 L121:
 	cmpq $0,%rbx
 	jz L120
@@ -272,15 +269,10 @@ L140:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-L145:
-	movq %rdi,%rsi
+L141:
 	leaq -16(%rbp),%rbx
-	movq %rbx,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
-	movq %rsi,%rdi
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rbx,%rsi
 	call _local
 	movq %rbx,%rdi
@@ -439,11 +431,9 @@ L212:
 	pushq %r13
 L234:
 	movq %rdi,%rbx
-	leaq -24(%rbp),%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	leaq 224(%rbx),%rdi
@@ -596,11 +586,8 @@ L258:
 	pushq %r13
 L273:
 	movq %rdi,%r13
-	leaq -16(%rbp),%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	xorl %ebx,%ebx
 	movq _copies(%rip),%r12
 L261:

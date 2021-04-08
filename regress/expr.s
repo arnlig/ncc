@@ -301,51 +301,48 @@ L155:
 	pushq %r12
 L185:
 	movq %rdi,%rbx
-	movq 24(%rbx),%rdx
-	movq 32(%rbx),%r8
-	leaq -16(%rbp),%r9
-	movq %r9,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
-	movq %r9,-8(%rbp)
-	movq 8(%rdx),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	andq $32768,%rax
-	cmpq $0,%rax
+	movq 24(%rbx),%rdi
+	movq 32(%rbx),%rax
+	leaq -16(%rbp),%rcx
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
+	movq %rcx,-8(%rbp)
+	movq 8(%rdi),%rcx
+	movq (%rcx),%rdx
+	andq $131071,%rdx
+	andq $32768,%rdx
+	cmpq $0,%rdx
 	jz L157
 L165:
-	movq 8(%r8),%rcx
+	movq 8(%rax),%r8
+	movq (%r8),%r8
+	andq $131071,%r8
+	testq $32768,%r8
+	jz L157
+L161:
+	cmpq $0,%rdx
+	jz L169
+L173:
+	movq 16(%rcx),%rcx
 	movq (%rcx),%rcx
+	testq $1,%rcx
+	jnz L158
+L169:
+	movq 8(%rax),%rax
+	movq (%rax),%rcx
 	andq $131071,%rcx
 	testq $32768,%rcx
 	jz L157
-L161:
-	cmpq $0,%rax
-	jz L169
-L173:
-	movq 16(%rdi),%rdi
-	movq (%rdi),%rdi
-	testq $1,%rdi
-	jnz L158
-L169:
-	movq 8(%r8),%rdi
-	movq (%rdi),%rax
-	andq $131071,%rax
-	testq $32768,%rax
-	jz L157
 L177:
-	movq 16(%rdi),%rdi
-	movq (%rdi),%rdi
-	testq $1,%rdi
+	movq 16(%rax),%rax
+	movq (%rax),%rax
+	testq $1,%rax
 	jz L157
 L158:
 	cmpl $0,%esi
 	jnz L182
 L181:
-	leaq 8(%rdx),%rsi
+	leaq 8(%rdi),%rsi
 	movq 32(%rbx),%rdi
 	call _permute0
 	movq %rax,32(%rbx)
@@ -1090,16 +1087,11 @@ L398:
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L429:
-	movq %rdi,%rdx
+L399:
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
-	movq %rdx,%rdi
 	xorl %esi,%esi
 	call _promote
 	movq %rax,%r13
@@ -1281,16 +1273,11 @@ L450:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L492:
-	movq %rdi,%rdx
+L451:
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
-	movq %rdx,%rdi
 	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
@@ -1465,11 +1452,8 @@ L531:
 	pushq %r14
 L532:
 	leaq -16(%rbp),%r13
-	movq %r13,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	leaq -8(%rbp),%r12
 	movq %r13,-8(%rbp)
 	movl _token(%rip),%r14d
@@ -1709,11 +1693,8 @@ L614:
 	pushq %r12
 L615:
 	leaq -16(%rbp),%r12
-	movq %r12,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %r12,-8(%rbp)
 	movl _token(%rip),%esi
 	cmpl $262156,%esi

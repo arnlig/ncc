@@ -1401,11 +1401,8 @@ L642:
 L689:
 	movq %rdi,%rbx
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
 	testl $2147483648,%esi
@@ -1520,11 +1517,8 @@ L699:
 	jmp L694
 L707:
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
 	testl $2147483648,%esi
@@ -1613,11 +1607,8 @@ L754:
 L804:
 	movq %rdi,%rbx
 	leaq -16(%rbp),%rsi
-	movq %rsi,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rsi,-8(%rbp)
 	movl (%rbx),%esi
 	testl $2147483648,%esi

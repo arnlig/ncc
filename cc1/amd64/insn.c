@@ -610,6 +610,7 @@ bool amd64_insn_defs_regs(struct insn *insn, struct regs *regs)
                             REGS_ADD(regs, AMD64_REG_RCX); ++count;
                             break;
 
+    case AMD64_I_STOSQ:
     case AMD64_I_STOSB:     REGS_ADD(regs, AMD64_REG_RDI); ++count;
                             REGS_ADD(regs, AMD64_REG_RCX); ++count;
                             break;
@@ -663,6 +664,7 @@ bool amd64_insn_uses_regs(struct insn *insn, struct regs *regs)
                             REGS_ADD(regs, AMD64_REG_RCX); ++count;
                             break;
 
+    case AMD64_I_STOSQ:
     case AMD64_I_STOSB:     REGS_ADD(regs, AMD64_REG_RDI); ++count;
                             REGS_ADD(regs, AMD64_REG_RCX); ++count;
                             REGS_ADD(regs, AMD64_REG_RAX); ++count;
@@ -730,7 +732,8 @@ static char *amd64_insn_text[] =        /* keyed to AMD64_I_INDEX() */
     /*  80 */   "idivl",        "idivq",        "cltd",         "cqto",
     /*  84 */   "rep",          "movsb",        "stosb",        "call",
     /*  88 */   "addb",         "subb",         "addw",         "subw",
-    /*  92 */   "testl",        "testq"
+    /*  92 */   "testl",        "testq",        "stosq",        "xorps",
+    /*  96 */   "movups"
 };
 
 void amd64_insn_output(struct insn *insn)

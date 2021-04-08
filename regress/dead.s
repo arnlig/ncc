@@ -10,11 +10,9 @@ L4:
 	pushq %r14
 L43:
 	movq %rdi,%r13
-	leaq -24(%rbp),%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 L7:

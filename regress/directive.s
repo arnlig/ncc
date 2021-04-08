@@ -354,11 +354,9 @@ L157:
 	pushq %r12
 L205:
 	movq %rdi,%rbx
-	leaq -24(%rbp),%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	movl -24(%rbp),%esi
 	andl $4294967294,%esi
 	orl $1,%esi

@@ -870,19 +870,15 @@ L387:
 	pushq %rbx
 	pushq %r12
 L406:
-	movq %rdi,%rdx
 	movq %rsi,%rbx
 	leaq -24(%rbp),%r12
-	movq %r12,%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	movl -24(%rbp),%esi
 	andl $4294967294,%esi
 	orl $1,%esi
 	movl %esi,-24(%rbp)
-	movq %rdx,%rdi
 	movq %r12,%rsi
 	call _token_text
 	movq %rbx,%rdi

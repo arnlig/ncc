@@ -1195,19 +1195,15 @@ L624:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-L643:
-	movq %rdi,%rsi
+L625:
 	leaq -16(%rbp),%rbx
-	movq %rbx,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rbx,-8(%rbp)
-	movq %rsi,_func_sym(%rip)
+	movq %rdi,_func_sym(%rip)
 	movq $0,_func_ret_type(%rip)
 	movq $_func_ret_type,_func_ret_type+8(%rip)
-	addq $32,%rsi
+	leaq 32(%rdi),%rsi
 	movq $_func_ret_type,%rdi
 	call _type_deref
 	movq $0,_blocks(%rip)

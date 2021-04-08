@@ -42,7 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
    functions preserve RBP, RBX, R12-R15, XMM10-15. the remaining registers
    are volatile. the first 6 integer arguments are passed in RDI, RSI, RDX,
    RCX, R8, and R9, and the first 8 floating-point arguments are passed in
-   XMM0-7. excess and struct/union arguments are passed on the stack.
+   XMM0-7. excess and struct/union arguments are passed on the stack. the
+   compiler only preserves bits [63:0] of SSE registers across functions.
 
    scalar return values appear in RAX or XMM0 as appropriate. the front
    end machinery handles struct return values: the caller passes a hidden

@@ -890,16 +890,63 @@ static void blkcopy(struct amd64_operand *src1, struct amd64_operand *src2,
     EMIT(insn_new(AMD64_I_MOVSB));
 }
 
-/* I_BLKZERO: similar notes to above. should optimize shorter blocks. */
+/* I_BLKZERO: we cheat a little here- at present, I_BLKZERO is only issued
+   to zero stack space for aggregate automatics, and that is likely to
+   remain the case (unless we go down the built-in memset()/bzero() path).
+   as such, we know that the region we are going to zero is 8-byte aligned,
+   and is also padded to 8 bytes.
+
+   if the region is larger than BLKZERO_MAX bytes, then we fall back to
+   REP/MOVSQ, which is a reasonable choice given that we're not sure of
+   the microarchitecture. */
+
+#define BLKZERO_MAX 64
 
 static void blkzero(struct amd64_operand *src, struct amd64_operand *dst)
 {
-    move(dst, amd64_operand_reg(T_ULONG, AMD64_REG_RDI));
-    move(src, amd64_operand_reg(T_ULONG, AMD64_REG_RCX));
-    EMIT(insn_new(AMD64_I_ZERO, amd64_operand_reg(T_INT, AMD64_REG_RAX), 
-                                amd64_operand_reg(T_INT, AMD64_REG_RAX)));
-    EMIT(insn_new(AMD64_I_REP));
-    EMIT(insn_new(AMD64_I_STOSB));
+    struct amd64_operand *tmp_xmm;
+    unsigned long bytes;
+
+    bytes = src->i;
+    bytes = ROUND_UP(bytes, AMD64_STACK_ALIGN);
+
+    if (bytes > BLKZERO_MAX) {
+        src->i = bytes / AMD64_STACK_ALIGN;
+        move(dst, amd64_operand_reg(T_ULONG, AMD64_REG_RDI));
+        move(src, amd64_operand_reg(T_ULONG, AMD64_REG_RCX));
+
+        EMIT(insn_new(AMD64_I_ZERO, amd64_operand_reg(T_INT, AMD64_REG_RAX), 
+                                    amd64_operand_reg(T_INT, AMD64_REG_RAX)));
+
+        EMIT(insn_new(AMD64_I_REP));
+        EMIT(insn_new(AMD64_I_STOSQ));
+    } else {
+        tmp_xmm = 0;
+        dst = memorize(dst);
+
+        while (bytes) {
+            if (bytes >= 16) {
+                if (tmp_xmm == 0) {
+                    tmp_xmm = amd64_operand_tmp(T_DOUBLE);
+                    EMIT(insn_new(AMD64_I_XMMZERO,
+                                  amd64_operand_dup(tmp_xmm),
+                                  amd64_operand_dup(tmp_xmm)));
+                }
+
+                EMIT(insn_new(AMD64_I_MOVUPS, amd64_operand_dup(tmp_xmm),
+                                              amd64_operand_dup(dst)));
+
+                dst->i += 16;
+                bytes -= 16;
+            } else {
+                EMIT(insn_new(AMD64_I_MOVQ, amd64_operand_con(T_LONG, 0, 0),
+                                            amd64_operand_dup(dst)));
+                bytes -= 8;
+            }
+        }
+
+        amd64_operand_free(dst);
+    }
 }
 
 /* when we encounter I_ARG/I_VARG/I_BLKARG, we simply

@@ -159,16 +159,12 @@ L70:
 	pushq %r15
 L106:
 	movq %rdi,%r12
-	movq %rcx,%r8
 	movl %edx,%r15d
 	movq %rsi,%rbx
-	leaq -16(%rbp),%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movl $1,-16(%rbp)
-	movq %r8,-8(%rbp)
+	movq %rcx,-8(%rbp)
 	xorl %r13d,%r13d
 L73:
 	movl _all_defs(%rip),%esi
@@ -552,16 +548,13 @@ L243:
 	pushq %r12
 	pushq %r13
 L270:
-	movq %rdi,%rdx
 	movq %rsi,%rbx
-	leaq -24(%rbp),%rdi
-	movl $24,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
-	movq 8(%rdx),%r13
+	movq 8(%rdi),%r13
 L246:
 	cmpq $0,%r13
 	jz L245

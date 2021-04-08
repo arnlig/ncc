@@ -987,11 +987,8 @@ L456:
 L465:
 	movq %rdi,%r12
 	leaq -16(%rbp),%rbx
-	movq %rbx,%rdi
-	movl $16,%ecx
-	xorl %eax,%eax
-	rep
-	stosb
+	xorps %xmm0,%xmm0
+	movups %xmm0,-16(%rbp)
 	movq %rbx,-8(%rbp)
 	movq %rbx,%rdi
 	movq $4611686018427404288,%rsi
