@@ -299,7 +299,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
                                     | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_DEFS(1)                   \
-                                    | AMD64_I_ENC_FUSE(0)                   )
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVSBL      AMD64_I ( 4                                     \
                                     | AMD64_I_ENC_OPERANDS(2)               \
