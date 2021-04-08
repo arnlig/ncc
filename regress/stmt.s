@@ -31,7 +31,6 @@ L18:
 L22:
 	movq %rdi,%r13
 	movq %rsi,%r12
-L19:
 	movl $262156,%edi
 	call _lex_match
 	call _expression
@@ -445,7 +444,6 @@ L103:
 	pushq %rbx
 L111:
 	movq %rdi,%rbx
-L104:
 	cmpq $0,%rbx
 	jnz L108
 L106:
@@ -693,7 +691,6 @@ L176:
 	pushq %r12
 L179:
 	movl _token(%rip),%esi
-L216:
 	cmpl $73,%esi
 	jz L193
 	jb L217

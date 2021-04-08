@@ -11,7 +11,6 @@ L5:
 	movq %rdi,%rbx
 	movq %rsi,%r12
 	movq %rdx,%r14
-L2:
 	movl $64,%edi
 	xorl %esi,%esi
 	xorl %edx,%edx
@@ -52,7 +51,6 @@ L9:
 	pushq %r12
 L14:
 	movq %rdi,%r12
-L10:
 	movq %r12,%rdi
 	call _symbol_storage
 	movq _target(%rip),%rsi
@@ -93,7 +91,6 @@ L18:
 	pushq %r12
 L39:
 	movq %rdi,%rbx
-L19:
 	movq 32(%rbx),%rsi
 	movq (%rsi),%rdi
 	movq %rdi,%rsi
@@ -217,7 +214,6 @@ L50:
 L57:
 	movq %rdi,%r12
 	movq %rsi,%r13
-L51:
 	movq %r13,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
@@ -259,7 +255,6 @@ L61:
 	pushq %r12
 L68:
 	movq %rdi,%r12
-L62:
 	movq %rsi,%rdi
 	call _operand_leaf
 	movq %rax,%rbx
@@ -301,7 +296,6 @@ L72:
 	pushq %r13
 L80:
 	movq %rdi,%r13
-L73:
 	movq 24(%r13),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -361,7 +355,6 @@ L84:
 	pushq %r13
 L89:
 	movq %rdi,%r13
-L85:
 	movq 24(%r13),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -415,7 +408,6 @@ L97:
 	movl %esi,%r12d
 	movl %edx,%ebx
 	movq %rdi,%r14
-L94:
 	leaq 32(%r14),%rdi
 	xorl %esi,%esi
 	call _type_sizeof
@@ -483,7 +475,6 @@ L101:
 L123:
 	movl %esi,%r13d
 	movq %rdi,%r12
-L102:
 	xorl %ebx,%ebx
 	movq 24(%r12),%rdi
 	xorl %esi,%esi
@@ -566,7 +557,6 @@ L132:
 	movq %rdi,-24(%rbp)	 # spill
 	movl %ecx,%r12d
 	movq %rsi,-8(%rbp)	 # spill
-L128:
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%r13
 	movq %r13,%rdi
@@ -719,7 +709,6 @@ L136:
 	pushq %r13
 L158:
 	movq %rdi,%rbx
-L137:
 	movq 32(%rbx),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -859,7 +848,6 @@ L162:
 	pushq %r13
 L171:
 	movq %rdi,%r13
-L163:
 	movq 24(%r13),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -914,7 +902,6 @@ L175:
 	pushq %r14
 L183:
 	movq %rdi,%r14
-L176:
 	movl (%r14),%esi
 	cmpl $1082130439,%esi
 	jnz L179
@@ -981,7 +968,6 @@ L188:
 	pushq %r14
 L193:
 	movq %rdi,%r14
-L189:
 	movq 24(%r14),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -1040,7 +1026,6 @@ L197:
 	pushq %r15
 L209:
 	movq %rdi,%r12
-L198:
 	movl (%r12),%esi
 	cmpl $805307177,%esi
 	setz %sil
@@ -1181,7 +1166,6 @@ L213:
 	pushq %r14
 L253:
 	movq %rdi,%rbx
-L214:
 	leaq 8(%rbx),%rdi
 	call _symbol_temp
 	movq %rax,%r14
@@ -1208,7 +1192,6 @@ L214:
 	movq %rax,%rsi
 	call _insn_append
 	movl (%rbx),%esi
-L246:
 	cmpl $33554458,%esi
 	jz L224
 L247:
@@ -1323,7 +1306,6 @@ L257:
 	pushq %r15
 L265:
 	movq %rdi,-8(%rbp)	 # spill
-L258:
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rdi
 	call _symbol_temp
@@ -1433,7 +1415,6 @@ L269:
 	pushq %r15
 L286:
 	movq %rdi,%r15
-L270:
 	leaq 8(%r15),%rdi
 	movq 8(%r15),%rsi
 	movq (%rsi),%rsi
@@ -1549,7 +1530,6 @@ L290:
 	pushq %rbx
 L295:
 	movq %rdi,%rbx
-L291:
 	movq 24(%rbx),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -1578,7 +1558,6 @@ L299:
 	pushq %r15
 L352:
 	movq %rdi,%r13
-L305:
 	leaq -24(%rbp),%rsi
 	movq $0,-24(%rbp)
 	movq %rsi,-16(%rbp)
@@ -1817,7 +1796,6 @@ L355:
 L510:
 	movl %esi,%r12d
 	movq %rdi,%rbx
-L356:
 	movl %r12d,%esi
 	andl $1,%esi
 	cmpl $0,%esi
@@ -1839,7 +1817,6 @@ L361:
 	call _tree_debug
 L360:
 	movl (%rbx),%esi
-L430:
 	cmpl $184549413,%esi
 	jz L422
 	jb L431

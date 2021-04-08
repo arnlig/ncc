@@ -8,7 +8,6 @@ L2:
 L9:
 	movq %rsi,%r12
 	movq %rdi,%rbx
-L3:
 	movl $16,%edi
 	call _safe_malloc
 	movq %r12,(%rax)
@@ -28,7 +27,6 @@ L13:
 	pushq %rbx
 L21:
 	movq %rdi,%rsi
-L14:
 	movq (%rsi),%rdi
 	movq 8(%rdi),%rax
 	movq %rax,(%rsi)
@@ -58,7 +56,6 @@ L26:
 L52:
 	movq %rsi,%r15
 	movq %rdi,%r12
-L27:
 	leaq -24(%rbp),%rbx
 	movq %rbx,%rdi
 	movl $24,%ecx
@@ -161,7 +158,6 @@ L65:
 	pushq %r13
 L77:
 	movq %rdi,%r12
-L66:
 	xorl %ebx,%ebx
 L68:
 	movq %r12,%rdi

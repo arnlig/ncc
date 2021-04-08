@@ -14,7 +14,6 @@ L2:
 L9:
 	movq %rsi,%r12
 	movq %rdi,%r13
-L3:
 	movl $48,%edi
 	call _safe_malloc
 	movq %rax,%r14
@@ -166,7 +165,6 @@ L85:
 	pushq %r12
 L108:
 	movl %edi,%ebx
-L86:
 	movl $-1,%r12d
 L88:
 	movq _input_stack(%rip),%rsi
@@ -274,7 +272,6 @@ L125:
 	call ___fillbuf
 L126:
 	movl %eax,%r12d
-L142:
 	cmpl $10,%r12d
 	jz L131
 L143:
@@ -320,7 +317,6 @@ L148:
 L159:
 	movq %rdi,%r12
 	movq %rsi,-8(%rbp)
-L149:
 	xorl %ebx,%ebx
 L151:
 	leaq -8(%rbp),%rsi
@@ -356,7 +352,6 @@ L162:
 	pushq %r12
 L171:
 	movq %rsi,%rbx
-L163:
 	call _concat_line
 	movq %rax,%r12
 	cmpq $0,%r12
@@ -389,7 +384,6 @@ L174:
 	pushq %r12
 L181:
 	movq %rdi,%r12
-L175:
 	movl $32,%edi
 	call _safe_malloc
 	movq %rax,%rbx
@@ -419,7 +413,6 @@ L184:
 L239:
 	movq %rdi,%r14
 	movl %esi,%r12d
-L185:
 	leaq -24(%rbp),%rdi
 	call _vstring_init
 	movq _system_dirs(%rip),%r13
@@ -427,7 +420,6 @@ L188:
 	leaq -24(%rbp),%rbx
 	movq %rbx,%rdi
 	call _vstring_clear
-L235:
 	cmpl $0,%r12d
 	jz L195
 L236:

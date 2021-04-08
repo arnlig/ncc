@@ -35,7 +35,6 @@ L16:
 L55:
 	movq %rdi,%rbx
 	movq %rsi,%r13
-L17:
 	movq 8(%rbx),%r12
 L19:
 	cmpq $0,%r12
@@ -110,7 +109,6 @@ L58:
 	pushq %r13
 L99:
 	movq %rdi,%rbx
-L59:
 	movq 8(%rbx),%r12
 	movq 8(%rsi),%r13
 L61:
@@ -326,7 +324,6 @@ L190:
 	pushq %rbx
 L201:
 	movq %rdi,%rbx
-L191:
 	pushq $L193
 	call _output
 	addq $8,%rsp

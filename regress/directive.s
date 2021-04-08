@@ -22,7 +22,6 @@ L3:
 	pushq %r12
 L22:
 	movq %rdi,%r12
-L4:
 	movl (%r12),%esi
 	cmpl $49,%esi
 	jnz L8
@@ -69,7 +68,6 @@ L27:
 	pushq %rbx
 L40:
 	movl %edi,%ebx
-L28:
 	movl $16,%edi
 	call _safe_malloc
 	movq _state_stack(%rip),%rsi
@@ -117,7 +115,6 @@ L55:
 	pushq %rbx
 L66:
 	movl %edi,%ebx
-L56:
 	leaq -8(%rbp),%rdx
 	movq %rsi,%rdi
 	movl $49,%esi
@@ -188,7 +185,6 @@ L84:
 	pushq %rbx
 L99:
 	movq %rdi,%rbx
-L85:
 	cmpq $0,_state_stack(%rip)
 	jnz L89
 L87:
@@ -281,7 +277,6 @@ L131:
 	pushq %r12
 L141:
 	movq %rdi,%rbx
-L132:
 	leaq -16(%rbp),%r12
 	movq $0,-16(%rbp)
 	movq %rbx,%rdi
@@ -362,7 +357,6 @@ L157:
 	pushq %r12
 L205:
 	movq %rdi,%rbx
-L158:
 	leaq -24(%rbp),%rdi
 	movl $24,%ecx
 	xorl %eax,%eax
@@ -486,7 +480,6 @@ L208:
 	pushq %r13
 L324:
 	movq %rdi,%rbx
-L209:
 	movq (%rbx),%rdi
 	call _list_skip_spaces
 	cmpq $0,%rax
@@ -517,7 +510,6 @@ L223:
 	movq %rbx,%rdi
 	movq %rax,%rsi
 	call _list_cut
-L298:
 	cmpl $6,%r12d
 	jae L323
 L299:

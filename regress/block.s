@@ -10,7 +10,6 @@ L11:
 	movq %rdx,%r13
 	movq %rdi,%r12
 	movl %esi,%ebx
-L4:
 	movl $48,%edi
 	call _safe_malloc
 	movl %ebx,(%rax)
@@ -111,7 +110,6 @@ L69:
 	pushq %rbx
 L82:
 	movq %rdi,%rbx
-L70:
 	leaq 8(%rbx),%rdi
 	call _insns_clear
 	leaq 32(%rbx),%rdi
@@ -167,7 +165,6 @@ L85:
 L90:
 	movq %rdi,%r12
 	movq %rdx,%rbx
-L86:
 	leaq 464(%r12),%rdi
 	movq %rbx,%rdx
 	call _cessor_new
@@ -208,7 +205,6 @@ L106:
 	pushq %r12
 L110:
 	movq %rdi,%r12
-L107:
 	movq 8(%rsi),%rbx
 	leaq 464(%r12),%rdi
 	call _cessor_free
@@ -322,7 +318,6 @@ L167:
 	pushq %r12
 L193:
 	movq %rdi,%r12
-L168:
 	movq %r12,%rdi
 	call _block_switch_sort
 	movq 464(%r12),%rbx
@@ -373,7 +368,6 @@ L197:
 	pushq %r12
 L219:
 	movq %rdi,%rbx
-L198:
 	cmpq $0,328(%rbx)
 	jz L202
 L200:
@@ -425,7 +419,6 @@ L222:
 L236:
 	movq %rdi,%rbx
 	movl %esi,%r13d
-L223:
 	movq %rbx,%rdi
 	call _block_conditional
 	cmpl $0,%eax
@@ -472,7 +465,6 @@ L259:
 	movq %rdi,%r14
 	movq %rdx,%r13
 	movq %rsi,%r12
-L240:
 	movq 464(%r14),%rbx
 L242:
 	cmpq $0,%rbx
@@ -551,7 +543,6 @@ L278:
 L282:
 	movq %rdi,%rbx
 	movq %rsi,%r12
-L279:
 	movq %rbx,%rdi
 	movl $13,%esi
 	call _block_add_successor
@@ -576,7 +567,6 @@ L296:
 	movq %rdi,%r14
 	movq %rsi,%r12
 	movq %rdx,%r13
-L286:
 	movq 464(%r14),%rbx
 L288:
 	movq 32(%rbx),%rsi
@@ -793,7 +783,6 @@ L438:
 	jz L437
 L439:
 	movl (%rdi),%ecx
-L454:
 	cmpl $0,%ecx
 	jz L446
 L455:
@@ -824,7 +813,6 @@ L460:
 L471:
 	movq %rsi,%r12
 	movq %rdi,%rbx
-L461:
 	movq %rbx,%rdi
 	call _block_remove_successors
 	movq 464(%r12),%r13
@@ -863,7 +851,6 @@ L474:
 L486:
 	movl %edx,%r14d
 	movl %esi,%r13d
-L475:
 	xorl %ebx,%ebx
 	movq 8(%rdi),%r12
 L477:
@@ -903,7 +890,6 @@ L489:
 L501:
 	movl %esi,%r14d
 	movl %edi,%r13d
-L490:
 	xorl %ebx,%ebx
 	movq _blocks(%rip),%r12
 L492:
@@ -941,7 +927,6 @@ L504:
 L509:
 	movq %rdi,%r12
 	movl %esi,%r13d
-L505:
 	call _block_new
 	movq %rax,%rbx
 	movq %rbx,%rdi
@@ -978,7 +963,6 @@ L512:
 L517:
 	movq %rdi,%r13
 	movq %rsi,%r15
-L513:
 	movl (%r15),%r14d
 	movq 8(%r15),%rbx
 	call _block_new
@@ -1029,7 +1013,6 @@ L547:
 	movq %rdi,%r14
 	movq %rdx,%r12
 	movq %rsi,%rbx
-L531:
 	movl 4(%r14),%edi
 	movl %edi,%esi
 	andl $1,%esi
@@ -1081,7 +1064,6 @@ L550:
 L554:
 	movq %rsi,%rbx
 	movq %rdi,%r12
-L551:
 	movq $_walk0,%rdi
 	call _blocks_iter
 	movq _entry_block(%rip),%rdi
@@ -1112,7 +1094,6 @@ L563:
 L564:
 	movq 512(%rdi),%r12
 	call *%r13
-L576:
 	cmpl $1,%eax
 	jz L571
 L577:
@@ -1195,7 +1176,6 @@ L609:
 	pushq %rbx
 L628:
 	movq %rdi,%rsi
-L610:
 	leaq -16(%rbp),%rbx
 	movq %rbx,%rdi
 	movl $16,%ecx

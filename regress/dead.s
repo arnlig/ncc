@@ -10,7 +10,6 @@ L4:
 	pushq %r14
 L43:
 	movq %rdi,%r13
-L5:
 	leaq -24(%rbp),%rdi
 	movl $24,%ecx
 	xorl %eax,%eax

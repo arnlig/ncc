@@ -25,7 +25,6 @@ L14:
 	subq $8,%rsp
 L23:
 	movl %edi,-8(%rbp)
-L15:
 	movl _all_defs(%rip),%esi
 	movl %esi,%edx
 	leaq -8(%rbp),%rdi
@@ -69,7 +68,6 @@ L36:
 	pushq %r12
 L47:
 	movq %rdi,%r12
-L37:
 	xorl %ebx,%ebx
 L39:
 	movl _all_defs(%rip),%esi
@@ -107,7 +105,6 @@ L58:
 	movl %esi,%r12d
 	movq %rdi,%rbx
 	movq %rdx,%r13
-L52:
 	movq 8(%rbx),%rdi
 	cmpq $0,%rdi
 	jz L56
@@ -136,7 +133,6 @@ L66:
 	movq %rdi,%r13
 	movq %rcx,%rbx
 	movl %esi,%edi
-L63:
 	call _map_index
 	movslq %eax,%rsi
 	shlq $4,%rsi
@@ -166,7 +162,6 @@ L106:
 	movq %rcx,%r8
 	movl %edx,%r15d
 	movq %rsi,%rbx
-L71:
 	leaq -16(%rbp),%rdi
 	movl $16,%ecx
 	xorl %eax,%eax
@@ -194,7 +189,6 @@ L79:
 	jz L82
 L80:
 	movl (%rbx),%esi
-L102:
 	cmpl $0,%esi
 	jz L82
 L103:
@@ -264,7 +258,6 @@ L110:
 L121:
 	movq %rdi,%r13
 	movq %rsi,%r12
-L111:
 	xorl %ebx,%ebx
 L113:
 	movl _all_defs(%rip),%esi
@@ -301,7 +294,6 @@ L125:
 	pushq %r12
 L133:
 	movq %rdi,%r12
-L126:
 	movq 8(%rsi),%rbx
 L128:
 	cmpq $0,%rbx
@@ -328,7 +320,6 @@ L137:
 L150:
 	movq %rdi,%rbx
 	movl %esi,%edi
-L138:
 	call _map_index
 	cmpl $-1,%eax
 	jz L140
@@ -358,7 +349,6 @@ L154:
 L175:
 	movq %rdi,%r12
 	movq %rsi,%r13
-L155:
 	xorl %ebx,%ebx
 L157:
 	movl _all_defs(%rip),%esi
@@ -408,7 +398,6 @@ L179:
 L190:
 	movq %rsi,%r12
 	movq %rdi,%r13
-L180:
 	xorl %ebx,%ebx
 L182:
 	movl _all_defs(%rip),%esi
@@ -450,7 +439,6 @@ L194:
 	pushq %r12
 L202:
 	movq %rdi,%r12
-L195:
 	xorl %ebx,%ebx
 L197:
 	movl _all_defs(%rip),%esi
@@ -477,7 +465,6 @@ L206:
 	pushq %rbx
 L210:
 	movq %rdi,%rbx
-L207:
 	movq %rbx,%rdi
 	call _conps_reset
 	movq %rbx,%rdi
@@ -507,7 +494,6 @@ L223:
 	pushq %rbx
 L227:
 	movq %rdi,%rbx
-L224:
 	call _conps_new
 	movq %rax,192(%rbx)
 	call _conps_new
@@ -568,7 +554,6 @@ L243:
 L270:
 	movq %rdi,%rdx
 	movq %rsi,%rbx
-L244:
 	leaq -24(%rbp),%rdi
 	movl $24,%ecx
 	xorl %eax,%eax
@@ -675,7 +660,6 @@ L330:
 	movq %rdi,%r13
 	movq %rsi,%r12
 	movq %rdx,%rbx
-L284:
 	movl $2147483649,(%rbx)
 	movq %r12,%rdi
 	xorl %esi,%esi
@@ -754,7 +738,6 @@ L334:
 	pushq %r12
 L351:
 	movq %rdi,%rbx
-L335:
 	cmpq %rbx,_entry_block(%rip)
 	jnz L339
 L337:
@@ -829,7 +812,6 @@ L364:
 	pushq %rbx
 L369:
 	movq %rdi,%rbx
-L365:
 	movq 192(%rbx),%rdi
 	call _conps_free
 	movq 200(%rbx),%rdi
@@ -870,7 +852,6 @@ L381:
 	pushq %r14
 L417:
 	movq %rdi,%r14
-L382:
 	movq %r14,%rdi
 	call _block_always_successor
 	movq %rax,%r13
@@ -943,7 +924,6 @@ L421:
 	pushq %r12
 L447:
 	movq %rdi,%rbx
-L422:
 	movq 328(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L426

@@ -57,7 +57,6 @@ L37:
 	movq %rsp,%rbp
 L55:
 	movq %rdi,%rcx
-L38:
 	movq 8(%rcx),%rdi
 L40:
 	cmpq $0,%rdi
@@ -96,7 +95,6 @@ L59:
 L81:
 	movl %esi,%r12d
 	movq %rdi,%rbx
-L60:
 	movq 8(%rbx),%rsi
 L62:
 	cmpq $0,%rsi
@@ -144,7 +142,6 @@ L85:
 	pushq %rbx
 L89:
 	movl %edx,%ebx
-L86:
 	call _copyps_insert
 	movl %ebx,4(%rax)
 L87:
@@ -160,7 +157,6 @@ L93:
 	pushq %r12
 L114:
 	movq %rdi,%rbx
-L94:
 	movq 8(%rsi),%r12
 L96:
 	cmpq $0,%r12
@@ -207,7 +203,6 @@ L118:
 L136:
 	movq %rdi,%rdx
 	movq %rsi,%r13
-L119:
 	leaq -24(%rbp),%rdi
 	movl $24,%ecx
 	xorl %eax,%eax
@@ -279,7 +274,6 @@ L140:
 	pushq %rbx
 L145:
 	movq %rdi,%rsi
-L141:
 	leaq -16(%rbp),%rbx
 	movq %rbx,%rdi
 	movl $16,%ecx
@@ -319,7 +313,6 @@ L159:
 	movl %esi,%ebx
 	movl %edi,%r14d
 	movl %ecx,%r13d
-L153:
 	movl $32,%edi
 	call _safe_malloc
 	movl %r14d,(%rax)
@@ -369,7 +362,6 @@ L177:
 L192:
 	movq %rdi,%r14
 	movl %esi,%r13d
-L178:
 	xorl %ebx,%ebx
 	movq _copies(%rip),%r12
 L180:
@@ -408,7 +400,6 @@ L196:
 	pushq %r12
 L208:
 	movq %rdi,%rbx
-L197:
 	movq 8(%rbx),%r12
 L199:
 	cmpq $0,%r12
@@ -448,7 +439,6 @@ L212:
 	pushq %r13
 L234:
 	movq %rdi,%rbx
-L213:
 	leaq -24(%rbp),%rdi
 	movl $24,%ecx
 	xorl %eax,%eax
@@ -544,7 +534,6 @@ L238:
 	pushq %r12
 L254:
 	movq %rdi,%rbx
-L239:
 	movq 480(%rbx),%r12
 L241:
 	cmpq $0,%r12
@@ -607,7 +596,6 @@ L258:
 	pushq %r13
 L273:
 	movq %rdi,%r13
-L259:
 	leaq -16(%rbp),%rdi
 	movl $16,%ecx
 	xorl %eax,%eax
@@ -662,7 +650,6 @@ L277:
 	pushq %rbx
 L282:
 	movq %rdi,%rbx
-L278:
 	leaq 224(%rbx),%rdi
 	call _bitset_clear
 	leaq 256(%rbx),%rdi

@@ -6,7 +6,6 @@ L1:
 	pushq %rbx
 L5:
 	movq %rdi,%rbx
-L2:
 	movl %esi,%esi
 	addq $31,%rsi
 	shrq $5,%rsi

@@ -38,7 +38,6 @@ L18:
 	pushq %r13
 L35:
 	movq %rdi,%r13
-L19:
 	movq %r13,%rdi
 	call _hash
 	andl $63,%eax
@@ -145,7 +144,6 @@ L49:
 	movl _predefs+8(%rbx),%esi
 	movl %esi,24(%r12)
 	xorl %eax,%eax
-L65:
 	cmpl $32,%esi
 	jnz L54
 L56:
@@ -187,10 +185,8 @@ L71:
 L111:
 	movq %rsi,%rbx
 	movq %rdi,%r13
-L72:
 	movl 24(%r13),%esi
 	andl $63,%esi
-L106:
 	cmpl $2,%esi
 	jz L93
 L107:
@@ -298,7 +294,6 @@ L114:
 	pushq %r13
 L139:
 	movq %rdi,%r13
-L115:
 	movq %r13,%rdi
 	call _hash
 	andl $63,%eax
@@ -376,7 +371,6 @@ L142:
 	pushq %r14
 L218:
 	movq %rdi,%rbx
-L143:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -567,7 +561,6 @@ L221:
 	pushq %rbx
 L244:
 	movq %rdi,%rsi
-L222:
 	leaq -16(%rbp),%rbx
 	movq %rbx,%rdi
 	movl $16,%ecx
@@ -707,7 +700,6 @@ L271:
 	pushq %rbx
 L282:
 	movq %rdi,%rbx
-L272:
 	movl $32,%edi
 	call _safe_malloc
 	movq $0,(%rax)
@@ -804,7 +796,6 @@ L386:
 	movq %rdx,%r14
 	movq %rdi,%rbx
 	movq %rsi,%r15
-L321:
 	movq %rbx,%rdi
 	xorl %esi,%esi
 	call _list_pop
@@ -969,7 +960,6 @@ L390:
 L415:
 	movq %rsi,%r15
 	movq %rdi,%rbx
-L391:
 	movq (%rbx),%r12
 L393:
 	cmpq $0,%r12
@@ -1048,7 +1038,6 @@ L419:
 L436:
 	movq %rsi,%r14
 	movq %rdi,%rbx
-L420:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -1121,7 +1110,6 @@ L440:
 	pushq %r15
 L458:
 	movq %rdi,%rbx
-L441:
 	movq (%rbx),%r12
 L443:
 	cmpq $0,%r12
@@ -1190,7 +1178,6 @@ L461:
 	pushq %r14
 L507:
 	movq %rdi,%r14
-L462:
 	leaq -16(%rbp),%r12
 	movq %r12,%rdi
 	movl $16,%ecx
@@ -1323,7 +1310,6 @@ L510:
 	pushq %r12
 L532:
 	movq %rdi,%rbx
-L511:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx

@@ -12,7 +12,6 @@ L2:
 L42:
 	movq %rdi,%r14
 	movq %rsi,%r12
-L3:
 	xorl %ebx,%ebx
 	xorl %esi,%esi
 L5:
@@ -339,7 +338,6 @@ L79:
 L101:
 	movq %rsi,%r14
 	movq %rdi,%r13
-L80:
 	xorl %ebx,%ebx
 L82:
 	cmpq %r14,%rbx
@@ -447,7 +445,6 @@ L123:
 	pushq %r13
 L128:
 	movq %rdi,%r13
-L124:
 	movl 20(%r13),%edi
 	call _symbol_anonymous
 	movq %rax,%rbx

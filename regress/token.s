@@ -12,7 +12,6 @@ L3:
 	pushq %r12
 L20:
 	movl %edi,%ebx
-L4:
 	movq _pool(%rip),%rsi
 	cmpq $0,%rsi
 	jnz L7
@@ -90,7 +89,6 @@ L33:
 L44:
 	movl %esi,%ebx
 	movq %rdi,%r12
-L34:
 	cmpl $92,%ebx
 	jz L36
 L39:
@@ -118,7 +116,6 @@ L47:
 	pushq %r12
 L55:
 	movq %rdi,%rbx
-L48:
 	movl $52,%edi
 	call _alloc
 	movq %rax,%r12
@@ -154,7 +151,6 @@ L58:
 	pushq %rbx
 L63:
 	movq %rdi,%rbx
-L59:
 	movl $-2147483592,%edi
 	call _alloc
 	movq %rbx,8(%rax)
@@ -173,7 +169,6 @@ L66:
 	pushq %r13
 L90:
 	movq %rdi,%r12
-L67:
 	movl $-2147483592,%r13d
 	movl $0,_errno(%rip)
 	leaq -8(%rbp),%rsi
@@ -248,7 +243,6 @@ L93:
 	pushq %r12
 L108:
 	movq %rdi,%r12
-L94:
 	movl 8(%r12),%esi
 	andl $1,%esi
 	cmpl $0,%esi
@@ -300,7 +294,6 @@ L111:
 	pushq %rbx
 L124:
 	movq %rdi,%rbx
-L112:
 	movl (%rbx),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
@@ -652,7 +645,6 @@ L255:
 L384:
 	movq %rsi,%r15
 	movq %rdi,%r14
-L256:
 	movq %r14,%rbx
 	movzbl (%r14),%esi
 	movl %esi,%edi
@@ -887,7 +879,6 @@ L387:
 L406:
 	movq %rdi,%rdx
 	movq %rsi,%rbx
-L388:
 	leaq -24(%rbp),%r12
 	movq %r12,%rdi
 	movl $24,%ecx
@@ -997,7 +988,6 @@ L429:
 	pushq %r12
 L437:
 	movq %rdi,%rbx
-L430:
 	movl (%rbx),%edi
 	call _alloc
 	movq %rax,%r12
@@ -1030,7 +1020,6 @@ L440:
 L454:
 	movq %rsi,%r12
 	movq %rdi,%rbx
-L441:
 	movl (%rbx),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
@@ -1082,7 +1071,6 @@ L457:
 L475:
 	movq %rsi,%r14
 	movq %rdi,%rbx
-L458:
 	movl (%rbx),%esi
 	cmpl $52,%esi
 	jz L462
@@ -1202,7 +1190,6 @@ L513:
 	pushq %r13
 L537:
 	movq %rdi,%r12
-L514:
 	movq (%r12),%rbx
 L516:
 	cmpq $0,%rbx
@@ -1312,7 +1299,6 @@ L568:
 	pushq %r12
 L595:
 	movq %rdi,%rbx
-L569:
 	movq (%rbx),%rdi
 L571:
 	cmpq $0,%rdi
@@ -1413,7 +1399,6 @@ L619:
 	movq %rsp,%rbp
 L632:
 	movq %rdi,%rcx
-L620:
 	movq (%rcx),%rdi
 	movq 32(%rdi),%rax
 	cmpq $0,%rax
@@ -1448,7 +1433,6 @@ L635:
 L646:
 	movq %rdi,%rax
 	movq %rsi,%rdi
-L636:
 	movq 32(%rdi),%rbx
 	cmpq $0,%rbx
 	jz L642
@@ -1477,7 +1461,6 @@ L649:
 L661:
 	movl %esi,%eax
 	movq %rdx,%rsi
-L650:
 	movq (%rdi),%rcx
 	cmpq $0,%rcx
 	jz L653
@@ -1549,7 +1532,6 @@ L691:
 L716:
 	movq %rdi,%r14
 	movq %rsi,%rbx
-L692:
 	movq %r14,%rdi
 	call _list_strip_ends
 	movq %r14,%rdi
@@ -1621,7 +1603,6 @@ L719:
 	pushq %r14
 L757:
 	movq %rdi,%r14
-L720:
 	movl $52,%edi
 	call _alloc
 	movq %rax,%r13
@@ -1710,7 +1691,6 @@ L760:
 	pushq %r12
 L775:
 	movq %rsi,%r12
-L761:
 	movq (%rdi),%rbx
 L763:
 	cmpq $0,%rbx
@@ -1744,7 +1724,6 @@ L778:
 	pushq %r12
 L789:
 	movq %rdi,%r12
-L779:
 	movq (%rsi),%rbx
 L781:
 	cmpq $0,%rbx
@@ -1967,7 +1946,6 @@ L893:
 	pushq %rbx
 L903:
 	movq %rdi,%rbx
-L894:
 	cmpq $0,(%rbx)
 	jnz L895
 L896:

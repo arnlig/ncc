@@ -9,7 +9,6 @@ L4:
 L28:
 	movl %esi,%r12d
 	movq %rdi,%rbx
-L5:
 	movq 8(%rbx),%rsi
 	movq (%rsi),%r13
 	andq $131071,%r13
@@ -86,7 +85,6 @@ L32:
 	pushq %r12
 L61:
 	movq %rdi,%rbx
-L33:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
@@ -167,7 +165,6 @@ L97:
 	movl %edx,%r12d
 	movl %esi,%ebx
 	movq %rdi,%r13
-L66:
 	movl (%r13),%esi
 	cmpl $2147483650,%esi
 	jz L70
@@ -252,7 +249,6 @@ L116:
 	pushq %rbx
 L142:
 	movq %rdi,%rbx
-L117:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
@@ -326,7 +322,6 @@ L155:
 	pushq %r12
 L185:
 	movq %rdi,%rbx
-L156:
 	movq 24(%rbx),%rdx
 	movq 32(%rbx),%r8
 	leaq -16(%rbp),%r9
@@ -415,7 +410,6 @@ L189:
 	pushq %r14
 L204:
 	movq %rdi,%r14
-L190:
 	movq 24(%r14),%r13
 	movq 32(%r14),%rbx
 	movq %r14,%rdi
@@ -503,7 +497,6 @@ L208:
 	pushq %r12
 L216:
 	movq %rdi,%rbx
-L209:
 	leaq 8(%rbx),%r12
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
@@ -659,7 +652,6 @@ L222:
 	pushq %r14
 L282:
 	movl %edx,%ebx
-L223:
 	movl %ebx,%eax
 	andl $520093696,%eax
 	sarl $24,%eax
@@ -668,7 +660,6 @@ L223:
 	movl _map+4(%rax),%ecx
 	movl _map+8(%rax),%r12d
 	xorl %eax,%eax
-L276:
 	cmpl $11534393,%ebx
 	jz L231
 L277:
@@ -794,7 +785,6 @@ L312:
 	movl %edx,%r14d
 	movq %rdi,%rbx
 	movq %rsi,%rdi
-L287:
 	movl %r14d,%esi
 	andl $520093696,%esi
 	sarl $24,%esi
@@ -906,7 +896,6 @@ L334:
 	movl %esi,%r12d
 	movl %edx,%r14d
 	movq %rdi,%r13
-L317:
 	cmpl $27,%r14d
 	jnz L320
 L319:
@@ -980,7 +969,6 @@ L338:
 	pushq %r12
 L339:
 	movl _token(%rip),%esi
-L383:
 	cmpl $2,%esi
 	jz L359
 L384:
@@ -1155,7 +1143,6 @@ L398:
 	pushq %r14
 L429:
 	movq %rdi,%rdx
-L399:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -1352,7 +1339,6 @@ L450:
 	pushq %r13
 L492:
 	movq %rdi,%rdx
-L451:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -1482,7 +1468,6 @@ L497:
 	movq %rax,%rbx
 L500:
 	movl _token(%rip),%edx
-L519:
 	cmpl $14,%edx
 	jz L513
 L520:
@@ -1548,7 +1533,6 @@ L532:
 	leaq -8(%rbp),%r12
 	movq %r13,-8(%rbp)
 	movl _token(%rip),%r14d
-L601:
 	cmpl $25,%r14d
 	jz L542
 L602:
@@ -1902,7 +1886,6 @@ L658:
 	pushq %r14
 L670:
 	movl %edi,%r14d
-L659:
 	cmpl $0,%r14d
 	jnz L663
 L661:
@@ -2184,7 +2167,6 @@ L747:
 	pushq %r14
 L797:
 	movq %rdi,%rbx
-L748:
 	andl $1,%esi
 	cmpl $0,%esi
 	jz L751
@@ -2291,7 +2273,6 @@ L812:
 	pushq %r12
 L821:
 	movl %esi,%r12d
-L813:
 	xorl %esi,%esi
 	call _promote
 	movq %rax,%rbx
@@ -2343,7 +2324,6 @@ L832:
 L837:
 	movq %rsi,%r13
 	movq %rdi,%r12
-L833:
 	xorl %edi,%edi
 	movl $128,%esi
 	call _symbol_new

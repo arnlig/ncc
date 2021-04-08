@@ -61,7 +61,6 @@ L28:
 	pushq %rbx
 L42:
 	movq %rdi,%rbx
-L29:
 	movl (%rbx),%edi
 	movl %edi,%esi
 	andl $1,%esi
@@ -162,7 +161,6 @@ L98:
 	movq %rdi,%rbx
 	movq %rsi,%r14
 	movq %rdx,%r15
-L65:
 	movl (%rbx),%edi
 	movl %edi,%esi
 	andl $1,%esi
@@ -300,7 +298,6 @@ L101:
 	subq $8,%rsp
 L117:
 	movb %sil,-8(%rbp)
-L102:
 	movl (%rdi),%eax
 	movl %eax,%esi
 	andl $1,%esi
@@ -416,7 +413,6 @@ L133:
 L137:
 	movq %rdi,%r12
 	movq %rsi,%rbx
-L134:
 	movq %rbx,%rdi
 	call _strlen
 	movq %r12,%rdi

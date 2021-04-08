@@ -14,7 +14,6 @@ L3:
 	pushq %r15
 L240:
 	movq %rdi,-16(%rbp)	 # spill
-L4:
 	xorl %r14d,%r14d
 	movq -16(%rbp),%r10	 # spill
 	movq 8(%r10),%rbx
@@ -37,7 +36,6 @@ L13:
 	jnz L12
 L10:
 	movl (%rbx),%edi
-L223:
 	cmpl $1610743820,%edi
 	jz L39
 L224:
@@ -135,7 +133,6 @@ L78:
 	jnz L77
 L75:
 	movl (%rbx),%edi
-L227:
 	cmpl $1879179281,%edi
 	jz L97
 L228:
@@ -222,7 +219,6 @@ L111:
 	jnz L66
 L108:
 	movl (%rbx),%esi
-L230:
 	cmpl $872415247,%esi
 	jz L201
 L231:

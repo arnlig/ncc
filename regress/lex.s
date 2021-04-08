@@ -414,7 +414,6 @@ L193:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%edi
 	call _toupper
-L255:
 	cmpl $70,%eax
 	jz L242
 L256:
@@ -571,7 +570,6 @@ L273:
 L267:
 	movq _pos(%rip),%rdi
 	movzbl (%rdi),%esi
-L613:
 	cmpl $48,%esi
 	jae L682
 L614:
@@ -1107,7 +1105,6 @@ L698:
 	pushq %r12
 L706:
 	movq %rdi,%rbx
-L699:
 	movl _next(%rip),%esi
 	cmpl $0,%esi
 	jnz L703
@@ -1197,7 +1194,6 @@ L732:
 	pushq %rbx
 L740:
 	movq %rdi,%rbx
-L733:
 	pushq $0
 	pushq %rbx
 	call _open
@@ -1292,7 +1288,6 @@ L800:
 	movq %rsp,%rbp
 L814:
 	movq %rdi,%rax
-L801:
 	movl %esi,%edi
 	andl $255,%edi
 	movslq %edi,%rcx
@@ -1334,12 +1329,10 @@ L817:
 	pushq %rbx
 L849:
 	movq %rdi,%rbx
-L818:
 	movl _token(%rip),%esi
 	movq %rbx,%rdi
 	call _lex_print_k
 	movl _token(%rip),%esi
-L841:
 	cmpl $3,%esi
 	jz L825
 L842:
@@ -1404,7 +1397,6 @@ L852:
 	movq %rsp,%rbp
 L860:
 	movl %edi,%eax
-L853:
 	movl _token(%rip),%esi
 	cmpl %eax,%esi
 	jz L854

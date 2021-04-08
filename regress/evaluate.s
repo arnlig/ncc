@@ -7,13 +7,11 @@ L3:
 	pushq %r12
 L49:
 	movq %rdi,%rbx
-L4:
 	movq (%rbx),%rdi
 	cmpq $0,%rdi
 	jz L8
 L6:
 	movl (%rdi),%esi
-L39:
 	cmpl $51,%esi
 	jz L33
 L40:
@@ -133,7 +131,6 @@ L53:
 L201:
 	movq %rsi,%r12
 	movl %edi,%r13d
-L54:
 	cmpl $0,%r13d
 	jnz L58
 L56:
@@ -194,7 +191,6 @@ L72:
 L74:
 	movq -16(%rbp),%rsi
 	movl (%rsi),%esi
-L164:
 	cmpl $536871971,%esi
 	jz L120
 	jb L165
@@ -594,7 +590,6 @@ L205:
 	pushq %r12
 L235:
 	movq %rdi,%rbx
-L206:
 	movl $2560,%edi
 	movq %rbx,%rsi
 	call _binary
@@ -737,7 +732,6 @@ L254:
 	pushq %r13
 L264:
 	movq %rdi,%rbx
-L255:
 	movq (%rbx),%r12
 L257:
 	cmpq $0,%r12
@@ -779,7 +773,6 @@ L268:
 	pushq %r14
 L319:
 	movq %rdi,%rbx
-L269:
 	movq (%rbx),%r12
 L271:
 	cmpq $0,%r12
@@ -898,7 +891,6 @@ L322:
 	pushq %r12
 L343:
 	movq %rdi,%rbx
-L323:
 	movq %rbx,%rdi
 	call _list_strip_all
 	movq %rbx,%rdi

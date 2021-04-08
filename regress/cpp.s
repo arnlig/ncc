@@ -97,7 +97,6 @@ L39:
 L85:
 	movq %rdi,%r12
 	movq %rsi,%r14
-L40:
 	xorl %ebx,%ebx
 	movq _input_stack(%rip),%rsi
 	movl 32(%rsi),%r13d
@@ -189,7 +188,6 @@ L89:
 	pushq %r13
 L131:
 	movq %rdi,%rbx
-L90:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -508,7 +506,6 @@ L233:
 L276:
 	movq %rsi,%rbx
 	movl %edi,%r12d
-L234:
 	call _macro_predef
 	addl $-1,%r12d
 	addq $8,%rbx
@@ -522,7 +519,6 @@ L239:
 	jnz L238
 L237:
 	movzbl 1(%rsi),%edi
-L273:
 	cmpl $68,%edi
 	jz L254
 L274:

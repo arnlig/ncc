@@ -6,7 +6,6 @@ L2:
 	pushq %rbx
 L20:
 	movl %edi,%ebx
-L3:
 	movl $64,%edi
 	call _safe_malloc
 	movl %ebx,(%rax)
@@ -38,7 +37,6 @@ L23:
 	pushq %rbx
 L48:
 	movq %rdi,%rbx
-L24:
 	cmpq $0,%rbx
 	jz L25
 L26:
@@ -156,7 +154,6 @@ L82:
 L87:
 	movq %rsi,%r12
 	movq %rdi,%r13
-L83:
 	movl $-2147483647,%edi
 	call _tree_new
 	movq %rax,%rbx
@@ -183,7 +180,6 @@ L90:
 L95:
 	movsd %xmm0,%xmm10
 	movq %rdi,%r12
-L91:
 	movl $-2147483647,%edi
 	call _tree_new
 	movq %rax,%rbx
@@ -208,7 +204,6 @@ L98:
 	pushq %r12
 L103:
 	movq %rdi,%r12
-L99:
 	movl $-2147483646,%edi
 	call _tree_new
 	movq %rax,%rbx
@@ -230,7 +225,6 @@ L106:
 	pushq %rbx
 L111:
 	movq %rsi,%rbx
-L107:
 	call _tree_new
 	movq %rbx,24(%rax)
 L108:
@@ -247,7 +241,6 @@ L114:
 L119:
 	movq %rsi,%rbx
 	movq %rdx,%r12
-L115:
 	call _tree_new
 	movq %rbx,24(%rax)
 	movq %r12,32(%rax)
@@ -264,7 +257,6 @@ L122:
 	pushq %rbx
 L127:
 	movq %rdi,%rsi
-L123:
 	movl $1073741832,%edi
 	call _tree_unary
 	movq %rax,%rbx
@@ -286,7 +278,6 @@ L130:
 	pushq %r12
 L144:
 	movq %rdi,%rbx
-L131:
 	movq 24(%rbx),%r12
 	movq $0,24(%rbx)
 	leaq 8(%r12),%rdi
@@ -320,7 +311,6 @@ L147:
 	pushq %r12
 L161:
 	movq %rdi,%rbx
-L148:
 	movq 24(%rbx),%r12
 	movq $0,24(%rbx)
 	leaq 8(%r12),%rdi
@@ -356,7 +346,6 @@ L164:
 L186:
 	movl %esi,%r13d
 	movq %rdi,%rsi
-L165:
 	movl $1073741829,%edi
 	call _tree_unary
 	movq %rax,%r12
@@ -419,7 +408,6 @@ L189:
 	pushq %r12
 L204:
 	movq %rdi,%rsi
-L190:
 	movl $1073741830,%edi
 	call _tree_unary
 	movq %rax,%r12
@@ -477,7 +465,6 @@ L207:
 L212:
 	movq %rsi,%r12
 	movq %rdi,%rsi
-L208:
 	movl $1073741828,%edi
 	call _tree_unary
 	movq %rax,%rbx
@@ -500,7 +487,6 @@ L215:
 L220:
 	movq %rsi,%r12
 	movq %rdi,%rsi
-L216:
 	movl $1073741828,%edi
 	call _tree_unary
 	movq %rax,%rbx
@@ -600,7 +586,6 @@ L266:
 	pushq %r12
 L638:
 	movq %rdi,%rbx
-L267:
 	movl (%rbx),%esi
 	andl $2147483648,%esi
 	cmpl $0,%esi
@@ -715,7 +700,6 @@ L327:
 	jz L338
 L336:
 	movl (%rbx),%esi
-L598:
 	cmpl $39,%esi
 	jz L343
 L599:
@@ -752,7 +736,6 @@ L338:
 	jz L351
 L349:
 	movl (%rbx),%esi
-L602:
 	cmpl $39,%esi
 	jz L356
 L603:
@@ -822,7 +805,6 @@ L377:
 	jnz L386
 L384:
 	movl (%rbx),%edi
-L606:
 	cmpl $276825113,%edi
 	jz L409
 L607:
@@ -911,7 +893,6 @@ L422:
 	jnz L271
 L419:
 	movl (%rbx),%edi
-L609:
 	cmpl $134219294,%edi
 	jz L479
 	jb L610
@@ -1468,7 +1449,6 @@ L642:
 	pushq %rbx
 L689:
 	movq %rdi,%rbx
-L645:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -1567,7 +1547,6 @@ L692:
 	pushq %rbx
 L751:
 	movq %rdi,%rbx
-L693:
 	movl (%rbx),%esi
 	cmpl $1073741830,%esi
 	jnz L697
@@ -1691,7 +1670,6 @@ L754:
 	pushq %rbx
 L804:
 	movq %rdi,%rbx
-L757:
 	leaq -16(%rbp),%rsi
 	movq %rsi,%rdi
 	movl $16,%ecx
@@ -1848,7 +1826,6 @@ L852:
 L907:
 	movl %esi,%ebx
 	movq %rdi,%r13
-L853:
 	cmpl $0,%ebx
 	jnz L859
 L858:
@@ -1883,7 +1860,6 @@ L864:
 	call _output
 	addq $24,%rsp
 	movl (%r13),%esi
-L904:
 	cmpl $-2147483647,%esi
 	jz L871
 L905:
