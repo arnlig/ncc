@@ -245,15 +245,13 @@ L111:
 	pushq %r15
 L159:
 	movq %rdx,%r15
-	movq %rsi,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rsi,-8(%rbp)	 # spill
 	movq %rdi,%r14
 L112:
 	movq -8(%rbp),%rdi	 # spill
 	movl $1024,%esi
 	call _symbol_new
-	movq %rax,%r10
-	movq %r10,-16(%rbp)	 # spill
+	movq %rax,-16(%rbp)	 # spill
 	movq -16(%rbp),%r10	 # spill
 	leaq 32(%r10),%rdi
 	movq %r15,%rsi
@@ -919,8 +917,7 @@ L416:
 	movl $268436472,%ecx
 	call _symbol_lookup
 	movq %rax,%rbx
-	movq %rbx,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rbx,-8(%rbp)	 # spill
 	cmpq $0,%rbx
 	jz L419
 L418:
@@ -977,8 +974,7 @@ L419:
 	movl %r13d,%esi
 	call _symbol_new
 	movq %rax,%rbx
-	movq %rbx,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rbx,-8(%rbp)	 # spill
 	leaq 32(%rbx),%rdi
 	movq %r15,%rsi
 	call _type_copy

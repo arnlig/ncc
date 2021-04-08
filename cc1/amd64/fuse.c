@@ -250,11 +250,74 @@ skip:   ;
     return BLOCKS_ITER_OK;
 }
 
+/* store fusing- the complement of load fusing. e.g.,
+
+                    movq %rax, %r10
+                    movq %r10, -8(%rbp)
+
+   is better rendered
+
+                    movq %rax, -8(%rbp)
+
+   if the live range of %r10 does not extend beyond this sequence. again,
+   this is commonly seen in spill code. note that the opportunities are
+   fewer than with load fusing, as the two-address nature of AMD64 means
+   that an operand which is DEFd is typically also USEd, and we can't
+   rewrite if the operand is USEd. */
+
+static blocks_iter_ret store0(struct block *b)
+{
+    struct insn *insn;
+    struct insn *next;
+    struct range *r;
+    struct amd64_operand *reg;
+    struct amd64_operand *mem;
+
+    INSNS_FOREACH(insn, &b->insns) {
+        if ((next = INSNS_NEXT(insn)) == 0)
+            break;
+
+        if ((insn->op != AMD64_I_MOVL) && (insn->op != AMD64_I_MOVQ))
+            goto skip;
+
+        if (next->op != insn->op)
+            goto skip;
+
+        mem = next->amd64[1];
+        reg = insn->amd64[1];
+
+        if (!AMD64_OPERAND_CON(insn->amd64[0])
+          && !AMD64_OPERAND_REG(insn->amd64[0]))
+            goto skip;
+
+        if (!AMD64_OPERAND_MEM(mem) || !AMD64_OPERAND_REG(reg))
+            goto skip;
+
+        if (!amd64_operands_same(reg, next->amd64[0]))
+            goto skip;
+
+        r = range_by_use(&b->live, reg->reg, next->index);
+        
+        if (r->last != next->index)
+            goto skip;
+
+        amd64_operand_free(insn->amd64[1]);
+        insn->amd64[1] = amd64_operand_dup(mem);
+        insn->flags |= next->flags;
+        insn_replace(next, I_NOP);
+
+skip:   ;
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
 void amd64_fuse(void)
 {
     live_analyze();
     blocks_iter(update0);
     blocks_iter(load0);
+    blocks_iter(store0);
 }
 
 /* vi: set ts=4 expandtab: */

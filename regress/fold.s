@@ -13,8 +13,7 @@ L3:
 	pushq %r14
 	pushq %r15
 L240:
-	movq %rdi,%r10
-	movq %r10,-16(%rbp)	 # spill
+	movq %rdi,-16(%rbp)	 # spill
 L4:
 	xorl %r14d,%r14d
 	movq -16(%rbp),%r10	 # spill
@@ -427,8 +426,7 @@ L145:
 	movq 24(%rsi),%rsi
 	cqto
 	idivq %rsi
-	movq %rdx,%rsi
-	movq %rsi,-8(%rbp)
+	movq %rdx,-8(%rbp)
 	jmp L147
 L146:
 	movq 24(%rbx),%rsi
@@ -437,8 +435,7 @@ L146:
 	movq 24(%rsi),%rsi
 	xorl %edx,%edx
 	divq %rsi
-	movq %rdx,%rsi
-	movq %rsi,-8(%rbp)
+	movq %rdx,-8(%rbp)
 L147:
 	leaq -8(%rbp),%rsi
 	movq 16(%rbx),%rdi

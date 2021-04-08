@@ -563,11 +563,9 @@ L127:
 	pushq %r15
 L132:
 	movl %edx,%ebx
-	movq %rdi,%r10
-	movq %r10,-24(%rbp)	 # spill
+	movq %rdi,-24(%rbp)	 # spill
 	movl %ecx,%r12d
-	movq %rsi,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rsi,-8(%rbp)	 # spill
 L128:
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%r13
@@ -595,8 +593,7 @@ L128:
 	shlq %cl,%r14
 	movq %r13,%rdi
 	call _symbol_temp
-	movq %rax,%r10
-	movq %r10,-16(%rbp)	 # spill
+	movq %rax,-16(%rbp)	 # spill
 	movq %r13,%rdi
 	call _symbol_temp
 	movq %rax,%r13
@@ -1053,8 +1050,7 @@ L198:
 	call _symbol_temp
 	movq %rax,%rdi
 	call _tree_sym
-	movq %rax,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rax,-8(%rbp)	 # spill
 	movq 32(%r12),%rdi
 	xorl %esi,%esi
 	call _gen
@@ -1326,14 +1322,12 @@ L257:
 	pushq %r14
 	pushq %r15
 L265:
-	movq %rdi,%r10
-	movq %r10,-8(%rbp)	 # spill
+	movq %rdi,-8(%rbp)	 # spill
 L258:
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%rdi
 	call _symbol_temp
-	movq %rax,%r10
-	movq %r10,-16(%rbp)	 # spill
+	movq %rax,-16(%rbp)	 # spill
 	call _block_new
 	movq %rax,%r15
 	call _block_new
@@ -1629,20 +1623,17 @@ L310:
 L319:
 	call _tree_v
 	movq %rax,%rsi
-	movq %rsi,%r10
-	movq %r10,-32(%rbp)	 # spill
+	movq %rsi,-32(%rbp)	 # spill
 	jmp L321
 L320:
 	movq %rsi,%rdi
 	call _symbol_temp
 	movq %rax,%rsi
-	movq %rsi,%r10
-	movq %r10,-40(%rbp)	 # spill
+	movq %rsi,-40(%rbp)	 # spill
 	movq %rsi,%rdi
 	call _tree_sym
 	movq %rax,%rsi
-	movq %rsi,%r10
-	movq %r10,-32(%rbp)	 # spill
+	movq %rsi,-32(%rbp)	 # spill
 L321:
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi

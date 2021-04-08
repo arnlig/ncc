@@ -515,8 +515,7 @@ L224:
 	call _conps_new
 	movq %rax,208(%rbx)
 	call _conps_new
-	movq %rax,%rsi
-	movq %rsi,216(%rbx)
+	movq %rax,216(%rbx)
 L225:
 	popq %rbx
 	popq %rbp
