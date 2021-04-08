@@ -66,11 +66,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 static struct update            /* this table is incomplete */
 {
-    insn_op first;
-    insn_op second;
-    insn_op third;
-    insn_op new;
-    bool same_ccs;
+    insn_op first;              /*      <first>  MEM, R1            */
+    insn_op second;             /*      <second> [CON | R2], R      */
+    insn_op third;              /*      <third>  R, MEM             */
+    insn_op new;                /*          becomes:                */
+    bool same_ccs;              /*      <new>   [CON | R2], MEM     */
 } updates[] = {
 {   AMD64_I_MOVZBL, AMD64_I_ADDL,   AMD64_I_MOVB,   AMD64_I_ADDB,   FALSE   },
 {   AMD64_I_MOVZBL, AMD64_I_SUBL,   AMD64_I_MOVB,   AMD64_I_SUBB,   FALSE   },
@@ -157,10 +157,104 @@ static blocks_iter_ret update0(struct block *b)
     return BLOCKS_ITER_OK;
 }
 
+/* load fusing. if we load a register from memory solely to use it as a
+   read-only operand in the next instruction, we try to reference memory
+   directly. this often occurs in spills, e.g.,:
+
+	                    movq -16(%rbp),%r10	 # spill
+	                    movq %r10,%rdi
+
+   if %r10 is dead after the second instruction, this is rewritten as:
+
+                        movq -16(%rbp),%rdi
+
+   of course, this applies more broadly than mov, mov operations.
+
+   we currently only address full-sized operands (no bytes or words). */
+
+#define LOAD0(n)                                                            \
+    do {                                                                    \
+        if (next->amd64[n] == 0)                                            \
+            break;                                                          \
+                                                                            \
+        if (amd64_operands_same(next->amd64[n], reg)) {                     \
+            if (AMD64_I_DEFS(next->op, n))                                  \
+                goto skip;                                                  \
+                                                                            \
+            if (!AMD64_I_FUSE(next->op, n))                                 \
+                goto skip;                                                  \
+                                                                            \
+            if (next->amd64[n]->ts != mem->ts)                              \
+                goto skip;                                                  \
+                                                                            \
+            ++count;                                                        \
+            break;                                                          \
+        }                                                                   \
+                                                                            \
+        if (!AMD64_OPERAND_CON(next->amd64[n])                              \
+          && !AMD64_OPERAND_REG(next->amd64[n]))                            \
+            goto skip;                                                      \
+    } while(0)
+
+#define LOAD1(n)                                                            \
+    do {                                                                    \
+        if (amd64_operands_same(reg, next->amd64[n])) {                     \
+            amd64_operand_free(next->amd64[n]);                             \
+            next->amd64[n] = amd64_operand_dup(mem);                        \
+        }                                                                   \
+    } while (0)
+
+static blocks_iter_ret load0(struct block *b)
+{
+    struct insn *insn;
+    struct insn *next;
+    struct amd64_operand *mem;
+    struct amd64_operand *reg;
+    struct range *r;
+    int count;
+
+    INSNS_FOREACH(insn, &b->insns) {
+        if ((next = INSNS_NEXT(insn)) == 0)
+            break;
+
+        if ((insn->op != AMD64_I_MOVL) && (insn->op != AMD64_I_MOVQ))
+            goto skip;
+
+        mem = insn->amd64[0];
+        reg = insn->amd64[1];
+
+        if (!AMD64_OPERAND_MEM(mem) || !AMD64_OPERAND_REG(reg))
+            goto skip;
+
+        r = range_by_use(&b->live, reg->reg, next->index);
+
+        if (r && (r->last != next->index))
+            goto skip;
+
+        count = 0;
+        LOAD0(0);
+        LOAD0(1);
+
+        if (count != 1)
+            goto skip;
+
+        LOAD1(0);
+        LOAD1(1);
+
+        next->flags |= insn->flags;
+        insn_replace(insn, I_NOP);
+
+skip:   ;
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
 void amd64_fuse(void)
 {
     live_analyze();
     blocks_iter(update0);
+    blocks_iter(load0);
 }
 
 /* vi: set ts=4 expandtab: */

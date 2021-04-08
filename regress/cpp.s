@@ -458,8 +458,7 @@ L202:
 	movb $0,_need_sync(%rip)
 L204:
 	leaq -16(%rbp),%rsi
-	movq -16(%rbp),%rdi
-	cmpq $0,%rdi
+	cmpq $0,-16(%rbp)
 	jnz L215
 L210:
 	movl $1,%edi
@@ -478,15 +477,13 @@ L198:
 	ret
 L215:
 	leaq -16(%rbp),%rdi
-	movq -16(%rbp),%rsi
-	cmpq $0,%rsi
+	cmpq $0,-16(%rbp)
 	jz L204
 L216:
 	call _directive
 L218:
 	leaq -16(%rbp),%rbx
-	movq -16(%rbp),%rsi
-	cmpq $0,%rsi
+	cmpq $0,-16(%rbp)
 	jz L215
 L219:
 	call _sync

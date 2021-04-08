@@ -89,8 +89,7 @@ L35:
 	movq %r12,%rsi
 	call _bstack_push
 L38:
-	movq _bstack(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_bstack(%rip)
 	jz L31
 L39:
 	movq $_bstack,%rdi

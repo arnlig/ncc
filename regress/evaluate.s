@@ -290,8 +290,7 @@ L136:
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
 	movq -24(%rbp),%rdi
-	movq 8(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 8(%rdi),%rsi
 	setbe %sil
 	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
@@ -357,8 +356,7 @@ L131:
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
 	movq -24(%rbp),%rdi
-	movq 8(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 8(%rdi),%rsi
 	setb %sil
 	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
@@ -418,8 +416,7 @@ L126:
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
 	movq -24(%rbp),%rdi
-	movq 8(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 8(%rdi),%rsi
 	seta %sil
 	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)
@@ -549,8 +546,7 @@ L121:
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rsi
 	movq -24(%rbp),%rdi
-	movq 8(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 8(%rdi),%rsi
 	setae %sil
 	movzbq %sil,%rsi
 	movq %rsi,8(%rbx)

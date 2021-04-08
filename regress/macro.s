@@ -230,8 +230,7 @@ L102:
 	movq %rsi,8(%rbx)
 	jmp L73
 L85:
-	movq 48(%r13),%rsi
-	cmpq $0,%rsi
+	cmpq $0,48(%r13)
 	jnz L93
 L86:
 	leaq -8(%rbp),%r12
@@ -255,8 +254,7 @@ L86:
 	movq %rax,(%rdi)
 	movq %rsi,56(%r13)
 L93:
-	movq 48(%r13),%rsi
-	cmpq $0,%rsi
+	cmpq $0,48(%r13)
 	jnz L75
 L94:
 	leaq -8(%rbp),%r12
@@ -1347,8 +1345,7 @@ L516:
 	movq %rbx,8(%rbx)
 L522:
 	leaq -16(%rbp),%r12
-	movq -16(%rbp),%rsi
-	cmpq $0,%rsi
+	cmpq $0,-16(%rbp)
 	jz L512
 L523:
 	movq %r12,%rdi

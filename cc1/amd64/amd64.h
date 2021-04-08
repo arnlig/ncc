@@ -50,6 +50,7 @@ extern void amd64_symbol_reg(struct symbol *);
 extern void amd64_output_reg(pseudo_reg);
 extern void amd64_insn_branch(condition_code, struct block *);
 extern void amd64_logues(void);
+extern void amd64_opt(void);
 
 #endif /* AMD64_AMD64_H */
 

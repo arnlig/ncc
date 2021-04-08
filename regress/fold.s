@@ -18,8 +18,7 @@ L240:
 L4:
 	xorl %r14d,%r14d
 	movq -16(%rbp),%r10	 # spill
-	movq 8(%r10),%rsi
-	movq %rsi,%rbx
+	movq 8(%r10),%rbx
 L6:
 	cmpq $0,%rbx
 	jz L9
@@ -35,8 +34,7 @@ L17:
 	cmpl $1,%edi
 	jnz L12
 L13:
-	movq 32(%rsi),%rdi
-	cmpq $0,%rdi
+	cmpq $0,32(%rsi)
 	jnz L12
 L10:
 	movl (%rbx),%edi
@@ -94,28 +92,27 @@ L12:
 	cmpl $1879179281,%esi
 	jnz L43
 L52:
-	movq 24(%rbx),%rax
-	cmpq $0,%rax
-	jz L43
-L56:
-	movl (%rax),%esi
-	cmpl $1,%esi
-	jnz L43
-L48:
-	movq 32(%rbx),%rsi
+	movq 24(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L43
-L60:
+L56:
 	movl (%rsi),%edi
 	cmpl $1,%edi
 	jnz L43
+L48:
+	movq 32(%rbx),%rdi
+	cmpq $0,%rdi
+	jz L43
+L60:
+	movl (%rdi),%eax
+	cmpl $1,%eax
+	jnz L43
 L44:
-	movq 32(%rsi),%rdi
-	movq 32(%rax),%rax
-	cmpq %rax,%rdi
+	movq 32(%rdi),%rax
+	cmpq 32(%rsi),%rax
 	jnz L43
 L41:
-	movq $0,32(%rsi)
+	movq $0,32(%rdi)
 	movq 24(%rbx),%rsi
 	movq $0,32(%rsi)
 L43:
@@ -127,8 +124,7 @@ L71:
 	cmpl $1,%esi
 	jnz L66
 L67:
-	movq 32(%rax),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rax)
 	jnz L66
 L64:
 	movq 24(%rbx),%rsi
@@ -147,8 +143,7 @@ L228:
 	cmpl $1880227856,%edi
 	jnz L77
 L86:
-	movq 32(%rsi),%rdi
-	movq %rdi,%r12
+	movq 32(%rsi),%r12
 	movq 16(%rbx),%rdi
 	movq 8(%rdi),%rcx
 	movq %rcx,%rdi
@@ -173,8 +168,7 @@ L93:
 	jmp L92
 L94:
 	movq 24(%rsi),%rsi
-	movq 24(%rax),%rdi
-	addq %rdi,%rsi
+	addq 24(%rax),%rsi
 	movq %rsi,-8(%rbp)
 L92:
 	leaq -8(%rbp),%rsi
@@ -183,8 +177,7 @@ L92:
 	call _con_normalize
 	jmp L32
 L97:
-	movq 32(%rsi),%rdi
-	movq %rdi,%r12
+	movq 32(%rsi),%r12
 	movq 16(%rbx),%rdi
 	movq 8(%rdi),%rcx
 	movq %rcx,%rdi
@@ -209,8 +202,7 @@ L104:
 	jmp L103
 L105:
 	movq 24(%rsi),%rsi
-	movq 24(%rax),%rdi
-	subq %rdi,%rsi
+	subq 24(%rax),%rsi
 	movq %rsi,-8(%rbp)
 L103:
 	leaq -8(%rbp),%rsi
@@ -227,8 +219,7 @@ L115:
 	cmpl $1,%esi
 	jnz L66
 L111:
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rdi)
 	jnz L66
 L108:
 	movl (%rbx),%esi
@@ -275,8 +266,7 @@ L197:
 L198:
 	movq 24(%rdi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	andq %rdi,%rsi
+	andq 24(%rdi),%rsi
 	movq %rsi,-8(%rbp)
 L199:
 	leaq -8(%rbp),%rsi
@@ -300,8 +290,7 @@ L189:
 L190:
 	movq 24(%rdi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	orq %rdi,%rsi
+	orq 24(%rdi),%rsi
 	movq %rsi,-8(%rbp)
 L191:
 	leaq -8(%rbp),%rsi
@@ -325,8 +314,7 @@ L181:
 L182:
 	movq 24(%rdi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	xorq %rdi,%rsi
+	xorq 24(%rdi),%rsi
 	movq %rsi,-8(%rbp)
 L183:
 	leaq -8(%rbp),%rsi
@@ -422,8 +410,7 @@ L167:
 	call _con_normalize
 	jmp L32
 L138:
-	movq 32(%rbx),%rsi
-	movq %rsi,%rdi
+	movq 32(%rbx),%rdi
 	call _operand_is_zero
 	cmpl $0,%eax
 	jnz L66
@@ -459,8 +446,7 @@ L147:
 	call _con_normalize
 	jmp L32
 L123:
-	movq 32(%rbx),%rsi
-	movq %rsi,%rdi
+	movq 32(%rbx),%rdi
 	call _operand_is_zero
 	cmpl $0,%eax
 	jnz L66
@@ -557,8 +543,7 @@ L32:
 	call _operand_con
 	addq $8,%rsp
 	movq %rax,%r13
-	movq 16(%rbx),%rsi
-	movq %rsi,%rdi
+	movq 16(%rbx),%rdi
 	call _operand_dup
 	pushq %r13
 	pushq %rax
@@ -577,15 +562,13 @@ L205:
 L214:
 	xorl %r14d,%r14d
 L8:
-	movq 40(%rbx),%rsi
-	movq %rsi,%rbx
+	movq 40(%rbx),%rbx
 	jmp L6
 L9:
 	cmpl $0,%r14d
 	jz L220
 L218:
-	movq -16(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq -16(%rbp),%rdi	 # spill
 	movl %r15d,%esi
 	call _block_known_ccs
 L220:

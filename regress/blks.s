@@ -121,8 +121,7 @@ L65:
 	jz L67
 L68:
 	movq (%r12),%rsi
-	movq (%r13),%rdi
-	cmpq %rdi,%rsi
+	cmpq (%r13),%rsi
 	jae L67
 L66:
 	movq 8(%r12),%r12
@@ -132,8 +131,7 @@ L67:
 	jz L80
 L75:
 	movq (%r13),%rsi
-	movq (%r12),%rdi
-	cmpq %rdi,%rsi
+	cmpq (%r12),%rsi
 	jz L63
 L80:
 	movq _blks_free_list(%rip),%rsi

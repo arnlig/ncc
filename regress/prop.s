@@ -36,8 +36,7 @@ L15:
 	cmpq $0,%rax
 	jz L18
 L17:
-	movq _map(%rip),%rsi
-	subq %rsi,%rax
+	subq _map(%rip),%rax
 	movl $4,%esi
 	cqto
 	idivq %rsi
@@ -685,8 +684,7 @@ L284:
 	cmpq $0,%rax
 	jz L286
 L289:
-	movq 8(%rax),%rsi
-	cmpq %rsi,%r13
+	cmpq 8(%rax),%r13
 	jz L288
 L286:
 	xorl %eax,%eax
@@ -758,8 +756,7 @@ L334:
 L351:
 	movq %rdi,%rbx
 L335:
-	movq _entry_block(%rip),%rsi
-	cmpq %rbx,%rsi
+	cmpq %rbx,_entry_block(%rip)
 	jnz L339
 L337:
 	xorl %eax,%eax
@@ -910,8 +907,7 @@ L411:
 	cmpl $1,%esi
 	jnz L386
 L407:
-	movq 32(%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rbx)
 	jnz L386
 L384:
 	movq 8(%r13),%rsi
@@ -972,8 +968,7 @@ L441:
 	cmpl $1,%esi
 	jnz L426
 L437:
-	movq 32(%rax),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rax)
 	jnz L426
 L434:
 	movq 24(%rax),%rsi

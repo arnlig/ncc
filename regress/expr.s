@@ -286,8 +286,7 @@ L133:
 	cmpq $0,%rsi
 	jnz L118
 L129:
-	movq 32(%rax),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rax)
 	jnz L118
 L126:
 	movq 24(%rbx),%rsi
@@ -2201,8 +2200,7 @@ L752:
 	cmpl $2147483649,%esi
 	jnz L753
 L760:
-	movq 32(%r14),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%r14)
 	jnz L753
 L756:
 	movq 8(%r14),%rsi

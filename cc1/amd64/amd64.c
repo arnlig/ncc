@@ -30,8 +30,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../block.h"
 #include "../symbol.h"
 #include "../output.h"
+#include "../opt.h"
 #include "insn.h"
 #include "reg.h"
+#include "peep.h"
+#include "fuse.h"
 #include "amd64.h"
 
 /* we implement an ABI that is based on, but different from, the SysV ABI.
@@ -228,6 +231,15 @@ void amd64_logues(void)
             addr -= AMD64_XMM_BYTES;
         }
     }
+}
+
+/* post-allocation optimizations */
+
+void amd64_opt(void)
+{
+    amd64_post_peep();
+    amd64_fuse();
+    nop();
 }
 
 /* output a branch to block b if cc is true */

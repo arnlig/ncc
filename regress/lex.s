@@ -192,8 +192,7 @@ L91:
 L92:
 	call _delimit
 	movq _pos(%rip),%rbx
-	movq _begin(%rip),%rsi
-	subq %rsi,%rbx
+	subq _begin(%rip),%rbx
 L94:
 	movq _pos(%rip),%rsi
 	movzbq (%rsi),%rdi
@@ -221,8 +220,7 @@ L93:
 	movq %rsi,-8(%rbp)
 L103:
 	movq _pos(%rip),%rsi
-	movq -8(%rbp),%rdi
-	cmpq %rdi,%rsi
+	cmpq -8(%rbp),%rsi
 	jz L105
 L106:
 	leaq -8(%rbp),%rdi
@@ -249,8 +247,7 @@ L113:
 	movq -8(%rbp),%rsi
 	addq $1,%rsi
 	movq %rsi,-8(%rbp)
-	movq _pos(%rip),%rdi
-	cmpq %rsi,%rdi
+	cmpq %rsi,_pos(%rip)
 	jz L103
 L116:
 	movzbq (%rsi),%rsi
@@ -401,8 +398,7 @@ L183:
 	addq $1,-8(%rbp)
 L185:
 	movq _pos(%rip),%rsi
-	movq -8(%rbp),%rdi
-	cmpq %rdi,%rsi
+	cmpq -8(%rbp),%rsi
 	jnz L193
 L189:
 	movl _errno(%rip),%esi
@@ -441,8 +437,7 @@ L242:
 	addq $1,-8(%rbp)
 L238:
 	movq _pos(%rip),%rsi
-	movq -8(%rbp),%rdi
-	cmpq %rdi,%rsi
+	cmpq -8(%rbp),%rsi
 	jz L247
 L245:
 	pushq $L248
@@ -792,8 +787,7 @@ L618:
 	cmpl $0,%esi
 	jnz L279
 L606:
-	movq _invalid(%rip),%rsi
-	cmpq %rdi,%rsi
+	cmpq %rdi,_invalid(%rip)
 	jnz L279
 L607:
 	xorl %eax,%eax

@@ -72,7 +72,7 @@ struct target amd64_target =
     amd64_gen_spill_in,
     amd64_gen_spill_out,
     amd64_logues,
-    amd64_post_peep
+    amd64_opt
 };
 
 /* vi: set ts=4 expandtab: */

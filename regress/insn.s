@@ -252,8 +252,7 @@ L121:
 	cmpl $1,%esi
 	jnz L115
 L117:
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rdi)
 	jnz L115
 L114:
 	movq 8(%rdi),%rsi
@@ -290,8 +289,7 @@ L146:
 	cmpl $1,%esi
 	jnz L140
 L142:
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rdi)
 	jnz L140
 L139:
 	movq 8(%rdi),%rsi
@@ -386,8 +384,7 @@ L204:
 	jz L221
 L226:
 	movq 32(%rsi),%rax
-	movq 32(%rdi),%rcx
-	cmpq %rcx,%rax
+	cmpq 32(%rdi),%rax
 	jnz L221
 L222:
 	movq 24(%rdi),%rax
@@ -1013,8 +1010,7 @@ L515:
 	cmpl $1,%edi
 	jnz L510
 L511:
-	movq 32(%rsi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rsi)
 	jnz L510
 L508:
 	movq %rbx,%rdi
@@ -1458,8 +1454,7 @@ L804:
 	cmpl $1,%ecx
 	jnz L792
 L800:
-	movq 32(%rax),%rax
-	cmpq $0,%rax
+	cmpq $0,32(%rax)
 	jnz L792
 L796:
 	movq 32(%rdi),%rax
@@ -1478,8 +1473,7 @@ L820:
 	cmpl $1,%ecx
 	jnz L786
 L816:
-	movq 32(%rax),%rax
-	cmpq $0,%rax
+	cmpq $0,32(%rax)
 	jnz L786
 L812:
 	movq 24(%rdi),%rax

@@ -379,8 +379,7 @@ L167:
 	cmpl $2147483649,%edi
 	jnz L171
 L177:
-	movq 32(%rsi),%rdi
-	cmpq $0,%rdi
+	cmpq $0,32(%rsi)
 	jz L171
 L173:
 	movq 24(%rsi),%rsi
@@ -527,8 +526,7 @@ L224:
 	cmpl $2147483649,%esi
 	jnz L227
 L229:
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rdi)
 	jnz L227
 L226:
 	movq 8(%rdi),%rsi
@@ -564,8 +562,7 @@ L245:
 	cmpl $2147483649,%esi
 	jnz L248
 L250:
-	movq 32(%rdi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rdi)
 	jnz L248
 L247:
 	movq 8(%rdi),%rsi
@@ -623,8 +620,7 @@ L278:
 	cmpl $2147483649,%eax
 	jnz L271
 L285:
-	movq 32(%rsi),%rax
-	cmpq $0,%rax
+	cmpq $0,32(%rsi)
 	jnz L271
 L594:
 	cmpl $1073741828,%edi
@@ -707,8 +703,7 @@ L328:
 	cmpl $2147483649,%edi
 	jnz L327
 L332:
-	movq 32(%rsi),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rsi)
 	jnz L327
 L325:
 	movq %rbx,%rdi
@@ -795,22 +790,21 @@ L351:
 	cmpl $276825113,%esi
 	jnz L364
 L373:
-	movq 24(%rbx),%rax
-	movl (%rax),%esi
-	cmpl $2147483649,%esi
-	jnz L364
-L369:
-	movq 32(%rbx),%rsi
+	movq 24(%rbx),%rsi
 	movl (%rsi),%edi
 	cmpl $2147483649,%edi
 	jnz L364
+L369:
+	movq 32(%rbx),%rdi
+	movl (%rdi),%eax
+	cmpl $2147483649,%eax
+	jnz L364
 L365:
-	movq 32(%rsi),%rdi
-	movq 32(%rax),%rax
-	cmpq %rax,%rdi
+	movq 32(%rdi),%rax
+	cmpq 32(%rsi),%rax
 	jnz L364
 L362:
-	movq $0,32(%rsi)
+	movq $0,32(%rdi)
 	movq 24(%rbx),%rsi
 	movq $0,32(%rsi)
 L364:
@@ -819,8 +813,7 @@ L364:
 	cmpl $2147483649,%edi
 	jnz L271
 L380:
-	movq 32(%rsi),%rdi
-	cmpq $0,%rdi
+	cmpq $0,32(%rsi)
 	jnz L271
 L377:
 	movq 24(%rbx),%rax
@@ -897,8 +890,7 @@ L415:
 	jmp L414
 L416:
 	movq 24(%rax),%rdi
-	movq 24(%rsi),%rsi
-	subq %rsi,%rdi
+	subq 24(%rsi),%rdi
 	movq %rdi,24(%rax)
 L414:
 	movq 24(%rbx),%rsi
@@ -915,8 +907,7 @@ L386:
 	cmpl $2147483649,%edi
 	jnz L271
 L422:
-	movq 32(%rsi),%rdi
-	cmpq $0,%rdi
+	cmpq $0,32(%rsi)
 	jnz L271
 L419:
 	movl (%rbx),%edi
@@ -1016,8 +1007,7 @@ L504:
 L505:
 	movq 24(%rsi),%rdi
 	movq 32(%rbx),%rax
-	movq 24(%rax),%rax
-	andq %rax,%rdi
+	andq 24(%rax),%rdi
 	movq %rdi,24(%rsi)
 L506:
 	movq 24(%rbx),%rsi
@@ -1047,8 +1037,7 @@ L526:
 L527:
 	movq 24(%rsi),%rdi
 	movq 32(%rbx),%rax
-	movq 24(%rax),%rax
-	xorq %rax,%rdi
+	xorq 24(%rax),%rdi
 	movq %rdi,24(%rsi)
 L528:
 	movq 24(%rbx),%rsi
@@ -1115,8 +1104,7 @@ L515:
 L516:
 	movq 24(%rsi),%rdi
 	movq 32(%rbx),%rax
-	movq 24(%rax),%rax
-	orq %rax,%rdi
+	orq 24(%rax),%rdi
 	movq %rdi,24(%rsi)
 L517:
 	movq 24(%rbx),%rsi
@@ -1200,8 +1188,7 @@ L575:
 L576:
 	movq 24(%rsi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 24(%rdi),%rsi
 	setb %sil
 	movzbl %sil,%r12d
 L574:
@@ -1242,8 +1229,7 @@ L586:
 L587:
 	movq 24(%rsi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 24(%rdi),%rsi
 	setbe %sil
 	movzbl %sil,%r12d
 L585:
@@ -1291,8 +1277,7 @@ L553:
 L554:
 	movq 24(%rsi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 24(%rdi),%rsi
 	seta %sil
 	movzbl %sil,%r12d
 L552:
@@ -1429,8 +1414,7 @@ L564:
 L565:
 	movq 24(%rsi),%rsi
 	movq 32(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	cmpq %rdi,%rsi
+	cmpq 24(%rdi),%rsi
 	setae %sil
 	movzbl %sil,%r12d
 L563:

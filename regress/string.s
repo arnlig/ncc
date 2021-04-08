@@ -36,8 +36,7 @@ L9:
 	cmpq $0,%r13
 	jz L12
 L10:
-	movq 8(%r13),%rsi
-	cmpq %r12,%rsi
+	cmpq %r12,8(%r13)
 	jnz L11
 L20:
 	movl (%r13),%esi
@@ -346,8 +345,7 @@ L82:
 	cmpq %r14,%rbx
 	jae L85
 L83:
-	movq 8(%r13),%rsi
-	cmpq %rsi,%rbx
+	cmpq 8(%r13),%rbx
 	jae L87
 L86:
 	movzbl 40(%r13,%rbx),%r12d

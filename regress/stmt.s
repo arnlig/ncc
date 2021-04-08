@@ -172,8 +172,7 @@ L46:
 L48:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq -8(%rbp),%r10	 # spill
-	movq %r10,%rdx
+	movq -8(%rbp),%rdx	 # spill
 	call _block_add_successor
 	movq -8(%rbp),%r10	 # spill
 	movq %r10,_current_block(%rip)
@@ -186,18 +185,15 @@ L49:
 	movq %rax,%rbx
 	movq _break_block(%rip),%rdx
 	movq %rbx,%rdi
-	movq -16(%rbp),%r10	 # spill
-	movq %r10,%rsi
+	movq -16(%rbp),%rsi	 # spill
 	call _gen_branch
 	movq %rbx,%rdi
 	call _tree_free
 	jmp L51
 L50:
-	movq -8(%rbp),%r10	 # spill
-	movq %r10,%rdi
+	movq -8(%rbp),%rdi	 # spill
 	movl $10,%esi
-	movq -16(%rbp),%r10	 # spill
-	movq %r10,%rdx
+	movq -16(%rbp),%rdx	 # spill
 	call _block_add_successor
 L51:
 	movq -16(%rbp),%r10	 # spill
@@ -218,8 +214,7 @@ L52:
 L54:
 	movq _current_block(%rip),%rdi
 	movl $10,%esi
-	movq -8(%rbp),%r10	 # spill
-	movq %r10,%rdx
+	movq -8(%rbp),%rdx	 # spill
 	call _block_add_successor
 	movq _break_block(%rip),%rsi
 	movq %rsi,_current_block(%rip)
@@ -589,8 +584,7 @@ L137:
 	pushq %rbp
 	movq %rsp,%rbp
 L138:
-	movq _switch_block(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_switch_block(%rip)
 	jnz L139
 L140:
 	movl _token(%rip),%esi

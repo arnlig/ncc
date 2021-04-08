@@ -189,8 +189,7 @@ L84:
 L99:
 	movq %rdi,%rbx
 L85:
-	movq _state_stack(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_state_stack(%rip)
 	jnz L89
 L87:
 	pushq $L90
@@ -228,8 +227,7 @@ L103:
 	pushq %rbp
 	movq %rsp,%rbp
 L104:
-	movq _state_stack(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_state_stack(%rip)
 	jnz L108
 L106:
 	pushq $L109
@@ -262,8 +260,7 @@ L119:
 	pushq %rbp
 	movq %rsp,%rbp
 L120:
-	movq _state_stack(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_state_stack(%rip)
 	jnz L124
 L122:
 	pushq $L125
@@ -293,8 +290,7 @@ L132:
 	movq %rbx,%rdi
 	movl $51,%esi
 	call _list_match
-	movq (%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,(%rbx)
 	jz L136
 L134:
 	movq %rbx,%rdi
@@ -309,8 +305,7 @@ L136:
 	addq $-1,%rsi
 	movq _input_stack(%rip),%rdi
 	movl %esi,32(%rdi)
-	movq -16(%rbp),%rsi
-	cmpq $0,%rsi
+	cmpq $0,-16(%rbp)
 	jz L139
 L137:
 	movq _input_stack(%rip),%rsi
@@ -653,8 +648,7 @@ L287:
 	cmpl $0,%esi
 	jz L224
 L283:
-	movq (%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,(%rbx)
 	jz L224
 L280:
 	pushq $L290
@@ -684,8 +678,7 @@ L327:
 	pushq %rbp
 	movq %rsp,%rbp
 L328:
-	movq _state_stack(%rip),%rsi
-	cmpq $0,%rsi
+	cmpq $0,_state_stack(%rip)
 	jz L329
 L330:
 	pushq $L333

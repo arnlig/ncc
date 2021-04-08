@@ -1646,12 +1646,10 @@ L728:
 	cmpl $48,%esi
 	jnz L732
 L733:
-	movq (%r14),%rsi
-	cmpq %rbx,%rsi
+	cmpq %rbx,(%r14)
 	jz L724
 L737:
-	movq 32(%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rbx)
 	jz L724
 L732:
 	movl 8(%rbx),%esi
@@ -1970,8 +1968,7 @@ L893:
 L903:
 	movq %rdi,%rbx
 L894:
-	movq (%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,(%rbx)
 	jnz L895
 L896:
 	movl $1073741883,%edi

@@ -45,8 +45,7 @@ L13:
 	pushq %rbx
 L14:
 	movq _input_stack(%rip),%rbx
-	movq 40(%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,40(%rbx)
 	jnz L19
 L16:
 	call _directive_check

@@ -191,8 +191,7 @@ L94:
 L95:
 	movq 480(%rdi),%rax
 L97:
-	movq 8(%rax),%rdi
-	cmpq %rdi,%rsi
+	cmpq 8(%rax),%rsi
 	jz L96
 L99:
 	movq 32(%rax),%rax
@@ -259,7 +258,7 @@ L128:
 	cmpq $0,%rsi
 	jz L126
 L129:
-	xorl %edx,%edx
+	xorl %ecx,%ecx
 	movl (%rsi),%eax
 	cmpl $12,%eax
 	jnz L130
@@ -268,13 +267,12 @@ L135:
 	cmpq $0,%rax
 	jz L137
 L142:
-	movl (%rax),%ecx
-	cmpl $12,%ecx
+	movl (%rax),%edx
+	cmpl $12,%edx
 	jnz L137
 L138:
-	movq 16(%rax),%rcx
-	movq 16(%rsi),%r8
-	cmpq %r8,%rcx
+	movq 16(%rax),%rdx
+	cmpq 16(%rsi),%rdx
 	jae L137
 L146:
 	cmpq $0,%rax
@@ -304,10 +302,10 @@ L157:
 	leaq 32(%rax),%rcx
 	movq %rsi,32(%rax)
 	movq %rcx,40(%rsi)
-	movl $1,%edx
+	movl $1,%ecx
 	jmp L135
 L137:
-	cmpl $0,%edx
+	cmpl $0,%ecx
 	jnz L127
 L130:
 	movq 32(%rsi),%rsi
@@ -345,8 +343,7 @@ L188:
 	jnz L172
 L184:
 	movq 8(%rbx),%rdi
-	movq 8(%rsi),%rax
-	cmpq %rax,%rdi
+	cmpq 8(%rsi),%rdi
 	jnz L172
 L180:
 	movq 16(%rsi),%rdi
@@ -377,8 +374,7 @@ L197:
 L219:
 	movq %rdi,%rbx
 L198:
-	movq 328(%rbx),%rsi
-	cmpq $0,%rsi
+	cmpq $0,328(%rbx)
 	jz L202
 L200:
 	movq %rbx,%rdi
@@ -400,8 +396,7 @@ L211:
 	cmpq $0,%rdi
 	jz L213
 L212:
-	movq 8(%rdi),%rdi
-	cmpq %rdi,%r12
+	cmpq 8(%rdi),%r12
 	jz L211
 	jnz L199
 L213:
@@ -483,8 +478,7 @@ L242:
 	cmpq $0,%rbx
 	jz L245
 L243:
-	movq 8(%rbx),%rsi
-	cmpq %rsi,%r12
+	cmpq 8(%rbx),%r12
 	jnz L244
 L246:
 	movq %r12,%rdi
@@ -590,8 +584,7 @@ L288:
 	cmpq $0,%rsi
 	jz L290
 L289:
-	movq 16(%rsi),%rsi
-	cmpq %r12,%rsi
+	cmpq %r12,16(%rsi)
 	jnz L288
 L291:
 	pushq $L294
@@ -629,24 +622,22 @@ L306:
 	pushq %rbp
 	movq %rsp,%rbp
 L307:
-	movq 464(%rdi),%rdi
-	movq %rdi,%rcx
-	movq 8(%rdi),%rax
+	movq 464(%rdi),%rax
+	movq %rax,%rdi
+	movq 8(%rax),%rax
 L309:
-	movq 32(%rcx),%rdi
-	movq %rdi,%rcx
-	cmpq $0,%rdi
+	movq 32(%rdi),%rcx
+	movq %rcx,%rdi
+	cmpq $0,%rcx
 	jz L308
 L310:
-	movq 16(%rdi),%rdx
-	cmpq %rdx,%rsi
+	cmpq 16(%rcx),%rsi
 	jb L309
 L315:
-	movq 24(%rdi),%rdx
-	cmpq %rdx,%rsi
+	cmpq 24(%rcx),%rsi
 	ja L309
 L312:
-	movq 8(%rdi),%rax
+	movq 8(%rcx),%rax
 L308:
 	popq %rbp
 	ret
@@ -782,8 +773,7 @@ L420:
 	cmpq $0,%rax
 	jz L423
 L425:
-	movq 32(%rax),%rsi
-	cmpq $0,%rsi
+	cmpq $0,32(%rax)
 	jz L421
 L423:
 	xorl %eax,%eax

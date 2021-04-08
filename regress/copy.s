@@ -481,8 +481,7 @@ L215:
 	movl _nr_copies(%rip),%esi
 	movl %esi,_next_copy_bit(%rip)
 L217:
-	movq _entry_block(%rip),%rsi
-	cmpq %rbx,%rsi
+	cmpq %rbx,_entry_block(%rip)
 	jz L220
 L218:
 	leaq 224(%rbx),%rdi
@@ -551,8 +550,7 @@ L241:
 	cmpq $0,%r12
 	jz L244
 L242:
-	movq 480(%rbx),%rsi
-	cmpq %r12,%rsi
+	cmpq %r12,480(%rbx)
 	jnz L246
 L245:
 	movq 8(%r12),%rsi
