@@ -95,6 +95,7 @@ extern FILE *fopen(const char *, const char *);
 extern int printf(const char *, ...);
 extern int puts(const char *);
 extern int remove(const char *);
+extern int rename(const char *, const char *);
 extern void setbuf(FILE *, char *);
 extern int setvbuf(FILE *, char *, int, size_t);
 extern int sprintf(char *, const char *, ...);

@@ -121,6 +121,13 @@ _waitpid:       movl $61, %eax
                 xorl %r10d, %r10d
                 jmp do_syscall
 
+# int rename(const char *old, const char *new);
+
+.global _rename
+
+_rename:        movl $82, %eax
+                jmp do_syscall
+
 # int creat(const char *pathname, mode_t mode);
 
 .global _creat
