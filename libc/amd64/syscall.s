@@ -96,6 +96,13 @@ _ioctl:         movl $16, %eax
 _access:        movl $21, %eax
                 jmp do_syscall
 
+# int getpid(void);
+
+.global _getpid
+
+_getpid:        movl $39, %eax
+                jmp do_syscall
+
 # pid_t fork(void);
 
 .global _fork

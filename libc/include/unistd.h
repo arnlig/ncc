@@ -70,6 +70,7 @@ extern int execve(const char *, char *const [], char *const []);
 extern int execvp(const char *, char *const []);
 extern int execvpe(const char *, char *const [], char *const []);
 extern pid_t fork(void);
+extern pid_t getpid(void);
 extern int isatty(int);
 
 #define SEEK_SET        __SEEK_SET
