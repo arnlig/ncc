@@ -7,7 +7,7 @@ L6:
 	movq %rdx,%rax
 	addq $-1,%rdx
 	cmpq $0,%rax
-	jbe L5
+	jz L5
 L7:
 	movzbl (%rdi),%eax
 	movzbl (%rsi),%ecx
@@ -30,7 +30,7 @@ L17:
 	movq %rcx,%rax
 	addq $-1,%rcx
 	cmpq $0,%rax
-	jbe L16
+	jz L16
 L18:
 	movzbl (%rdi),%eax
 	movzbl (%rdx),%r8d

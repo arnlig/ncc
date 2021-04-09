@@ -8,7 +8,7 @@ L22:
 	movq %rax,%rdi
 	movq %rsi,%rcx
 	cmpq $0,%rdx
-	jbe L3
+	jz L3
 L4:
 	cmpq %rax,%rsi
 	ja L8
@@ -21,8 +21,7 @@ L7:
 	addq $1,%rdx
 L14:
 	addq $-1,%rdx
-	cmpq $0,%rdx
-	jbe L3
+	jz L3
 L15:
 	addq $-1,%rsi
 	movzbl (%rsi),%ecx
@@ -33,8 +32,7 @@ L8:
 	addq $1,%rdx
 L17:
 	addq $-1,%rdx
-	cmpq $0,%rdx
-	jbe L3
+	jz L3
 L18:
 	movq %rcx,%rsi
 	addq $1,%rcx

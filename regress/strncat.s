@@ -7,7 +7,7 @@ L21:
 	movq %rdi,%rax
 	movq %rax,%rdi
 	cmpq $0,%rdx
-	jbe L3
+	jz L3
 L7:
 	movq %rdi,%rcx
 	addq $1,%rdi
@@ -28,8 +28,7 @@ L10:
 	jz L3
 L11:
 	addq $-1,%rdx
-	cmpq $0,%rdx
-	ja L10
+	jnz L10
 L15:
 	movb $0,(%rdi)
 L3:

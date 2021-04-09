@@ -24,11 +24,10 @@ L14:
 	jmp L3
 L9:
 	addq $-1,%rdx
-	cmpq $0,%rdx
-	ja L7
+	jnz L7
 L8:
 	cmpq $0,%rdx
-	jbe L6
+	jz L6
 L18:
 	movzbl (%rdi),%eax
 	cmpl $0,%eax

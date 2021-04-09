@@ -12,8 +12,7 @@ L4:
 	addq $1,%rdx
 L7:
 	addq $-1,%rdx
-	cmpq $0,%rdx
-	jbe L6
+	jz L6
 L8:
 	movq %rax,%rdi
 	addq $1,%rax

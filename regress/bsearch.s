@@ -17,7 +17,7 @@ L16:
 	movq %rsi,%r12
 L4:
 	cmpq $0,%rbx
-	jbe L6
+	jz L6
 L5:
 	movq %rbx,%rsi
 	shrq $1,%rsi

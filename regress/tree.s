@@ -1691,6 +1691,8 @@ L799:
 L801:
 	movq %rbx,%rdi
 	call _field_tree_opt
+	movq %rax,%rdi
+	call _sign_tree_opt
 L756:
 	popq %rbx
 	movq %rbp,%rsp
@@ -1984,6 +1986,7 @@ L809:
 .globl _type_append_bits
 .globl _safe_malloc
 .globl _tree_opt
+.globl _sign_tree_opt
 .globl _field_tree_opt
 .globl _cast_tree_opt
 .globl _tree_free

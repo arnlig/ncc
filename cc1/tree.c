@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "symbol.h"
 #include "output.h"
 #include "type.h"
+#include "sign.h"
 #include "tree.h"
 
 /* allocate a new tree node properly
@@ -567,6 +568,7 @@ struct tree *tree_opt(struct tree *tree)
         tree = cast_tree_opt(tree);
 
     tree = field_tree_opt(tree);
+    tree = sign_tree_opt(tree);
 
     return tree;
 }

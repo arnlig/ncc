@@ -46,11 +46,11 @@ int setvbuf(FILE *fp, char *buf, int mode, size_t size)
 
     fp->_flags &= ~(_IOMYBUF | _IONBF | _IOLBF);
 
-    if (buf && size <= 0)
+    if (buf && size == 0)
         retval = EOF;
 
     if (!buf && (mode != _IONBF)) {
-        if (size <= 0 || (buf = malloc(size)) == 0)
+        if (size == 0 || (buf = malloc(size)) == 0)
             retval = EOF;
         else
             fp->_flags |= _IOMYBUF;

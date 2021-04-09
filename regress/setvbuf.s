@@ -44,7 +44,7 @@ L18:
 	jz L25
 L26:
 	cmpq $0,%r13
-	ja L25
+	jnz L25
 L23:
 	movl $-1,%r15d
 L25:
@@ -55,7 +55,7 @@ L33:
 	jz L32
 L30:
 	cmpq $0,%r13
-	jbe L37
+	jz L37
 L40:
 	movq %r13,%rdi
 	call _malloc
