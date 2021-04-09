@@ -58,7 +58,7 @@ pseudo_reg amd64_ispills[AMD64_NR_ISPILLS] =
 
 pseudo_reg amd64_fspills[AMD64_NR_FSPILLS] =
 {
-    AMD64_REG_XMM(8), AMD64_REG_XMM(9)
+    AMD64_REG_XMM(6), AMD64_REG_XMM(7)
 };
 
 void amd64_regs_remove_trash(struct regs *regs)

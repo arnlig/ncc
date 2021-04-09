@@ -90,15 +90,15 @@ L37:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $8,%rsp
-	movsd %xmm10,-8(%rbp)
+	movsd %xmm8,-8(%rbp)
 L42:
-	movsd %xmm0,%xmm10
+	movsd %xmm0,%xmm8
 	movq %rdi,%rsi
 	movl $1,%edi
 	call _operand_new
-	movsd %xmm10,24(%rax)
+	movsd %xmm8,24(%rax)
 L39:
-	movsd -8(%rbp),%xmm10
+	movsd -8(%rbp),%xmm8
 	movq %rbp,%rsp
 	popq %rbp
 	ret

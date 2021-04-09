@@ -70,7 +70,7 @@ extern pseudo_reg amd64_iargs[];
 /* the first AMD64_NR_FARGS floating-point arguments are passed
    to functions in registers AMD64_REG_XMM(0..AMD64_NR_FARGS-1). */
 
-#define AMD64_NR_FARGS      8
+#define AMD64_NR_FARGS      6
 
 /* registers in amd64_itrash[] are the volatile (caller-save) iregs */
 
@@ -78,9 +78,9 @@ extern pseudo_reg amd64_iargs[];
 
 extern pseudo_reg amd64_itrash[];
 
-/* the first AMD64_NR_FTRASH XMM registers are caller-save (XMM0-XMM9) */
+/* the first AMD64_NR_FTRASH XMM registers are caller-save (XMM0-XMM7) */
 
-#define AMD64_NR_FTRASH     10
+#define AMD64_NR_FTRASH     8
 
 extern void amd64_regs_remove_trash(struct regs *);
 

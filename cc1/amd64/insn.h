@@ -176,10 +176,10 @@ extern bool amd64_operands_same(struct amd64_operand *,
 #define AMD64_I_IARGS_MASK          ( 0x00000007 )          /* bits[19:17] */
 #define AMD64_I_IARGS_SHIFT         17
 
-/* bits[23:20] encode the number of
-   floating-point arguments (max 15) */
+/* bits[22:20] encode the number of
+   floating-point arguments (max 7) */
 
-#define AMD64_I_FARGS_MASK          ( 0x0000000F )          /* bits[23:20] */
+#define AMD64_I_FARGS_MASK          ( 0x00000007 )          /* bits[22:20] */
 #define AMD64_I_FARGS_SHIFT         20
 
 /* and bits 24 and 25 indicate whether

@@ -128,19 +128,19 @@ L65:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-	movsd %xmm10,-40(%rbp)
+	movsd %xmm8,-40(%rbp)
 L132:
 	movl %edi,-32(%rbp)	 # spill
 	movq %rcx,-24(%rbp)	 # spill
 	movl %edx,%r15d
 	movq %r8,%rbx
 	movq %rbx,%r12
-	movsd (%rsi),%xmm10
-	ucomisd L134(%rip),%xmm10
+	movsd (%rsi),%xmm8
+	ucomisd L134(%rip),%xmm8
 	jz L71
 L70:
 	leaq -8(%rbp),%rsi
-	movsd %xmm10,%xmm0
+	movsd %xmm8,%xmm0
 	movq %rsi,%rdi
 	call _frexp
 	leaq -16(%rbp),%rsi
@@ -165,12 +165,12 @@ L75:
 	negl %esi
 	movl %esi,%edi
 	call ___pow10
-	mulsd %xmm0,%xmm10
-	ucomisd L137(%rip),%xmm10
+	mulsd %xmm0,%xmm8
+	ucomisd L137(%rip),%xmm8
 	jb L78
 L76:
 	leal 1(%r14),%r13d
-	mulsd L142(%rip),%xmm10
+	mulsd L142(%rip),%xmm8
 L78:
 	movq -24(%rbp),%r10	 # spill
 	movl %r13d,(%r10)
@@ -197,7 +197,7 @@ L89:
 	cmpl $0,%eax
 	jnz L71
 L95:
-	ucomisd L138(%rip),%xmm10
+	ucomisd L138(%rip),%xmm8
 	ja L99
 L71:
 	movq -24(%rbp),%r10	 # spill
@@ -217,21 +217,21 @@ L105:
 	cmpq %rsi,%r12
 	jae L108
 L109:
-	ucomisd L134(%rip),%xmm10
+	ucomisd L134(%rip),%xmm8
 	jz L108
 L106:
-	cvttsd2sil %xmm10,%esi
+	cvttsd2sil %xmm8,%esi
 	leal 48(%rsi),%edi
 	movq %r12,%rcx
 	addq $1,%r12
 	movb %dil,(%rcx)
 	cvtsi2sdl %esi,%xmm0
-	subsd %xmm0,%xmm10
-	mulsd L137(%rip),%xmm10
+	subsd %xmm0,%xmm8
+	mulsd L137(%rip),%xmm8
 	jmp L105
 L108:
 	movb $0,(%r12)
-	ucomisd L138(%rip),%xmm10
+	ucomisd L138(%rip),%xmm8
 	ja L124
 L116:
 	addq $-1,%r12
@@ -269,7 +269,7 @@ L99:
 	movb $49,(%rsi)
 	movb $0,(%r12)
 L67:
-	movsd -40(%rbp),%xmm10
+	movsd -40(%rbp),%xmm8
 	popq %r15
 	popq %r14
 	popq %r13

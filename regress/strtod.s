@@ -15,7 +15,7 @@ L1:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-	movsd %xmm10,-24(%rbp)
+	movsd %xmm8,-24(%rbp)
 L147:
 	movq %rdi,%rax
 	movq %rsi,-16(%rbp)	 # spill
@@ -26,7 +26,7 @@ L147:
 	xorl %r15d,%r15d
 	xorl %r12d,%r12d
 	xorl %r14d,%r14d
-	movsd L149(%rip),%xmm10
+	movsd L149(%rip),%xmm8
 L4:
 	movq %rbx,%rsi
 	addq $1,%rbx
@@ -108,12 +108,12 @@ L59:
 	jz L63
 L62:
 	call ___pow10
-	mulsd %xmm0,%xmm10
+	mulsd %xmm0,%xmm8
 	cvtsi2sdq %r14,%xmm0
-	addsd %xmm0,%xmm10
+	addsd %xmm0,%xmm8
 	jmp L64
 L63:
-	cvtsi2sdq %r14,%xmm10
+	cvtsi2sdq %r14,%xmm8
 	orl $8,%r12d
 L64:
 	movl $1,%edi
@@ -148,12 +148,12 @@ L33:
 	jz L77
 L76:
 	call ___pow10
-	mulsd %xmm0,%xmm10
+	mulsd %xmm0,%xmm8
 	cvtsi2sdq %r14,%xmm0
-	addsd %xmm0,%xmm10
+	addsd %xmm0,%xmm8
 	jmp L78
 L77:
-	cvtsi2sdq %r14,%xmm10
+	cvtsi2sdq %r14,%xmm8
 L78:
 	cmpl $101,%r13d
 	jz L79
@@ -250,7 +250,7 @@ L121:
 L123:
 	movl %r15d,%edi
 	call ___pow10
-	mulsd %xmm0,%xmm10
+	mulsd %xmm0,%xmm8
 L28:
 	cmpq $0,-16(%rbp)	 # spill
 	jz L128
@@ -269,16 +269,16 @@ L131:
 	jz L135
 L133:
 	movl $34,_errno(%rip)
-	movsd ___huge_val(%rip),%xmm10
+	movsd ___huge_val(%rip),%xmm8
 L135:
 	testl $1,%r12d
 	jz L138
 L136:
-	mulsd L150(%rip),%xmm10
+	mulsd L150(%rip),%xmm8
 L138:
-	movsd %xmm10,%xmm0
+	movsd %xmm8,%xmm0
 L3:
-	movsd -24(%rbp),%xmm10
+	movsd -24(%rbp),%xmm8
 	popq %r15
 	popq %r14
 	popq %r13

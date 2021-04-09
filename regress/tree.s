@@ -170,20 +170,20 @@ L90:
 	subq $8,%rsp
 	pushq %rbx
 	pushq %r12
-	movsd %xmm10,-8(%rbp)
+	movsd %xmm8,-8(%rbp)
 L95:
-	movsd %xmm0,%xmm10
+	movsd %xmm0,%xmm8
 	movq %rdi,%r12
 	movl $-2147483647,%edi
 	call _tree_new
 	movq %rax,%rbx
-	movsd %xmm10,24(%rbx)
+	movsd %xmm8,24(%rbx)
 	leaq 8(%rbx),%rdi
 	movq %r12,%rsi
 	call _type_append_bits
 	movq %rbx,%rax
 L92:
-	movsd -8(%rbp),%xmm10
+	movsd -8(%rbp),%xmm8
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
