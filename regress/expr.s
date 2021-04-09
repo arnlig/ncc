@@ -1451,11 +1451,11 @@ L531:
 	pushq %r13
 	pushq %r14
 L532:
-	leaq -16(%rbp),%r13
+	leaq -16(%rbp),%r12
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
-	leaq -8(%rbp),%r12
-	movq %r13,-8(%rbp)
+	leaq -8(%rbp),%rbx
+	movq %r12,-8(%rbp)
 	movl _token(%rip),%r14d
 	cmpl $25,%r14d
 	jz L542
@@ -1582,15 +1582,12 @@ L577:
 	cmpl $262156,%esi
 	jnz L580
 L578:
-	leaq -32(%rbp),%rbx
-	movq %rbx,%rdi
+	leaq -32(%rbp),%rsi
+	movq %rsi,%rdi
 	call _lex_peek
 	subq $16,%rsp
-	movq %rbx,%rsi
-	movq %rsp,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups -32(%rbp),%xmm0
+	movups %xmm0,(%rsp)
 	call _k_decl
 	addq $16,%rsp
 	movl %eax,%esi
@@ -1604,10 +1601,10 @@ L581:
 	cmpq $0,%rax
 	jz L585
 L587:
-	movq (%r12),%rcx
+	movq (%rbx),%rcx
 	movq %rax,(%rcx)
 	movq 16(%rsi),%rax
-	movq %rax,(%r12)
+	movq %rax,(%rbx)
 	movq $0,8(%rsi)
 	movq %rdi,16(%rsi)
 L585:
@@ -1616,7 +1613,7 @@ L585:
 	jmp L580
 L582:
 	call _lex
-	movq %r13,%rdi
+	movq %r12,%rdi
 	call _abstract_declarator
 	movl $13,%edi
 	call _lex_match
@@ -1692,23 +1689,19 @@ L614:
 	pushq %rbx
 	pushq %r12
 L615:
-	leaq -16(%rbp),%r12
+	leaq -16(%rbp),%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
-	movq %r12,-8(%rbp)
+	movq %rbx,-8(%rbp)
 	movl _token(%rip),%esi
 	cmpl $262156,%esi
 	jnz L618
 L620:
-	leaq -32(%rbp),%rbx
-	movq %rbx,%rdi
+	leaq -32(%rbp),%rdi
 	call _lex_peek
 	subq $16,%rsp
-	movq %rbx,%rsi
-	movq %rsp,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups -32(%rbp),%xmm0
+	movups %xmm0,(%rsp)
 	call _k_decl
 	addq $16,%rsp
 	cmpl $0,%eax
@@ -1716,7 +1709,7 @@ L620:
 L617:
 	movl $262156,%edi
 	call _lex_match
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _abstract_declarator
 	movl $13,%edi
 	call _lex_match

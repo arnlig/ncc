@@ -144,6 +144,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 #define AMD64_SIZE_WORD         1           /* 2 bytes */
 #define AMD64_SIZE_DWORD        2           /* 4 bytes */
 #define AMD64_SIZE_QWORD        3           /* 8 bytes */
+#define AMD64_SIZE_OWORD        4           /* 16 bytes - XMM only */
 
 #define AMD64_I_OPERANDS_MASK       ( 0x00000003 )          /* bits[8:7] */
 #define AMD64_I_OPERANDS_SHIFT      7
@@ -987,17 +988,26 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_XMMZERO     AMD64_I ( 95                                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
-                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_OWORD) \
                                     | AMD64_I_ENC_DEFS(0)                   \
-                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_OWORD) \
                                     | AMD64_I_ENC_DEFS(1)                   )
 
 #define AMD64_I_MOVUPS      AMD64_I ( 96                                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
-                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_OWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
-                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_SIZE(1, AMD64_SIZE_OWORD) \
                                     | AMD64_I_ENC_DEFS(1)                   )
+
+#define AMD64_I_MOVSW       AMD64_I ( 97 | AMD64_I_FLAG_DEFMEM              \
+                                         | AMD64_I_FLAG_USEMEM              )
+
+#define AMD64_I_MOVSL       AMD64_I ( 98 | AMD64_I_FLAG_DEFMEM              \
+                                         | AMD64_I_FLAG_USEMEM              )
+
+#define AMD64_I_MOVSQ       AMD64_I ( 99 | AMD64_I_FLAG_DEFMEM              \
+                                         | AMD64_I_FLAG_USEMEM              )
 
 extern void amd64_insn_construct(struct insn *, va_list);
 extern void amd64_insn_destruct(struct insn *);

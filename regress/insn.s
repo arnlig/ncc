@@ -34,20 +34,21 @@ L10:
 	pushq %rbx
 L18:
 	movq %rdi,%rbx
-	xorl %edx,%edx
+	xorl %esi,%esi
 	cmpq $0,%rbx
 	jz L15
 L13:
 	movl $40,%edi
 	call _safe_malloc
-	movq %rax,%rdx
-	movq %rbx,%rsi
-	movq %rax,%rdi
-	movl $40,%ecx
-	rep
-	movsb
+	movq %rax,%rsi
+	movups (%rbx),%xmm0
+	movups %xmm0,(%rax)
+	movups 16(%rbx),%xmm0
+	movups %xmm0,16(%rax)
+	movq 32(%rbx),%rdi
+	movq %rdi,32(%rax)
 L15:
-	movq %rdx,%rax
+	movq %rsi,%rax
 L12:
 	popq %rbx
 	popq %rbp
@@ -78,11 +79,8 @@ L34:
 	movq %rdi,%rsi
 	movl $1,%edi
 	call _operand_new
-	leaq 24(%rax),%rdi
-	leaq 16(%rbp),%rsi
-	movl $8,%ecx
-	rep
-	movsb
+	movq 16(%rbp),%rsi
+	movq %rsi,24(%rax)
 L31:
 	popq %rbp
 	ret
@@ -544,38 +542,26 @@ L301:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-	pushq %r14
-	pushq %r15
 L305:
-	movq 16(%rbp),%r15
-	movl 8(%r15),%r14d
-	leaq -16(%rbp),%r13
-	leaq 40(%r15),%rbx
-	movq %rbx,%rsi
-	movq %r13,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movq 16(%rbp),%r13
+	movl 8(%r13),%ebx
+	movups 40(%r13),%xmm0
+	movups %xmm0,-16(%rbp)
 	leaq 32(%rbp),%r12
-	movq %r15,%rdi
+	movq %r13,%rdi
 	call _insn_destruct
-	movq %r15,%rdi
+	movq %r13,%rdi
 	xorl %esi,%esi
 	movl $56,%edx
 	call _memset
 	movl 24(%rbp),%esi
-	movq %r15,%rdi
+	movq %r13,%rdi
 	movq %r12,%rdx
 	call _insn_construct
-	movl %r14d,8(%r15)
-	movq %r13,%rsi
-	movq %rbx,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movl %ebx,8(%r13)
+	movups -16(%rbp),%xmm0
+	movups %xmm0,40(%r13)
 L303:
-	popq %r15
-	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx

@@ -877,28 +877,106 @@ static void divmod(pseudo_reg reg, struct amd64_operand *src1,
     }
 }
 
-/* I_BLKCOPY: for now we just use rep movsb for all copies, which is
-   fine for large blocks; we should optimize shorter copies, though. */
+/* I_BLKCOPY: the IR does not tell us the alignment of the regions, so
+   we assume 8-byte alignment and hope for the best. for small copies-
+   those that would involve BLKCOPY_MAX load/store cycles or fewer- we
+   do the copies manually. otherwise we fall back to REP MOVS with an
+   operand size that results in an integral number of cycles; this is
+   probably a decent (not: optimal) choice at least 95% of the time.
+
+   newer CPUs just Do the Right Thing(tm) when handed a REP MOVSB. if
+   you're going to be CISC, that's the obvious way to do it. i have no
+   idea what took them so long to figure that out. */
+
+#define BLKCOPY_MAX     4       /* max 64 bytes, 4 x MOVUPS */
+
+#define BLKCOPY0(op, n, r)                                                  \
+    do {                                                                    \
+        EMIT(insn_new(op, amd64_operand_dup(src1), amd64_operand_dup(r)));  \
+        EMIT(insn_new(op, amd64_operand_dup(r), amd64_operand_dup(dst)));   \
+        bytes -= n;                                                         \
+        dst->i += n;                                                        \
+        src1->i += n;                                                       \
+    } while (0)
 
 static void blkcopy(struct amd64_operand *src1, struct amd64_operand *src2,
                     struct amd64_operand *dst)
 {
-    move(src1, amd64_operand_reg(T_ULONG, AMD64_REG_RSI));
-    move(dst, amd64_operand_reg(T_ULONG, AMD64_REG_RDI));
-    move(src2, amd64_operand_reg(T_ULONG, AMD64_REG_RCX));
-    EMIT(insn_new(AMD64_I_REP));
-    EMIT(insn_new(AMD64_I_MOVSB));
+    struct amd64_operand *tmp;
+    struct amd64_operand *tmp_xmm;
+    size_t bytes;
+    insn_op op;
+    int copies;
+
+    bytes = src2->i;
+    copies = bytes >> 4;            /* number of XMM copies */
+    copies += (bytes >> 3) & 1;     /* number of qword copies */
+    copies += (bytes >> 2) & 1;     /* ... dword ... */
+    copies += (bytes >> 1) & 1;     /* ... word ... */
+    copies += bytes & 1;            /* ... byte ... */
+
+    if (copies > BLKCOPY_MAX) {
+        if (bytes & 1)
+            op = AMD64_I_MOVSB;
+        else if (bytes & 2) {
+            op = AMD64_I_MOVSW;
+            src2->i >>= 1;
+        } else if (bytes & 4) {
+            op = AMD64_I_MOVSL;
+            src2->i >>= 2;
+        } else {
+            op = AMD64_I_MOVSQ;
+            src2->i >>= 3;
+        }
+
+        move(src1, amd64_operand_reg(T_ULONG, AMD64_REG_RSI));
+        move(dst, amd64_operand_reg(T_ULONG, AMD64_REG_RDI));
+        move(src2, amd64_operand_reg(T_ULONG, AMD64_REG_RCX));
+        EMIT(insn_new(AMD64_I_REP));
+        EMIT(insn_new(op));
+    } else {
+        tmp = 0;
+        tmp_xmm = 0;
+        src1 = memorize(src1);
+        dst = memorize(dst);
+
+        while (bytes) {
+            if (bytes >= 16) {
+                if (tmp_xmm == 0)
+                    tmp_xmm = amd64_operand_tmp(T_DOUBLE);
+
+                BLKCOPY0(AMD64_I_MOVUPS, 16, tmp_xmm);
+            } else {
+                if (tmp == 0)
+                    tmp = amd64_operand_tmp(T_LONG);
+
+                if (bytes >= 8)
+                    BLKCOPY0(AMD64_I_MOVQ, 8, tmp);
+                else if (bytes >= 4)
+                    BLKCOPY0(AMD64_I_MOVL, 4, tmp);
+                else if (bytes >= 2)
+                    BLKCOPY0(AMD64_I_MOVW, 2, tmp);
+                else
+                    BLKCOPY0(AMD64_I_MOVB, 1, tmp);
+            }
+        }
+
+        amd64_operand_free(src1);
+        amd64_operand_free(src2);
+        amd64_operand_free(dst);
+        amd64_operand_free(tmp);
+        amd64_operand_free(tmp_xmm);
+    }
 }
 
 /* I_BLKZERO: we cheat a little here- at present, I_BLKZERO is only issued
    to zero stack space for aggregate automatics, and that is likely to
    remain the case (unless we go down the built-in memset()/bzero() path).
    as such, we know that the region we are going to zero is 8-byte aligned,
-   and is also padded to 8 bytes.
+   and- more importantly- we know it's padded an 8-byte boundary.
 
    if the region is larger than BLKZERO_MAX bytes, then we fall back to
-   REP/MOVSQ, which is a reasonable choice given that we're not sure of
-   the microarchitecture. */
+   REP/MOVSQ, which is reasonable since the microarchitecture is unknown. */
 
 #define BLKZERO_MAX 64
 

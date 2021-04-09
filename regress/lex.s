@@ -1081,11 +1081,8 @@ L691:
 	movl %eax,_token(%rip)
 	jmp L690
 L692:
-	movq $_next,%rsi
-	movq $_token,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups _next(%rip),%xmm0
+	movups %xmm0,_token(%rip)
 	movl $0,_next(%rip)
 L690:
 	popq %rbp
@@ -1097,38 +1094,23 @@ L698:
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-	pushq %r12
 L706:
 	movq %rdi,%rbx
 	movl _next(%rip),%esi
 	cmpl $0,%esi
 	jnz L703
 L701:
-	leaq -16(%rbp),%r12
-	movq $_token,%rsi
-	movq %r12,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups _token(%rip),%xmm0
+	movups %xmm0,-16(%rbp)
 	call _lex
-	movq $_token,%rsi
-	movq $_next,%rdi
-	movl $16,%ecx
-	rep
-	movsb
-	movq %r12,%rsi
-	movq $_token,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups _token(%rip),%xmm0
+	movups %xmm0,_next(%rip)
+	movups -16(%rbp),%xmm0
+	movups %xmm0,_token(%rip)
 L703:
-	movq $_next,%rsi
-	movq %rbx,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups _next(%rip),%xmm0
+	movups %xmm0,(%rbx)
 L700:
-	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
@@ -1389,19 +1371,15 @@ _lex_expect:
 L852:
 	pushq %rbp
 	movq %rsp,%rbp
-L860:
-	movl %edi,%eax
+L853:
 	movl _token(%rip),%esi
-	cmpl %eax,%esi
+	cmpl %edi,%esi
 	jz L854
 L855:
 	subq $16,%rsp
-	movq $_token,%rsi
-	movq %rsp,%rdi
-	movl $16,%ecx
-	rep
-	movsb
-	pushq %rax
+	movups _token(%rip),%xmm0
+	movups %xmm0,(%rsp)
+	pushq %rdi
 	pushq $L858
 	pushq $1
 	call _error

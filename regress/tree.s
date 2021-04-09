@@ -1837,15 +1837,12 @@ L892:
 	call _tree_debug
 	jmp L854
 L871:
-	leaq 24(%r13),%rsi
-	movq 8(%r13),%rdi
-	movq (%rdi),%rax
+	movq 8(%r13),%rsi
+	movq (%rsi),%rsi
 	subq $8,%rsp
-	movq %rsp,%rdi
-	movl $8,%ecx
-	rep
-	movsb
-	pushq %rax
+	movq 24(%r13),%rdi
+	movq %rdi,(%rsp)
+	pushq %rsi
 	pushq $L872
 	call _output
 	addq $24,%rsp

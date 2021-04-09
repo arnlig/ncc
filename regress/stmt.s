@@ -682,7 +682,6 @@ L176:
 	movq %rsp,%rbp
 	subq $32,%rsp
 	pushq %rbx
-	pushq %r12
 L179:
 	movl _token(%rip),%esi
 	cmpl $73,%esi
@@ -700,15 +699,10 @@ L241:
 	cmpl $262145,%esi
 	jnz L181
 L186:
-	leaq -16(%rbp),%rbx
-	leaq -32(%rbp),%r12
-	movq %r12,%rdi
+	leaq -32(%rbp),%rdi
 	call _lex_peek
-	movq %r12,%rsi
-	movq %rbx,%rdi
-	movl $16,%ecx
-	rep
-	movsb
+	movups -32(%rbp),%xmm0
+	movups %xmm0,-16(%rbp)
 	movl -16(%rbp),%esi
 	cmpl $486539286,%esi
 	jnz L181
@@ -809,7 +803,6 @@ L205:
 L193:
 	call _goto_statement
 L178:
-	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp

@@ -502,15 +502,12 @@ L210:
 L211:
 	movq $0,-8(%rbp)
 L32:
-	leaq -8(%rbp),%rsi
-	movq 16(%rbx),%rdi
-	movq 8(%rdi),%rax
+	movq 16(%rbx),%rsi
+	movq 8(%rsi),%rsi
 	subq $8,%rsp
-	movq %rsp,%rdi
-	movl $8,%ecx
-	rep
-	movsb
-	movq %rax,%rdi
+	movq -8(%rbp),%rdi
+	movq %rdi,(%rsp)
+	movq %rsi,%rdi
 	call _operand_con
 	addq $8,%rsp
 	movq %rax,%r13
