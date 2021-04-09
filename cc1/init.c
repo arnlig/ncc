@@ -188,8 +188,6 @@ static void word(struct tree *tree)
         case T_DOUBLE:      output("\t.quad %X", tree->con.i);
                             break;
         }
-
-        output(" # %f", tree->con.f);
     } else {
         switch (ts)
         {

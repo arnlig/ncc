@@ -1,7 +1,7 @@
 .text
 .align 8
 L242:
-	.quad 0xbff0000000000000 # -1.000000
+	.quad 0xbff0000000000000
 _fold0:
 L3:
 	pushq %rbp

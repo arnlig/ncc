@@ -14,14 +14,21 @@
 # files are empty, then there is a high degree of confidence that the compiler
 # is working properly.
 #
-# we save the stage3 output of selected files (SAVED_FILES) in regress/.
-# these files are included in the repository and can be used to compare
-# the quality of code output between successive versions of the compiler.
-# we choose a selection of files whose sources are mostly stable.
+# we save the stage3 output of selected files (SAVED_FILES and LIBC_FUNCS)
+# in regress/.  these files are included in the repository and can be used
+# to check for ... regressions ... and to compare the quality of code output
+# between revisions of the compiler. we try to choose a selection of files
+# whose sources are stable and which present varied input to the compiler.
 
 SAVED_FILES="cpp.s directive.s evaluate.s input.s token.s macro.s vstring.s \
 	     lex.s expr.s fold.s gen.s stmt.s tree.s string.s symbol.s \
              bitset.s blks.s block.s copy.s dead.s insn.s loop.s prop.s"
+
+LIBC_FUNCS=
+for i in `ls libc/*.c`
+do
+	LIBC_FUNCS="`basename -s .c $i` $LIBC_FUNCS"
+done
 
 ROOT=/tmp/ncc-regress
 
@@ -46,6 +53,12 @@ build_stage()
 	mv cc1/*.s $ROOT/$2/out
 	$ROOT/$2/bin/ncc -S cpp/*.c
 	mv cpp/*.s $ROOT/$2/out
+
+	for i in $LIBC_FUNCS
+	do
+		$ROOT/$2/bin/ncc -S -n -Ilibc/include libc/$i.c
+		mv libc/$i.s $ROOT/$2/out
+	done
 }
 
 diff_stages()
@@ -74,6 +87,11 @@ diff_stages stage2 stage3
 for i in $SAVED_FILES
 do
 	mv $ROOT/stage3/out/$i regress/
+done
+
+for i in $LIBC_FUNCS
+do
+	mv $ROOT/stage3/out/$i.s regress/
 done
 
 #rm -rf $ROOT

@@ -494,7 +494,7 @@ L217:
 L222:
 .align 8
 L242:
-	.quad 0x0 # 0.000000
+	.quad 0x0
 _tree_nonzero:
 L223:
 	pushq %rbp
@@ -567,7 +567,7 @@ L246:
 L264:
 .align 8
 L640:
-	.quad 0xbff0000000000000 # -1.000000
+	.quad 0xbff0000000000000
 _simplify0:
 L266:
 	pushq %rbp

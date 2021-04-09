@@ -127,7 +127,7 @@ L47:
 L52:
 .align 8
 L64:
-	.quad 0x0 # 0.000000
+	.quad 0x0
 _operand_zero:
 L53:
 	pushq %rbp
@@ -149,7 +149,7 @@ L55:
 L66:
 .align 8
 L78:
-	.quad 0x3ff0000000000000 # 1.000000
+	.quad 0x3ff0000000000000
 _operand_one:
 L67:
 	pushq %rbp
