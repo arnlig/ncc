@@ -159,7 +159,7 @@ L73:
 	movsd %xmm0,-16(%rbp)
 L75:
 	movsd -16(%rbp),%xmm0
-	cvtsd2sil %xmm0,%r14d
+	cvttsd2sil %xmm0,%r14d
 	movl %r14d,%r13d
 	movl %r14d,%esi
 	negl %esi
@@ -220,7 +220,7 @@ L109:
 	ucomisd L134(%rip),%xmm10
 	jz L108
 L106:
-	cvtsd2sil %xmm10,%esi
+	cvttsd2sil %xmm10,%esi
 	leal 48(%rsi),%edi
 	movq %r12,%rcx
 	addq $1,%r12

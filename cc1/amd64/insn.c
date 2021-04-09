@@ -714,7 +714,7 @@ static char *amd64_insn_text[] =        /* keyed to AMD64_I_INDEX() */
     /*   8 */   "movswl",       "movzwl",       "movswq",       "movzwq",
     /*  12 */   "movslq",       "movl",         "movss",        "movsd",
     /*  16 */   "cvtsi2ssl",    "cvtsi2ssq",    "cvtsi2sdl",    "cvtsi2sdq",
-    /*  20 */   "cvtss2sil",    "cvtss2siq",    "cvtsd2sil",    "cvtsd2siq",
+    /*  20 */   "cvttss2sil",   "cvttss2siq",   "cvttsd2sil",   "cvttsd2siq",
     /*  24 */   "cvtss2sd",     "cvtsd2ss",     "xorl",         "pushq",
     /*  28 */   "popq",         "leal",         "leaq",         "setz",
     /*  32 */   "setnz",        "setg",         "setle",        "setge",
