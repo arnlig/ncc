@@ -236,4 +236,62 @@ void testz_middle(void)
     nop();
 }
 
+/* after target code generation is complete, but before register
+   allocation, we look for unnecessary 0 comparisons- that is, if
+   an instruction sets the Z flag based on a register's value as
+   a side effect, and then we later compare it against zero, then
+   we can eliminate the comparison. e.g., on AMD64:
+
+                        shlq $1,%r12
+                        cmpq $0,%r12
+                        jnz L83
+
+   the middle instruction is unnecessary.
+
+   this doesn't remove nearly as many comparisons as you'd think.
+   frankly, it might not be worth the cost, because this pass relies
+   on live analysis. on the other hand, it only relies on LOCAL live
+   variable data (i.e., only the condition codes), which is cheaper
+   to compute. if we ever separate local live analysis from global
+   analysis (note: todo) this would be easier to justify. */
+
+static blocks_iter_ret late0(struct block *b)
+{
+    struct insn *insn;
+    struct range *r;
+    pseudo_reg z_reg;
+    pseudo_reg test_reg;
+    ccset zs;
+    ccset ccs;
+
+    CCSET_CLEAR(zs);
+    CCSET_SET(zs, CC_Z);
+    CCSET_SET(zs, CC_NZ);
+
+    z_reg = PSEUDO_REG_NONE;
+    test_reg = PSEUDO_REG_NONE;
+
+    INSNS_FOREACH(insn, &b->insns) {
+        if (insn_defs_z(insn, &z_reg))
+            continue;
+
+        if (insn_test_z(insn, &test_reg) && (test_reg == z_reg)) {
+            ccs = live_ccs(b, insn);
+
+            if (CCSET_SAME(ccs, CCSET_INTERSECT(ccs, zs)))
+                insn_replace(insn, I_NOP);
+        } else
+            if (insn_defs_cc(insn))
+                z_reg = PSEUDO_REG_NONE;
+    }
+
+    return BLOCKS_ITER_OK;
+}
+
+void testz_late(void)
+{
+    live_analyze();
+    blocks_iter(late0);
+}
+
 /* vi: set ts=4 expandtab: */

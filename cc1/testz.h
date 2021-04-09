@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 extern void testz_early(void);
 extern void testz_middle(void);
+extern void testz_late(void);
 
 #endif /* TESTZ_H */
 

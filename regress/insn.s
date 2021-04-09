@@ -1487,7 +1487,7 @@ L849:
 	popq %rbp
 	ret
 L866:
-_insn_defs_regs:
+_insn_defs_z:
 L867:
 	pushq %rbp
 	movq %rsp,%rbp
@@ -1497,136 +1497,155 @@ L868:
 	jz L871
 L870:
 	movq _target(%rip),%rax
-	movq 144(%rax),%rax
+	movq 216(%rax),%rax
 	call *%rax
 	jmp L869
 L871:
+	xorl %eax,%eax
+L869:
+	popq %rbp
+	ret
+L878:
+_insn_defs_regs:
+L879:
+	pushq %rbp
+	movq %rsp,%rbp
+L880:
+	movl (%rdi),%eax
+	testl $2147483648,%eax
+	jz L883
+L882:
+	movq _target(%rip),%rax
+	movq 144(%rax),%rax
+	call *%rax
+	jmp L881
+L883:
 	movq 16(%rdi),%rax
 	cmpq $0,%rax
-	jz L875
-L881:
+	jz L887
+L893:
 	cmpq $0,%rax
-	jz L875
-L885:
+	jz L887
+L897:
 	movl (%rax),%ecx
 	cmpl $2,%ecx
-	jnz L875
-L877:
+	jnz L887
+L889:
 	movl (%rdi),%edi
 	testl $4194304,%edi
-	jnz L875
-L874:
+	jnz L887
+L886:
 	cmpq $0,%rsi
-	jz L891
-L889:
+	jz L903
+L901:
 	movl 24(%rax),%eax
 	movq %rsi,%rdi
 	movl %eax,%esi
 	movl $1,%edx
 	call _regs_lookup
-L891:
+L903:
 	movl $1,%eax
-	jmp L869
-L875:
+	jmp L881
+L887:
 	xorl %eax,%eax
-L869:
+L881:
 	popq %rbp
 	ret
-L897:
+L909:
 _insn_uses_regs:
-L898:
+L910:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L961:
+L973:
 	movq %rsi,%r12
 	movq %rdi,%rbx
 	xorl %r13d,%r13d
 	movl (%rbx),%esi
 	testl $2147483648,%esi
-	jz L902
-L901:
+	jz L914
+L913:
 	movq _target(%rip),%rsi
 	movq 152(%rsi),%rax
 	movq %rbx,%rdi
 	movq %r12,%rsi
 	call *%rax
-	jmp L900
-L902:
+	jmp L912
+L914:
 	movl (%rbx),%esi
 	testl $4194304,%esi
-	jz L925
-L908:
+	jz L937
+L920:
 	movq 16(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L925
-L914:
+	jz L937
+L926:
 	cmpq $0,%rsi
-	jz L925
-L918:
+	jz L937
+L930:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L925
-L911:
+	jnz L937
+L923:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L925
-L922:
+	jz L937
+L934:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L925:
+L937:
 	movq 24(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L942
-L931:
+	jz L954
+L943:
 	cmpq $0,%rsi
-	jz L942
-L935:
+	jz L954
+L947:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L942
-L928:
+	jnz L954
+L940:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L942
-L939:
+	jz L954
+L951:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L942:
+L954:
 	movq 32(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L943
-L948:
+	jz L955
+L960:
 	cmpq $0,%rsi
-	jz L943
-L952:
+	jz L955
+L964:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L943
-L945:
+	jnz L955
+L957:
 	movl $1,%r13d
 	cmpq $0,%r12
-	jz L943
-L956:
+	jz L955
+L968:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L943:
+L955:
 	movl %r13d,%eax
-L900:
+L912:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L963:
+L975:
 .globl _regs_lookup
 .globl _insns_swap
 .globl _insn_dup
@@ -1647,6 +1666,7 @@ L963:
 .globl _operand_is_one
 .globl _operand_one
 .globl _insn_new
+.globl _insn_defs_z
 .globl _insn_test_z
 .globl _operand_is_zero
 .globl _operand_zero

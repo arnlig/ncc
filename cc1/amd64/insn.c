@@ -500,6 +500,77 @@ bool amd64_insn_side_effects(struct insn *insn)
     return ret;
 }
 
+/* if the instruction compares a reg against 0, 
+   return TRUE and (if reg is not 0) set *reg.
+   otherwise return FALSE and leave *reg alone. */
+
+bool amd64_insn_test_z(struct insn *insn, pseudo_reg *reg)
+{
+    struct amd64_operand *o;
+
+    o = 0;
+
+    switch (insn->op)
+    {
+    case AMD64_I_CMPL:
+    case AMD64_I_CMPQ:
+        if (AMD64_OPERAND_ZERO(insn->amd64[0]) ||
+          AMD64_OPERAND_ZERO(insn->amd64[1])) {
+            if (AMD64_OPERAND_REG(insn->amd64[1]))
+                o = insn->amd64[0];
+
+            if (AMD64_OPERAND_REG(insn->amd64[1]))
+                o = insn->amd64[1];
+
+            if (o) {
+                if (reg)
+                    *reg = o->reg;
+
+                return TRUE;
+            }
+        }
+    }   
+
+    if (o) {
+        if (reg)
+            *reg = o->reg;
+
+        return TRUE;
+    } else
+        return FALSE;
+}
+
+/* if the instruction is known to set the Z flag
+   based on the resulting value of a reg, then (if
+   reg is not 0) set *reg and return TRUE, otherwise
+   return FALSE and leave *reg untouched. */
+
+#define DEFS_Z0(n)                                                          \
+    do {                                                                    \
+        if (AMD64_I_DEFS(insn->op, n) && AMD64_OPERAND_REG(insn->amd64[n])) \
+            o = insn->amd64[n];                                             \
+    } while (0)
+
+bool amd64_insn_defs_z(struct insn *insn, pseudo_reg *reg)
+{
+    struct amd64_operand *o;
+
+    o = 0;
+
+    if (AMD64_I_DEF_Z(insn->op)) {
+        DEFS_Z0(0);
+        DEFS_Z0(1);
+    }
+
+    if (o) {
+        if (reg)
+            *reg = o->reg;
+        
+        return TRUE;
+    } else
+        return FALSE;
+}
+
 /* if the instruction is a reg to reg copy. */
 
 bool amd64_insn_copy(struct insn *insn, pseudo_reg *dst, pseudo_reg *src)

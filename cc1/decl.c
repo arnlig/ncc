@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "gen.h"
 #include "output.h"
 #include "target.h"
+#include "testz.h"
 #include "graph.h"
 #include "switch.h"
 #include "decl.h"
@@ -761,6 +762,7 @@ static void function_definition(struct symbol *sym, struct type *type)
     if (!debug_flag_i) {
         gen_args();
         target->gen();
+        testz_late();
 
         if (!debug_flag_g) {
             graph_alloc();

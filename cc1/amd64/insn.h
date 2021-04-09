@@ -182,6 +182,12 @@ extern bool amd64_operands_same(struct amd64_operand *,
 #define AMD64_I_FARGS_MASK          ( 0x00000007 )          /* bits[22:20] */
 #define AMD64_I_FARGS_SHIFT         20
 
+/* bit 23 is on when the insn sets the Z flag
+   properly if the register DEFd is zero */
+
+#define AMD64_I_FLAG_DEF_Z          ( 0x00800000 )
+#define AMD64_I_DEF_Z(i)            ((i) & AMD64_I_FLAG_DEF_Z)
+
 /* and bits 24 and 25 indicate whether
    operand 0 or 1 can be a memory reference */
 
@@ -567,6 +573,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SHLL        AMD64_I ( 44                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -576,6 +583,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SHLQ        AMD64_I ( 45                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -585,6 +593,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SHRL        AMD64_I ( 46                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -594,6 +603,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SHRQ        AMD64_I ( 47                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -603,6 +613,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SARL        AMD64_I ( 48                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -612,6 +623,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SARQ        AMD64_I ( 49                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -621,6 +633,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ADDL        AMD64_I ( 50                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -632,6 +645,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ADDQ        AMD64_I ( 51                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -659,6 +673,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SUBL        AMD64_I ( 54                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -670,6 +685,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_SUBQ        AMD64_I ( 55                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -697,6 +713,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ANDL        AMD64_I ( 58                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -708,6 +725,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ANDQ        AMD64_I ( 59                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -719,6 +737,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ORL         AMD64_I ( 60                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -730,6 +749,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_ORQ         AMD64_I ( 61                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -741,6 +761,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_XORL        AMD64_I ( 62                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -752,6 +773,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_XORQ        AMD64_I ( 63                                    \
                                     | AMD64_I_FLAG_DEFCC                    \
+                                    | AMD64_I_FLAG_DEF_Z                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
@@ -1015,6 +1037,8 @@ extern void amd64_insn_output(struct insn *);
 extern bool amd64_insn_defs_cc(struct insn *);
 extern ccset amd64_insn_uses_cc(struct insn *);
 extern bool amd64_insn_side_effects(struct insn *);
+extern bool amd64_insn_test_z(struct insn *, pseudo_reg *);
+extern bool amd64_insn_defs_z(struct insn *, pseudo_reg *);
 extern bool amd64_insn_defs_mem(struct insn *);
 extern bool amd64_insn_uses_mem(struct insn *);
 extern bool amd64_insn_defs_regs(struct insn *, struct regs *);

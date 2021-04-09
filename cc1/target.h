@@ -81,6 +81,7 @@ struct target
     bool (*insn_side_effects)(struct insn *);
     bool (*insn_test_z)(struct insn *, pseudo_reg *);
     bool (*insn_test_con)(struct insn *, pseudo_reg *);
+    bool (*insn_defs_z)(struct insn *, pseudo_reg *);
     bool (*reg_physical)(pseudo_reg);
     pseudo_reg_class (*reg_class)(pseudo_reg);
     int (*reg_k)(pseudo_reg);

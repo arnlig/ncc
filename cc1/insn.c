@@ -678,6 +678,19 @@ bool insn_test_z(struct insn *insn, pseudo_reg *reg)
     }
 }
 
+/* returns TRUE if the Z flag is set by the insn
+   when a register is set to zero by said insn. if
+   so and reg is not 0, set *reg to that register;
+   otherwise leaves *reg unchanged. */
+
+bool insn_defs_z(struct insn *insn, pseudo_reg *reg)
+{
+    if (I_TARGET(insn->op))
+        return target->insn_defs_z(insn, reg);
+    else
+        return FALSE;
+}
+
 /* returns TRUE if this instruction DEFs any registers. if so,
    and regs is not 0, the DEFd registers are added to the set. */
 

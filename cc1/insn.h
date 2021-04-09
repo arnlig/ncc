@@ -404,6 +404,7 @@ extern bool insn_uses_regs(struct insn *, struct regs *);
 extern bool insn_side_effects(struct insn *);
 extern bool insn_test_z(struct insn *, pseudo_reg *);
 extern bool insn_test_con(struct insn *, pseudo_reg *);
+extern bool insn_defs_z(struct insn *, pseudo_reg *);
 extern struct operand *insn_con(struct insn *, pseudo_reg *);
 extern bool insn_substitute_con(struct insn *, pseudo_reg, struct operand *);
 

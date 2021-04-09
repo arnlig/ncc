@@ -69,7 +69,6 @@ L31:
 	jae L35
 L34:
 	addl $-48,%r13d
-	cmpl $0,%r13d
 	jnz L39
 L40:
 	testl $2,%r12d

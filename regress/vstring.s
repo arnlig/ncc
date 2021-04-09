@@ -187,7 +187,6 @@ L83:
 	jae L82
 L81:
 	shlq $1,%r12
-	cmpq $0,%r12
 	jnz L83
 L82:
 	cmpq $0,%r12
