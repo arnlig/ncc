@@ -26,7 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef CAST_H
 #define CAST_H
 
-extern struct tree *cast_opt(struct tree *);
+extern struct tree *cast_tree_opt(struct tree *);
 
 #endif /* CAST_H */
 

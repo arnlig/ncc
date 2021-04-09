@@ -37,7 +37,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "gen.h"
 #include "output.h"
 #include "target.h"
-#include "testz.h"
 #include "graph.h"
 #include "switch.h"
 #include "decl.h"
@@ -756,13 +755,13 @@ static void function_definition(struct symbol *sym, struct type *type)
     block_add_successor(current_block, CC_ALWAYS, exit_block);
 
     dealias();
-    optimize();
+    opt_early();
     switch_gen();
 
     if (!debug_flag_i) {
         gen_args();
         target->gen();
-        testz_late();
+        opt_late();
 
         if (!debug_flag_g) {
             graph_alloc();

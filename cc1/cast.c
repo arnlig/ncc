@@ -110,7 +110,7 @@ static bool cast_reclass(struct tree *tree)
 
          char c; c = ~ (char) (int) c;
  
-   and, in this case, cast_opt() will eliminate both.
+   and, in this case, cast_tree_opt() will eliminate both.
 
    it's not always a win, but this transformation never
    results in more casts than we started with. */
@@ -121,7 +121,7 @@ static struct tree *cast_opt_unary(struct tree *tree)
       && TREE_UNARY(tree->child) && (tree->child->op & E_2S)) {
         tree = tree_chop_unary(tree);
         tree->child = tree_cast(tree->child, &tree->type);
-        tree->child = cast_opt(tree->child);
+        tree->child = cast_tree_opt(tree->child);
     }
 
     return tree;
@@ -141,9 +141,9 @@ static struct tree *cast_opt_binary(struct tree *tree)
       || cast_widen(tree->child->left) || cast_widen(tree->child->right))) {
         tree = tree_chop_unary(tree);
         tree->left = tree_cast(tree->left, &tree->type);
-        tree->left = cast_opt(tree->left);
+        tree->left = cast_tree_opt(tree->left);
         tree->right = tree_cast(tree->right, &tree->type);
-        tree->right = cast_opt(tree->right);
+        tree->right = cast_tree_opt(tree->right);
     }
 
     return tree;
@@ -153,7 +153,7 @@ static struct tree *cast_opt_binary(struct tree *tree)
    tree_opt() calls this bottom-up so there is no need to
    descend, but we do need to loop in case of eliminations. */
 
-struct tree *cast_opt(struct tree *tree)
+struct tree *cast_tree_opt(struct tree *tree)
 {
     for (;;) {
         /* useless casts are ... useless:  int x; (int) x; */

@@ -26,7 +26,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef OPT_H
 #define OPT_H
 
-extern void optimize(void);
+extern void opt_early(void);
+extern void opt_late(void);
+
 extern void unreach(void);
 extern void prune(void);
 extern void nop(void);

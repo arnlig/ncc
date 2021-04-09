@@ -52,7 +52,7 @@ long field_mask(int size, int shift)
    binary operands to be normalized, at least to the extent that
    a pure constant 0 operand will be on the right. */
 
-struct tree *field_opt(struct tree *tree)
+struct tree *field_tree_opt(struct tree *tree)
 {
     struct type type = TYPE_INITIALIZER(type);
     long mask;

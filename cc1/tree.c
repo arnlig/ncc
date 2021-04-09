@@ -564,9 +564,9 @@ struct tree *tree_opt(struct tree *tree)
     TREE_DESCEND(tree, tree_opt);
 
     if (tree->op == E_CAST)
-        tree = cast_opt(tree);
+        tree = cast_tree_opt(tree);
 
-    tree = field_opt(tree);
+    tree = field_tree_opt(tree);
 
     return tree;
 }

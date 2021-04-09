@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "testz.h"
 #include "slvn.h"
 #include "load.h"
+#include "testz.h"
 #include "opt.h"
 
 /* remove unreachable code. our technique is simple: do a depth-first
@@ -156,7 +157,13 @@ void coal(void)
    them are real, but we don't want to make compile times long but
    needlessly invoking passes that don't have anything left to do. */
 
-void optimize(void)
+
+/* early optimization occurs almost immediately after the IR generation for
+   a function is complete. the IR has been dealiased, and at this stage is
+   devoid of target machine registers, and is missing the target arg-loading
+   preamble. switch blocks have not yet been generated: CC_SWITCHes remain. */
+
+void opt_early(void)
 {
     unreach();
     prune();
@@ -175,6 +182,15 @@ void optimize(void)
     copy();
     coal();
     testz_middle();
+}
+
+/* late optimization occurs immediately after the target IR is generated,
+   but before register allocation. obviously, all these passes must be
+   capable of working on the machine-dependent IR. */
+
+void opt_late(void)
+{
+    testz_late();
 }
 
 /* vi: set ts=4 expandtab: */
