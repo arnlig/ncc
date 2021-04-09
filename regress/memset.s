@@ -14,10 +14,9 @@ L7:
 	addq $-1,%rdx
 	jz L3
 L8:
-	movl %esi,%ecx
-	movq %rdi,%r8
+	movq %rdi,%rcx
 	addq $1,%rdi
-	movb %cl,(%r8)
+	movb %sil,(%rcx)
 	jmp L7
 L3:
 	popq %rbp

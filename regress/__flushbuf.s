@@ -140,8 +140,7 @@ L38:
 	testl $4,%esi
 	jz L59
 L58:
-	movl %r12d,%esi
-	movb %sil,-8(%rbp)
+	movb %r12b,-8(%rbp)
 	movl $0,(%rbx)
 	movl 8(%rbx),%esi
 	testl $512,%esi
@@ -179,12 +178,11 @@ L59:
 	testl $64,%esi
 	jz L74
 L73:
-	movl %r12d,%esi
-	movq 24(%rbx),%rdi
-	movq %rdi,%rax
-	addq $1,%rdi
-	movq %rdi,24(%rbx)
-	movb %sil,(%rax)
+	movq 24(%rbx),%rsi
+	movq %rsi,%rdi
+	addq $1,%rsi
+	movq %rsi,24(%rbx)
+	movb %r12b,(%rdi)
 	cmpl $10,%r12d
 	jz L76
 L79:
@@ -272,9 +270,8 @@ L104:
 	movl $-1,%eax
 	jmp L19
 L96:
-	movl %r12d,%esi
-	movq 16(%rbx),%rdi
-	movb %sil,(%rdi)
+	movq 16(%rbx),%rsi
+	movb %r12b,(%rsi)
 L60:
 	movzbl %r12b,%eax
 L19:

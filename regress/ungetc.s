@@ -31,11 +31,10 @@ L17:
 	movq %rdi,24(%rsi)
 L14:
 	addl $1,(%rsi)
-	movl %eax,%edi
-	movq 24(%rsi),%rcx
-	addq $-1,%rcx
-	movq %rcx,24(%rsi)
-	movb %dil,(%rcx)
+	movq 24(%rsi),%rdi
+	addq $-1,%rdi
+	movq %rdi,24(%rsi)
+	movb %al,(%rdi)
 L3:
 	popq %rbp
 	ret

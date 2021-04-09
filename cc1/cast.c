@@ -68,11 +68,10 @@ static bool cast_widen(struct tree *tree)
         return FALSE;
 }
 
-/* narrows the representation with a class:
+/* narrows the representation within a class:
    e.g., long to int, double to float. */
 
-static bool cast_narrow(struct tree *tree)
-
+bool cast_narrow(struct tree *tree)
 {
     if (tree->op == E_CAST)
         return

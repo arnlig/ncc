@@ -209,9 +209,8 @@ L104:
 	leaq 32(%rbx),%rsi
 	leaq 32(%r12),%rdi
 	call _type_copy
-	movl %r14d,%esi
-	movl 64(%rbx),%edi
-	addl %edi,%esi
+	movl 64(%rbx),%esi
+	addl %r14d,%esi
 	movl %esi,64(%r12)
 	leaq 48(%r13),%rdi
 	movq %r12,%rsi

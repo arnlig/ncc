@@ -426,8 +426,8 @@ L65:
 	cmpq $0,%r14
 	jnz L131
 L129:
-	movl %ebx,%esi
 	movl %r13d,%edi
+	movl %ebx,%esi
 	call _toasc
 	movq %rax,%r14
 L131:

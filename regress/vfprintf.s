@@ -331,11 +331,11 @@ L194:
 	cmpl $104,-592(%rbp)	 # spill
 	jnz L196
 L195:
-	movl -536(%rbp),%edi	 # spill
 	addq $8,-576(%rbp)	 # spill
 	movq -576(%rbp),%r10	 # spill
 	movq -8(%r10),%rsi
-	movw %di,(%rsi)
+	movl -536(%rbp),%r10d	 # spill
+	movw %r10w,(%rsi)
 	jmp L109
 L196:
 	cmpl $108,-592(%rbp)	 # spill
@@ -429,8 +429,7 @@ L132:
 	cmpl $104,-592(%rbp)	 # spill
 	jnz L136
 L134:
-	movl %edi,%esi
-	movzwq %si,%rsi
+	movzwq %di,%rsi
 L136:
 	cmpl $0,%eax
 	jz L122
@@ -457,12 +456,11 @@ L108:
 	cmpl $0,%esi
 	jl L203
 L202:
-	movl %ecx,%esi
-	movq 24(%r12),%rdi
-	movq %rdi,%rax
-	addq $1,%rdi
-	movq %rdi,24(%r12)
-	movb %sil,(%rax)
+	movq 24(%r12),%rsi
+	movq %rsi,%rdi
+	addq $1,%rsi
+	movq %rsi,24(%r12)
+	movb %cl,(%rdi)
 	jmp L28
 L203:
 	movl %ecx,%edi
@@ -487,8 +485,7 @@ L171:
 L173:
 	addq $8,-576(%rbp)	 # spill
 	movq -576(%rbp),%r10	 # spill
-	movl -8(%r10),%esi
-	movl %esi,%edi
+	movl -8(%r10),%edi
 	movq %r15,%rsi
 	leaq -511(%rbp),%r15
 	movb %dil,(%rsi)
@@ -511,8 +508,7 @@ L114:
 	cmpl $104,-592(%rbp)	 # spill
 	jnz L118
 L116:
-	movl %edi,%esi
-	movswq %si,%rsi
+	movswq %di,%rsi
 L118:
 	cmpq $0,%rsi
 	jge L120
@@ -539,7 +535,7 @@ L162:
 	movq %rax,%rsi
 	movq %rsi,%r15
 	subq -600(%rbp),%rsi	 # spill
-	movl %esi,%edi
+	movq %rsi,%rdi
 	movl %r13d,%esi
 	subl %edi,%esi
 	movl %esi,-624(%rbp)	 # spill
@@ -551,8 +547,8 @@ L163:
 L109:
 	movq %r15,%rsi
 	subq %r14,%rsi
-	movl %esi,%eax
-	movl %eax,%esi
+	movq %rsi,%rax
+	movq %rax,%rsi
 	movl -520(%rbp),%edi
 	cmpl $0,%edi
 	jz L208
@@ -617,12 +613,12 @@ L245:
 	cmpl $0,%esi
 	jl L248
 L247:
-	movl -568(%rbp),%esi	 # spill
-	movq 24(%r12),%rdi
-	movq %rdi,%rax
-	addq $1,%rdi
-	movq %rdi,24(%r12)
-	movb %sil,(%rax)
+	movq 24(%r12),%rsi
+	movq %rsi,%rdi
+	addq $1,%rsi
+	movq %rsi,24(%r12)
+	movl -568(%rbp),%r10d	 # spill
+	movb %r10b,(%rdi)
 	jmp L244
 L248:
 	movl -568(%rbp),%edi	 # spill
@@ -725,12 +721,12 @@ L277:
 	cmpl $0,%esi
 	jl L281
 L280:
-	movl -616(%rbp),%esi	 # spill
-	movq 24(%r12),%rdi
-	movq %rdi,%rax
-	addq $1,%rdi
-	movq %rdi,24(%r12)
-	movb %sil,(%rax)
+	movq 24(%r12),%rsi
+	movq %rsi,%rdi
+	addq $1,%rsi
+	movq %rsi,24(%r12)
+	movl -616(%rbp),%r10d	 # spill
+	movb %r10b,(%rdi)
 	jmp L283
 L281:
 	movl -616(%rbp),%edi	 # spill

@@ -2142,7 +2142,7 @@ L801:
 	movl $128,%edi
 	xorl %esi,%esi
 	call _int_expression
-	movl %eax,%ebx
+	movq %rax,%rbx
 	cmpl $134217728,%ebx
 	jle L805
 L803:

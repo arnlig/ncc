@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "insn.h"
 #include "block.h"
 #include "tree.h"
+#include "cast.h"
 #include "gen.h"
 
 /* given an integer leaf, generate a branch
@@ -358,10 +359,17 @@ static struct tree *gen_asg(struct tree *tree)
     return gen(tree, 0);
 }
 
-/* casts are straightforward. look out for voids. */
+/* there are two special cases to look out for with casts:
+
+   1. casts to void: no-op, but convert to void nodes
+   2. discrete downcasts: since the values do not change (we
+      merely disregard the upper bits), we emit I_MOVE insns
+      instead of I_CASTs, taking care to rewrite the source
+      type, since src/dst must have the same type. */
 
 static struct tree *gen_cast(struct tree *tree)
 {
+    struct insn *insn;
     struct symbol *temp;
 
     tree->child = gen(tree->child, 0);
@@ -372,8 +380,15 @@ static struct tree *gen_cast(struct tree *tree)
     } else {
         temp = symbol_temp(&tree->type);
 
-        EMIT(insn_new(I_CAST, operand_sym(temp),
-                              operand_leaf(tree->child)));
+        if (TYPE_DISCRETE(&tree->type) && cast_narrow(tree)) {
+            insn = insn_new(I_MOVE, operand_sym(temp),
+                                    operand_leaf(tree->child));
+
+            insn->src1->ts = insn->dst->ts;
+            EMIT(insn);
+        } else
+            EMIT(insn_new(I_CAST, operand_sym(temp),
+                                  operand_leaf(tree->child)));
     
         tree_free(tree);
         return tree_sym(temp);

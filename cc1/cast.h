@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define CAST_H
 
 extern struct tree *cast_tree_opt(struct tree *);
+extern bool cast_narrow(struct tree *);
 
 #endif /* CAST_H */
 

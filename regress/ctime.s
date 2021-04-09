@@ -521,7 +521,7 @@ L252:
 	movq %rsi,%rax
 	cqto
 	idivq %rdi
-	movl %eax,%edi
+	movq %rax,%rdi
 	movl %edi,%ebx
 	movl $86400,%ecx
 	movq %rsi,%rax
