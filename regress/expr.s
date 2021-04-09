@@ -1473,8 +1473,6 @@ L575:
 	movl $402653966,%esi
 	movl %r14d,%edx
 	call _crement
-	movq %rax,%rsi
-	movq %rsi,%rax
 	jmp L533
 L603:
 	cmpl $29,%r14d
@@ -1496,8 +1494,6 @@ L609:
 	jz L560
 L535:
 	call _postfix
-	movq %rax,%rsi
-	movq %rsi,%rax
 	jmp L533
 L560:
 	call _lex
@@ -1531,8 +1527,6 @@ L561:
 L563:
 	movq %rbx,%rdi
 	call _tree_addrof
-	movq %rax,%rsi
-	movq %rsi,%rax
 	jmp L533
 L538:
 	movl $1082130439,%ebx
@@ -1573,8 +1567,6 @@ L547:
 	movq %rbx,%rdi
 	xorl %esi,%esi
 	call _tree_fetch
-	movq %rax,%rsi
-	movq %rsi,%rax
 	jmp L533
 L577:
 	call _lex
@@ -1638,8 +1630,6 @@ L558:
 	movq %rsi,%rdi
 	movl $407896116,%esi
 	call _test_expression
-	movq %rax,%rsi
-	movq %rsi,%rax
 	jmp L533
 L542:
 	movl $1082130441,%ebx
@@ -1920,7 +1910,6 @@ L691:
 L692:
 	call _ternary
 	movq %rax,%rbx
-	movq %rbx,%rax
 	movl _token(%rip),%r12d
 	movl %r12d,%esi
 	andl $15728640,%esi
@@ -2138,7 +2127,7 @@ L800:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L801:
+L809:
 	movl $128,%edi
 	xorl %esi,%esi
 	call _int_expression

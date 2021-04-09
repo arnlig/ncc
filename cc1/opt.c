@@ -84,29 +84,42 @@ void prune(void)
     blocks_iter(prune0);
 }
 
-/* remove no-ops: some optimizations leave I_NOPs where instructions
-   used to be. we also take care of no-op self-copies which typically
-   arise from other optimization passes rather than user constructs. */
+/* remove no-ops: some optimizations leave I_NOPs where instructions used
+   to be. we also take care of no-op self copies and mutual copies which
+   typically arise from within the compiler rather than user constructs. */
 
 static bool need_prune;
 
 static blocks_iter_ret nop0(struct block *b)
 {
     struct insn *insn;
+    struct insn *prev;
     struct insn *next;
     pseudo_reg dst;
     pseudo_reg src;
+    pseudo_reg prev_dst;
+    pseudo_reg prev_src;
 
-    insn = INSNS_FIRST(&b->insns);
+again:
+    INSNS_FOREACH(insn, &b->insns) {
+        prev = INSNS_PREV(insn);
 
-    while (insn) {
-        next = INSNS_NEXT(insn);
+        if (insn->op == I_NOP)
+            goto remove;
 
-        if ((insn_copy(insn, &dst, &src) && (dst == src))
-          || (insn->op == I_NOP))
-            insns_remove(&b->insns, insn);
+        if (insn_copy(insn, &dst, &src)) {
+            if (dst == src)
+                goto remove;
 
-        insn = next;
+            if (prev && insn_copy(prev, &prev_dst, &prev_src)
+              && (dst == prev_src) && (src == prev_dst))
+                goto remove;
+        }
+
+        continue;
+remove:
+        insns_remove(&b->insns, insn);
+        goto again;
     }
 
     if (BLOCK_EMPTY(b))
@@ -198,9 +211,8 @@ void opt_late(void)
 
 void opt_post(void)
 {
-    blocks_sequence();
     coal();
-    nop();
+    blocks_sequence();
 }
 
 /* vi: set ts=4 expandtab: */

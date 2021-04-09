@@ -37,7 +37,6 @@ L18:
 	pushq %r13
 L35:
 	movq %rdi,%r13
-	movq %r13,%rdi
 	call _hash
 	andl $63,%eax
 	movl %eax,%ebx
@@ -290,7 +289,6 @@ L114:
 	pushq %r13
 L139:
 	movq %rdi,%r13
-	movq %r13,%rdi
 	call _hash
 	andl $63,%eax
 	movl %eax,%ebx

@@ -36,7 +36,6 @@ L16:
 	pushq %rbx
 L25:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call ___brk
 	cmpq %rbx,%rax
 	jae L21

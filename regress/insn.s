@@ -174,7 +174,6 @@ L81:
 	pushq %rbx
 L86:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _symbol_reg
 	movq 32(%rbx),%rsi
 	movq (%rsi),%rdi
@@ -576,7 +575,6 @@ L308:
 	pushq %rbx
 L312:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _insn_destruct
 	movq %rbx,%rdi
 	call _free

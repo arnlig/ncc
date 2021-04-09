@@ -369,7 +369,6 @@ L187:
 	movl %r12d,%r9d
 	call _dtof
 	movq %rax,%rbx
-	movq %rbx,%rax
 	cmpl $0,%r14d
 	jz L147
 L188:

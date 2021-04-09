@@ -576,7 +576,6 @@ L231:
 L235:
 	movl %esi,%r12d
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _symbol_remove
 	movq %rbx,%rdi
 	movl %r12d,%esi
@@ -618,7 +617,7 @@ _scope_enter:
 L259:
 	pushq %rbp
 	movq %rsp,%rbp
-L260:
+L267:
 	movl _current_scope(%rip),%esi
 	cmpl $1000,%esi
 	jnz L264
@@ -1250,7 +1249,6 @@ L560:
 	pushq %r12
 L569:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _label_lookup
 	movq %rax,%r12
 	movl 12(%r12),%esi
@@ -1743,7 +1741,7 @@ _scope_end_func:
 L814:
 	pushq %rbp
 	movq %rsp,%rbp
-L815:
+L818:
 	movl $1002,%edi
 	call _scope_clear
 	movl $1001,%edi

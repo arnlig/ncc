@@ -253,7 +253,7 @@ _do_endif:
 L119:
 	pushq %rbp
 	movq %rsp,%rbp
-L120:
+L127:
 	cmpq $0,_state_stack(%rip)
 	jnz L124
 L122:
@@ -663,7 +663,7 @@ _directive_check:
 L327:
 	pushq %rbp
 	movq %rsp,%rbp
-L328:
+L335:
 	cmpq $0,_state_stack(%rip)
 	jz L329
 L330:

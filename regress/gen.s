@@ -51,7 +51,6 @@ L9:
 	pushq %r12
 L14:
 	movq %rdi,%r12
-	movq %r12,%rdi
 	call _symbol_storage
 	movq _target(%rip),%rsi
 	movq 16(%rsi),%rdi
@@ -676,8 +675,6 @@ L132:
 	call _tree_free
 	movq -16(%rbp),%rdi	 # spill
 	call _tree_sym
-	movq %rax,%rsi
-	movq %rsi,%rax
 L129:
 	popq %r15
 	popq %r14
@@ -1829,10 +1826,7 @@ L499:
 L509:
 	cmpl $1082130441,%esi
 	jz L394
-	jb L510
-L513:
-	cmpl $-2147483648,%esi
-	jmp L373
+	ja L373
 L510:
 	cmpl $1082130439,%esi
 	jnz L373

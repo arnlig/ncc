@@ -889,7 +889,6 @@ L322:
 	pushq %r12
 L343:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _list_strip_all
 	movq %rbx,%rdi
 	call _defined

@@ -318,7 +318,6 @@ L167:
 	pushq %r12
 L193:
 	movq %rdi,%r12
-	movq %r12,%rdi
 	call _block_switch_sort
 	movq 464(%r12),%rbx
 L170:
@@ -836,7 +835,6 @@ L475:
 L486:
 	movq %rsi,%r12
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _block_remove_successors
 	movq 464(%r12),%r13
 L478:
@@ -1181,7 +1179,7 @@ _blocks_sequence:
 L617:
 	pushq %rbp
 	movq %rsp,%rbp
-L618:
+L621:
 	xorl %edi,%edi
 	movq $_sequence0,%rsi
 	call _blocks_walk

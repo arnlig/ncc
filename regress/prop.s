@@ -461,7 +461,6 @@ L206:
 	pushq %rbx
 L210:
 	movq %rdi,%rbx
-	movq %rbx,%rdi
 	call _conps_reset
 	movq %rbx,%rdi
 	call _free
@@ -845,7 +844,6 @@ L381:
 	pushq %r14
 L417:
 	movq %rdi,%r14
-	movq %r14,%rdi
 	call _block_always_successor
 	movq %rax,%r13
 	cmpq $0,%r13

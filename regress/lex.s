@@ -1072,7 +1072,7 @@ _lex1:
 L688:
 	pushq %rbp
 	movq %rsp,%rbp
-L689:
+L695:
 	movl _next(%rip),%esi
 	cmpl $0,%esi
 	jnz L692
@@ -1120,7 +1120,7 @@ _lex:
 L709:
 	pushq %rbp
 	movq %rsp,%rbp
-L710:
+L729:
 	call _lex1
 L712:
 	movl _token(%rip),%esi

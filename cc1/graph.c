@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../common/list.h"
 #include "cc1.h"
 #include "opt.h"
+#include "dead.h"
 #include "block.h"
 #include "symbol.h"
 #include "output.h"
@@ -722,10 +723,11 @@ void graph_alloc(void)
     blocks_iter(cost0);
     color();
     rewrite();
-    
-    nop();
-
     graph_clear();
+
+    coal();
+    nop();
+    dead();
 }
 
 /* vi: set ts=4 expandtab: */

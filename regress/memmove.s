@@ -5,7 +5,6 @@ L1:
 	movq %rsp,%rbp
 L22:
 	movq %rdi,%rax
-	movq %rax,%rdi
 	movq %rsi,%rcx
 	cmpq $0,%rdx
 	jz L3

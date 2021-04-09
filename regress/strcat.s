@@ -5,7 +5,6 @@ L1:
 	movq %rsp,%rbp
 L12:
 	movq %rdi,%rax
-	movq %rax,%rdi
 L4:
 	movq %rdi,%rcx
 	addq $1,%rdi

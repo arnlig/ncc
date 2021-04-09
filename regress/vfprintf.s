@@ -548,7 +548,6 @@ L109:
 	movq %r15,%rsi
 	subq %r14,%rsi
 	movq %rsi,%rax
-	movq %rax,%rsi
 	movl -520(%rbp),%edi
 	cmpl $0,%edi
 	jz L208

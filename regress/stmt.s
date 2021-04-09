@@ -3,7 +3,7 @@ _compound_statement:
 L7:
 	pushq %rbp
 	movq %rsp,%rbp
-L8:
+L14:
 	movl $16,%edi
 	call _lex_match
 	call _local_declarations
@@ -573,7 +573,7 @@ _in_switch:
 L137:
 	pushq %rbp
 	movq %rsp,%rbp
-L138:
+L145:
 	cmpq $0,_switch_block(%rip)
 	jnz L139
 L140:
