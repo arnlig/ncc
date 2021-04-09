@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 extern void opt_early(void);
 extern void opt_late(void);
+extern void opt_post(void);
 
 extern void unreach(void);
 extern void prune(void);

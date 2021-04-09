@@ -335,9 +335,6 @@ void output_func(void)
     struct cessor *succ;
     int n;
 
-    coal();
-    blocks_sequence();
-
     output_select(OUTPUT_SEG_TEXT);
     output("%g:\n", func_sym);
 

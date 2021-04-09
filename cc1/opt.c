@@ -193,4 +193,14 @@ void opt_late(void)
     testz_late();
 }
 
+/* post optimization occurs immediately before the function is output.
+   target-specific function prolog/epilog are present. do final cleanup. */
+
+void opt_post(void)
+{
+    blocks_sequence();
+    coal();
+    nop();
+}
+
 /* vi: set ts=4 expandtab: */

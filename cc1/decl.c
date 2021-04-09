@@ -767,10 +767,11 @@ static void function_definition(struct symbol *sym, struct type *type)
             graph_alloc();
             target->opt();
         }
-    
+
         target->logues();
     }
 
+    opt_post();
     output_func();
     func_free();
     scope_end_func();
