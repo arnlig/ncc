@@ -21,8 +21,7 @@ L147:
 	movq %rsi,-16(%rbp)	 # spill
 	movq %rax,%rbx
 	xorl %edi,%edi
-	xorl %r10d,%r10d
-	movl %r10d,-8(%rbp)	 # spill
+	movl $0,-8(%rbp)	 # spill
 	xorl %r15d,%r15d
 	xorl %r12d,%r12d
 	xorl %r14d,%r14d

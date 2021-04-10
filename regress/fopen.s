@@ -11,8 +11,7 @@ L1:
 	pushq %r15
 L74:
 	movq %rdi,%r15
-	xorl %r10d,%r10d
-	movl %r10d,-8(%rbp)	 # spill
+	movl $0,-8(%rbp)	 # spill
 	xorl %r12d,%r12d
 L4:
 	movslq %r12d,%rdi

@@ -102,8 +102,7 @@ L339:
 	movq %rdx,-576(%rbp)	 # spill
 	movq %rsi,%rbx
 	movq %rdi,%r12
-	xorl %r10d,%r10d
-	movl %r10d,-536(%rbp)	 # spill
+	movl $0,-536(%rbp)	 # spill
 L28:
 	movq %rbx,%rsi
 	addq $1,%rbx
@@ -145,12 +144,9 @@ L36:
 	jmp L28
 L30:
 	xorl %eax,%eax
-	xorl %r10d,%r10d
-	movl %r10d,-544(%rbp)	 # spill
-	xorl %r10d,%r10d
-	movl %r10d,-552(%rbp)	 # spill
-	xorl %r10d,%r10d
-	movl %r10d,-560(%rbp)	 # spill
+	movl $0,-544(%rbp)	 # spill
+	movl $0,-552(%rbp)	 # spill
+	movl $0,-560(%rbp)	 # spill
 	movl $32,-568(%rbp)	 # spill
 L39:
 	movq %rbx,%rsi
@@ -192,8 +188,7 @@ L63:
 	movl %esi,%ecx
 	jmp L60
 L59:
-	xorl %r10d,%r10d
-	movl %r10d,-584(%rbp)	 # spill
+	movl $0,-584(%rbp)	 # spill
 L64:
 	cmpl $48,%ecx
 	jl L60
@@ -279,19 +274,15 @@ L106:
 	movl %esi,%ecx
 	jmp L91
 L90:
-	xorl %r10d,%r10d
-	movl %r10d,-592(%rbp)	 # spill
+	movl $0,-592(%rbp)	 # spill
 L91:
 	leaq -512(%rbp),%r10
 	movq %r10,-600(%rbp)	 # spill
 	movq -600(%rbp),%r14	 # spill
 	movq %r14,%r15
-	xorl %r10d,%r10d
-	movl %r10d,-608(%rbp)	 # spill
-	xorl %r10d,%r10d
-	movl %r10d,-616(%rbp)	 # spill
-	xorl %r10d,%r10d
-	movl %r10d,-624(%rbp)	 # spill
+	movl $0,-608(%rbp)	 # spill
+	movl $0,-616(%rbp)	 # spill
+	movl $0,-624(%rbp)	 # spill
 	movl $0,-520(%rbp)
 	cmpl $105,%ecx
 	jz L112
@@ -542,8 +533,7 @@ L162:
 	cmpl $0,%esi
 	jge L109
 L163:
-	xorl %r10d,%r10d
-	movl %r10d,-624(%rbp)	 # spill
+	movl $0,-624(%rbp)	 # spill
 L109:
 	movq %r15,%rsi
 	subq %r14,%rsi

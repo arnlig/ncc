@@ -238,8 +238,9 @@ void amd64_logues(void)
 
 void amd64_opt(void)
 {
-    amd64_post_peep();
+    amd64_peep_post();
     amd64_fuse();
+    amd64_peep_final();
     nop();
 }
 

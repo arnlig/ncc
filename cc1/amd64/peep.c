@@ -221,19 +221,17 @@ static void revert(struct insn *insn)
 }
 
 /* amd64_peep() runs before register allocation,
-   whereas amd64_post_peep() runs after. */
+   whereas amd64_peep_post() runs after, and
+   amd64_peep_final() runs last of all. */
 
 static blocks_iter_ret peep0(struct block *b)
 {
     struct insn *insn;
 
 again:
-    INSNS_FOREACH(insn, &b->insns) {
-        zero(b, insn);
-
+    INSNS_FOREACH(insn, &b->insns)
         if (signzero(insn))
             goto again;
-    }
 
     return BLOCKS_ITER_OK;
 }
@@ -253,9 +251,25 @@ static blocks_iter_ret post0(struct block *b)
     return BLOCKS_ITER_OK;
 }
 
-void amd64_post_peep(void)
+void amd64_peep_post(void)
 {
     blocks_iter(post0);
+}
+
+static blocks_iter_ret final0(struct block *b)
+{
+    struct insn *insn;
+
+    INSNS_FOREACH(insn, &b->insns)
+        zero(b, insn);
+
+    return BLOCKS_ITER_OK;
+}
+
+void amd64_peep_final(void)
+{
+    live_analyze();
+    blocks_iter(final0);
 }
 
 /* vi: set ts=4 expandtab: */

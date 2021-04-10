@@ -15,8 +15,7 @@ L136:
 	movl %edx,-24(%rbp)	 # spill
 	movl %ecx,%r12d
 	movq -8(%rbp),%rsi	 # spill
-	xorl %r10d,%r10d
-	movl %r10d,-16(%rbp)	 # spill
+	movl $0,-16(%rbp)	 # spill
 	xorl %ecx,%ecx
 	xorl %r14d,%r14d
 	xorl %r9d,%r9d
