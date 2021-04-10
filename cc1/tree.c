@@ -321,6 +321,18 @@ int tree_zero(struct tree *tree)
         return 0;
 }
 
+/* normalize a tree. for the moment, this just
+   means putting pure constants on the right of
+   commutative binary operators. */
+
+struct tree *tree_normalize(struct tree *tree)
+{
+    if ((tree->op & E_SWAP) && TREE_PURE_CON(tree->left))
+        tree_commute(tree);
+
+    return tree;
+}
+
 /* simplifying a tree does constant folding
    and removes E_RVALUE barriers. */
 
@@ -419,8 +431,7 @@ static struct tree *simplify0(struct tree *tree)
             }
         }
     } else if (TREE_BINARY(tree)) {
-        if ((tree->op & E_SWAP) && TREE_PURE_CON(tree->left))
-            tree_commute(tree);
+        tree = tree_normalize(tree);
 
         if (tree_nonzero(tree->left)) {
             switch (tree->op)

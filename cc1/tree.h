@@ -108,6 +108,7 @@ extern int tree_zero(struct tree *);
 extern int tree_nonzero(struct tree *);
 extern void tree_commute(struct tree *);
 extern void tree_free(struct tree *);
+extern struct tree *tree_normalize(struct tree *);
 extern struct tree *tree_simplify(struct tree *);
 extern struct tree *tree_rewrite_volatile(struct tree *);
 extern struct tree *tree_opt(struct tree *);
