@@ -36,6 +36,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "slvn.h"
 #include "load.h"
 #include "testz.h"
+#include "sched.h"
 #include "opt.h"
 
 /* remove unreachable code. our technique is simple: do a depth-first
@@ -195,6 +196,8 @@ void opt_early(void)
     copy();
     coal();
     testz_middle();
+    sched_delay();
+    copy();
 }
 
 /* late optimization occurs immediately after the target IR is generated,

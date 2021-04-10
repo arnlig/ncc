@@ -11,12 +11,10 @@ L6:
 L7:
 	movzbl (%rdi),%eax
 	movzbl (%rsi),%ecx
-	movq %rdi,%r8
+	movb %cl,(%rdi)
 	addq $1,%rdi
-	movb %cl,(%r8)
-	movq %rsi,%rcx
+	movb %al,(%rsi)
 	addq $1,%rsi
-	movb %al,(%rcx)
 	jmp L6
 L5:
 	popq %rbp
@@ -34,16 +32,13 @@ L17:
 L18:
 	movzbl (%rdi),%eax
 	movzbl (%rdx),%r8d
-	movq %rdi,%r9
-	addq $1,%rdi
-	movb %r8b,(%r9)
+	movb %r8b,(%rdi)
 	movzbl (%rsi),%r8d
-	movq %rdx,%r9
+	addq $1,%rdi
+	movb %r8b,(%rdx)
 	addq $1,%rdx
-	movb %r8b,(%r9)
-	movq %rsi,%r8
+	movb %al,(%rsi)
 	addq $1,%rsi
-	movb %al,(%r8)
 	jmp L17
 L16:
 	popq %rbp

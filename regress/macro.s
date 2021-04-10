@@ -19,9 +19,8 @@ L9:
 	jz L5
 L10:
 	shll $3,%eax
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 	xorl %edi,%eax
 	jmp L9
 L5:

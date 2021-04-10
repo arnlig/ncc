@@ -4,9 +4,9 @@ L1:
 	pushq %rbp
 	movq %rsp,%rbp
 L2:
-	movq _environ(%rip),%rax
-	movq %rax,%rsi
-	cmpq $0,%rax
+	movq _environ(%rip),%rsi
+	movq %rsi,%rcx
+	cmpq $0,%rsi
 	jz L4
 L7:
 	cmpq $0,%rdi
@@ -15,37 +15,35 @@ L4:
 	xorl %eax,%eax
 	jmp L3
 L12:
-	movq %rsi,%rax
-	addq $8,%rsi
-	movq (%rax),%rcx
-	movq %rcx,%rax
-	cmpq $0,%rcx
+	movq (%rcx),%rax
+	addq $8,%rcx
+	movq %rax,%rsi
+	cmpq $0,%rax
 	jz L14
 L13:
-	movq %rdi,%rdx
+	movq %rdi,%r8
 L15:
-	movzbl (%rdx),%ecx
-	cmpl $0,%ecx
+	movzbl (%r8),%eax
+	cmpl $0,%eax
 	jz L17
 L18:
-	movq %rax,%r8
-	addq $1,%rax
-	movzbl (%r8),%r8d
-	cmpl %r8d,%ecx
+	movzbl (%rsi),%edx
+	addq $1,%rsi
+	cmpl %edx,%eax
 	jnz L17
 L16:
-	addq $1,%rdx
+	addq $1,%r8
 	jmp L15
 L17:
-	movzbl (%rdx),%ecx
-	cmpl $0,%ecx
+	movzbl (%r8),%eax
+	cmpl $0,%eax
 	jnz L12
 L25:
-	movzbl (%rax),%ecx
-	cmpl $61,%ecx
+	movzbl (%rsi),%eax
+	cmpl $61,%eax
 	jnz L12
 L24:
-	addq $1,%rax
+	leaq 1(%rsi),%rax
 	jmp L3
 L14:
 	xorl %eax,%eax

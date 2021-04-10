@@ -67,8 +67,8 @@ L32:
 	movq 8(%rbx),%rbx
 	jmp L30
 L33:
-	addl $1,%r14d
 	movl $1,_changed(%rip)
+	addl $1,%r14d
 	pushq $524288
 	pushq %r12
 	call _insn_replace
@@ -83,7 +83,7 @@ L38:
 L17:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
-	movq 40(%r12),%r12
+	movq 64(%r12),%r12
 	jmp L10
 L9:
 	cmpl $0,%r14d

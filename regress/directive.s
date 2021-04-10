@@ -294,10 +294,10 @@ L136:
 	movq -8(%rbp),%rdi
 	call _token_convert_number
 	movq -8(%rbp),%rsi
-	movq 8(%rsi),%rsi
-	addq $-1,%rsi
-	movq _input_stack(%rip),%rdi
-	movl %esi,32(%rdi)
+	movq 8(%rsi),%rdi
+	movq _input_stack(%rip),%rsi
+	addq $-1,%rdi
+	movl %edi,32(%rsi)
 	cmpq $0,-16(%rbp)
 	jz L139
 L137:
@@ -305,8 +305,8 @@ L137:
 	leaq 8(%rsi),%rdi
 	call _vstring_clear
 	movq -16(%rbp),%rsi
-	addq $8,%rsi
 	movq _input_stack(%rip),%rdi
+	addq $8,%rsi
 	addq $8,%rdi
 	call _vstring_concat
 	movq -16(%rbp),%rdi

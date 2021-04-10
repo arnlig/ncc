@@ -266,9 +266,8 @@ L121:
 	cmpl $0,%esi
 	jz L123
 L124:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $46,%esi
 	jnz L121
 L123:
@@ -281,9 +280,8 @@ L128:
 	cmpl $0,%esi
 	jz L130
 L131:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $46,%esi
 	jnz L128
 L130:
@@ -296,9 +294,8 @@ L135:
 	cmpl $0,%esi
 	jz L120
 L138:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L135
 L120:
@@ -314,9 +311,8 @@ L145:
 	cmpl $0,%esi
 	jz L147
 L148:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $46,%esi
 	jnz L145
 L147:
@@ -329,9 +325,8 @@ L152:
 	cmpl $0,%esi
 	jz L154
 L155:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $46,%esi
 	jnz L152
 L154:
@@ -344,9 +339,8 @@ L159:
 	cmpl $0,%esi
 	jz L144
 L162:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L159
 L144:
@@ -362,9 +356,8 @@ L169:
 	cmpl $0,%esi
 	jz L168
 L172:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L169
 L168:
@@ -418,12 +411,10 @@ L199:
 	cmpq %rdi,%rsi
 	jae L198
 L197:
-	movq %rbx,%rdi
+	movzbl (%rbx),%edi
 	addq $1,%rbx
-	movzbl (%rdi),%edi
-	movq %rsi,%rax
+	movb %dil,(%rsi)
 	addq $1,%rsi
-	movb %dil,(%rax)
 	jmp L196
 L198:
 	movb $0,(%rsi)
@@ -432,9 +423,8 @@ L207:
 	cmpl $0,%esi
 	jz L209
 L210:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L207
 L209:
@@ -448,43 +438,39 @@ L214:
 	cmpl $0,%esi
 	jz L216
 L217:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L214
 L216:
-	movq _tzname+8(%rip),%rdi
+	movq _tzname+8(%rip),%rsi
 L221:
-	movzbl (%rbx),%esi
-	cmpl $0,%esi
+	movzbl (%rbx),%edi
+	cmpl $0,%edi
 	jz L223
 L228:
-	cmpl $58,%esi
+	cmpl $58,%edi
 	jz L223
 L224:
-	movq _tzname+8(%rip),%rsi
-	addq $31,%rsi
-	cmpq %rsi,%rdi
+	movq _tzname+8(%rip),%rdi
+	addq $31,%rdi
+	cmpq %rdi,%rsi
 	jae L223
 L222:
-	movq %rbx,%rsi
+	movzbl (%rbx),%edi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
-	movq %rdi,%rax
-	addq $1,%rdi
-	movb %sil,(%rax)
+	movb %dil,(%rsi)
+	addq $1,%rsi
 	jmp L221
 L223:
-	movb $0,(%rdi)
+	movb $0,(%rsi)
 L232:
 	movzbl (%rbx),%esi
 	cmpl $0,%esi
 	jz L234
 L235:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	cmpl $58,%esi
 	jnz L232
 L234:
@@ -619,27 +605,27 @@ L280:
 	pushq %rbx
 	pushq %r12
 L288:
-	movq %rdi,%rbx
+	movq %rdi,%r12
 	call _tzset
-	movq (%rbx),%rsi
+	movq (%r12),%rsi
 	movq _timezone(%rip),%rdi
 	subq %rdi,%rsi
-	leaq -8(%rbp),%r12
+	leaq -8(%rbp),%rbx
 	movq %rsi,-8(%rbp)
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _gmtime
 	call _isdaylight
 	cmpl $0,%eax
 	jz L284
 L283:
-	movq (%rbx),%rsi
+	movq (%r12),%rsi
 	movq _timezone(%rip),%rdi
+	movl _dstadjust(%rip),%eax
+	movslq %eax,%rax
 	subq %rdi,%rsi
-	movl _dstadjust(%rip),%edi
-	movslq %edi,%rdi
-	addq %rdi,%rsi
+	addq %rax,%rsi
 	movq %rsi,-8(%rbp)
-	movq %r12,%rdi
+	movq %rbx,%rdi
 	call _gmtime
 	movl $1,_tm+32(%rip)
 	jmp L285
@@ -668,11 +654,9 @@ L294:
 L296:
 	imull $3,%eax
 	movl %eax,%esi
-	leaq _daynames(%rsi),%rcx
-	leaq _daynames+1(%rsi),%rax
-	movzbl (%rcx),%ecx
-	movb %cl,_timestr(%rip)
-	movzbl (%rax),%eax
+	movzbl _daynames(%rsi),%eax
+	movb %al,_timestr(%rip)
+	movzbl _daynames+1(%rsi),%eax
 	movb %al,_timestr+1(%rip)
 	movzbl _daynames+2(%rsi),%esi
 	movb %sil,_timestr+2(%rip)
@@ -686,11 +670,9 @@ L297:
 L299:
 	imull $3,%eax
 	movl %eax,%esi
-	leaq _months(%rsi),%rcx
-	leaq _months+1(%rsi),%rax
-	movzbl (%rcx),%ecx
-	movb %cl,_timestr+4(%rip)
-	movzbl (%rax),%eax
+	movzbl _months(%rsi),%eax
+	movb %al,_timestr+4(%rip)
+	movzbl _months+1(%rsi),%eax
 	movb %al,_timestr+5(%rip)
 	movzbl _months+2(%rsi),%esi
 	movb %sil,_timestr+6(%rip)

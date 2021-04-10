@@ -8,21 +8,18 @@ L21:
 	cmpq $0,%rdx
 	jz L3
 L7:
-	movq %rdi,%rcx
+	movzbl (%rdi),%ecx
 	addq $1,%rdi
-	movzbl (%rcx),%ecx
 	cmpl $0,%ecx
 	jnz L7
 L9:
 	addq $-1,%rdi
 L10:
-	movq %rsi,%rcx
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rcx),%ecx
-	movq %rdi,%r8
-	addq $1,%rdi
-	movb %cl,(%r8)
+	movb %cl,(%rdi)
 	movzbl %cl,%ecx
+	addq $1,%rdi
 	cmpl $0,%ecx
 	jz L3
 L11:

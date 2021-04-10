@@ -8,15 +8,13 @@ L2:
 	jz L6
 L7:
 	movzbl (%rdi),%eax
-	movq %rsi,%rcx
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rcx),%ecx
 	cmpl %ecx,%eax
 	jnz L8
 L12:
-	movq %rdi,%rax
+	movzbl (%rdi),%eax
 	addq $1,%rdi
-	movzbl (%rax),%eax
 	cmpl $0,%eax
 	jnz L9
 L14:

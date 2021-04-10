@@ -20,9 +20,8 @@ L136:
 	xorl %r14d,%r14d
 	xorl %r9d,%r9d
 L5:
-	movq %rsi,%rdi
+	movzbl (%rsi),%eax
 	addq $1,%rsi
-	movzbl (%rdi),%eax
 	movl %eax,%edi
 	movslq %eax,%rax
 	movzbl ___ctype+1(%rax),%eax
@@ -37,9 +36,8 @@ L134:
 L12:
 	movl $1,-16(%rbp)	 # spill
 L13:
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 L10:
 	cmpl $0,-24(%rbp)	 # spill
 	jnz L16
@@ -87,9 +85,8 @@ L43:
 L32:
 	movl $1,%r14d
 	addq $1,%rsi
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 L34:
 	movl -24(%rbp),%r10d	 # spill
 	leal 48(%r10),%eax
@@ -197,9 +194,8 @@ L103:
 L104:
 	addl $1,%ecx
 L79:
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 	jmp L78
 L96:
 	addq $-1,%rsi

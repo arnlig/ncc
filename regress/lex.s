@@ -237,9 +237,8 @@ L109:
 	call _error
 	addq $16,%rsp
 L111:
-	movq %r12,%rsi
+	movb %bl,(%r12)
 	addq $1,%r12
-	movb %bl,(%rsi)
 	jmp L106
 L113:
 	movq -8(%rbp),%rsi

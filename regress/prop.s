@@ -521,9 +521,8 @@ L234:
 	jz L237
 L235:
 	movl (%rdi),%eax
-	movl %esi,%ecx
+	movslq %esi,%rcx
 	addl $1,%esi
-	movslq %ecx,%rcx
 	movq _map(%rip),%rdx
 	movl %eax,(%rdx,%rcx,4)
 	movq 8(%rdi),%rdi
@@ -621,7 +620,7 @@ L268:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
 L248:
-	movq 40(%r13),%r13
+	movq 64(%r13),%r13
 	jmp L246
 L245:
 	popq %r13
@@ -680,8 +679,8 @@ L294:
 	xorl %eax,%eax
 	jmp L285
 L296:
-	movq 24(%rsi),%rax
-	movq 32(%rsi),%rdi
+	movq 48(%rsi),%rax
+	movq 56(%rsi),%rdi
 	movq %rdi,%rsi
 	cmpq $0,%rdi
 	jz L304
@@ -761,8 +760,8 @@ L344:
 	movq 192(%rbx),%rsi
 	movq 216(%rbx),%rdi
 	call _conps_dup
-	leaq 168(%rbx),%rsi
 	movq 216(%rbx),%rdi
+	leaq 168(%rbx),%rsi
 	call _conps_kill
 	movq 200(%rbx),%rsi
 	movq 216(%rbx),%rdi

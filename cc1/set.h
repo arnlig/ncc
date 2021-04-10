@@ -250,6 +250,33 @@ typedef int set_lookup_flags;
         }                                                                   \
     }
 
+/* returns TRUE if the sets intersect (does not modify either set) */
+
+#define SET_DECLARE_OVERLAP(tag)                                            \
+    bool tag##s_overlap(struct tag##s *, struct tag##s *);
+
+#define SET_DEFINE_OVERLAP(tag, element_name)                               \
+    bool tag##s_overlap(struct tag##s *set1, struct tag##s *set2)           \
+    {                                                                       \
+        struct tag *set1_e;                                                 \
+        struct tag *set2_e;                                                 \
+                                                                            \
+        set1_e = TAILQ_FIRST(set1);                                         \
+        set2_e = TAILQ_FIRST(set2);                                         \
+                                                                            \
+        while (set1_e && set2_e) {                                          \
+            if (set1_e->element_name == set2_e->element_name)               \
+                return TRUE;                                                \
+                                                                            \
+            if (set1_e->element_name < set2_e->element_name)                \
+                set1_e = TAILQ_NEXT(set1_e, links);                         \
+            else                                                            \
+                set2_e = TAILQ_NEXT(set2_e, links);                         \
+        }                                                                   \
+                                                                            \
+        return FALSE;                                                       \
+    }
+
 /* return TRUE if two sets have the same elements */
 
 #define SET_DECLARE_EQUAL(tag)                                              \

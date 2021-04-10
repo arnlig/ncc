@@ -254,7 +254,7 @@ L131:
 	movq %r12,%rdi
 	call _regs_clear
 L123:
-	movq 40(%rbx),%rbx
+	movq 64(%rbx),%rbx
 	jmp L121
 L120:
 	popq %r13
@@ -411,7 +411,7 @@ L203:
 	movq %rbx,%rdx
 	call _copies_new
 L201:
-	movq 40(%r12),%r12
+	movq 64(%r12),%r12
 	jmp L199
 L202:
 	xorl %eax,%eax
@@ -437,21 +437,21 @@ L234:
 	movq $0,-8(%rbp)
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
+	movl _nr_copies(%rip),%esi
 	leaq 224(%rbx),%rdi
-	movl _nr_copies(%rip),%esi
 	call _bitset_init
+	movl _nr_copies(%rip),%esi
 	leaq 256(%rbx),%rdi
-	movl _nr_copies(%rip),%esi
 	call _bitset_init
+	movl _nr_copies(%rip),%esi
 	leaq 240(%rbx),%rdi
-	movl _nr_copies(%rip),%esi
 	call _bitset_init
-	leaq 272(%rbx),%r12
 	movl _nr_copies(%rip),%esi
+	leaq 272(%rbx),%r12
 	movq %r12,%rdi
 	call _bitset_init
-	leaq 288(%rbx),%rdi
 	movl _nr_copies(%rip),%esi
+	leaq 288(%rbx),%rdi
 	call _bitset_init
 	movq %r12,%rdi
 	call _bitset_one_all
@@ -506,7 +506,7 @@ L229:
 	leaq 240(%rbx),%rdi
 	call _bitset_set
 L223:
-	movq 40(%r13),%r13
+	movq 64(%r13),%r13
 	jmp L221
 L224:
 	xorl %eax,%eax

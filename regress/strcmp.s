@@ -5,15 +5,13 @@ L1:
 	movq %rsp,%rbp
 L4:
 	movzbl (%rdi),%eax
-	movq %rsi,%rcx
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rcx),%ecx
 	cmpl %ecx,%eax
 	jnz L6
 L5:
-	movq %rdi,%rax
+	movzbl (%rdi),%eax
 	addq $1,%rdi
-	movzbl (%rax),%eax
 	cmpl $0,%eax
 	jnz L4
 L7:

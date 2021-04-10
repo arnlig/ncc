@@ -126,9 +126,9 @@ L182:
 	xorl %r10d,%r10d
 	movq %r10,-16(%rbp)	 # spill
 L49:
-	movq -24(%rbp),%rsi	 # spill
+	movq -24(%rbp),%r10	 # spill
+	movzbl (%r10),%esi
 	addq $1,-24(%rbp)	 # spill
-	movzbl (%rsi),%esi
 	movb %sil,-8(%rbp)
 	movzbl %sil,%edi
 	cmpl $37,%edi
@@ -142,10 +142,9 @@ L55:
 	xorl %eax,%eax
 	jmp L47
 L57:
-	movq %r15,%rdi
-	addq $1,%r15
-	movb %sil,(%rdi)
+	movb %sil,(%r15)
 	movzbl -8(%rbp),%esi
+	addq $1,%r15
 	cmpl $0,%esi
 	jnz L49
 L59:
@@ -153,11 +152,11 @@ L59:
 	movq -16(%rbp),%rax	 # spill
 	jmp L47
 L53:
-	movq -24(%rbp),%rsi	 # spill
-	addq $1,-24(%rbp)	 # spill
-	movzbl (%rsi),%esi
+	movq -24(%rbp),%r10	 # spill
+	movzbl (%r10),%esi
 	movb %sil,-8(%rbp)
 	movzbl %sil,%esi
+	addq $1,-24(%rbp)	 # spill
 	cmpl $97,%esi
 	jz L68
 	jb L138

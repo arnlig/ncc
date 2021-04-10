@@ -27,9 +27,8 @@ L147:
 	xorl %r14d,%r14d
 	movsd L149(%rip),%xmm8
 L4:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	movl %esi,%r13d
 	movslq %esi,%rsi
 	movzbl ___ctype+1(%rsi),%esi
@@ -44,9 +43,8 @@ L142:
 L11:
 	movl $1,%r12d
 L12:
-	movq %rbx,%rsi
+	movzbl (%rbx),%r13d
 	addq $1,%rbx
-	movzbl (%rsi),%r13d
 L9:
 	leal -48(%r13),%esi
 	cmpl $10,%esi
@@ -75,9 +73,8 @@ L40:
 L37:
 	movq %rbx,%rsi
 L44:
-	movq %rsi,%rax
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rax),%ecx
 	movl %ecx,%eax
 	cmpl $48,%ecx
 	jz L44
@@ -137,9 +134,8 @@ L71:
 L68:
 	orl $2,%r12d
 L32:
-	movq %rbx,%rsi
+	movzbl (%rbx),%r13d
 	addq $1,%rbx
-	movzbl (%rsi),%r13d
 	jmp L31
 L33:
 	testl $8,%r12d
@@ -160,9 +156,8 @@ L82:
 	jnz L81
 L79:
 	leaq -1(%rbx),%rsi
-	movq %rbx,%rdi
+	movzbl (%rbx),%edi
 	addq $1,%rbx
-	movzbl (%rdi),%edi
 	movl %edi,%eax
 	cmpl $43,%edi
 	jz L91
@@ -172,9 +167,8 @@ L145:
 L90:
 	orl $4,%r12d
 L91:
-	movq %rbx,%rdi
+	movzbl (%rbx),%eax
 	addq $1,%rbx
-	movzbl (%rdi),%eax
 L88:
 	leal -48(%rax),%edi
 	cmpl $10,%edi
@@ -200,9 +194,8 @@ L100:
 L102:
 	imull $10,%edi
 	leal -48(%rdi,%rax),%edi
-	movq %rbx,%rax
+	movzbl (%rbx),%eax
 	addq $1,%rbx
-	movzbl (%rax),%eax
 	jmp L96
 L99:
 	cmpl $3,%esi

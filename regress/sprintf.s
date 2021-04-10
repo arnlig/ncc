@@ -5,8 +5,8 @@ L1:
 	movq %rsp,%rbp
 L6:
 	movq 16(%rbp),%rdi
-	leaq 32(%rbp),%rdx
 	movq 24(%rbp),%rsi
+	leaq 32(%rbp),%rdx
 	call _vsprintf
 L3:
 	popq %rbp

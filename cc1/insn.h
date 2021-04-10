@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../common/tailq.h"
 #include "cc1.h"
 #include "codes.h"
+#include "sched.h"
 #include "type.h"
 #include "amd64/target_insn.h"
 
@@ -355,6 +356,8 @@ struct insn
     insn_op op;
     insn_flags flags;
     insn_index index;
+
+    struct sched sched;     /* insn scheduling data: sched.c */
 
     union
     {

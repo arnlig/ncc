@@ -888,7 +888,7 @@ L493:
 L496:
 	movl $1,%ebx
 L494:
-	movq 40(%r12),%r12
+	movq 64(%r12),%r12
 	jmp L492
 L495:
 	movl %ebx,%eax

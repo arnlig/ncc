@@ -33,12 +33,10 @@ L17:
 	addq $-1,%rdx
 	jz L3
 L18:
-	movq %rcx,%rsi
+	movzbl (%rcx),%esi
 	addq $1,%rcx
-	movzbl (%rsi),%esi
-	movq %rdi,%r8
+	movb %sil,(%rdi)
 	addq $1,%rdi
-	movb %sil,(%r8)
 	jmp L17
 L3:
 	popq %rbp

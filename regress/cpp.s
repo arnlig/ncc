@@ -43,8 +43,8 @@ L8:
 	pushq $___stderr
 	call _fprintf
 	addq $16,%rsp
-	leaq 24(%rbp),%rdx
 	movq 16(%rbp),%rsi
+	leaq 24(%rbp),%rdx
 	movq $___stderr,%rdi
 	call _vfprintf
 	movl $10,%edi

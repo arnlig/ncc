@@ -14,9 +14,8 @@ L7:
 	addq $-1,%rdx
 	jz L6
 L8:
-	movq %rax,%rdi
+	movzbl (%rax),%edi
 	addq $1,%rax
-	movzbl (%rdi),%edi
 	cmpl %esi,%edi
 	jnz L7
 L12:

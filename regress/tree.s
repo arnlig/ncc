@@ -1791,8 +1791,8 @@ L870:
 	addl $1,%r12d
 	jmp L869
 L872:
-	leaq 8(%r13),%rsi
 	movl (%r13),%edi
+	leaq 8(%r13),%rsi
 	andl $255,%edi
 	movslq %edi,%rdi
 	movq _tree_op_text(,%rdi,8),%rdi

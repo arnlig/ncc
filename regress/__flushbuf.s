@@ -21,8 +21,8 @@ L8:
 	cmpl %ebx,%eax
 	jge L7
 L6:
-	subl %eax,%ebx
 	movslq %eax,%rsi
+	subl %eax,%ebx
 	addq %rsi,%r12
 	jmp L5
 L7:

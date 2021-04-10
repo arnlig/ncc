@@ -398,8 +398,8 @@ L97:
 	leal (%r12,%rbx),%esi
 	movl %r13d,%edi
 	subl %esi,%edi
-	subl %r12d,%r13d
 	movslq %edi,%rsi
+	subl %r12d,%r13d
 	movl $64,%edi
 	xorl %edx,%edx
 	call _operand_i
@@ -853,9 +853,9 @@ L169:
 	pushq $1611268107
 	call _insn_new
 	addq $24,%rsp
-	movq 16(%rax),%rsi
+	movq 40(%rax),%rsi
 	movq 8(%rsi),%rsi
-	movq 24(%rax),%rdi
+	movq 48(%rax),%rdi
 	movq %rsi,8(%rdi)
 	movq _current_block(%rip),%rsi
 	leaq 8(%rsi),%rdi

@@ -21,9 +21,8 @@ L5:
 	cmpl $0,%esi
 	jl L11
 L10:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	movq 24(%r12),%rdi
 	movq %rdi,%rax
 	addq $1,%rdi
@@ -32,9 +31,8 @@ L10:
 	movzbl %sil,%eax
 	jmp L12
 L11:
-	movq %rbx,%rsi
+	movzbl (%rbx),%edi
 	addq $1,%rbx
-	movzbl (%rsi),%edi
 	movq %r12,%rsi
 	call ___flushbuf
 L12:

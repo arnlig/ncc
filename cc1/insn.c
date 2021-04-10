@@ -31,6 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "target.h"
 #include "tree.h"
 #include "symbol.h"
+#include "sched.h"
 #include "live.h"
 #include "regs.h"
 #include "insn.h"
@@ -218,6 +219,8 @@ static void insn_construct(struct insn *insn, insn_op op, va_list args)
         if (op & I_FLAG_SRC1) insn->src1 = va_arg(args, struct operand *);
         if (op & I_FLAG_SRC2) insn->src2 = va_arg(args, struct operand *);
     }
+
+    sched_init(&insn->sched);
 }
 
 /* release the resources associated with the insn */
@@ -231,6 +234,8 @@ static void insn_destruct(struct insn *insn)
         operand_free(insn->src1);
         operand_free(insn->src2);
     }
+
+    sched_clear(&insn->sched);
 }
 
 /* allocate a new insn and construct it with
@@ -259,6 +264,7 @@ struct insn *insn_dup(struct insn *src)
         return target->insn_dup(src);
     else {
         insn = safe_malloc(sizeof(struct insn));
+        insn_construct(insn, I_NOP, 0);
         insn->op = src->op;
         insn->dst = operand_dup(src->dst);
         insn->src1 = operand_dup(src->src1);

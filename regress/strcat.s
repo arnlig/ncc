@@ -6,21 +6,18 @@ L1:
 L12:
 	movq %rdi,%rax
 L4:
-	movq %rdi,%rcx
+	movzbl (%rdi),%ecx
 	addq $1,%rdi
-	movzbl (%rcx),%ecx
 	cmpl $0,%ecx
 	jnz L4
 L6:
 	addq $-1,%rdi
 L7:
-	movq %rsi,%rcx
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rcx),%ecx
-	movq %rdi,%rdx
-	addq $1,%rdi
-	movb %cl,(%rdx)
+	movb %cl,(%rdi)
 	movzbl %cl,%ecx
+	addq $1,%rdi
 	cmpl $0,%ecx
 	jnz L7
 L3:

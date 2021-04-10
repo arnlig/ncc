@@ -12,12 +12,10 @@ L7:
 	addq $-1,%rdx
 	jz L6
 L8:
-	movq %rdi,%rax
+	movzbl (%rdi),%eax
 	addq $1,%rdi
-	movzbl (%rax),%eax
-	movq %rsi,%rcx
+	movzbl (%rsi),%ecx
 	addq $1,%rsi
-	movzbl (%rcx),%ecx
 	cmpl %ecx,%eax
 	jz L7
 L12:

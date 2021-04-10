@@ -96,8 +96,8 @@ L53:
 L55:
 	movq 24(%r12),%rbx
 	movq 16(%r12),%rsi
-	subq %rsi,%rbx
 	movq %rsi,24(%r12)
+	subq %rsi,%rbx
 	cmpl $0,%ebx
 	jg L58
 L56:

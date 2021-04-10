@@ -11,9 +11,8 @@ L4:
 	cmpl %edi,%esi
 	jz L3
 L5:
-	movq %rax,%rdi
+	movzbl (%rax),%edi
 	addq $1,%rax
-	movzbl (%rdi),%edi
 	cmpl $0,%edi
 	jnz L4
 L7:

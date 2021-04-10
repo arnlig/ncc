@@ -236,18 +236,18 @@ L111:
 	pushq %r14
 	pushq %r15
 L159:
-	movq %rdx,%r15
-	movq %rsi,-8(%rbp)	 # spill
-	movq %rdi,%r14
-	movq -8(%rbp),%rdi	 # spill
+	movq %rdx,%r14
+	movq %rsi,%r15
+	movq %rdi,%r12
+	movq %r15,%rdi
 	movl $1024,%esi
 	call _symbol_new
-	movq %rax,-16(%rbp)	 # spill
-	movq -16(%rbp),%r10	 # spill
+	movq %rax,-8(%rbp)	 # spill
+	movq -8(%rbp),%r10	 # spill
 	leaq 32(%r10),%rdi
-	movq %r15,%rsi
+	movq %r14,%rsi
 	call _type_copy
-	movq (%r15),%rsi
+	movq (%r14),%rsi
 	movq (%rsi),%rdi
 	testq $8192,%rdi
 	jz L115
@@ -255,8 +255,9 @@ L117:
 	cmpq $0,8(%rsi)
 	jnz L115
 L114:
-	xorl %r13d,%r13d
-	movq -16(%rbp),%r10	 # spill
+	xorl %r10d,%r10d
+	movq %r10,-16(%rbp)	 # spill
+	movq -8(%rbp),%r10	 # spill
 	movq 32(%r10),%rsi
 	movq (%rsi),%rdi
 	movq $2305843009213693952,%rax
@@ -264,28 +265,28 @@ L114:
 	movq %rdi,(%rsi)
 	jmp L116
 L115:
-	movq %r15,%rdi
+	movq %r14,%rdi
 	xorl %esi,%esi
 	call _type_sizeof
 	movq %rax,%rsi
 	shlq $3,%rsi
-	movq %rsi,%r13
+	movq %rsi,-16(%rbp)	 # spill
 L116:
-	movq %r15,%rdi
+	movq %r14,%rdi
 	call _type_alignof
-	movl %eax,%ebx
-	movl %ebx,%r12d
-	movl 12(%r14),%esi
+	movl %eax,%r13d
+	movl %r13d,%ebx
+	movl 12(%r12),%esi
 	testl $2,%esi
 	jz L122
 L121:
 	xorl %edi,%edi
 	jmp L123
 L122:
-	movq 32(%r14),%rsi
+	movq 32(%r12),%rsi
 	movq %rsi,%rdi
 L123:
-	movq (%r15),%rsi
+	movq (%r14),%rsi
 	movq (%rsi),%rsi
 	movl $2147483648,%eax
 	testq %rax,%rsi
@@ -300,94 +301,102 @@ L124:
 L130:
 	movq %rdi,%rax
 	xorl %edx,%edx
-	divq %r13
-	imulq %r13,%rax
+	movq -16(%rbp),%r10	 # spill
+	divq %r10
+	movq -16(%rbp),%r10	 # spill
+	imulq %r10,%rax
 	movq %rax,%r8
 	leaq -1(%rdi,%rsi),%rsi
 	movq %rsi,%rax
 	xorl %edx,%edx
-	divq %r13
+	movq -16(%rbp),%r10	 # spill
+	divq %r10
 	movq %rax,%rsi
-	imulq %r13,%rsi
+	movq -16(%rbp),%r10	 # spill
+	imulq %r10,%rsi
 	cmpq %rsi,%r8
 	jz L129
 L127:
-	leaq -1(%rdi,%r13),%rsi
+	movq -16(%rbp),%r10	 # spill
+	leaq -1(%rdi,%r10),%rsi
 	movq %rsi,%rax
 	xorl %edx,%edx
-	divq %r13
+	movq -16(%rbp),%r10	 # spill
+	divq %r10
 	movq %rax,%rsi
-	imulq %r13,%rsi
+	movq -16(%rbp),%r10	 # spill
+	imulq %r10,%rsi
 	movq %rsi,%rdi
 L129:
 	movq %rdi,%rax
 	xorl %edx,%edx
-	divq %r13
+	movq -16(%rbp),%r10	 # spill
+	divq %r10
 	movq %rdx,%rsi
 	shlq $32,%rsi
 	movq $270582939648,%rax
 	andq %rax,%rsi
-	movq -16(%rbp),%r10	 # spill
+	movq -8(%rbp),%r10	 # spill
 	movq 32(%r10),%rax
 	orq %rsi,(%rax)
 	jmp L126
 L125:
-	leal (,%rbx,8),%esi
-	leal -1(,%rbx,8),%eax
+	leal (,%r13,8),%esi
+	leal -1(,%r13,8),%eax
 	movslq %eax,%rax
-	addq %rax,%rdi
 	movslq %esi,%rsi
+	addq %rax,%rdi
 	movq %rdi,%rax
 	cqto
 	idivq %rsi
 	movq %rax,%rdi
 	imulq %rsi,%rdi
-	movq %r13,%rcx
+	movq -16(%rbp),%rcx	 # spill
 L126:
 	movl $8,%esi
 	movq %rdi,%rax
 	cqto
 	idivq %rsi
-	movslq %ebx,%rsi
+	movslq %r13d,%rsi
 	cqto
 	idivq %rsi
 	movq %rax,%rsi
-	imull %ebx,%esi
-	movq -16(%rbp),%r10	 # spill
+	imull %r13d,%esi
+	movq -8(%rbp),%r10	 # spill
 	movl %esi,64(%r10)
-	movl 12(%r14),%esi
+	movl 12(%r12),%esi
 	testl $2,%esi
 	jz L135
 L134:
-	movq 32(%r14),%rsi
+	movq 32(%r12),%rsi
 	cmpq %rcx,%rsi
 	ja L139
 L138:
 	movq %rcx,%rsi
 L139:
-	movq %rsi,32(%r14)
+	movq %rsi,32(%r12)
 	jmp L136
 L135:
 	addq %rcx,%rdi
-	movq %rdi,32(%r14)
+	movq %rdi,32(%r12)
 L136:
 	cmpq $1073741824,%rdi
 	jle L142
 L140:
-	pushq %r14
+	pushq %r12
 	pushq $L143
 	pushq $1
 	call _error
 	addq $24,%rsp
 L142:
-	movl 40(%r14),%esi
-	cmpl %ebx,%esi
+	movl 40(%r12),%esi
+	cmpl %r13d,%esi
 	jg L146
 L145:
-	movl %r12d,%esi
+	movl %ebx,%esi
 L146:
-	movl %esi,40(%r14)
-	movq (%r15),%rsi
+	movl %esi,40(%r12)
+	movq (%r14),%rsi
 	movq (%rsi),%rdi
 	testq $65536,%rdi
 	jz L149
@@ -396,18 +405,18 @@ L154:
 	cmpq $0,(%rsi)
 	jnz L149
 L150:
-	cmpq $0,-8(%rbp)	 # spill
+	cmpq $0,%r15
 	jnz L149
 L147:
-	movq -16(%rbp),%r10	 # spill
+	movq -8(%rbp),%r10	 # spill
 	movl 64(%r10),%edi
 	movslq %edi,%rax
-	movq %r14,%rdi
+	movq %r12,%rdi
 	movq %rax,%rdx
 	call _members_absorb
 L149:
-	leaq 48(%r14),%rdi
-	movq -16(%rbp),%rsi	 # spill
+	leaq 48(%r12),%rdi
+	movq -8(%rbp),%rsi	 # spill
 	call _members_append
 L113:
 	popq %r15
@@ -459,8 +468,8 @@ L183:
 	leal (,%rax,8),%esi
 	leal -1(,%rax,8),%eax
 	movslq %eax,%rax
-	addq %rdi,%rax
 	movslq %esi,%rsi
+	addq %rdi,%rax
 	xorl %edx,%edx
 	divq %rsi
 	imulq %rsi,%rax

@@ -36,46 +36,41 @@ L13:
 	call _strcpy
 	jmp L15
 L14:
-	leaq -256(%rbp),%rsi
+	leaq -256(%rbp),%rdi
 L16:
-	movzbl (%rbx),%edi
-	cmpl $0,%edi
+	movzbl (%rbx),%esi
+	cmpl $0,%esi
 	jz L19
 L20:
-	cmpl $58,%edi
+	cmpl $58,%esi
 	jz L19
 L17:
-	movq %rbx,%rdi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rdi),%edi
-	movq %rsi,%rax
-	addq $1,%rsi
-	movb %dil,(%rax)
+	movb %sil,(%rdi)
+	addq $1,%rdi
 	jmp L16
 L19:
-	leaq -256(%rbp),%rdi
-	cmpq %rsi,%rdi
+	leaq -256(%rbp),%rsi
+	cmpq %rdi,%rsi
 	jz L26
 L24:
-	movq %rsi,%rdi
-	addq $1,%rsi
 	movb $47,(%rdi)
+	addq $1,%rdi
 L26:
-	movq %r13,%rdi
+	movq %r13,%rsi
 L27:
-	movzbl (%rdi),%eax
+	movzbl (%rsi),%eax
 	cmpl $0,%eax
 	jz L30
 L28:
-	movq %rdi,%rax
-	addq $1,%rdi
-	movzbl (%rax),%eax
-	movq %rsi,%rcx
+	movzbl (%rsi),%eax
 	addq $1,%rsi
-	movb %al,(%rcx)
+	movb %al,(%rdi)
+	addq $1,%rdi
 	jmp L27
 L30:
-	movb $0,(%rsi)
+	movb $0,(%rdi)
 L15:
 	leaq -256(%rbp),%rdi
 	movq %r14,%rsi

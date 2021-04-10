@@ -6,9 +6,8 @@ L1:
 L2:
 	movq %rdi,%rax
 L4:
-	movq %rax,%rsi
+	movzbl (%rax),%esi
 	addq $1,%rax
-	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jnz L4
 L6:

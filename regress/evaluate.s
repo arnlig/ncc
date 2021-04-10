@@ -644,10 +644,10 @@ L222:
 	cmpq $0,%rsi
 	jz L226
 L225:
-	movq -16(%rbp),%rsi
-	addq $32,%rsi
-	movq (%rbx),%rdi
-	movq %rsi,40(%rdi)
+	movq -16(%rbp),%rdi
+	movq (%rbx),%rsi
+	addq $32,%rdi
+	movq %rdi,40(%rsi)
 	jmp L227
 L226:
 	movq -16(%rbp),%rsi
@@ -668,10 +668,10 @@ L228:
 	cmpq $0,%rsi
 	jz L232
 L231:
-	movq -24(%rbp),%rsi
-	addq $32,%rsi
-	movq (%rbx),%rdi
-	movq %rsi,40(%rdi)
+	movq -24(%rbp),%rdi
+	movq (%rbx),%rsi
+	addq $32,%rdi
+	movq %rdi,40(%rsi)
 	jmp L233
 L232:
 	movq -24(%rbp),%rsi

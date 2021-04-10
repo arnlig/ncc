@@ -27,9 +27,8 @@ L6:
 	addl $1,%r12d
 	jmp L4
 L7:
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 	cmpl $97,%edi
 	jz L20
 L68:
@@ -59,9 +58,8 @@ L23:
 	cmpl $0,%edi
 	jz L25
 L24:
-	movq %rsi,%rdi
+	movzbl (%rsi),%edi
 	addq $1,%rsi
-	movzbl (%rdi),%edi
 	cmpl $43,%edi
 	jz L32
 L72:

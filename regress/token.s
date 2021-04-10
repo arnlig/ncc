@@ -126,9 +126,8 @@ L50:
 	cmpl $0,%esi
 	jz L52
 L51:
-	movq %rbx,%rsi
+	movzbl (%rbx),%esi
 	addq $1,%rbx
-	movzbl (%rsi),%esi
 	leaq 8(%r12),%rdi
 	call _backslash
 	jmp L50
@@ -693,10 +692,9 @@ L279:
 	call _error
 	addq $8,%rsp
 L277:
-	movq %rbx,%rsi
-	addq $1,%rbx
-	movzbl (%rsi),%esi
+	movzbl (%rbx),%esi
 	movzbl (%r14),%edi
+	addq $1,%rbx
 	cmpl %edi,%esi
 	jnz L285
 L286:
@@ -1626,16 +1624,14 @@ L751:
 	cmpl $53,%esi
 	jnz L749
 L748:
-	movq %r12,%rsi
+	movzbl (%r12),%esi
 	addq $1,%r12
-	movzbl (%rsi),%esi
 	leaq 8(%r13),%rdi
 	call _backslash
 	jmp L745
 L749:
-	movq %r12,%rsi
+	movzbl (%r12),%esi
 	addq $1,%r12
-	movzbl (%rsi),%esi
 	leaq 8(%r13),%rdi
 	call _vstring_putc
 	jmp L745
