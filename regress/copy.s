@@ -246,6 +246,7 @@ L131:
 	leaq -24(%rbp),%r12
 	movq %rbx,%rdi
 	movq %r12,%rsi
+	xorl %edx,%edx
 	call _insn_defs_regs
 	movq %r13,%rdi
 	movq %r12,%rsi
@@ -474,6 +475,7 @@ L221:
 L222:
 	leaq -24(%rbp),%rsi
 	movq %r13,%rdi
+	xorl %edx,%edx
 	call _insn_defs_regs
 	movq -16(%rbp),%r12
 L225:

@@ -138,6 +138,7 @@ void output(char *fmt, ...)
                         {
                         case PSEUDO_REG_CC:     fputs("CC", out_fp); break;
                         case PSEUDO_REG_NONE:   fputs("NONE", out_fp); break;
+                        case PSEUDO_REG_MEM:    fputs("MEM", out_fp); break;
                         default:                target->output_reg(reg);
                         }
         

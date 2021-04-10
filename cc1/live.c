@@ -213,14 +213,14 @@ static blocks_iter_ret live_analyze_local(struct block *b)
         if (insn_defs_cc(insn))
             live_def(&b->live, PSEUDO_REG_CC, insn->index);
 
-        if (insn_uses_regs(insn, &regs)) {
+        if (insn_uses_regs(insn, &regs, 0)) {
             REGS_FOREACH(regs_r, &regs)
                 live_use(&b->live, regs_r->reg, insn->index);
 
             regs_clear(&regs);
         }
 
-        if (insn_defs_regs(insn, &regs)) {
+        if (insn_defs_regs(insn, &regs, 0)) {
             REGS_FOREACH(regs_r, &regs)
                 live_def(&b->live, regs_r->reg, insn->index);
 

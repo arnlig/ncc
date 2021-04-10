@@ -116,6 +116,7 @@ typedef unsigned pseudo_reg;
 
 #define PSEUDO_REG_CC           (  0 | PSEUDO_REG_RESERVED )
 #define PSEUDO_REG_NONE         (  1 | PSEUDO_REG_RESERVED )
+#define PSEUDO_REG_MEM          (  2 | PSEUDO_REG_RESERVED )
 
 #define PSEUDO_REG_IDX_MASK     ( 0x7FE00000 )
 #define PSEUDO_REG_IDX_SHIFT    21

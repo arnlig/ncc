@@ -114,7 +114,7 @@ static void local(struct block *b, struct copyps *copyps)
                                         INSN_SUBSTITUTE_USES))
                     changed = TRUE;
 
-            insn_defs_regs(insn, &defs);
+            insn_defs_regs(insn, &defs, 0);
             copyps_invalidate(copyps, &defs);
             regs_clear(&defs);
         }
@@ -256,7 +256,7 @@ static blocks_iter_ret init0(struct block *b)
         bitset_one_all(&b->copy.in);
     
     INSNS_FOREACH(insn, &b->insns) {
-        insn_defs_regs(insn, &defs);
+        insn_defs_regs(insn, &defs, 0);
 
         REGS_FOREACH(defs_r, &defs) {
             copies_invalidate(&b->copy.gen, defs_r->reg);

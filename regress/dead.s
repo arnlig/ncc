@@ -39,6 +39,7 @@ L25:
 	leaq -24(%rbp),%rbx
 	movq %r12,%rdi
 	movq %rbx,%rsi
+	xorl %edx,%edx
 	call _insn_defs_regs
 	movq %r12,%rdi
 	call _insn_defs_cc

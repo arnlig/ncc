@@ -110,7 +110,7 @@ restart:
 
     INSNS_FOREACH(insn, &b->insns) {
         regs_clear(&regs);
-        insn_defs_regs(insn, &regs);
+        insn_defs_regs(insn, &regs, 0);
 
         REGS_FOREACH(reg, &regs)
             setccs_unset(&setccs, reg->reg);

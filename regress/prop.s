@@ -573,6 +573,7 @@ L250:
 L252:
 	leaq -24(%rbp),%rsi
 	movq %r13,%rdi
+	xorl %edx,%edx
 	call _insn_uses_regs
 	movq -16(%rbp),%r12
 L254:
@@ -602,6 +603,7 @@ L257:
 	call _regs_clear
 	movq %r13,%rdi
 	movq %r12,%rsi
+	xorl %edx,%edx
 	call _insn_defs_regs
 	movq -16(%rbp),%r12
 L265:

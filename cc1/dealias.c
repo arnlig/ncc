@@ -119,8 +119,8 @@ static blocks_iter_ret dealias0(struct block *b)
     for (insn = INSNS_FIRST(&b->insns); insn; insn = next) {
         next = INSNS_NEXT(insn);
 
-        insn_uses_regs(insn, &uses);
-        insn_defs_regs(insn, &defs);
+        insn_uses_regs(insn, &uses, 0);
+        insn_defs_regs(insn, &defs, 0);
         regs_union(&regs, &uses);
         regs_union(&regs, &defs);
 

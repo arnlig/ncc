@@ -395,12 +395,19 @@ extern void insns_clear(struct insns *);
 extern void insn_commute(struct insn *);
 extern void insn_normalize(struct insn *);
 extern bool insn_copy(struct insn *, pseudo_reg *, pseudo_reg *);
+
+typedef int insn_defsuses_flags;    /* INSN_DEFSUSES_* */
+
+#define INSN_DEFSUSES_CC    ( 0x00000001 )
+#define INSN_DEFSUSES_MEM   ( 0x00000002 )
+
 extern bool insn_defs_cc(struct insn *);
 extern ccset insn_uses_cc(struct insn *);
 extern bool insn_defs_mem(struct insn *);
 extern bool insn_uses_mem(struct insn *);
-extern bool insn_defs_regs(struct insn *, struct regs *);
-extern bool insn_uses_regs(struct insn *, struct regs *);
+extern bool insn_defs_regs(struct insn *, struct regs *, insn_defsuses_flags);
+extern bool insn_uses_regs(struct insn *, struct regs *, insn_defsuses_flags);
+
 extern bool insn_side_effects(struct insn *);
 extern bool insn_test_z(struct insn *, pseudo_reg *);
 extern bool insn_test_con(struct insn *, pseudo_reg *);

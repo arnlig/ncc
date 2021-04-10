@@ -117,7 +117,7 @@ static void invalidate(struct insn *insn)
     struct regs regs = REGS_INITIALIZER(regs);
     struct reg *regs_r;
 
-    insn_defs_regs(insn, &regs);
+    insn_defs_regs(insn, &regs, 0);
     
     REGS_FOREACH(regs_r, &regs)
         invalidate0(regs_r->reg);

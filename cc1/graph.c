@@ -411,7 +411,7 @@ static blocks_iter_ret interf0(struct block *b)
         struct node *n;                                                 \
                                                                         \
         REGS_INIT(&regs);                                               \
-        insn_##x##_regs(insn, &regs);                                   \
+        insn_##x##_regs(insn, &regs, 0);                                \
                                                                         \
         REGS_FOREACH(r, &regs) {                                        \
             if (target->reg_physical(r->reg))                           \
@@ -629,8 +629,8 @@ static void spill(struct node *n, struct block *b, struct insn *insn)
     sym = reg_symbol(n->reg);
     symbol_storage(sym);
 
-    insn_uses_regs(insn, &uses);            
-    insn_defs_regs(insn, &defs);
+    insn_uses_regs(insn, &uses, 0);
+    insn_defs_regs(insn, &defs, 0);
 
     target->reg_spills(n->reg, &spills);
     regs_diff(&spills, &uses);
@@ -667,8 +667,8 @@ static blocks_iter_ret rewrite0(struct block *b)
     struct insn *insn;
 
     INSNS_FOREACH(insn, &b->insns) {
-        insn_uses_regs(insn, &regs);
-        insn_defs_regs(insn, &regs);
+        insn_uses_regs(insn, &regs, 0);
+        insn_defs_regs(insn, &regs, 0);
 
         REGS_FOREACH(regs_r, &regs) {
             if (target->reg_physical(regs_r->reg))
@@ -685,8 +685,8 @@ static blocks_iter_ret rewrite0(struct block *b)
 
         regs_clear(&regs);
 
-        insn_uses_regs(insn, &func_regs);
-        insn_defs_regs(insn, &func_regs);
+        insn_uses_regs(insn, &func_regs, 0);
+        insn_defs_regs(insn, &func_regs, 0);
     }
 
     return BLOCKS_ITER_OK;

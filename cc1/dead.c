@@ -64,7 +64,7 @@ static blocks_iter_ret dead0(struct block *b)
             if (insn_defs_mem(insn)) goto skip;
             if (insn_side_effects(insn)) goto skip;
 
-            insn_defs_regs(insn, &regs);
+            insn_defs_regs(insn, &regs, 0);
 
             if (insn_defs_cc(insn))
                 REGS_ADD(&regs, PSEUDO_REG_CC);

@@ -74,7 +74,7 @@ static void load0(struct block *b)
         else if (insn_defs_mem(insn))
             b->store = 0;
         else if (b->store) {
-            insn_defs_regs(insn, &regs);
+            insn_defs_regs(insn, &regs, 0);
 
             if ((OPERAND_REG(b->store->dst)
                     && REGS_CONTAINS(&regs, b->store->dst->reg))

@@ -325,7 +325,7 @@ static void local(struct block *b, struct conp *conps)
             continue;
         }
 
-        insn_uses_regs(insn, &regs);
+        insn_uses_regs(insn, &regs, 0);
 
         REGS_FOREACH(r, &regs)
             if ((value = conps_value(conps, r->reg))
@@ -334,7 +334,7 @@ static void local(struct block *b, struct conp *conps)
 
         regs_clear(&regs);
 
-        insn_defs_regs(insn, &regs);
+        insn_defs_regs(insn, &regs, 0);
 
         REGS_FOREACH(r, &regs)
             conps_set(conps, r->reg, CONP_STATE_NAC, 0);

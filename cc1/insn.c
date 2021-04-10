@@ -691,26 +691,44 @@ bool insn_defs_z(struct insn *insn, pseudo_reg *reg)
         return FALSE;
 }
 
-/* returns TRUE if this instruction DEFs any registers. if so,
-   and regs is not 0, the DEFd registers are added to the set. */
+/* these return TRUE if this instruction DEFs (USEs) any registers. if 
+   so, and regs is not 0, the DEFd (USEd) registers are added to the set.
+   if INSN_DEFSUSES_CC is in flags, then PSEUDO_REG_CC is included in the
+   set of registers if the insn DEFs (USEs) condition codes. similarly,
+   if INSN_DEFUSES_MEM is in flags, then PSEUDO_REG_MEM is included if the
+   insn DEFs (USEs) memory. */
 
-bool insn_defs_regs(struct insn *insn, struct regs *regs)
+#define INSN_DEFSUSES0(pred, REG, reg)                                      \
+    do {                                                                    \
+        if ((flags & INSN_DEFSUSES_##REG) && insn_##pred##_##reg(insn)) {   \
+            result = TRUE;                                                  \
+                                                                            \
+            if (regs)                                                       \
+                REGS_ADD(regs, PSEUDO_REG_##REG);                           \
+        }                                                                   \
+    } while (0)
+
+bool insn_defs_regs(struct insn *insn, struct regs *regs,
+                    insn_defsuses_flags flags)
 {
+    bool result = FALSE;
+
     if (I_TARGET(insn->op))
-        return target->insn_defs_regs(insn, regs);
+        result = target->insn_defs_regs(insn, regs);
     else {
         if (insn->dst && OPERAND_REG(insn->dst) && !I_USE_DST(insn->op)) {
+            result = TRUE;
+
             if (regs)
                 REGS_ADD(regs, insn->dst->reg);
-
-            return TRUE;
-        } else
-            return FALSE;
+        }
     }
-}
 
-/* returns TRUE if this instruction USEs any registers. if so,
-   and regs is not 0, the USEd registers are added to the set. */
+    INSN_DEFSUSES0(defs, CC, cc);
+    INSN_DEFSUSES0(defs, MEM, mem);
+
+    return result;
+}
 
 #define INSN_USES_REG(OPR)                                                  \
     do {                                                                    \
@@ -722,21 +740,25 @@ bool insn_defs_regs(struct insn *insn, struct regs *regs)
         }                                                                   \
     } while (0)
 
-bool insn_uses_regs(struct insn *insn, struct regs *regs)
+bool insn_uses_regs(struct insn *insn, struct regs *regs,
+                    insn_defsuses_flags flags)
 {
     bool result = FALSE;
 
     if (I_TARGET(insn->op))
-        return target->insn_uses_regs(insn, regs);
+        result = target->insn_uses_regs(insn, regs);
     else {
         if (I_USE_DST(insn->op))
             INSN_USES_REG(insn->dst);
 
         INSN_USES_REG(insn->src1);
         INSN_USES_REG(insn->src2);
-    
-        return result;
     }
+
+    INSN_DEFSUSES0(uses, CC, cc);
+    INSN_DEFSUSES0(uses, MEM, mem);
+
+    return result;
 }
 
 /* vi: set ts=4 expandtab: */

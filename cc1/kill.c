@@ -34,7 +34,7 @@ static blocks_iter_ret kill0(struct block *b)
     regs_clear(&b->kill);
 
     INSNS_FOREACH(insn, &b->insns)
-        insn_defs_regs(insn, &b->kill);
+        insn_defs_regs(insn, &b->kill, 0);
 
     return BLOCKS_ITER_OK;
 }

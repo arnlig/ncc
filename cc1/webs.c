@@ -235,7 +235,7 @@ static blocks_iter_ret def0(struct block *b)
     int idx;
 
     INSNS_FOREACH(insn, &b->insns) {
-        insn_defs_regs(insn, &defs);
+        insn_defs_regs(insn, &defs, 0);
 
         REGS_FOREACH(r, &defs) {
             reg = r->reg;
@@ -320,7 +320,7 @@ static blocks_iter_ret merge0(struct block *b)
     regs_union(&current, &b->webs.in);
 
     INSNS_FOREACH(insn, &b->insns) {
-        insn_uses_regs(insn, &regs);
+        insn_uses_regs(insn, &regs, 0);
 
         REGS_FOREACH(regs_r, &regs) {
             if (target->reg_physical(regs_r->reg))
@@ -347,7 +347,7 @@ static blocks_iter_ret merge0(struct block *b)
 
         regs_clear(&regs);
 
-        insn_defs_regs(insn, &regs);
+        insn_defs_regs(insn, &regs, 0);
 
         REGS_FOREACH(regs_r, &regs)
             if (!target->reg_physical(regs_r->reg))
@@ -370,8 +370,8 @@ static blocks_iter_ret rewrite0(struct block *b)
     struct web *w;
 
     INSNS_FOREACH(insn, &b->insns) {
-        insn_defs_regs(insn, &regs);
-        insn_uses_regs(insn, &regs);
+        insn_defs_regs(insn, &regs, 0);
+        insn_uses_regs(insn, &regs, 0);
 
         REGS_FOREACH(regs_r, &regs) {
             if (target->reg_physical(regs_r->reg))
