@@ -97,14 +97,10 @@ L42:
 	cmpq $0,%rax
 	jnz L50
 L49:
-	movl 8(%rbx),%esi
-	orl $4,%esi
-	movl %esi,8(%rbx)
+	orl $4,8(%rbx)
 	jmp L44
 L50:
-	movl 8(%rbx),%esi
-	orl $72,%esi
-	movl %esi,8(%rbx)
+	orl $72,8(%rbx)
 	movl $1024,12(%rbx)
 	movl $-1,(%rbx)
 	jmp L44
@@ -115,14 +111,10 @@ L43:
 	cmpq $0,%rax
 	jnz L53
 L52:
-	movl 8(%rbx),%esi
-	orl $4,%esi
-	movl %esi,8(%rbx)
+	orl $4,8(%rbx)
 	jmp L44
 L53:
-	movl 8(%rbx),%esi
-	orl $8,%esi
-	movl %esi,8(%rbx)
+	orl $8,8(%rbx)
 	movl $1024,12(%rbx)
 	movl 8(%rbx),%esi
 	testl $64,%esi
@@ -153,9 +145,7 @@ L61:
 	cmpq $-1,%rax
 	jnz L63
 L64:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L63:
@@ -166,9 +156,7 @@ L63:
 	cmpq $1,%rax
 	jz L70
 L68:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L70:
@@ -208,9 +196,7 @@ L83:
 	cmpq $-1,%rax
 	jnz L85
 L86:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L85:
@@ -221,9 +207,7 @@ L85:
 	cmpl $0,%eax
 	jnz L60
 L90:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L74:
@@ -249,9 +233,7 @@ L97:
 	cmpq $-1,%rax
 	jnz L99
 L100:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L99:
@@ -264,9 +246,7 @@ L99:
 L104:
 	movq 16(%rbx),%rsi
 	movb %r12b,(%rsi)
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 	movl $-1,%eax
 	jmp L19
 L96:

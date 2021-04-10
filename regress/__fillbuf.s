@@ -59,14 +59,10 @@ L24:
 	cmpq $0,%rax
 	jnz L32
 L31:
-	movl 8(%rbx),%esi
-	orl $4,%esi
-	movl %esi,8(%rbx)
+	orl $4,8(%rbx)
 	jmp L26
 L32:
-	movl 8(%rbx),%esi
-	orl $8,%esi
-	movl %esi,8(%rbx)
+	orl $8,8(%rbx)
 	movl $1024,12(%rbx)
 L26:
 	xorl %r12d,%r12d
@@ -112,14 +108,10 @@ L51:
 	cmpl $0,%eax
 	jnz L55
 L54:
-	movl 8(%rbx),%esi
-	orl $16,%esi
-	movl %esi,8(%rbx)
+	orl $16,8(%rbx)
 	jmp L56
 L55:
-	movl 8(%rbx),%esi
-	orl $32,%esi
-	movl %esi,8(%rbx)
+	orl $32,8(%rbx)
 L56:
 	movl $-1,%eax
 	jmp L3

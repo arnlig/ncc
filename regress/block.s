@@ -1014,9 +1014,7 @@ L536:
 	pushq %rbp
 	movq %rsp,%rbp
 L537:
-	movl 4(%rdi),%esi
-	andl $-2,%esi
-	movl %esi,4(%rdi)
+	andl $-2,4(%rdi)
 	xorl %eax,%eax
 L538:
 	popq %rbp
@@ -1230,9 +1228,7 @@ L633:
 	movq %rbx,%rdi
 	call _symbol_temp
 	movq %rax,_func_strun_ret(%rip)
-	movl 12(%rax),%esi
-	orl $134217728,%esi
-	movl %esi,12(%rax)
+	orl $134217728,12(%rax)
 	movq _target(%rip),%rsi
 	movq 80(%rsi),%rsi
 	movq _func_strun_ret(%rip),%rdi

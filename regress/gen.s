@@ -223,9 +223,7 @@ L57:
 	testq $262144,%rsi
 	jz L55
 L53:
-	movl 4(%rax),%esi
-	orl $1,%esi
-	movl %esi,4(%rax)
+	orl $1,4(%rax)
 L55:
 	movq _current_block(%rip),%rsi
 	leaq 8(%rsi),%rdi
@@ -262,9 +260,7 @@ L68:
 	testq $262144,%rsi
 	jz L66
 L64:
-	movl 4(%rax),%esi
-	orl $1,%esi
-	movl %esi,4(%rax)
+	orl $1,4(%rax)
 L66:
 	movq _current_block(%rip),%rsi
 	leaq 8(%rsi),%rdi

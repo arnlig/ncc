@@ -329,9 +329,7 @@ L129:
 	andq %rax,%rsi
 	movq -16(%rbp),%r10	 # spill
 	movq 32(%r10),%rax
-	movq (%rax),%rdx
-	orq %rsi,%rdx
-	movq %rdx,(%rax)
+	orq %rsi,(%rax)
 	jmp L126
 L125:
 	leal (,%rbx,8),%esi
@@ -469,9 +467,7 @@ L183:
 	movq %rax,32(%rbx)
 	shrq $3,%rax
 	movq %rax,32(%rbx)
-	movl 12(%rbx),%esi
-	orl $-2147483648,%esi
-	movl %esi,12(%rbx)
+	orl $-2147483648,12(%rbx)
 L180:
 	popq %rbx
 	popq %rbp
@@ -1008,9 +1004,7 @@ L459:
 	pushq $0
 	call _error
 	addq $24,%rsp
-	movl 12(%rbx),%esi
-	orl $67108864,%esi
-	movl %esi,12(%rbx)
+	orl $67108864,12(%rbx)
 L461:
 	leaq -16(%rbp),%rdi
 	call _type_clear
@@ -1067,9 +1061,7 @@ L484:
 	movq %r12,%rsi
 	call _type_copy
 	movq 32(%rbx),%rsi
-	movq (%rsi),%rdi
-	andq $-393217,%rdi
-	movq %rdi,(%rsi)
+	andq $-393217,(%rsi)
 	movl _current_scope(%rip),%esi
 	movq %rbx,%rdi
 	call _symbol_insert
@@ -1260,9 +1252,7 @@ L563:
 	call _error
 	addq $32,%rsp
 L565:
-	movl 12(%r12),%esi
-	orl $-2147483648,%esi
-	movl %esi,12(%r12)
+	orl $-2147483648,12(%r12)
 	movq %r12,%rdi
 	call _symbol_here
 	movq 64(%r12),%rax

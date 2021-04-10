@@ -48,9 +48,7 @@ L20:
 	call _tree_cast
 	movq %rax,%rbx
 	movq 8(%rax),%rsi
-	movq (%rsi),%rdi
-	andq $-393217,%rdi
-	movq %rdi,(%rsi)
+	andq $-393217,(%rsi)
 L22:
 	testq $8192,%r12
 	jz L25
@@ -991,9 +989,7 @@ L375:
 	call _error
 	addq $24,%rsp
 L377:
-	movl 12(%rbx),%esi
-	orl $1073741824,%esi
-	movl %esi,12(%rbx)
+	orl $1073741824,12(%rbx)
 	movq %rbx,%rdi
 	call _tree_sym
 	movq %rax,%rbx

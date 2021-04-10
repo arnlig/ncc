@@ -82,8 +82,14 @@ static struct update            /* this table is incomplete */
 {   AMD64_I_MOVSWL, AMD64_I_SUBL,   AMD64_I_MOVW,   AMD64_I_SUBW,   FALSE   },
 {   AMD64_I_MOVL,   AMD64_I_ADDL,   AMD64_I_MOVL,   AMD64_I_ADDL,   TRUE    },
 {   AMD64_I_MOVL,   AMD64_I_SUBL,   AMD64_I_MOVL,   AMD64_I_SUBL,   TRUE    },
+{   AMD64_I_MOVL,   AMD64_I_ANDL,   AMD64_I_MOVL,   AMD64_I_ANDL,   TRUE    },
+{   AMD64_I_MOVL,   AMD64_I_ORL,    AMD64_I_MOVL,   AMD64_I_ORL,    TRUE    },
+{   AMD64_I_MOVL,   AMD64_I_XORL,   AMD64_I_MOVL,   AMD64_I_XORL,   TRUE    },
 {   AMD64_I_MOVQ,   AMD64_I_ADDQ,   AMD64_I_MOVQ,   AMD64_I_ADDQ,   TRUE    },
-{   AMD64_I_MOVQ,   AMD64_I_SUBQ,   AMD64_I_MOVQ,   AMD64_I_SUBQ,   TRUE    }
+{   AMD64_I_MOVQ,   AMD64_I_SUBQ,   AMD64_I_MOVQ,   AMD64_I_SUBQ,   TRUE    },
+{   AMD64_I_MOVQ,   AMD64_I_ANDQ,   AMD64_I_MOVQ,   AMD64_I_ANDQ,   TRUE    },
+{   AMD64_I_MOVQ,   AMD64_I_ORQ,    AMD64_I_MOVQ,   AMD64_I_ORQ,    TRUE    },
+{   AMD64_I_MOVQ,   AMD64_I_XORQ,   AMD64_I_MOVQ,   AMD64_I_XORQ,   TRUE    }
 };
 
 static blocks_iter_ret update0(struct block *b)

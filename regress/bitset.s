@@ -77,9 +77,7 @@ L30:
 	shll %cl,%esi
 	movq 8(%rdi),%rdi
 	sarq $5,%rax
-	movl (%rdi,%rax,4),%ecx
-	orl %esi,%ecx
-	movl %ecx,(%rdi,%rax,4)
+	orl %esi,(%rdi,%rax,4)
 L31:
 	popq %rbp
 	ret
@@ -97,9 +95,7 @@ L37:
 	notl %esi
 	movq 8(%rdi),%rdi
 	sarq $5,%rax
-	movl (%rdi,%rax,4),%ecx
-	andl %esi,%ecx
-	movl %ecx,(%rdi,%rax,4)
+	andl %esi,(%rdi,%rax,4)
 L38:
 	popq %rbp
 	ret
@@ -159,9 +155,7 @@ L66:
 	movslq %eax,%rcx
 	movl (%rdx,%rcx,4),%edx
 	movq 8(%rdi),%r8
-	movl (%r8,%rcx,4),%r9d
-	andl %edx,%r9d
-	movl %r9d,(%r8,%rcx,4)
+	andl %edx,(%r8,%rcx,4)
 	addl $1,%eax
 	jmp L65
 L64:
@@ -183,9 +177,7 @@ L77:
 	movslq %eax,%rcx
 	movl (%rdx,%rcx,4),%edx
 	movq 8(%rdi),%r8
-	movl (%r8,%rcx,4),%r9d
-	orl %edx,%r9d
-	movl %r9d,(%r8,%rcx,4)
+	orl %edx,(%r8,%rcx,4)
 	addl $1,%eax
 	jmp L76
 L75:
@@ -208,9 +200,7 @@ L88:
 	movl (%rdx,%rcx,4),%edx
 	notl %edx
 	movq 8(%rdi),%r8
-	movl (%r8,%rcx,4),%r9d
-	andl %edx,%r9d
-	movl %r9d,(%r8,%rcx,4)
+	andl %edx,(%r8,%rcx,4)
 	addl $1,%eax
 	jmp L87
 L86:

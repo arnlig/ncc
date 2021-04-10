@@ -66,9 +66,7 @@ L36:
 	cmpq $-1,%rax
 	jnz L43
 L41:
-	movl 8(%r12),%esi
-	orl $32,%esi
-	movl %esi,8(%r12)
+	orl $32,8(%r12)
 	movl $-1,%eax
 	jmp L3
 L43:
@@ -117,9 +115,7 @@ L60:
 	cmpq $-1,%rax
 	jnz L62
 L63:
-	movl 8(%r12),%esi
-	orl $32,%esi
-	movl %esi,8(%r12)
+	orl $32,8(%r12)
 	movl $-1,%eax
 	jmp L3
 L62:
@@ -134,9 +130,7 @@ L67:
 	xorl %eax,%eax
 	jmp L3
 L69:
-	movl 8(%r12),%esi
-	orl $32,%esi
-	movl %esi,8(%r12)
+	orl $32,8(%r12)
 	movl $-1,%eax
 L3:
 	popq %r12
