@@ -343,7 +343,6 @@ L82:
 L83:
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1,%rsi
 	jnz L84
 L85:
@@ -354,7 +353,6 @@ L85:
 L84:
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $65536,%rsi
 	jz L90
 L89:
@@ -491,7 +489,6 @@ L116:
 	movq %rbx,%r12
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1022,%rsi
 	jnz L120
 L118:
@@ -502,7 +499,6 @@ L118:
 L120:
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $14,%rsi
 	jnz L122
 L125:

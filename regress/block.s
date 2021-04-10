@@ -1221,7 +1221,6 @@ L625:
 	call *%rsi
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $65536,%rsi
 	jz L634
 L633:

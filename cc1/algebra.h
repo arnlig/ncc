@@ -26,7 +26,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef ALGEBRA_H
 #define ALGEBRA_H
 
+struct tree;
+
 extern void algebra(void);
+extern struct tree *algebra_tree_opt(struct tree *);
 
 #endif /* ALGEBRA_H */
 

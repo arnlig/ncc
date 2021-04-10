@@ -509,7 +509,6 @@ L229:
 L226:
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $7168,%rsi
 	jz L234
 L233:
@@ -544,7 +543,6 @@ L250:
 L247:
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $7168,%rsi
 	jz L255
 L254:
@@ -904,7 +902,6 @@ L642:
 L539:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L543
 L542:
@@ -932,7 +929,6 @@ L544:
 L547:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L551
 L550:
@@ -1126,7 +1122,6 @@ L627:
 L577:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L581
 L580:
@@ -1164,7 +1159,6 @@ L582:
 L588:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L592
 L591:
@@ -1209,7 +1203,6 @@ L623:
 L555:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L559
 L558:
@@ -1339,7 +1332,6 @@ L458:
 L566:
 	movq 8(%rbx),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $7168,%rdi
 	jz L570
 L569:
@@ -1710,6 +1702,8 @@ L809:
 	call _field_tree_opt
 	movq %rax,%rdi
 	call _sign_tree_opt
+	movq %rax,%rdi
+	call _algebra_tree_opt
 L764:
 	popq %rbx
 	movq %rbp,%rsp
@@ -2004,6 +1998,7 @@ L817:
 .globl _type_append_bits
 .globl _safe_malloc
 .globl _tree_opt
+.globl _algebra_tree_opt
 .globl _sign_tree_opt
 .globl _field_tree_opt
 .globl _cast_tree_opt

@@ -249,7 +249,6 @@ L159:
 	call _type_copy
 	movq (%r15),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $8192,%rdi
 	jz L115
 L117:
@@ -392,7 +391,6 @@ L146:
 	movl %esi,40(%r14)
 	movq (%r15),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $65536,%rdi
 	jz L149
 L154:

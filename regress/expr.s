@@ -80,14 +80,12 @@ L61:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $8190,%rsi
 	jz L34
 L38:
 	movq 32(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $8190,%rsi
 	jz L34
 L35:
@@ -215,7 +213,6 @@ L107:
 	movq 32(%rdi),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jz L103
 L104:
@@ -234,14 +231,12 @@ L142:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jz L118
 L122:
 	movq 32(%rbx),%rdi
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1022,%rsi
 	jz L118
 L119:
@@ -253,7 +248,6 @@ L119:
 L137:
 	movq 8(%rax),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1022,%rsi
 	jz L118
 L133:
@@ -309,14 +303,12 @@ L185:
 	movq %rcx,-8(%rbp)
 	movq 8(%rdi),%rcx
 	movq (%rcx),%rdx
-	andq $131071,%rdx
 	andq $32768,%rdx
 	cmpq $0,%rdx
 	jz L157
 L165:
 	movq 8(%rax),%r8
 	movq (%r8),%r8
-	andq $131071,%r8
 	testq $32768,%r8
 	jz L157
 L161:
@@ -330,7 +322,6 @@ L173:
 L169:
 	movq 8(%rax),%rax
 	movq (%rax),%rcx
-	andq $131071,%rcx
 	testq $32768,%rcx
 	jz L157
 L177:
@@ -393,7 +384,6 @@ L195:
 	leaq 8(%r13),%r12
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jz L193
 L192:
@@ -407,7 +397,6 @@ L192:
 	movq %rax,%r13
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jnz L200
 L199:
@@ -469,7 +458,6 @@ L216:
 	leaq 8(%rbx),%r12
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $65536,%rsi
 	jz L213
 L211:
@@ -675,25 +663,21 @@ L245:
 L246:
 	movq 8(%rdi),%rcx
 	movq (%rcx),%rcx
-	andq $131071,%rcx
 	testq $32768,%rcx
 	jz L251
 L255:
 	movq 8(%rsi),%rcx
 	movq (%rcx),%rcx
-	andq $131071,%rcx
 	testq $32768,%rcx
 	jnz L248
 L251:
 	movq 8(%rdi),%rcx
 	movq (%rcx),%rcx
-	andq $131071,%rcx
 	testq $65536,%rcx
 	jz L279
 L259:
 	movq 8(%rsi),%rcx
 	movq (%rcx),%rcx
-	andq $131071,%rcx
 	testq $65536,%rcx
 	jz L279
 L248:
@@ -802,10 +786,10 @@ L298:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $8190,%rsi
 	jz L300
 L301:
+	andq $131071,%rsi
 	movq 32(%rbx),%rdi
 	call _tree_cast_bits
 	movq %rax,32(%rbx)
@@ -863,7 +847,6 @@ L321:
 	call _lvalue
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $40958,%rsi
 	jnz L324
 L322:
@@ -875,7 +858,6 @@ L322:
 L324:
 	movq 8(%r13),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $32768,%rdi
 	jz L327
 L326:
@@ -889,10 +871,12 @@ L327:
 	jz L330
 L329:
 	movslq %ebx,%rsi
+	andq $131071,%rdi
 	call _tree_i
 	jmp L328
 L330:
 	cvtsi2sdl %ebx,%xmm0
+	andq $131071,%rdi
 	call _tree_f
 L328:
 	movl %r12d,%edi
@@ -1121,7 +1105,6 @@ L402:
 L403:
 	movq 8(%r13),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $32768,%rdi
 	jz L409
 L411:
@@ -1239,14 +1222,12 @@ L434:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jz L436
 L439:
 	movq 32(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1022,%rsi
 	jnz L438
 L436:
@@ -1283,7 +1264,6 @@ L451:
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $32768,%rdi
 	jz L453
 L456:
@@ -1510,7 +1490,6 @@ L564:
 	movq 24(%rbx),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	testq $32768,%rdi
 	jz L563
 L568:
@@ -1546,7 +1525,6 @@ L544:
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rdi
-	andq $131071,%rdi
 	andq $32768,%rdi
 	cmpq $0,%rdi
 	jz L545
@@ -1710,13 +1688,11 @@ L617:
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $40958,%rsi
 	jz L627
 L639:
 	movq -16(%rbp),%rdi
 	movq (%rdi),%rdi
-	andq $131071,%rdi
 	testq $40958,%rdi
 	jz L627
 L635:
@@ -1728,19 +1704,16 @@ L643:
 L631:
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $32768,%rsi
 	jz L626
 L647:
 	movq -16(%rbp),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $7168,%rsi
 	jz L626
 L627:
 	movq -16(%rbp),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1,%rsi
 	jnz L626
 L624:
@@ -1854,7 +1827,6 @@ L677:
 	movq 24(%r12),%rdi
 	movq 8(%rdi),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $65536,%rsi
 	jz L682
 L680:
@@ -1957,7 +1929,6 @@ L705:
 	movq %rax,%r14
 	movq 8(%rax),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $65536,%rsi
 	jz L709
 L708:
@@ -2074,7 +2045,6 @@ L760:
 L756:
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $1022,%rsi
 	jnz L755
 L753:
@@ -2159,7 +2129,6 @@ L821:
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
-	andq $131071,%rsi
 	testq $40958,%rsi
 	jnz L817
 L815:

@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "output.h"
 #include "type.h"
 #include "sign.h"
+#include "algebra.h"
 #include "tree.h"
 
 /* allocate a new tree node properly
@@ -580,6 +581,7 @@ struct tree *tree_opt(struct tree *tree)
 
     tree = field_tree_opt(tree);
     tree = sign_tree_opt(tree);
+    tree = algebra_tree_opt(tree);
 
     return tree;
 }

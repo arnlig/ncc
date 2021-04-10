@@ -26,20 +26,42 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "cc1.h"
 #include "insn.h"
 #include "block.h"
+#include "tree.h"
 #include "algebra.h"
 #include "opt.h"
 
-/* simple algebraic simplifications and strength reductions. in
-   addition to its obvious benefits, this pass will effectively
-   normalize operations so later passes like value numbering will
-   not need to recognize algebraic equivalents, e.g.,
+/* perform tree-based algebraic simplifications. */
 
-      (x + x) == (2 * x) == (x << 1)  (at least for integers)
+struct tree *algebra_tree_opt(struct tree *tree)
+{
+again:
+    tree = tree_normalize(tree);
 
-   there is plenty of room for expansion here. if we desire further
-   strength reduction (e.g., (x * 3) == ((x << 1) + x)) this would
-   be the place to do it. also, we currently miss (or even create)
-   some easy ones like repeated shifts (((x << 1) << 1) == (x << 2)). */
+    switch (tree->op)
+    {
+    case E_AND:             /* ((x & c1) & c2) == (x & (c1 & c2)) */
+
+        tree->left = tree_normalize(tree->left);
+
+        if (TREE_PURE_CON(tree->right) && (tree->left->op == E_AND)
+          && TREE_PURE_CON(tree->left->right))
+        {
+            tree->left->right->con.i &= tree->right->con.i;
+            tree = tree_chop_binary(tree);
+            goto again;
+        }
+       
+        break;
+
+    }
+
+    return tree;
+}
+
+/* algebraic simplifications/strength reductions for linear IR.
+   at some point we should break out a function that can do this
+   on a single insn for a client when needed, rather than always
+   performing a pass over the entire function. */
 
 static bool changed;
 
