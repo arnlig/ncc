@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "target.h"
 #include "insn.h"
 #include "block.h"
+#include "field.h"
 #include "tree.h"
 #include "cast.h"
 #include "gen.h"
@@ -272,12 +273,11 @@ static struct tree *insert(struct tree *ptr, struct tree *value,
 
     host_bits = type_sizeof(&value->type, 0);
     host_bits *= BITS_PER_BYTE;
+
     mask_mask = -1L;
     mask_mask >>= (sizeof(mask) * BITS_PER_BYTE) - host_bits;
 
-    mask = -1L;
-    mask >>= (sizeof(mask) * BITS_PER_BYTE) - size;
-    mask <<= shift;
+    mask = field_mask(size, shift);
 
     new = symbol_temp(&value->type);
     shifted = symbol_temp(&value->type);

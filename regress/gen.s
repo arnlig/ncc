@@ -530,9 +530,9 @@ L127:
 	pushq %r14
 	pushq %r15
 L132:
-	movl %edx,%ebx
+	movl %edx,%r12d
 	movq %rdi,-24(%rbp)	 # spill
-	movl %ecx,%r12d
+	movl %ecx,%ebx
 	movq %rsi,-8(%rbp)	 # spill
 	movq -8(%rbp),%r10	 # spill
 	leaq 8(%r10),%r13
@@ -548,23 +548,17 @@ L132:
 	movq %rdi,%rcx
 	shrq %cl,%rsi
 	movq %rsi,%r15
-	movslq %ebx,%rsi
-	movl $64,%edi
-	subq %rsi,%rdi
-	movq $-1,%rsi
-	movq %rdi,%rcx
-	shrq %cl,%rsi
-	movq %rsi,%r14
-	movslq %r12d,%rsi
-	movq %rsi,%rcx
-	shlq %cl,%r14
+	movl %r12d,%edi
+	movl %ebx,%esi
+	call _field_mask
+	movq %rax,%r14
 	movq %r13,%rdi
 	call _symbol_temp
 	movq %rax,-16(%rbp)	 # spill
 	movq %r13,%rdi
 	call _symbol_temp
 	movq %rax,%r13
-	movslq %r12d,%rsi
+	movslq %ebx,%rsi
 	movl $64,%edi
 	xorl %edx,%edx
 	call _operand_i
@@ -2048,6 +2042,7 @@ L519:
 .globl _tree_simplify
 .globl _tree_chop_binary
 .globl _operand_i
+.globl _field_mask
 .globl _current_block
 .globl _entry_block
 .globl _tree_sym

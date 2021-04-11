@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef FIELD_H
 #define FIELD_H
 
+extern long field_mask(int, int);
 extern struct tree *field_tree_opt(struct tree *);
 
 #endif /* FIELD_H */
