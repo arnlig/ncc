@@ -1018,7 +1018,7 @@ L204:
 L216:
 	movq %rdi,%r12
 	movl (%r12),%esi
-	cmpl $805307177,%esi
+	cmpl $268436265,%esi
 	setz %sil
 	movzbl %sil,%r15d
 	leaq 8(%r12),%rsi
@@ -1786,18 +1786,60 @@ L367:
 	jz L429
 	jb L438
 L478:
-	cmpl $805307177,%esi
+	cmpl $637534242,%esi
+	jae L516
+L479:
+	cmpl $402654223,%esi
 	jz L419
-	jb L479
-L499:
+	jb L480
+L489:
+	cmpl $545261344,%esi
+	jz L405
+	jb L490
+L495:
+	cmpl $545261604,%esi
+	jz L405
+	jnz L373
+L490:
+	cmpl $545260055,%esi
+	jz L405
+	ja L373
+L491:
+	cmpl $545259541,%esi
+	jz L405
+	jnz L373
+L480:
+	cmpl $276825113,%esi
+	jz L405
+	jb L481
+L486:
+	cmpl $402653966,%esi
+	jz L419
+	jnz L373
+L481:
+	cmpl $268436265,%esi
+	jz L419
+	ja L373
+L482:
+	cmpl $201326602,%esi
+	jnz L373
+L407:
+	movq %rbx,%rdi
+	call _gen_asg
+	movq %rax,%rbx
+	jmp L373
+L516:
+	cmpl $637534243,%esi
+	jbe L426
+L498:
 	cmpl $1073741830,%esi
 	jz L375
-	jb L500
-L509:
+	jb L499
+L508:
 	cmpl $1082130441,%esi
 	jz L394
 	ja L373
-L510:
+L509:
 	cmpl $1082130439,%esi
 	jnz L373
 L394:
@@ -1805,11 +1847,11 @@ L394:
 	call _gen_unary
 	movq %rax,%rbx
 	jmp L373
-L500:
+L499:
 	cmpl $1073741828,%esi
 	jz L379
-	jb L501
-L506:
+	jb L500
+L505:
 	cmpl $1073741829,%esi
 	jnz L373
 L381:
@@ -1818,11 +1860,11 @@ L381:
 	call _gen_fetch
 	movq %rax,%rbx
 	jmp L373
-L501:
+L500:
 	cmpl $1073741827,%esi
 	jz L387
 	ja L373
-L502:
+L501:
 	cmpl $813695768,%esi
 	jz L405
 	jnz L373
@@ -1839,49 +1881,6 @@ L379:
 L375:
 	movq %rbx,%rdi
 	call _gen_addrof
-	movq %rax,%rbx
-	jmp L373
-L479:
-	cmpl $545259541,%esi
-	jz L405
-	jb L480
-L489:
-	cmpl $545261604,%esi
-	jz L405
-	jb L490
-L495:
-	cmpl $637534242,%esi
-	jb L373
-L498:
-	cmpl $637534243,%esi
-	jbe L426
-	ja L373
-L490:
-	cmpl $545261344,%esi
-	jz L405
-	ja L373
-L491:
-	cmpl $545260055,%esi
-	jz L405
-	jnz L373
-L480:
-	cmpl $402653966,%esi
-	jz L419
-	jb L481
-L486:
-	cmpl $402654223,%esi
-	jz L419
-	jnz L373
-L481:
-	cmpl $276825113,%esi
-	jz L405
-	ja L373
-L482:
-	cmpl $201326602,%esi
-	jnz L373
-L407:
-	movq %rbx,%rdi
-	call _gen_asg
 	movq %rax,%rbx
 	jmp L373
 L438:

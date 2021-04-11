@@ -1387,7 +1387,7 @@ L524:
 	ja L523
 L508:
 	movq %rbx,%rdi
-	movl $805307177,%esi
+	movl $268436265,%esi
 	call _crement
 	movq %rax,%rbx
 	call _lex

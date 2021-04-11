@@ -232,7 +232,7 @@ extern void tree_debug(struct tree *, int);
     /* the E_POST op is just like E_ADDASG, except that
        its result is the value before the addition. */
 
-#define E_POST      ( 41 | E_BIN_ENC(3) | E_SCALE | E_SWAP )  /* post ++/-- */
+#define E_POST      ( 41 | E_BIN_ENC(3) | E_SCALE )           /* post ++/-- */
 
 #define E_COMMA     ( 42 )                                      /*  ,   */
 
