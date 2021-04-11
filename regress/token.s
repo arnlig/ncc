@@ -873,10 +873,7 @@ L406:
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
 	movq $0,-8(%rbp)
-	movl -24(%rbp),%esi
-	andl $4294967294,%esi
-	orl $1,%esi
-	movl %esi,-24(%rbp)
+	orl $1,-24(%rbp)
 	movq %r12,%rsi
 	call _token_text
 	movq %rbx,%rdi

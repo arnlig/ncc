@@ -8,7 +8,7 @@ L2:
 	testl $1,%esi
 	jz L5
 L4:
-	andl $4294967041,%esi
+	andl $-255,%esi
 	movl %esi,(%rdi)
 	movb $0,1(%rdi)
 	jmp L3
@@ -26,10 +26,9 @@ L11:
 	movq %rsp,%rbp
 L12:
 	movl (%rdi),%esi
-	andl $4294967294,%esi
 	orl $1,%esi
 	movl %esi,(%rdi)
-	andl $4294967041,%esi
+	andl $-255,%esi
 	movl %esi,(%rdi)
 	movb $0,1(%rdi)
 L13:
