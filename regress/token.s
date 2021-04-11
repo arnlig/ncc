@@ -1843,9 +1843,9 @@ L862:
 	cmpq $0,%rsi
 	jz L870
 L867:
-	movq 40(%rsi),%rax
+	movq 40(%rsi),%rdi
+	movq %rdi,40(%rdx)
 	leaq 32(%rdx),%rdi
-	movq %rax,40(%rdx)
 	movq %rsi,32(%rdx)
 	movq 40(%rsi),%rax
 	movq %rdx,(%rax)

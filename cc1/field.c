@@ -84,7 +84,7 @@ struct tree *field_tree_opt(struct tree *tree)
     long mask;
     long i;
 
-    tree = tree_normalize(tree);
+    tree_normalize(tree);
 
     if (!TREE_BINARY(tree) || !TREE_FIELD_FETCH(tree->left))
         return tree;

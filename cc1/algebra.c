@@ -23,6 +23,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+#include "../common/util.h"
 #include "cc1.h"
 #include "insn.h"
 #include "block.h"
@@ -30,29 +31,56 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "algebra.h"
 #include "opt.h"
 
-/* perform tree-based algebraic simplifications. */
+/* spider a tree of op operators and return the nearest
+   subtree with a constant operand, or 0 if none found. */
+
+static struct tree *find_constant(struct tree *tree, tree_op op)
+{
+    struct tree *result;
+
+    if (tree->op != op)
+        return 0;
+    
+    tree_normalize(tree);
+    
+    if (TREE_PURE_CON(tree->right))
+        return tree;
+
+    if (result = find_constant(tree->right, op))
+        return result;
+    else
+        return find_constant(tree->left, op);
+}
+
+/* perform tree-based algebraic simplifications. presently limited to
+   reassociation to fold constants, e.g.,
+
+                    (1 + a + 3) == ((1 + 3) + a) == (4 + a)
+
+   in the future, we may wish to expand this to group loop invariants
+   as well, to push those computations out of the loop bodies. */
 
 struct tree *algebra_tree_opt(struct tree *tree)
 {
-again:
-    tree = tree_normalize(tree);
+    struct tree *other;
 
-    switch (tree->op)
-    {
-    case E_AND:             /* ((x & c1) & c2) == (x & (c1 & c2)) */
+    for (;;) {
+        if (tree->op & E_ASSOC) {
+            tree_normalize(tree);
+        
+            if (!TYPE_DISCRETE(&tree->type))
+                break;
 
-        tree->left = tree_normalize(tree->left);
+            if (!TREE_PURE_CON(tree->right))
+                break;
 
-        if (TREE_PURE_CON(tree->right) && (tree->left->op == E_AND)
-          && TREE_PURE_CON(tree->left->right))
-        {
-            tree->left->right->con.i &= tree->right->con.i;
-            tree = tree_chop_binary(tree);
-            goto again;
-        }
-       
-        break;
+            if ((other = find_constant(tree->left, tree->op)) == 0)
+                break;
 
+            SWAP(struct tree *, tree->right, other->left);
+            tree = tree_simplify(tree);
+        } else
+            break;
     }
 
     return tree;

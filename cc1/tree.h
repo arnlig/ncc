@@ -108,7 +108,7 @@ extern int tree_zero(struct tree *);
 extern int tree_nonzero(struct tree *);
 extern void tree_commute(struct tree *);
 extern void tree_free(struct tree *);
-extern struct tree *tree_normalize(struct tree *);
+extern void tree_normalize(struct tree *);
 extern struct tree *tree_simplify(struct tree *);
 extern struct tree *tree_rewrite_volatile(struct tree *);
 extern struct tree *tree_opt(struct tree *);
@@ -168,6 +168,10 @@ extern void tree_debug(struct tree *, int);
 
 #define E_2S            ( 0x00800000 )
 
+/* E_ASSOC marks associative operators */
+
+#define E_ASSOC         ( 0x00400000 )
+
 /* bits[11:8] hold indices into the bin[] table in gen.c. */
 
 #define E_BIN_MASK      ( 0x00000F00 )
@@ -203,10 +207,13 @@ extern void tree_debug(struct tree *, int);
 #define E_ORASG     ( 19 | E_BIN_ENC(8) | E_UNUSUAL )           /*  |=   */
 #define E_XORASG    ( 20 | E_BIN_ENC(0) | E_UNUSUAL )           /*  ^=   */
 
-#define E_XOR       ( 21 | E_BIN_ENC(0) | E_SWAP | E_2S )           /*  ^   */
+#define E_XOR       ( 21 | E_BIN_ENC(0) | E_SWAP | E_2S | E_ASSOC ) /*  ^   */
 #define E_DIV       ( 22 | E_BIN_ENC(1) )                           /*  /   */
-#define E_MUL       ( 23 | E_BIN_ENC(2) | E_SWAP | E_2S )           /*  *   */
-#define E_ADD       ( 24 | E_BIN_ENC(3) | E_SCALE | E_SWAP | E_2S ) /*  +   */
+#define E_MUL       ( 23 | E_BIN_ENC(2) | E_SWAP | E_2S | E_ASSOC ) /*  *   */
+
+#define E_ADD       ( 24 | E_BIN_ENC(3) | E_SCALE | E_SWAP                  \
+                         | E_2S | E_ASSOC )                         /*  +   */
+
 #define E_SUB       ( 25 | E_BIN_ENC(4) | E_SCALE | E_2S )          /*  -   */
 #define E_GT        ( 26 | E_INT )                                  /*  >   */
 #define E_SHR       ( 27 | E_BIN_ENC(5) | E_UNUSUAL )               /*  >>  */
@@ -214,11 +221,11 @@ extern void tree_debug(struct tree *, int);
 #define E_LT        ( 29 | E_INT )                                  /*  <   */
 #define E_SHL       ( 30 | E_BIN_ENC(6) | E_UNUSUAL )               /*  <<  */
 #define E_LTEQ      ( 31 | E_INT )                                  /*  <=  */
-#define E_AND       ( 32 | E_BIN_ENC(7) | E_SWAP | E_2S )           /*  &   */
+#define E_AND       ( 32 | E_BIN_ENC(7) | E_SWAP | E_2S | E_ASSOC ) /*  &   */
 #define E_LAND      ( 33 | E_UNUSUAL | E_INT | E_LOG )              /*  &&  */
 #define E_EQ        ( 34 | E_SWAP | E_NULLPTR | E_INT )             /*  ==  */
 #define E_NEQ       ( 35 | E_SWAP | E_NULLPTR | E_INT )             /*  !=  */
-#define E_OR        ( 36 | E_BIN_ENC(8) | E_SWAP | E_2S )           /*  |   */
+#define E_OR        ( 36 | E_BIN_ENC(8) | E_SWAP | E_2S | E_ASSOC ) /*  |   */
 #define E_LOR       ( 37 | E_UNUSUAL | E_INT | E_LOG )              /*  ||  */
 #define E_MOD       ( 38 | E_BIN_ENC(9) )                           /*  %   */
 

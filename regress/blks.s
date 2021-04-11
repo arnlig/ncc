@@ -71,9 +71,9 @@ L35:
 	cmpq $0,%r12
 	jz L49
 L46:
-	movq 16(%r12),%rdi
+	movq 16(%r12),%rsi
+	movq %rsi,16(%rax)
 	leaq 8(%rax),%rsi
-	movq %rdi,16(%rax)
 	movq %r12,8(%rax)
 	movq 16(%r12),%rdi
 	movq %rax,(%rdi)
@@ -147,9 +147,9 @@ L81:
 	cmpq $0,%r12
 	jz L95
 L92:
-	movq 16(%r12),%rdi
+	movq 16(%r12),%rsi
+	movq %rsi,16(%rax)
 	leaq 8(%rax),%rsi
-	movq %rdi,16(%rax)
 	movq %r12,8(%rax)
 	movq 16(%r12),%rdi
 	movq %rax,(%rdi)

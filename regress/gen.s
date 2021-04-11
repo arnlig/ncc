@@ -463,12 +463,12 @@ L123:
 	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r12)
-	leaq 8(%r12),%rdi
 	movq 8(%r12),%rsi
 	movq (%rsi),%rsi
 	testq $65536,%rsi
 	jnz L106
 L104:
+	leaq 8(%r12),%rdi
 	call _symbol_temp
 	movq %rax,%r14
 	movq %r14,%rbx
@@ -814,7 +814,6 @@ L178:
 	xorl %esi,%esi
 	call _gen
 	movq %rax,24(%r13)
-	leaq 8(%r13),%rdi
 	movq 8(%r13),%rsi
 	movq (%rsi),%rsi
 	testq $1,%rsi
@@ -825,6 +824,7 @@ L165:
 	call _tree_v
 	jmp L164
 L166:
+	leaq 8(%r13),%rdi
 	call _symbol_temp
 	movq %rax,%rbx
 	movq 8(%r13),%rsi
@@ -1398,7 +1398,6 @@ L276:
 	pushq %r15
 L293:
 	movq %rdi,%r15
-	leaq 8(%r15),%rdi
 	movq 8(%r15),%rsi
 	movq (%rsi),%rsi
 	testq $1,%rsi
@@ -1407,6 +1406,7 @@ L279:
 	xorl %r14d,%r14d
 	jmp L281
 L280:
+	leaq 8(%r15),%rdi
 	call _symbol_temp
 	movq %rax,%r14
 L281:
@@ -1569,10 +1569,9 @@ L316:
 	movl $539230215,%esi
 L317:
 	movl %esi,%r15d
-	leaq 8(%r13),%rsi
-	movq 8(%r13),%rdi
-	movq (%rdi),%rdi
-	testq $1,%rdi
+	movq 8(%r13),%rsi
+	movq (%rsi),%rsi
+	testq $1,%rsi
 	jz L327
 L326:
 	call _tree_v
@@ -1580,6 +1579,7 @@ L326:
 	movq %rsi,-32(%rbp)	 # spill
 	jmp L328
 L327:
+	leaq 8(%r13),%rsi
 	movq %rsi,%rdi
 	call _symbol_temp
 	movq %rax,%rsi
@@ -1636,12 +1636,12 @@ L346:
 	movq 48(%rbx),%rsi
 	movq 56(%rbx),%rdi
 	movq %rsi,(%rdi)
-	leaq 8(%rbx),%rsi
-	movq 8(%rbx),%rdi
-	movq (%rdi),%rdi
-	testq $65536,%rdi
+	movq 8(%rbx),%rsi
+	movq (%rsi),%rsi
+	testq $65536,%rsi
 	jz L348
 L347:
+	leaq 8(%rbx),%rsi
 	movq %rsi,%rdi
 	xorl %esi,%esi
 	call _type_sizeof
@@ -1793,19 +1793,19 @@ L479:
 	jz L419
 	jb L480
 L489:
-	cmpl $545261344,%esi
+	cmpl $549455648,%esi
 	jz L405
 	jb L490
 L495:
-	cmpl $545261604,%esi
+	cmpl $549455908,%esi
 	jz L405
 	jnz L373
 L490:
-	cmpl $545260055,%esi
+	cmpl $549454359,%esi
 	jz L405
 	ja L373
 L491:
-	cmpl $545259541,%esi
+	cmpl $549453845,%esi
 	jz L405
 	jnz L373
 L480:
@@ -1865,7 +1865,7 @@ L500:
 	jz L387
 	ja L373
 L501:
-	cmpl $813695768,%esi
+	cmpl $817890072,%esi
 	jz L405
 	jnz L373
 L387:

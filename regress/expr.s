@@ -7,19 +7,19 @@ L4:
 	pushq %r12
 	pushq %r13
 L28:
-	movl %esi,%r13d
+	movl %esi,%r12d
 	movq %rdi,%rbx
 	movq 8(%rbx),%rsi
-	movq (%rsi),%r12
-	andq $131071,%r12
-	testq $16384,%r12
+	movq (%rsi),%r13
+	andq $131071,%r13
+	testq $16384,%r13
 	jz L9
 L7:
 	movq %rbx,%rdi
 	call _tree_addrof
 	movq %rax,%rbx
 L9:
-	testq $62,%r12
+	testq $62,%r13
 	jz L12
 L10:
 	movq %rbx,%rdi
@@ -27,10 +27,10 @@ L10:
 	call _tree_cast_bits
 	movq %rax,%rbx
 L12:
-	cmpl $1,%r13d
+	cmpl $1,%r12d
 	jnz L15
 L16:
-	testq $1024,%r12
+	testq $1024,%r13
 	jz L15
 L13:
 	movq %rbx,%rdi
@@ -38,19 +38,19 @@ L13:
 	call _tree_cast_bits
 	movq %rax,%rbx
 L15:
-	leaq 8(%rbx),%rsi
-	movq 8(%rbx),%rdi
-	movq (%rdi),%rdi
-	testq $393216,%rdi
+	movq 8(%rbx),%rsi
+	movq (%rsi),%rsi
+	testq $393216,%rsi
 	jz L22
 L20:
+	leaq 8(%rbx),%rsi
 	movq %rbx,%rdi
 	call _tree_cast
 	movq %rax,%rbx
 	movq 8(%rax),%rsi
 	andq $-393217,(%rsi)
 L22:
-	testq $8192,%r12
+	testq $8192,%r13
 	jz L25
 L23:
 	movq %rbx,%rdi
@@ -370,22 +370,22 @@ L189:
 	pushq %r13
 	pushq %r14
 L204:
-	movq %rdi,%r14
-	movq 24(%r14),%r13
-	movq 32(%r14),%rbx
-	movq %r14,%rdi
+	movq %rdi,%r12
+	movq 24(%r12),%rbx
+	movq 32(%r12),%r14
+	movq %r12,%rdi
 	call _pointer_left
-	movl (%r14),%esi
+	movl (%r12),%esi
 	testl $268435456,%esi
 	jz L193
 L195:
-	leaq 8(%r13),%r12
-	movq 8(%r13),%rsi
+	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	testq $32768,%rsi
 	jz L193
 L192:
-	movq %r12,%rdi
+	addq $8,%rbx
+	movq %rbx,%rdi
 	movl $1,%esi
 	call _type_sizeof
 	movq _target(%rip),%rsi
@@ -393,50 +393,50 @@ L192:
 	movq %rax,%rsi
 	call _tree_i
 	movq %rax,%r13
-	movq 8(%rbx),%rsi
+	movq 8(%r14),%rsi
 	movq (%rsi),%rsi
 	testq $32768,%rsi
 	jnz L200
 L199:
 	movq _target(%rip),%rsi
 	movq 8(%rsi),%rsi
-	movq %rbx,%rdi
+	movq %r14,%rdi
 	call _tree_cast_bits
-	movl $545260055,%edi
+	movl $549454359,%edi
 	movq %rax,%rsi
 	movq %r13,%rdx
 	call _tree_binary
-	movq %rax,%rbx
+	movq %rax,%r13
 	movq _target(%rip),%rsi
 	movq 8(%rsi),%rsi
-	leaq 8(%rbx),%rdi
+	leaq 8(%r13),%rdi
 	call _type_append_bits
-	movq %rbx,32(%r14)
-	leaq 8(%r14),%rdi
-	movq %r12,%rsi
+	movq %r13,32(%r12)
+	leaq 8(%r12),%rdi
+	movq %rbx,%rsi
 	call _type_copy
 	jmp L194
 L200:
 	movq _target(%rip),%rsi
 	movq 8(%rsi),%rsi
-	leaq 8(%r14),%rdi
+	leaq 8(%r12),%rdi
 	call _type_append_bits
 	movl $278,%edi
-	movq %r14,%rsi
+	movq %r12,%rsi
 	movq %r13,%rdx
 	call _tree_binary
-	movq %rax,%r14
+	movq %rax,%r12
 	movq _target(%rip),%rsi
 	movq 8(%rsi),%rsi
 	leaq 8(%rax),%rdi
 	call _type_append_bits
 	jmp L194
 L193:
-	leaq 8(%r13),%rsi
-	leaq 8(%r14),%rdi
+	leaq 8(%rbx),%rsi
+	leaq 8(%r12),%rdi
 	call _type_copy
 L194:
-	movq %r14,%rax
+	movq %r12,%rax
 L191:
 	popq %r14
 	popq %r13
@@ -453,7 +453,6 @@ L208:
 	pushq %r12
 L216:
 	movq %rdi,%rbx
-	leaq 8(%rbx),%r12
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rsi
 	testq $65536,%rsi
@@ -466,6 +465,7 @@ L211:
 	call _tree_addrof
 	movq %rax,32(%rbx)
 	movl $43,(%rbx)
+	leaq 8(%rbx),%r12
 	movq %r12,%rdi
 	call _type_clear
 	movq 24(%rbx),%rsi
@@ -522,16 +522,16 @@ _map:
 	.int 134217748
 	.int 0
 	.int 1
-	.int 545259541
+	.int 549453845
 	.int 0
 	.int 1
 	.int 278
 	.int 2
 	.int 1
-	.int 545260055
+	.int 549454359
 	.int 2
 	.int 1
-	.int 813695768
+	.int 817890072
 	.int 1
 	.int 2
 	.int 276825113
@@ -555,7 +555,7 @@ _map:
 	.int 33554463
 	.int 2
 	.int 2
-	.int 545261344
+	.int 549455648
 	.int 0
 	.int 1
 	.int 184549409
@@ -567,7 +567,7 @@ _map:
 	.int 637534243
 	.int 2
 	.int 2
-	.int 545261604
+	.int 549455908
 	.int 0
 	.int 1
 	.int 184549413
@@ -1162,7 +1162,7 @@ L422:
 	movq _target(%rip),%rdi
 	movq 8(%rdi),%rdi
 	call _tree_i
-	movl $813695768,%edi
+	movl $817890072,%edi
 	movq %r13,%rsi
 	movq %rax,%rdx
 	call _tree_binary
@@ -1206,7 +1206,7 @@ L434:
 	movl $14,%edi
 	call _lex_match
 	call _comma
-	movl $813695768,%edi
+	movl $817890072,%edi
 	movq %rbx,%rsi
 	movq %rax,%rdx
 	call _tree_binary

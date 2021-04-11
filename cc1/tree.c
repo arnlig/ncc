@@ -326,12 +326,10 @@ int tree_zero(struct tree *tree)
    means putting pure constants on the right of
    commutative binary operators. */
 
-struct tree *tree_normalize(struct tree *tree)
+void tree_normalize(struct tree *tree)
 {
     if ((tree->op & E_SWAP) && TREE_PURE_CON(tree->left))
         tree_commute(tree);
-
-    return tree;
 }
 
 /* simplifying a tree does constant folding
@@ -432,7 +430,7 @@ static struct tree *simplify0(struct tree *tree)
             }
         }
     } else if (TREE_BINARY(tree)) {
-        tree = tree_normalize(tree);
+        tree_normalize(tree);
 
         if (tree_nonzero(tree->left)) {
             switch (tree->op)

@@ -959,9 +959,9 @@ L524:
 	movl $10,%esi
 	movq %rbx,%rdx
 	call _block_add_successor
-	leaq 8(%r12),%rsi
 	movl 24(%r12),%edx
 	subl %r13d,%edx
+	leaq 8(%r12),%rsi
 	leaq 8(%rbx),%rdi
 	call _insns_push
 	movq %rbx,%rax

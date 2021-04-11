@@ -511,9 +511,9 @@ L196:
 	cmpl %esi,%edx
 	jg L197
 L202:
-	movq 88(%rax),%rcx
+	movq 88(%rax),%rsi
+	movq %rsi,88(%rdi)
 	leaq 80(%rdi),%rsi
-	movq %rcx,88(%rdi)
 	movq %rax,80(%rdi)
 	movq 88(%rax),%rcx
 	movq %rdi,(%rcx)
