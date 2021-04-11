@@ -39,6 +39,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
    (e.g., tracking more I_STOREs than simply the last one). any write to
    memory must be treated as invalidating all memory.
 
+   this only solves half the problem. the compiler also generates some
+   redundant or useless stores (stores which are overwritten before they
+   could possibly be read). some of these arise within the compiler and
+   should (or must) be addressed at their sources (dealias.c, graph.c),
+   but not all. dealing with these stores is more difficult than loads,
+   at least beyond the basic block level, because a store only renders
+   a previous store useless if it postdominates it. todo.
+
    this pass must occur after SLVN (and a follow-up copy propagation),
    otherwise it will miss most opportunities- address computations that
    resolve to the same address aren't apparent beforehand. */
