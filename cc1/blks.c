@@ -38,6 +38,24 @@ SET_DEFINE_INTERSECT(blk, b)
 SET_DEFINE_MOVE(blk)
 SET_DEFINE_CLEAR(blk)
 
+/* add all blocks in this function into blks */
+
+static struct blks *all_blks;
+
+static blocks_iter_ret all0(struct block *b)
+{   
+    BLKS_ADD(all_blks, b);
+    return BLOCKS_ITER_OK;
+}
+
+void blks_all(struct blks *blks)
+{
+    all_blks = blks;
+    blocks_iter(all0);
+}
+
+/* for debugging output */
+
 void blks_output(struct blks *blks)
 {
     struct blk *b;

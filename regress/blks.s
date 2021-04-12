@@ -379,46 +379,75 @@ L208:
 	popq %rbp
 	ret
 L227:
+_all0:
+L230:
+	pushq %rbp
+	movq %rsp,%rbp
+L235:
+	movq %rdi,%rsi
+	movq _all_blks(%rip),%rdi
+	movl $1,%edx
+	call _blks_lookup
+	xorl %eax,%eax
+L232:
+	popq %rbp
+	ret
+L237:
+_blks_all:
+L238:
+	pushq %rbp
+	movq %rsp,%rbp
+L239:
+	movq %rdi,_all_blks(%rip)
+	movq $_all0,%rdi
+	call _blocks_iter
+L240:
+	popq %rbp
+	ret
+L244:
 _blks_output:
-L228:
+L245:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L239:
+L256:
 	movq %rdi,%rbx
-	pushq $L231
+	pushq $L248
 	call _output
 	addq $8,%rsp
 	movq 8(%rbx),%rbx
-L232:
+L249:
 	cmpq $0,%rbx
-	jz L235
-L233:
+	jz L252
+L250:
 	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	pushq %rsi
-	pushq $L236
+	pushq $L253
 	call _output
 	addq $16,%rsp
 	movq 8(%rbx),%rbx
-	jmp L232
-L235:
-	pushq $L237
+	jmp L249
+L252:
+	pushq $L254
 	call _output
 	addq $8,%rsp
-L230:
+L247:
 	popq %rbx
 	popq %rbp
 	ret
-L241:
-L231:
+L258:
+L248:
 	.byte 123,0
-L236:
+L253:
 	.byte 32,37,76,0
-L237:
+L254:
 	.byte 32,125,0
 .globl _blks_lookup
+.globl _blocks_iter
 .globl _blks_clear
+.local _all_blks
+.comm _all_blks, 8, 8
 .globl _blks_output
 .globl _blks_intersect
 .globl _blks_free_list
@@ -426,6 +455,7 @@ L237:
 .globl _blks_move
 .globl _blks_remove
 .globl _blks_diff
+.globl _blks_all
 .globl _blks_alloc
 .globl _safe_malloc
 .globl _blks_union

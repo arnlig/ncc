@@ -31,33 +31,26 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 /* the set of all blocks */
 
-static struct blks blks_all = BLKS_INITIALIZER(blks_all);
+static struct blks all_blks = BLKS_INITIALIZER(all_blks);
 
-/* basic dominators calculation: first, build the set of all blocks;
-   next, initialize the state of all blocks- all blocks are dominated
-   by all blocks, except the entry block which is dominated only by
-   itself. finally, iterate to solve: a block's dominators are itself
-   and the intersection of all its predecessors' dominators. */
+/* basic dominators calculation: initialize the state of all blocks- all
+   blocks are dominated by all blocks, except the entry block, which is
+   dominated only by itself. finally, iterate to solve: a block's dominators
+   are itself and the intersection of all its predecessors' dominators. */
 
 static blocks_iter_ret dom_analyze0(struct block *b)
-{
-    BLKS_ADD(&blks_all, b);
-    return BLOCKS_ITER_OK;
-}
-
-static blocks_iter_ret dom_analyze1(struct block *b)
 {
     blks_clear(&b->dominators);
     
     if (b == entry_block)
         BLKS_ADD(&b->dominators, entry_block);
     else
-        blks_union(&b->dominators, &blks_all);
+        blks_union(&b->dominators, &all_blks);
 
     return BLOCKS_ITER_OK;
 }
 
-static blocks_iter_ret dom_analyze2(struct block *b)
+static blocks_iter_ret dom_analyze1(struct block *b)
 {
     struct blks tmp = BLKS_INITIALIZER(tmp);
     struct cessor *pred;
@@ -87,11 +80,11 @@ void dom_analyze(void)
 {
     unreach();      /* no unreachable blocks allowed */
 
+    blks_all(&all_blks);
     blocks_iter(dom_analyze0);
     blocks_iter(dom_analyze1);
-    blocks_iter(dom_analyze2);
 
-    blks_clear(&blks_all);
+    blks_clear(&all_blks);
 }
 
 /* returns TRUE if block b dominates all of blks */

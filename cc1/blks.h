@@ -44,12 +44,14 @@ SET_DECLARE_CLEAR(blk)
 #define BLKS_INITIALIZER(bs)    SET_INITIALIZER(bs)
 #define BLKS_INIT(bs)           SET_INIT(bs)
 #define BLKS_COUNT(bs)          SET_COUNT(bs)
+#define BLKS_EMPTY(r)           SET_EMPTY(r)
 #define BLKS_FOREACH(b, bs)     SET_FOREACH(b, bs)
 
 #define BLKS_ADD(bs, b)         blks_lookup((bs), (b), SET_LOOKUP_CREATE)
 #define BLKS_CONTAINS(bs, b)    (blks_lookup((bs), (b), 0) != 0)
 
 extern void blks_output(struct blks *);
+extern void blks_all(struct blks *);
 
 #endif /* BLKS_H */
 
