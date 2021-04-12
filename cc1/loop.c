@@ -224,6 +224,7 @@ static bool loop_move(void)
     bool moved;
     
     changed = FALSE;
+    live_analyze_ccs(head_b);
 
     blks_all(&all_blks);
     kill_gather(&all_blks, 0, &candidates);

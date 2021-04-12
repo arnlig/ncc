@@ -437,6 +437,8 @@ L196:
 	leaq -136(%rbp),%rsi
 	movq %rsi,-128(%rbp)
 	movl $0,-152(%rbp)	 # spill
+	movq _head_b(%rip),%rdi
+	call _live_analyze_ccs
 	movq %r13,%rdi
 	call _blks_all
 	movq %r13,%rdi
@@ -651,6 +653,7 @@ L262:
 .globl _kill_gather
 .globl _regs_clear
 .globl _kill_gather_blks
+.globl _live_analyze_ccs
 .globl _insn_uses_regs
 .globl _insn_defs_regs
 .globl _loop_init

@@ -78,6 +78,7 @@ struct live
 
 extern void live_init(struct live *);
 extern void live_clear(struct live *);
+extern void live_analyze_ccs(struct block *);
 extern void live_analyze(void);
 extern struct range *range_by_def(struct live *, pseudo_reg, insn_index);
 extern struct range *range_by_use(struct live *, pseudo_reg, insn_index);

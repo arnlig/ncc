@@ -260,6 +260,8 @@ static blocks_iter_ret final0(struct block *b)
 {
     struct insn *insn;
 
+    live_analyze_ccs(b);
+
     INSNS_FOREACH(insn, &b->insns)
         zero(b, insn);
 
@@ -268,7 +270,6 @@ static blocks_iter_ret final0(struct block *b)
 
 void amd64_peep_final(void)
 {
-    live_analyze();
     blocks_iter(final0);
 }
 

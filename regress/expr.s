@@ -294,31 +294,30 @@ L155:
 L185:
 	movq %rdi,%rbx
 	movq 24(%rbx),%rdi
-	movq 32(%rbx),%rax
-	leaq -16(%rbp),%rcx
+	movq 32(%rbx),%rcx
+	leaq -16(%rbp),%rdx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
-	movq %rcx,-8(%rbp)
-	movq 8(%rdi),%rcx
-	movq (%rcx),%rdx
-	andq $32768,%rdx
-	cmpq $0,%rdx
+	movq %rdx,-8(%rbp)
+	movq 8(%rdi),%rdx
+	movq (%rdx),%r8
+	testq $32768,%r8
 	jz L157
 L165:
-	movq 8(%rax),%r8
+	movq 8(%rcx),%r8
 	movq (%r8),%r8
 	testq $32768,%r8
 	jz L157
 L161:
-	cmpq $0,%rdx
+	cmpq $0,%rax
 	jz L169
 L173:
-	movq 16(%rcx),%rcx
-	movq (%rcx),%rcx
-	testq $1,%rcx
+	movq 16(%rdx),%rax
+	movq (%rax),%rax
+	testq $1,%rax
 	jnz L158
 L169:
-	movq 8(%rax),%rax
+	movq 8(%rcx),%rax
 	movq (%rax),%rcx
 	testq $32768,%rcx
 	jz L157
@@ -1427,11 +1426,11 @@ L531:
 	pushq %r13
 	pushq %r14
 L532:
-	leaq -16(%rbp),%r12
+	leaq -16(%rbp),%r13
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
 	leaq -8(%rbp),%rbx
-	movq %r12,-8(%rbp)
+	movq %r13,-8(%rbp)
 	movl _token(%rip),%r14d
 	cmpl $25,%r14d
 	jz L542
@@ -1521,11 +1520,10 @@ L544:
 	movq %rax,%rbx
 	movq 8(%rbx),%rsi
 	movq (%rsi),%rdi
-	andq $32768,%rdi
-	cmpq $0,%rdi
+	testq $32768,%rdi
 	jz L545
 L548:
-	cmpq $0,%rdi
+	cmpq $0,%r12
 	jz L547
 L552:
 	movq 16(%rsi),%rsi
@@ -1579,7 +1577,7 @@ L585:
 	jmp L580
 L582:
 	call _lex
-	movq %r12,%rdi
+	movq %r13,%rdi
 	call _abstract_declarator
 	movl $13,%edi
 	call _lex_match

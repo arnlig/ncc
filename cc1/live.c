@@ -316,6 +316,17 @@ void live_analyze(void)
     blocks_iter(live_analyze_final);
 }
 
+/* called to do live analysis when all we're 
+   concerned with is condition_codes. for now,
+   we actually do a full local analysis, though
+   the data for the other variables is bogus
+   without global analysis. */
+
+void live_analyze_ccs(struct block *b)
+{
+    live_analyze_local(b);
+}
+
 /* determine which registers interfere with
    reg in live, and add those to regs. as
    usual we exclude PSEUDO_REG_CC here. */

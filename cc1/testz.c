@@ -194,6 +194,8 @@ static blocks_iter_ret middle0(struct block *b)
     ccset zs;
     pseudo_reg reg;
 
+    live_analyze_ccs(b);
+
     CCSET_CLEAR(zs);
     CCSET_SET(zs, CC_Z);
     CCSET_SET(zs, CC_NZ);
@@ -231,7 +233,6 @@ static blocks_iter_ret middle0(struct block *b)
 
 void testz_middle(void)
 {
-    live_analyze();
     blocks_iter(middle0);
     nop();
 }
@@ -252,8 +253,7 @@ void testz_middle(void)
    frankly, it might not be worth the cost, because this pass relies
    on live analysis. on the other hand, it only relies on LOCAL live
    variable data (i.e., only the condition codes), which is cheaper
-   to compute. if we ever separate local live analysis from global
-   analysis (note: todo) this would be easier to justify. */
+   to compute. */
 
 static blocks_iter_ret late0(struct block *b)
 {
@@ -263,6 +263,8 @@ static blocks_iter_ret late0(struct block *b)
     pseudo_reg test_reg;
     ccset zs;
     ccset ccs;
+
+    live_analyze_ccs(b);
 
     CCSET_CLEAR(zs);
     CCSET_SET(zs, CC_Z);
@@ -290,7 +292,6 @@ static blocks_iter_ret late0(struct block *b)
 
 void testz_late(void)
 {
-    live_analyze();
     blocks_iter(late0);
 }
 
