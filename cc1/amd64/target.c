@@ -61,6 +61,7 @@ struct target amd64_target =
     amd64_insn_uses_cc,
     amd64_insn_defs_mem,
     amd64_insn_uses_mem,
+    0 /* insn_strip_indices */,
     amd64_insn_side_effects,
     amd64_insn_test_z,
     0 /* insn_test_con */,

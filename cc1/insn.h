@@ -410,6 +410,7 @@ extern bool insn_defs_mem(struct insn *);
 extern bool insn_uses_mem(struct insn *);
 extern bool insn_defs_regs(struct insn *, struct regs *, insn_defsuses_flags);
 extern bool insn_uses_regs(struct insn *, struct regs *, insn_defsuses_flags);
+extern void insn_strip_indices(struct insn *);
 
 extern bool insn_side_effects(struct insn *);
 extern bool insn_test_z(struct insn *, pseudo_reg *);

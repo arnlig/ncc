@@ -78,6 +78,7 @@ struct target
     ccset (*insn_uses_cc)(struct insn *);
     bool (*insn_defs_mem)(struct insn *);
     bool (*insn_uses_mem)(struct insn *);
+    void (*insn_strip_indices)(struct insn *);
     bool (*insn_side_effects)(struct insn *);
     bool (*insn_test_z)(struct insn *, pseudo_reg *);
     bool (*insn_test_con)(struct insn *, pseudo_reg *);

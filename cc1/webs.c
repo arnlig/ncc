@@ -33,18 +33,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "output.h"
 #include "webs.h"
 
-/* before register allocation, we apply an index subscript to each appearance
-   of a register in the IR, such that if two appearances have the same index,
-   they are part of the same live range (or web, as it is sometimes called)
-   and must be allocated to the same register. other appearances of the same
-   register with different indexes are unrelated from the IR's point of view,
-   excepting that they map to the same symbol and thus share a spill location.
+/* when breaking the IR into webs, we subscript each register in the IR such
+   that, if two appearances of a register have different indices, then those
+   two appearances are definitely not in the same live range. this is a kind
+   of reaching definitions analysis, though it is somewhat more conservative,
+   associating DEFs with USEs that a more traditional analysis would not.
 
-   we compute this information with a kind of reaching definitions analysis:
- 
+   we compute as follows:
+
    1. label each DEF in every block with a unique index and construct 
-      the GEN() set (those DEFs in a block which survive to the end).
-      a unique web is created for each DEF.
+      the GEN() sets. a unique web is created for each DEF.
 
    2. perform forward iterative data analysis to compute IN() and OUT().
 
@@ -56,11 +54,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
       the synonyms in a web collapse into one: we arbitarily choose the
       first synonym as the new common synonym.
 
-   we ignore physical registers here, since the allocator's hands are tied.
-   such registers will continue to carry a zero subscript and thus properly
-   appear to belong to the same web. a zero subscript on pseudo-registers
-   means "a definition we haven't seen," which is created upon the use of
-   an uninitialized variable. */
+   physical registers are left untouched (their indices remain 0). those will
+   only appear in target-dependent IR analyzed by the graph allocator, and it
+   is pointless to break them up as the allocator's hands are tied. for pseudo
+   registers, index 0 is reserved to mean "a definition we haven't seen". */
 
 static TAILQ_HEAD(, web) webs = TAILQ_HEAD_INITIALIZER(webs);
 
@@ -387,6 +384,24 @@ static blocks_iter_ret rewrite0(struct block *b)
     }
 
     return BLOCKS_ITER_OK;
+}
+
+/* strip the indices from all registers in the IR. this should be called to
+   clean up after using webs, since the IR is expected to be undecorated. */
+
+static blocks_iter_ret strip0(struct block *b)
+{
+    struct insn *insn;
+
+    INSNS_FOREACH(insn, &b->insns)
+        insn_strip_indices(insn);
+
+    return BLOCKS_ITER_OK;
+}
+
+void webs_strip(void)
+{
+    blocks_iter(strip0);
 }
 
 void webs_analyze(void)

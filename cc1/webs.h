@@ -30,8 +30,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 /* per-block data for web_analyze(). these sets are subscripted registers.
    standard stuff for reaching definitions: which definitions arrive at our
-   block (in), which definitions originate in our block (gen), and which of
-   the former two sets make it out alive (out). */
+   block (in), which definitions are downward-exposed from our block (gen),
+   and which definitions leave our block (out). */
 
 struct webs
 {
@@ -41,6 +41,7 @@ struct webs
 };
 
 extern void webs_analyze(void);
+extern void webs_strip(void);
 
 #endif /* WEBS_H */
 

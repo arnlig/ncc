@@ -641,6 +641,25 @@ bool insn_uses_mem(struct insn *insn)
         return (I_USE_MEM(insn->op) != 0);
 }
 
+/* strip regs in the insn of their indices */
+
+#define STRIP0(o)                                                       \
+    do {                                                                \
+        if (OPERAND_REG(o))                                             \
+            o->reg = PSEUDO_REG_BASE(o->reg);                           \
+    } while (0);
+
+void insn_strip_indices(struct insn *insn)
+{
+    if (I_TARGET(insn->op))
+        target->insn_strip_indices(insn);
+    else {
+        STRIP0(insn->dst);
+        STRIP0(insn->src1);
+        STRIP0(insn->src2);
+    }
+}
+
 /* returns TRUE if the instruction is a test of a register
    against a constant, and has no effect except to set the
    condition codes. if it is, and reg is not 0, then *reg
