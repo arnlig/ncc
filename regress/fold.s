@@ -333,8 +333,7 @@ L157:
 L158:
 	movq 24(%rsi),%rsi
 	movq 56(%rbx),%rdi
-	movq 24(%rdi),%rdi
-	imulq %rdi,%rsi
+	imulq 24(%rdi),%rsi
 	movq %rsi,-8(%rbp)
 L156:
 	leaq -8(%rbp),%rsi

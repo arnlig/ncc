@@ -121,8 +121,7 @@ L49:
 	cmpl $0,%r12d
 	jz L75
 L74:
-	movl -24(%rbp),%r10d	 # spill
-	movslq %r10d,%r14
+	movslq -24(%rbp),%r14	 # spill
 	movq $-1,%rax
 	xorl %edx,%edx
 	divq %r14
@@ -133,8 +132,7 @@ L74:
 	movq %rdx,%rax
 	jmp L133
 L75:
-	movl -24(%rbp),%r10d	 # spill
-	movslq %r10d,%r14
+	movslq -24(%rbp),%r14	 # spill
 	movq $9223372036854775807,%rax
 	cqto
 	idivq %r14
@@ -144,8 +142,7 @@ L75:
 	idivq %r14
 	movq %rdx,%rax
 L133:
-	movl -24(%rbp),%r10d	 # spill
-	movslq %r10d,%rdx
+	movslq -24(%rbp),%rdx	 # spill
 L78:
 	leal -48(%rdi),%r14d
 	cmpl $10,%r14d

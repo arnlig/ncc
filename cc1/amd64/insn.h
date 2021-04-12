@@ -327,50 +327,64 @@ extern bool amd64_operands_same(struct amd64_operand *,
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVZBQ      AMD64_I ( 7                                     \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVSWL      AMD64_I ( 8                                     \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_DWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVZWL      AMD64_I ( 9                                     \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_DWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVSWQ      AMD64_I ( 10                                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVZWQ      AMD64_I ( 11                                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
 #define AMD64_I_MOVSLQ      AMD64_I ( 12                                    \
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
-                                    | AMD64_I_ENC_DEFS(1)                   )
+                                    | AMD64_I_ENC_DEFS(1)                   \
+                                    | AMD64_I_ENC_FUSE(1)                   )
 
         /* movzlq isn't real (it comes out as movl), but we distinguish it
            here so it doesn't look like just a register-register copy */
@@ -882,6 +896,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_DWORD) \
                                     | AMD64_I_ENC_USES(1)                   \
                                     | AMD64_I_ENC_DEFS(1)                   )
@@ -891,6 +906,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
                                     | AMD64_I_ENC_OPERANDS(2)               \
                                     | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   \
                                     | AMD64_I_ENC_SIZE(1, AMD64_SIZE_QWORD) \
                                     | AMD64_I_ENC_USES(1)                   \
                                     | AMD64_I_ENC_DEFS(1)                   )

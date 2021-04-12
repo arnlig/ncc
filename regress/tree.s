@@ -1032,8 +1032,7 @@ L478:
 L479:
 	movq 24(%rsi),%rdi
 	movq 32(%rbx),%rax
-	movq 24(%rax),%rax
-	imulq %rax,%rdi
+	imulq 24(%rax),%rdi
 	movq %rdi,24(%rsi)
 L477:
 	movq 24(%rbx),%rsi

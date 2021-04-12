@@ -303,8 +303,7 @@ L130:
 	xorl %edx,%edx
 	movq -16(%rbp),%r10	 # spill
 	divq %r10
-	movq -16(%rbp),%r10	 # spill
-	imulq %r10,%rax
+	imulq -16(%rbp),%rax	 # spill
 	movq %rax,%r8
 	leaq -1(%rdi,%rsi),%rsi
 	movq %rsi,%rax
@@ -312,8 +311,7 @@ L130:
 	movq -16(%rbp),%r10	 # spill
 	divq %r10
 	movq %rax,%rsi
-	movq -16(%rbp),%r10	 # spill
-	imulq %r10,%rsi
+	imulq -16(%rbp),%rsi	 # spill
 	cmpq %rsi,%r8
 	jz L129
 L127:
@@ -324,8 +322,7 @@ L127:
 	movq -16(%rbp),%r10	 # spill
 	divq %r10
 	movq %rax,%rsi
-	movq -16(%rbp),%r10	 # spill
-	imulq %r10,%rsi
+	imulq -16(%rbp),%rsi	 # spill
 	movq %rsi,%rdi
 L129:
 	movq %rdi,%rax

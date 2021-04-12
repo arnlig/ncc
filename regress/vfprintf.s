@@ -319,8 +319,7 @@ L197:
 	cmpl $108,-592(%rbp)	 # spill
 	jnz L200
 L199:
-	movl -536(%rbp),%r10d	 # spill
-	movslq %r10d,%rdi
+	movslq -536(%rbp),%rdi	 # spill
 	addq $8,-576(%rbp)	 # spill
 	movq -576(%rbp),%r10	 # spill
 	movq -8(%r10),%rsi
