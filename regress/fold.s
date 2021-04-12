@@ -36,13 +36,13 @@ L13:
 	jnz L12
 L10:
 	movl (%rbx),%edi
-	cmpl $1610743820,%edi
+	cmpl $1610809356,%edi
 	jz L39
 L224:
-	cmpl $1610743821,%edi
+	cmpl $1610809357,%edi
 	jz L26
 L225:
-	cmpl $1610743822,%edi
+	cmpl $1610809358,%edi
 	jnz L12
 L35:
 	movq 24(%rsi),%rdi
@@ -85,7 +85,7 @@ L39:
 	jmp L32
 L12:
 	movl (%rbx),%esi
-	cmpl $1879179281,%esi
+	cmpl $1879244817,%esi
 	jnz L43
 L52:
 	movq 48(%rbx),%rsi
@@ -132,10 +132,10 @@ L78:
 	jnz L77
 L75:
 	movl (%rbx),%eax
-	cmpl $1879179281,%eax
+	cmpl $1879244817,%eax
 	jz L97
 L228:
-	cmpl $1880227856,%eax
+	cmpl $1880293392,%eax
 	jnz L77
 L86:
 	movq 32(%rdi),%r12
@@ -216,28 +216,28 @@ L108:
 	cmpl $872415247,%edi
 	jz L201
 L231:
-	cmpl $1879179283,%edi
+	cmpl $1879244819,%edi
 	jz L123
 L232:
-	cmpl $1879179284,%edi
+	cmpl $1879244820,%edi
 	jz L138
 L233:
-	cmpl $1879179285,%edi
+	cmpl $1879244821,%edi
 	jz L162
 L234:
-	cmpl $1879179286,%edi
+	cmpl $1879244822,%edi
 	jz L170
 L235:
-	cmpl $1880227858,%edi
+	cmpl $1880293394,%edi
 	jz L151
 L236:
-	cmpl $1880227863,%edi
+	cmpl $1880293399,%edi
 	jz L178
 L237:
-	cmpl $1880227864,%edi
+	cmpl $1880293400,%edi
 	jz L186
 L238:
-	cmpl $1880227865,%edi
+	cmpl $1880293401,%edi
 	jnz L66
 L194:
 	movq 40(%rbx),%rdi
@@ -515,7 +515,7 @@ L32:
 	call _operand_dup
 	pushq %r13
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	pushq %rbx
 	call _insn_replace
 	addq $32,%rsp

@@ -116,7 +116,7 @@ L32:
 	call _operand_reg
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -412,7 +412,7 @@ L97:
 	pushq %rbx
 	pushq %r12
 	pushq %rax
-	pushq $1879179286
+	pushq $1879244822
 	call _insn_new
 	addq $32,%rsp
 	movq _current_block(%rip),%rsi
@@ -432,7 +432,7 @@ L97:
 	pushq %rbx
 	pushq %r12
 	pushq %rax
-	pushq $1879179285
+	pushq $1879244821
 	call _insn_new
 	addq $32,%rsp
 	movq _current_block(%rip),%rsi
@@ -572,7 +572,7 @@ L132:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1879179286
+	pushq $1879244822
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -597,7 +597,7 @@ L132:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880227865
+	pushq $1880293401
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -629,7 +629,7 @@ L132:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880227865
+	pushq $1880293401
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -648,7 +648,7 @@ L132:
 	pushq %rbx
 	pushq %r12
 	pushq %rsi
-	pushq $1880227864
+	pushq $1880293400
 	call _insn_new
 	addq $32,%rsp
 	movq %rax,%rsi
@@ -744,7 +744,7 @@ L149:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -779,7 +779,7 @@ L140:
 	call _operand_leaf
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -844,7 +844,7 @@ L169:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq 40(%rax),%rsi
@@ -864,7 +864,7 @@ L170:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1610743820
+	pushq $1610809356
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -897,10 +897,10 @@ L190:
 	cmpl $1082130439,%esi
 	jnz L186
 L185:
-	movl $1610743821,%r13d
+	movl $1610809357,%r13d
 	jmp L187
 L186:
-	movl $1610743822,%r13d
+	movl $1610809358,%r13d
 L187:
 	movq 24(%r14),%rdi
 	xorl %esi,%esi
@@ -938,16 +938,16 @@ L192:
 .data
 .align 4
 _bin:
-	.int 1880227863
-	.int 1879179283
-	.int 1880227858
-	.int 1880227856
-	.int 1879179281
-	.int 1879179285
-	.int 1879179286
-	.int 1880227865
-	.int 1880227864
-	.int 1879179284
+	.int 1880293399
+	.int 1879244819
+	.int 1880293394
+	.int 1880293392
+	.int 1879244817
+	.int 1879244821
+	.int 1879244822
+	.int 1880293401
+	.int 1880293400
+	.int 1879244820
 .text
 _gen_binary:
 L195:
@@ -1043,7 +1043,7 @@ L207:
 	call _operand_leaf
 	pushq %rbx
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq %rax,%rsi
@@ -1089,7 +1089,7 @@ L208:
 	call _operand_leaf
 	pushq %rbx
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq %rax,%rsi
@@ -1310,7 +1310,7 @@ L272:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	leaq 8(%r14),%rdi
@@ -1325,7 +1325,7 @@ L272:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	leaq 8(%r13),%rdi
@@ -1442,7 +1442,7 @@ L282:
 	call _operand_sym
 	pushq %r12
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -1472,7 +1472,7 @@ L285:
 	call _operand_sym
 	pushq %rbx
 	pushq %rax
-	pushq $1611268107
+	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi

@@ -1037,7 +1037,7 @@ L547:
 	jmp L546
 L548:
 	movl (%rdi),%eax
-	cmpl $1611268107,%eax
+	cmpl $1611333643,%eax
 	jnz L552
 L554:
 	movq 48(%rdi),%rax
@@ -1077,7 +1077,7 @@ L571:
 	jmp L570
 L572:
 	movl (%rdi),%eax
-	cmpl $1611268107,%eax
+	cmpl $1611333643,%eax
 	jnz L576
 L578:
 	movq 48(%rdi),%rax

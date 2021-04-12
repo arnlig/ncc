@@ -167,6 +167,11 @@ typedef int insn_op;    /* I_* */
 #define I_FLAG_SLVN         ( 0x00020000 )
 #define I_SLVN(i)           ((i) & I_FLAG_SLVN)
 
+    /* if the instruction is eligible for loop-invariant code motion */
+
+#define I_FLAG_LICM         ( 0x00010000 )
+#define I_LICM(i)           ((i) & I_FLAG_LICM)
+
     /* I_TEXT() is used to index insn_text[] in output.c */
 
 #define I_TEXT(op)      ((op) & 0xFF)
@@ -209,11 +214,17 @@ typedef int insn_op;    /* I_* */
                              | I_FLAG_SIDE                              ) 
 
 #define I_MOVE          ( 11 | I_FLAG_DST | I_FLAG_SRC1                 \
-                             | I_FLAG_SAFE_CC | I_FLAG_SLVN             )
+                             | I_FLAG_SAFE_CC | I_FLAG_SLVN             \
+                             | I_FLAG_LICM                              )
 
-#define I_CAST          ( 12 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
-#define I_NEG           ( 13 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
-#define I_COM           ( 14 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SLVN )
+#define I_CAST          ( 12 | I_FLAG_DST | I_FLAG_SRC1                 \
+                             | I_FLAG_SLVN | I_FLAG_LICM                ) 
+
+#define I_NEG           ( 13 | I_FLAG_DST | I_FLAG_SRC1                 \
+                             | I_FLAG_SLVN | I_FLAG_LICM                ) 
+
+#define I_COM           ( 14 | I_FLAG_DST | I_FLAG_SRC1                 \
+                             | I_FLAG_SLVN | I_FLAG_LICM                ) 
 
     /* binary operators with their obvious meanings. for non-commutative
        operators, <src1> is the left operand, and <src2> is the right. */
@@ -222,34 +233,39 @@ typedef int insn_op;    /* I_* */
                              | I_FLAG_DEF_CC                            )
 
 #define I_ADD           ( 16 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP | I_FLAG_SLVN                )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                \
+                             | I_FLAG_LICM                              )
 
 #define I_SUB           ( 17 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_MUL           ( 18 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP | I_FLAG_SLVN                )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                \
+                             | I_FLAG_LICM                              )
 
 #define I_DIV           ( 19 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_MOD           ( 20 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_SHR           ( 21 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_SHL           ( 22 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_XOR           ( 23 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP | I_FLAG_SLVN                )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                \
+                             | I_FLAG_LICM                              )
 
 #define I_OR            ( 24 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP | I_FLAG_SLVN                )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                \
+                             | I_FLAG_LICM                              )
 
 #define I_AND           ( 25 | I_FLAG_DST | I_FLAG_SRC1 | I_FLAG_SRC2   \
-                             | I_FLAG_SWAP | I_FLAG_SLVN                )
+                             | I_FLAG_SWAP | I_FLAG_SLVN                \
+                             | I_FLAG_LICM                              )
 
     /* SET_cc sets <dst> to 1 if the condition is satisfied, 0 otherwise.
        order is important: same order as CC_INDEX() to make mapping trivial.
