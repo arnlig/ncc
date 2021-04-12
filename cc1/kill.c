@@ -25,9 +25,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "cc1.h"
 #include "insn.h"
+#include "blks.h"
+#include "regs.h"
 #include "block.h"
+#include "kill.h"
 
-static blocks_iter_ret kill0(struct block *b)
+static blocks_iter_ret analyze0(struct block *b)
 {
     struct insn *insn;
 
@@ -41,7 +44,29 @@ static blocks_iter_ret kill0(struct block *b)
 
 void kill_analyze(void)
 {
-    blocks_iter(kill0);
+    blocks_iter(analyze0);
+}
+
+/* gather kill sets. add the killed registers
+   from all blks to regs. if blks is 0, then
+   all blocks in the function are included. */
+
+static struct blks *gather_blks;
+static struct regs *gather_kill_regs;
+
+static blocks_iter_ret gather0(struct block *b)
+{
+    if ((gather_blks == 0) || BLKS_CONTAINS(gather_blks, b))
+        regs_union(gather_kill_regs, &b->kill);
+
+    return BLOCKS_ITER_OK;
+}
+
+void kill_gather_kills(struct blks *blks, struct regs *regs)
+{
+    gather_blks = blks;
+    gather_kill_regs = regs;
+    blocks_iter(gather0);
 }
 
 /* vi: set ts=4 expandtab: */

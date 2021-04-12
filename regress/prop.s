@@ -469,25 +469,12 @@ L208:
 	popq %rbp
 	ret
 L212:
-_all0:
+_init0:
 L214:
 	pushq %rbp
 	movq %rsp,%rbp
-L215:
-	leaq 168(%rdi),%rsi
-	movq $_all_defs,%rdi
-	call _regs_union
-	xorl %eax,%eax
-L216:
-	popq %rbp
-	ret
-L221:
-_init0:
-L223:
-	pushq %rbp
-	movq %rsp,%rbp
 	pushq %rbx
-L227:
+L218:
 	movq %rdi,%rbx
 	call _conps_new
 	movq %rax,192(%rbx)
@@ -497,18 +484,19 @@ L227:
 	movq %rax,208(%rbx)
 	call _conps_new
 	movq %rax,216(%rbx)
-L225:
+L216:
 	popq %rbx
 	popq %rbp
 	ret
-L229:
+L220:
 _init:
-L231:
+L222:
 	pushq %rbp
 	movq %rsp,%rbp
-L232:
-	movq $_all0,%rdi
-	call _blocks_iter
+L223:
+	xorl %edi,%edi
+	movq $_all_defs,%rsi
+	call _kill_gather_kills
 	movl _all_defs(%rip),%esi
 	movl %esi,%esi
 	leaq (,%rsi,4),%rdi
@@ -516,36 +504,36 @@ L232:
 	movq %rax,_map(%rip)
 	xorl %esi,%esi
 	movq _all_defs+8(%rip),%rdi
-L234:
+L225:
 	cmpq $0,%rdi
-	jz L237
-L235:
+	jz L228
+L226:
 	movl (%rdi),%eax
 	movslq %esi,%rcx
 	addl $1,%esi
 	movq _map(%rip),%rdx
 	movl %eax,(%rdx,%rcx,4)
 	movq 8(%rdi),%rdi
-	jmp L234
-L237:
+	jmp L225
+L228:
 	movq $_init0,%rdi
 	call _blocks_iter
 	movq _entry_block(%rip),%rsi
 	movq 208(%rsi),%rdi
 	call _conps_poison
-L233:
+L224:
 	popq %rbp
 	ret
-L241:
+L232:
 _local:
-L243:
+L234:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $32,%rsp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L270:
+L261:
 	movq %rsi,%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
@@ -553,50 +541,50 @@ L270:
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movq 8(%rdi),%r13
-L246:
+L237:
 	cmpq $0,%r13
-	jz L245
-L247:
+	jz L236
+L238:
 	leaq -32(%rbp),%rsi
 	movq %r13,%rdi
 	call _insn_con
 	cmpq $0,%rax
-	jz L252
-L250:
+	jz L243
+L241:
 	movl -32(%rbp),%esi
 	movq %rbx,%rdi
 	movl $1,%edx
 	movq %rax,%rcx
 	call _conps_set
-	jmp L248
-L252:
+	jmp L239
+L243:
 	leaq -24(%rbp),%rsi
 	movq %r13,%rdi
 	xorl %edx,%edx
 	call _insn_uses_regs
 	movq -16(%rbp),%r12
-L254:
+L245:
 	cmpq $0,%r12
-	jz L257
-L255:
+	jz L248
+L246:
 	movl (%r12),%esi
 	movq %rbx,%rdi
 	call _conps_value
 	cmpq $0,%rax
-	jz L256
-L261:
+	jz L247
+L252:
 	movl (%r12),%esi
 	movq %r13,%rdi
 	movq %rax,%rdx
 	call _insn_substitute_con
 	cmpl $0,%eax
-	jz L256
-L258:
+	jz L247
+L249:
 	movl $1,_changed(%rip)
-L256:
+L247:
 	movq 8(%r12),%r12
-	jmp L254
-L257:
+	jmp L245
+L248:
 	leaq -24(%rbp),%r12
 	movq %r12,%rdi
 	call _regs_clear
@@ -605,51 +593,51 @@ L257:
 	xorl %edx,%edx
 	call _insn_defs_regs
 	movq -16(%rbp),%r12
-L265:
+L256:
 	cmpq $0,%r12
-	jz L268
-L266:
+	jz L259
+L257:
 	movl (%r12),%esi
 	movq %rbx,%rdi
 	movl $2,%edx
 	xorl %ecx,%ecx
 	call _conps_set
 	movq 8(%r12),%r12
-	jmp L265
-L268:
+	jmp L256
+L259:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
-L248:
+L239:
 	movq 64(%r13),%r13
-	jmp L246
-L245:
+	jmp L237
+L236:
 	popq %r13
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L272:
+L263:
 _gen0:
-L274:
+L265:
 	pushq %rbp
 	movq %rsp,%rbp
-L275:
+L266:
 	movq 200(%rdi),%rsi
 	call _local
 	xorl %eax,%eax
-L276:
+L267:
 	popq %rbp
 	ret
-L281:
+L272:
 _conditional:
-L283:
+L274:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L330:
+L321:
 	movq %rdi,%r13
 	movq %rsi,%r12
 	movq %rdx,%rbx
@@ -658,92 +646,92 @@ L330:
 	xorl %esi,%esi
 	call _block_cc_successor
 	cmpq $0,%rax
-	jz L286
-L289:
+	jz L277
+L280:
 	cmpq 8(%rax),%r13
-	jz L288
-L286:
+	jz L279
+L277:
 	xorl %eax,%eax
-	jmp L285
-L288:
+	jmp L276
+L279:
 	movq 16(%r12),%rsi
 	movq 8(%rsi),%rsi
 	movq (%rsi),%rsi
 	cmpq $0,%rsi
-	jz L294
-L297:
+	jz L285
+L288:
 	movl (%rsi),%edi
 	cmpl $872415247,%edi
-	jz L296
-L294:
+	jz L287
+L285:
 	xorl %eax,%eax
-	jmp L285
-L296:
+	jmp L276
+L287:
 	movq 48(%rsi),%rax
 	movq 56(%rsi),%rdi
 	movq %rdi,%rsi
 	cmpq $0,%rdi
-	jz L304
-L305:
+	jz L295
+L296:
 	movl (%rdi),%edi
 	cmpl $1,%edi
-	jnz L304
-L309:
+	jnz L295
+L300:
 	movq %rax,%rdi
 	movq %rsi,%rax
 	movq %rdi,%rsi
-L304:
+L295:
 	cmpq $0,%rsi
-	jz L314
-L315:
+	jz L305
+L306:
 	movl (%rsi),%edi
 	cmpl $1,%edi
-	jnz L314
-L312:
+	jnz L305
+L303:
 	xorl %eax,%eax
-	jmp L285
-L314:
+	jmp L276
+L305:
 	cmpq $0,%rax
-	jz L320
-L323:
+	jz L311
+L314:
 	movl (%rax),%edi
 	cmpl $1,%edi
-	jnz L320
-L322:
+	jnz L311
+L313:
 	movl 24(%rsi),%esi
 	movl %esi,(%rbx)
-	jmp L285
-L320:
+	jmp L276
+L311:
 	xorl %eax,%eax
-L285:
+L276:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L332:
+L323:
 _prop0:
-L334:
+L325:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $8,%rsp
 	pushq %rbx
 	pushq %r12
-L351:
+L342:
 	movq %rdi,%rbx
 	cmpq %rbx,_entry_block(%rip)
-	jnz L339
-L337:
+	jnz L330
+L328:
 	xorl %eax,%eax
-	jmp L336
-L339:
+	jmp L327
+L330:
 	movq 192(%rbx),%rdi
 	call _conps_reset
 	movq 480(%rbx),%r12
-L341:
+L332:
 	cmpq $0,%r12
-	jz L344
-L342:
+	jz L335
+L333:
 	leaq -8(%rbp),%rdx
 	movq 8(%r12),%rsi
 	movq %rbx,%rdi
@@ -755,8 +743,8 @@ L342:
 	movq %rax,%rcx
 	call _conps_merge
 	movq 32(%r12),%r12
-	jmp L341
-L344:
+	jmp L332
+L335:
 	movq 192(%rbx),%rsi
 	movq 216(%rbx),%rdi
 	call _conps_dup
@@ -770,40 +758,40 @@ L344:
 	movq 216(%rbx),%rdi
 	call _conps_same
 	cmpl $0,%eax
-	jz L346
-L345:
+	jz L337
+L336:
 	xorl %eax,%eax
-	jmp L336
-L346:
+	jmp L327
+L337:
 	movq 216(%rbx),%rsi
 	movq 208(%rbx),%rdi
 	call _conps_dup
 	movl $2,%eax
-L336:
+L327:
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L353:
+L344:
 _rewrite0:
-L355:
+L346:
 	pushq %rbp
 	movq %rsp,%rbp
-L356:
+L347:
 	movq 192(%rdi),%rsi
 	call _local
 	xorl %eax,%eax
-L357:
+L348:
 	popq %rbp
 	ret
-L362:
+L353:
 _clear0:
-L364:
+L355:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L369:
+L360:
 	movq %rdi,%rbx
 	movq 192(%rbx),%rdi
 	call _conps_free
@@ -814,28 +802,28 @@ L369:
 	movq 216(%rbx),%rdi
 	call _conps_free
 	xorl %eax,%eax
-L366:
+L357:
 	popq %rbx
 	popq %rbp
 	ret
-L371:
+L362:
 _clear:
-L373:
+L364:
 	pushq %rbp
 	movq %rsp,%rbp
-L374:
+L365:
 	movq $_clear0,%rdi
 	call _blocks_iter
 	movq _map(%rip),%rdi
 	call _free
 	movq $_all_defs,%rdi
 	call _regs_clear
-L375:
+L366:
 	popq %rbp
 	ret
-L379:
+L370:
 _lookahead0:
-L381:
+L372:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $8,%rsp
@@ -843,45 +831,45 @@ L381:
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L417:
+L408:
 	movq %rdi,%r14
 	call _block_always_successor
 	movq %rax,%r13
 	cmpq $0,%r13
-	jz L386
-L403:
+	jz L377
+L394:
 	movq 8(%r13),%rdi
 	cmpq %rdi,%r14
-	jz L386
-L399:
+	jz L377
+L390:
 	movl 24(%rdi),%esi
 	addl $-2,%esi
 	cmpl $1,%esi
-	jnz L386
-L395:
+	jnz L377
+L386:
 	leaq -8(%rbp),%rsi
 	movq 8(%rdi),%rdi
 	call _insn_test_con
 	cmpl $0,%eax
-	jz L386
-L391:
+	jz L377
+L382:
 	movq 208(%r14),%rdi
 	movl -8(%rbp),%esi
 	call _conps_value
 	movq %rax,%rbx
 	cmpq $0,%rbx
-	jz L386
-L387:
+	jz L377
+L378:
 	cmpq $0,%rbx
-	jz L386
-L411:
+	jz L377
+L402:
 	movl (%rbx),%esi
 	cmpl $1,%esi
-	jnz L386
-L407:
+	jnz L377
+L398:
 	cmpq $0,32(%rbx)
-	jnz L386
-L384:
+	jnz L377
+L375:
 	movq 8(%r13),%rsi
 	movq 8(%rsi),%rdi
 	call _insn_dup
@@ -897,9 +885,9 @@ L384:
 	movq %r14,%rdi
 	call _block_dup_successors
 	movl $1,_changed(%rip)
-L386:
+L377:
 	xorl %eax,%eax
-L383:
+L374:
 	popq %r14
 	popq %r13
 	popq %r12
@@ -907,41 +895,41 @@ L383:
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L419:
+L410:
 _switch0:
-L421:
+L412:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L447:
+L438:
 	movq %rdi,%rbx
 	movq 328(%rbx),%rsi
 	cmpq $0,%rsi
-	jz L426
-L424:
+	jz L417
+L415:
 	movq %rsi,%rax
 	cmpq $0,%rsi
-	jz L429
-L430:
+	jz L420
+L421:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L429
-L427:
+	jnz L420
+L418:
 	movl 24(%rsi),%esi
 	movq 208(%rbx),%rdi
 	call _conps_value
-L429:
+L420:
 	cmpq $0,%rax
-	jz L426
-L441:
+	jz L417
+L432:
 	movl (%rax),%esi
 	cmpl $1,%esi
-	jnz L426
-L437:
+	jnz L417
+L428:
 	cmpq $0,32(%rax)
-	jnz L426
-L434:
+	jnz L417
+L425:
 	movq 24(%rax),%rsi
 	movq %rbx,%rdi
 	call _block_switch_lookup
@@ -953,19 +941,19 @@ L434:
 	movq %r12,%rdx
 	call _block_add_successor
 	movl $1,_changed(%rip)
-L426:
+L417:
 	xorl %eax,%eax
-L423:
+L414:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L449:
+L440:
 _prop:
-L450:
+L441:
 	pushq %rbp
 	movq %rsp,%rbp
-L453:
+L444:
 	call _kill_analyze
 	movl $0,_changed(%rip)
 	call _init
@@ -982,20 +970,20 @@ L453:
 	call _clear
 	movl _changed(%rip),%esi
 	cmpl $0,%esi
-	jz L455
-L456:
+	jz L446
+L447:
 	call _fold
 	call _algebra
 	call _dead
 	call _unreach
-L455:
+L446:
 	movl _changed(%rip),%esi
 	cmpl $0,%esi
-	jnz L453
-L452:
+	jnz L444
+L443:
 	popq %rbp
 	ret
-L462:
+L453:
 .local _map
 .comm _map, 8, 8
 .globl _block_switch_lookup
@@ -1013,6 +1001,7 @@ L462:
 .globl _fold
 .globl _insn_append
 .globl _kill_analyze
+.globl _kill_gather_kills
 .globl _block_dup_successors
 .globl _block_remove_successors
 .globl _safe_malloc
@@ -1025,7 +1014,6 @@ L462:
 .globl _unreach
 .globl _bsearch
 .globl _entry_block
-.globl _regs_union
 .globl _insn_substitute_con
 .globl _insn_con
 .globl _insn_test_con

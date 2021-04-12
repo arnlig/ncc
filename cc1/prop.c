@@ -276,12 +276,6 @@ static void conps_free(struct conp *conps)
    allocate/initialize map[], and create initial conps[]
    for each block. */
 
-static blocks_iter_ret all0(struct block *b)
-{
-    regs_union(&all_defs, &b->kill);
-    return BLOCKS_ITER_OK;
-}
-
 static blocks_iter_ret init0(struct block *b)
 {
     b->prop.in = conps_new();
@@ -295,7 +289,7 @@ static void init(void)
     struct reg *r;
     int n;
 
-    blocks_iter(all0);
+    kill_gather_kills(0, &all_defs);
     map = safe_malloc(sizeof(pseudo_reg) * MAP_SIZE);
     
     n = 0;

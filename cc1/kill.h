@@ -26,7 +26,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef KILL_H
 #define KILL_H
 
+struct blks;
+struct regs;
+
 extern void kill_analyze(void);
+extern void kill_gather_kills(struct blks *, struct regs *);
 
 #endif /* KILL_H */
 
