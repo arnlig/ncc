@@ -7,31 +7,31 @@ L3:
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L19:
-	movl %edi,%ebx
-	leal 5(%rbx),%ecx
-	movl $1,%r14d
-	shlq %cl,%r14
-	movq %r14,%r12
+L20:
+	movl %edi,%r14d
+	leal 5(%r14),%ecx
+	movl $1,%ebx
+	shlq %cl,%rbx
+	movq %rbx,%r12
 	xorl %edi,%edi
 	call _sbrk
 	leaq 4095(%rax),%rsi
 	shrq $12,%rsi
 	shlq $12,%rsi
 	subq %rax,%rsi
-	cmpq $4096,%r14
+	cmpq $4096,%rbx
 	jae L7
 L6:
 	movl $4096,%eax
 	xorl %edx,%edx
-	divq %r14
+	divq %rbx
 	movl %eax,%r13d
 	jmp L8
 L7:
 	movl $1,%r13d
 L8:
 	movl %r13d,%edi
-	imull %r14d,%edi
+	imull %ebx,%edi
 	addl %edi,%esi
 	movslq %esi,%rdi
 	call _sbrk
@@ -43,11 +43,11 @@ L9:
 	jmp L5
 L11:
 	xorl %edi,%edi
+	movslq %r14d,%rax
 L13:
 	cmpl %r13d,%edi
 	jge L16
 L14:
-	movslq %ebx,%rax
 	movq _buckets(,%rax,8),%rcx
 	movq %rcx,(%rsi)
 	movq %rsi,_buckets(,%rax,8)
@@ -63,44 +63,44 @@ L5:
 	popq %rbx
 	popq %rbp
 	ret
-L21:
-_malloc:
 L22:
+_malloc:
+L23:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L23:
+L24:
 	addq $8,%rdi
 	xorl %ebx,%ebx
-L26:
+L27:
 	leal 5(%rbx),%ecx
 	movl $1,%esi
 	shlq %cl,%rsi
 	cmpq %rsi,%rdi
-	jbe L28
-L27:
+	jbe L29
+L28:
 	addl $1,%ebx
 	cmpl $26,%ebx
-	jl L26
-L28:
+	jl L27
+L29:
 	cmpl $26,%ebx
-	jnz L35
-L33:
+	jnz L36
+L34:
 	xorl %eax,%eax
-	jmp L24
-L35:
+	jmp L25
+L36:
 	movslq %ebx,%rsi
 	cmpq $0,_buckets(,%rsi,8)
-	jnz L39
-L37:
+	jnz L40
+L38:
 	movl %ebx,%edi
 	call _refill
 	cmpl $0,%eax
-	jnz L39
-L40:
+	jnz L40
+L41:
 	xorl %eax,%eax
-	jmp L24
-L39:
+	jmp L25
+L40:
 	movslq %ebx,%rsi
 	movq _buckets(,%rsi,8),%rdi
 	movq (%rdi),%rax
@@ -108,31 +108,31 @@ L39:
 	movl %ebx,4(%rdi)
 	movl $1265200743,(%rdi)
 	leaq 8(%rdi),%rax
-L24:
+L25:
 	popq %rbx
 	popq %rbp
 	ret
-L48:
-_free:
 L49:
+_free:
+L50:
 	pushq %rbp
 	movq %rsp,%rbp
-L50:
+L51:
 	leaq -8(%rdi),%rsi
 	movl -8(%rdi),%eax
 	cmpl $1265200743,%eax
-	jnz L51
-L52:
+	jnz L52
+L53:
 	movl -4(%rdi),%eax
 	movslq %eax,%rcx
 	movq _buckets(,%rcx,8),%rcx
 	movq %rcx,-8(%rdi)
 	movslq %eax,%rdi
 	movq %rsi,_buckets(,%rdi,8)
-L51:
+L52:
 	popq %rbp
 	ret
-L58:
+L59:
 .globl _sbrk
 .local _buckets
 .comm _buckets, 208, 8

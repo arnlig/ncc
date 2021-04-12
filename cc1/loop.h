@@ -40,6 +40,7 @@ struct loop
 extern void loop_init(struct loop *);
 extern void loop_clear(struct loop *);
 extern void loop_analyze(void);
+extern void loop_invariants(void);
 
 #endif /* LOOP_H */
 

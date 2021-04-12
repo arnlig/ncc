@@ -1565,230 +1565,392 @@ L909:
 	popq %rbp
 	ret
 L918:
-_insn_defs_regs:
+_insn_movable:
 L919:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-	pushq %r14
-L971:
-	movq %rsi,%r12
-	movl %edx,%r13d
-	movq %rdi,%r14
-	xorl %ebx,%ebx
-	movl (%r14),%esi
-	testl $2147483648,%esi
-	jz L923
+L1039:
+	movq %rsi,%r13
+	movq %rdi,%r12
+	movl $1,%ebx
+	movl (%r12),%esi
+	testl $65536,%esi
+	jnz L924
 L922:
-	movq _target(%rip),%rsi
-	movq 144(%rsi),%rax
-	movq %r14,%rdi
-	movq %r12,%rsi
-	call *%rax
-	movl %eax,%ebx
-	jmp L943
-L923:
-	movq 40(%r14),%rsi
-	cmpq $0,%rsi
-	jz L943
-L932:
-	cmpq $0,%rsi
-	jz L943
+	xorl %ebx,%ebx
+L924:
+	movl (%r12),%esi
+	cmpl $1879244817,%esi
+	jz L933
+L1035:
+	cmpl $1879244822,%esi
+	jz L933
+L1036:
+	cmpl $1880293392,%esi
+	jz L933
+L1037:
+	cmpl $1880293394,%esi
+	jnz L927
+L933:
+	movq 40(%r12),%rsi
+	movq 8(%rsi),%rsi
+	movq _target(%rip),%rax
+	movq 8(%rax),%rdi
+	movq 16(%rax),%rax
+	orq %rax,%rdi
+	orq $192,%rdi
+	testq %rdi,%rsi
+	jz L939
 L936:
+	xorl %ebx,%ebx
+L939:
+	movq 48(%r12),%rsi
+	movq 8(%rsi),%rsi
+	movq _target(%rip),%rax
+	movq 8(%rax),%rdi
+	movq 16(%rax),%rax
+	orq %rax,%rdi
+	orq $192,%rdi
+	testq %rdi,%rsi
+	jz L945
+L942:
+	xorl %ebx,%ebx
+L945:
+	movq 56(%r12),%rsi
+	movq 8(%rsi),%rsi
+	movq _target(%rip),%rax
+	movq 8(%rax),%rdi
+	movq 16(%rax),%rax
+	orq %rax,%rdi
+	orq $192,%rdi
+	testq %rdi,%rsi
+	jz L927
+L948:
+	xorl %ebx,%ebx
+L927:
+	movl (%r12),%esi
+	testl $4194304,%esi
+	jz L980
+L954:
+	movq 40(%r12),%rsi
+	cmpq $0,%rsi
+	jz L980
+L964:
+	cmpq $0,%rsi
+	jz L960
+L968:
+	movl (%rsi),%esi
+	cmpl $1,%esi
+	jz L980
+L960:
+	movq 40(%r12),%rsi
+	cmpq $0,%rsi
+	jz L957
+L976:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L943
-L928:
-	movl (%r14),%edi
-	testl $4194304,%edi
-	jnz L943
-L925:
-	movl $1,%ebx
-	cmpq $0,%r12
-	jz L943
-L940:
+	jnz L957
+L972:
 	movl 24(%rsi),%esi
-	movq %r12,%rdi
-	movl $1,%edx
+	movq %r13,%rdi
+	xorl %edx,%edx
 	call _regs_lookup
-L943:
-	testl $1,%r13d
-	jz L956
-L949:
-	movq %r14,%rdi
-	call _insn_defs_cc
-	cmpl $0,%eax
-	jz L956
-L946:
-	movl $1,%ebx
-	cmpq $0,%r12
-	jz L956
-L953:
-	movq %r12,%rdi
-	movl $2147483648,%esi
-	movl $1,%edx
-	call _regs_lookup
-L956:
-	testl $2,%r13d
-	jz L957
-L962:
-	movq %r14,%rdi
-	call _insn_defs_mem
-	cmpl $0,%eax
-	jz L957
-L959:
-	movl $1,%ebx
-	cmpq $0,%r12
-	jz L957
-L966:
-	movq %r12,%rdi
-	movl $2147483650,%esi
-	movl $1,%edx
-	call _regs_lookup
+	cmpq $0,%rax
+	jnz L980
 L957:
+	xorl %ebx,%ebx
+L980:
+	movq 48(%r12),%rsi
+	cmpq $0,%rsi
+	jz L1006
+L990:
+	cmpq $0,%rsi
+	jz L986
+L994:
+	movl (%rsi),%esi
+	cmpl $1,%esi
+	jz L1006
+L986:
+	movq 48(%r12),%rsi
+	cmpq $0,%rsi
+	jz L983
+L1002:
+	movl (%rsi),%edi
+	cmpl $2,%edi
+	jnz L983
+L998:
+	movl 24(%rsi),%esi
+	movq %r13,%rdi
+	xorl %edx,%edx
+	call _regs_lookup
+	cmpq $0,%rax
+	jnz L1006
+L983:
+	xorl %ebx,%ebx
+L1006:
+	movq 56(%r12),%rsi
+	cmpq $0,%rsi
+	jz L1007
+L1016:
+	cmpq $0,%rsi
+	jz L1012
+L1020:
+	movl (%rsi),%esi
+	cmpl $1,%esi
+	jz L1007
+L1012:
+	movq 56(%r12),%rsi
+	cmpq $0,%rsi
+	jz L1009
+L1028:
+	movl (%rsi),%edi
+	cmpl $2,%edi
+	jnz L1009
+L1024:
+	movl 24(%rsi),%esi
+	movq %r13,%rdi
+	xorl %edx,%edx
+	call _regs_lookup
+	cmpq $0,%rax
+	jnz L1007
+L1009:
+	xorl %ebx,%ebx
+L1007:
 	movl %ebx,%eax
 L921:
-	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L973:
-_insn_uses_regs:
-L974:
+L1041:
+_insn_defs_regs:
+L1042:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L1062:
+L1094:
 	movq %rsi,%r12
 	movl %edx,%r13d
 	movq %rdi,%r14
 	xorl %ebx,%ebx
 	movl (%r14),%esi
 	testl $2147483648,%esi
-	jz L978
-L977:
+	jz L1046
+L1045:
 	movq _target(%rip),%rsi
-	movq 152(%rsi),%rax
+	movq 144(%rsi),%rax
 	movq %r14,%rdi
 	movq %r12,%rsi
 	call *%rax
 	movl %eax,%ebx
-	jmp L1034
-L978:
-	movl (%r14),%esi
-	testl $4194304,%esi
-	jz L1000
-L983:
+	jmp L1066
+L1046:
 	movq 40(%r14),%rsi
 	cmpq $0,%rsi
-	jz L1000
-L989:
+	jz L1066
+L1055:
 	cmpq $0,%rsi
-	jz L1000
-L993:
+	jz L1066
+L1059:
 	movl (%rsi),%edi
 	cmpl $2,%edi
-	jnz L1000
-L986:
+	jnz L1066
+L1051:
+	movl (%r14),%edi
+	testl $4194304,%edi
+	jnz L1066
+L1048:
 	movl $1,%ebx
 	cmpq $0,%r12
-	jz L1000
-L997:
+	jz L1066
+L1063:
 	movl 24(%rsi),%esi
 	movq %r12,%rdi
 	movl $1,%edx
 	call _regs_lookup
-L1000:
-	movq 48(%r14),%rsi
-	cmpq $0,%rsi
-	jz L1017
-L1006:
-	cmpq $0,%rsi
-	jz L1017
-L1010:
-	movl (%rsi),%edi
-	cmpl $2,%edi
-	jnz L1017
-L1003:
-	movl $1,%ebx
-	cmpq $0,%r12
-	jz L1017
-L1014:
-	movl 24(%rsi),%esi
-	movq %r12,%rdi
-	movl $1,%edx
-	call _regs_lookup
-L1017:
-	movq 56(%r14),%rsi
-	cmpq $0,%rsi
-	jz L1034
-L1023:
-	cmpq $0,%rsi
-	jz L1034
-L1027:
-	movl (%rsi),%edi
-	cmpl $2,%edi
-	jnz L1034
-L1020:
-	movl $1,%ebx
-	cmpq $0,%r12
-	jz L1034
-L1031:
-	movl 24(%rsi),%esi
-	movq %r12,%rdi
-	movl $1,%edx
-	call _regs_lookup
-L1034:
+L1066:
 	testl $1,%r13d
-	jz L1047
-L1040:
+	jz L1079
+L1072:
 	movq %r14,%rdi
-	call _insn_uses_cc
+	call _insn_defs_cc
 	cmpl $0,%eax
-	jz L1047
-L1037:
+	jz L1079
+L1069:
 	movl $1,%ebx
 	cmpq $0,%r12
-	jz L1047
-L1044:
+	jz L1079
+L1076:
 	movq %r12,%rdi
 	movl $2147483648,%esi
 	movl $1,%edx
 	call _regs_lookup
-L1047:
+L1079:
 	testl $2,%r13d
-	jz L1048
-L1053:
+	jz L1080
+L1085:
 	movq %r14,%rdi
-	call _insn_uses_mem
+	call _insn_defs_mem
 	cmpl $0,%eax
-	jz L1048
-L1050:
+	jz L1080
+L1082:
 	movl $1,%ebx
 	cmpq $0,%r12
-	jz L1048
-L1057:
+	jz L1080
+L1089:
 	movq %r12,%rdi
 	movl $2147483650,%esi
 	movl $1,%edx
 	call _regs_lookup
-L1048:
+L1080:
 	movl %ebx,%eax
-L976:
+L1044:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L1064:
+L1096:
+_insn_uses_regs:
+L1097:
+	pushq %rbp
+	movq %rsp,%rbp
+	pushq %rbx
+	pushq %r12
+	pushq %r13
+	pushq %r14
+L1185:
+	movq %rsi,%r12
+	movl %edx,%r13d
+	movq %rdi,%r14
+	xorl %ebx,%ebx
+	movl (%r14),%esi
+	testl $2147483648,%esi
+	jz L1101
+L1100:
+	movq _target(%rip),%rsi
+	movq 152(%rsi),%rax
+	movq %r14,%rdi
+	movq %r12,%rsi
+	call *%rax
+	movl %eax,%ebx
+	jmp L1157
+L1101:
+	movl (%r14),%esi
+	testl $4194304,%esi
+	jz L1123
+L1106:
+	movq 40(%r14),%rsi
+	cmpq $0,%rsi
+	jz L1123
+L1112:
+	cmpq $0,%rsi
+	jz L1123
+L1116:
+	movl (%rsi),%edi
+	cmpl $2,%edi
+	jnz L1123
+L1109:
+	movl $1,%ebx
+	cmpq $0,%r12
+	jz L1123
+L1120:
+	movl 24(%rsi),%esi
+	movq %r12,%rdi
+	movl $1,%edx
+	call _regs_lookup
+L1123:
+	movq 48(%r14),%rsi
+	cmpq $0,%rsi
+	jz L1140
+L1129:
+	cmpq $0,%rsi
+	jz L1140
+L1133:
+	movl (%rsi),%edi
+	cmpl $2,%edi
+	jnz L1140
+L1126:
+	movl $1,%ebx
+	cmpq $0,%r12
+	jz L1140
+L1137:
+	movl 24(%rsi),%esi
+	movq %r12,%rdi
+	movl $1,%edx
+	call _regs_lookup
+L1140:
+	movq 56(%r14),%rsi
+	cmpq $0,%rsi
+	jz L1157
+L1146:
+	cmpq $0,%rsi
+	jz L1157
+L1150:
+	movl (%rsi),%edi
+	cmpl $2,%edi
+	jnz L1157
+L1143:
+	movl $1,%ebx
+	cmpq $0,%r12
+	jz L1157
+L1154:
+	movl 24(%rsi),%esi
+	movq %r12,%rdi
+	movl $1,%edx
+	call _regs_lookup
+L1157:
+	testl $1,%r13d
+	jz L1170
+L1163:
+	movq %r14,%rdi
+	call _insn_uses_cc
+	cmpl $0,%eax
+	jz L1170
+L1160:
+	movl $1,%ebx
+	cmpq $0,%r12
+	jz L1170
+L1167:
+	movq %r12,%rdi
+	movl $2147483648,%esi
+	movl $1,%edx
+	call _regs_lookup
+L1170:
+	testl $2,%r13d
+	jz L1171
+L1176:
+	movq %r14,%rdi
+	call _insn_uses_mem
+	cmpl $0,%eax
+	jz L1171
+L1173:
+	movl $1,%ebx
+	cmpq $0,%r12
+	jz L1171
+L1180:
+	movq %r12,%rdi
+	movl $2147483650,%esi
+	movl $1,%edx
+	call _regs_lookup
+L1171:
+	movl %ebx,%eax
+L1099:
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %rbx
+	popq %rbp
+	ret
+L1187:
 .globl _regs_lookup
 .globl _insns_swap
 .globl _insn_dup
@@ -1805,6 +1967,7 @@ L1064:
 .globl _insn_append
 .globl _sched_init
 .globl _memset
+.globl _insn_movable
 .globl _insn_normalize
 .globl _insn_commute
 .globl _insns_insert_before

@@ -82,6 +82,7 @@ TAILQ_HEAD(cessors, cessor);
 typedef int block_flags;    /* BLOCK_FLAG_* */
 
 #define BLOCK_FLAG_VISITED  ( 0x00000001 )  /* already visited this walk */
+#define BLOCK_FLAG_LOOPED   ( 0x00000002 )  /* checked for loop invariants */
 
 struct block
 {
@@ -140,6 +141,7 @@ extern struct block *block_new(void);
 extern void block_free(struct block *);
 extern bool block_conditional(struct block *);
 extern ccset block_ccs(struct block *);
+extern struct block *block_preheader(struct block *, struct blks *);
 extern struct block *block_split(struct block *, insn_index);
 extern struct block *block_split_edge(struct block *, struct cessor *);
 

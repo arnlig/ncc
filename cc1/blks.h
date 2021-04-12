@@ -43,6 +43,7 @@ SET_DECLARE_CLEAR(blk)
 
 #define BLKS_INITIALIZER(bs)    SET_INITIALIZER(bs)
 #define BLKS_INIT(bs)           SET_INIT(bs)
+#define BLKS_FIRST(bs)          SET_FIRST(bs)
 #define BLKS_COUNT(bs)          SET_COUNT(bs)
 #define BLKS_EMPTY(r)           SET_EMPTY(r)
 #define BLKS_FOREACH(b, bs)     SET_FOREACH(b, bs)

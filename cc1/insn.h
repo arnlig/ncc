@@ -432,6 +432,7 @@ extern bool insn_side_effects(struct insn *);
 extern bool insn_test_z(struct insn *, pseudo_reg *);
 extern bool insn_test_con(struct insn *, pseudo_reg *);
 extern bool insn_defs_z(struct insn *, pseudo_reg *);
+extern bool insn_movable(struct insn *, struct regs *);
 extern struct operand *insn_con(struct insn *, pseudo_reg *);
 extern bool insn_substitute_con(struct insn *, pseudo_reg, struct operand *);
 

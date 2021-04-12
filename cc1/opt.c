@@ -30,6 +30,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "dead.h"
 #include "algebra.h"
 #include "fold.h"
+#include "loop.h"
 #include "copy.h"
 #include "prop.h"
 #include "testz.h"
@@ -198,6 +199,7 @@ void opt_early(void)
     testz_middle();
     sched_delay();
     copy();
+    loop_invariants();
 }
 
 /* late optimization occurs immediately after the target IR is generated,

@@ -92,22 +92,22 @@ L4:
 	ret
 L63:
 .align 8
-L134:
+L135:
 	.quad 0x0
 .align 8
-L135:
+L136:
 	.quad 0x400a934f0979a371
 .align 8
-L137:
+L138:
 	.quad 0x4024000000000000
 .align 8
-L138:
+L139:
 	.quad 0x4014000000000000
 .align 8
-L142:
+L143:
 	.quad 0x3fb999999999999a
 .align 8
-L143:
+L144:
 	.quad 0x3ff0000000000000
 _dtoa:
 L65:
@@ -120,14 +120,14 @@ L65:
 	pushq %r14
 	pushq %r15
 	movsd %xmm8,-40(%rbp)
-L132:
+L133:
 	movl %edi,-32(%rbp)	 # spill
 	movq %rcx,-24(%rbp)	 # spill
 	movl %edx,%r15d
 	movq %r8,%rbx
 	movq %rbx,%r12
 	movsd (%rsi),%xmm8
-	ucomisd L134(%rip),%xmm8
+	ucomisd L135(%rip),%xmm8
 	jz L71
 L70:
 	leaq -8(%rbp),%rsi
@@ -139,14 +139,14 @@ L70:
 	addl $-1,%edi
 	movl %edi,-8(%rbp)
 	cvtsi2sdl %edi,%xmm0
-	divsd L135(%rip),%xmm0
+	divsd L136(%rip),%xmm0
 	movq %rsi,%rdi
 	call _modf
-	ucomisd L134(%rip),%xmm0
+	ucomisd L135(%rip),%xmm0
 	jae L75
 L73:
 	movsd -16(%rbp),%xmm0
-	subsd L143(%rip),%xmm0
+	subsd L144(%rip),%xmm0
 	movsd %xmm0,-16(%rbp)
 L75:
 	movsd -16(%rbp),%xmm0
@@ -157,11 +157,11 @@ L75:
 	movl %esi,%edi
 	call ___pow10
 	mulsd %xmm0,%xmm8
-	ucomisd L137(%rip),%xmm8
+	ucomisd L138(%rip),%xmm8
 	jb L78
 L76:
 	leal 1(%r14),%r13d
-	mulsd L142(%rip),%xmm8
+	mulsd L143(%rip),%xmm8
 L78:
 	movq -24(%rbp),%r10	 # spill
 	movl %r13d,(%r10)
@@ -171,24 +171,24 @@ L82:
 	cmpl $69,-32(%rbp)	 # spill
 	jnz L80
 L79:
-	leal 1(%r15),%edi
+	leal 1(%r15),%esi
 	jmp L81
 L80:
 	cmpl $102,-32(%rbp)	 # spill
 	jnz L87
 L86:
-	leal 1(%r15,%r13),%edi
+	leal 1(%r15,%r13),%esi
 	jmp L81
 L87:
-	movl %r15d,%edi
+	movl %r15d,%esi
 L81:
-	cmpl $0,%edi
+	cmpl $0,%esi
 	jg L90
 L89:
-	cmpl $0,%edi
+	cmpl $0,%esi
 	jnz L71
 L95:
-	ucomisd L138(%rip),%xmm8
+	ucomisd L139(%rip),%xmm8
 	ja L99
 L71:
 	movq -24(%rbp),%r10	 # spill
@@ -197,17 +197,18 @@ L71:
 	movb $0,1(%rbx)
 	jmp L67
 L90:
-	cmpl $15,%edi
-	jle L105
+	cmpl $15,%esi
+	jle L132
 L102:
-	movl $15,%edi
+	movl $15,%esi
+L132:
+	movslq %esi,%rdi
 L105:
-	movslq %edi,%rsi
-	addq %rbx,%rsi
+	leaq (%rbx,%rdi),%rsi
 	cmpq %rsi,%r12
 	jae L108
 L109:
-	ucomisd L134(%rip),%xmm8
+	ucomisd L135(%rip),%xmm8
 	jz L108
 L106:
 	cvttsd2sil %xmm8,%esi
@@ -216,11 +217,11 @@ L106:
 	cvtsi2sdl %esi,%xmm0
 	addq $1,%r12
 	subsd %xmm0,%xmm8
-	mulsd L137(%rip),%xmm8
+	mulsd L138(%rip),%xmm8
 	jmp L105
 L108:
 	movb $0,(%r12)
-	ucomisd L138(%rip),%xmm8
+	ucomisd L139(%rip),%xmm8
 	ja L124
 L116:
 	addq $-1,%r12
@@ -266,12 +267,12 @@ L67:
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L144:
+L145:
 .align 8
-L204:
+L205:
 	.quad 0xbff0000000000000
 ___dtefg:
-L145:
+L146:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $32,%rsp
@@ -280,7 +281,7 @@ L145:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-L201:
+L202:
 	movq %rdi,%rbx
 	movl %edx,%r15d
 	movq %r9,%rdi
@@ -289,33 +290,33 @@ L201:
 	movsd (%rsi),%xmm0
 	movsd %xmm0,-32(%rbp)
 	cmpl $0,%r13d
-	jnz L149
-L151:
-	cmpl $103,%r15d
-	jz L148
-L155:
-	cmpl $71,%r15d
-	jnz L149
-L148:
-	movl $1,%r13d
-	jmp L150
-L149:
-	cmpl $-1,%r13d
 	jnz L150
-L159:
-	movl $6,%r13d
+L152:
+	cmpl $103,%r15d
+	jz L149
+L156:
+	cmpl $71,%r15d
+	jnz L150
+L149:
+	movl $1,%r13d
+	jmp L151
 L150:
+	cmpl $-1,%r13d
+	jnz L151
+L160:
+	movl $6,%r13d
+L151:
 	movsd -32(%rbp),%xmm0
-	ucomisd L134(%rip),%xmm0
-	jae L163
-L162:
-	mulsd L204(%rip),%xmm0
+	ucomisd L135(%rip),%xmm0
+	jae L164
+L163:
+	mulsd L205(%rip),%xmm0
 	movsd %xmm0,-32(%rbp)
 	movl $-1,(%rdi)
-	jmp L164
-L163:
-	movl $1,(%rdi)
+	jmp L165
 L164:
+	movl $1,(%rdi)
+L165:
 	leaq -16(%rbp),%rax
 	leaq -24(%rbp),%rcx
 	leaq -32(%rbp),%rsi
@@ -324,31 +325,31 @@ L164:
 	movq %rax,%r8
 	call _dtoa
 	cmpl $101,%r15d
-	jz L166
-L169:
+	jz L167
+L170:
 	cmpl $69,%r15d
-	jz L166
-L165:
+	jz L167
+L166:
 	cmpl $103,%r15d
-	jz L173
-L177:
+	jz L174
+L178:
 	cmpl $71,%r15d
-	jnz L167
-L173:
+	jnz L168
+L174:
 	movl -24(%rbp),%esi
 	cmpl $-4,%esi
-	jl L166
-L181:
-	cmpl %r13d,%esi
 	jl L167
-L166:
+L182:
+	cmpl %r13d,%esi
+	jl L168
+L167:
 	movl $1,%r14d
 	xorl %eax,%eax
-	jmp L187
-L167:
+	jmp L188
+L168:
 	xorl %r14d,%r14d
 	movl -24(%rbp),%eax
-L187:
+L188:
 	leaq -16(%rbp),%rsi
 	movq %rbx,%rdi
 	movl %r13d,%edx
@@ -358,30 +359,30 @@ L187:
 	call _dtof
 	movq %rax,%rbx
 	cmpl $0,%r14d
-	jz L147
-L188:
+	jz L148
+L189:
 	cmpl $69,%r15d
-	jz L191
-L194:
+	jz L192
+L195:
 	cmpl $71,%r15d
-	jnz L192
-L191:
-	movl $69,%esi
-	jmp L193
+	jnz L193
 L192:
-	movl $101,%esi
+	movl $69,%esi
+	jmp L194
 L193:
+	movl $101,%esi
+L194:
 	movb %sil,(%rbx)
 	leaq 1(%rbx),%rsi
 	movl -24(%rbp),%edi
 	pushq %rdi
-	pushq $L198
+	pushq $L199
 	pushq %rsi
 	call _sprintf
 	addq $24,%rsp
 	movslq %eax,%rsi
 	leaq 1(%rbx,%rsi),%rax
-L147:
+L148:
 	popq %r15
 	popq %r14
 	popq %r13
@@ -390,8 +391,8 @@ L147:
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L205:
-L198:
+L206:
+L199:
 	.byte 37,43,48,51,100,0
 .globl ___pow10
 .globl _modf

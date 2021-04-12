@@ -716,6 +716,48 @@ bool insn_defs_z(struct insn *insn, pseudo_reg *reg)
         return FALSE;
 }
 
+/* returns TRUE if this insn can be moved out
+   of a loop, given the known invariants. */
+
+#define MOVABLE0(o)                                                         \
+    do {                                                                    \
+        if (o && !OPERAND_CON(o)                                            \
+          && !(OPERAND_REG(o) && REGS_CONTAINS(invariants, (o)->reg)))      \
+            movable = FALSE;                                                \
+    } while (0)
+
+#define MOVEABLE1(o)                                                        \
+    do {                                                                    \
+        if ((o)->ts & (target->ptr_int | target->ptr_uint | T_INTS))        \
+            movable = FALSE;                                                \
+    } while (0)
+
+bool insn_movable(struct insn *insn, struct regs *invariants)
+{
+    bool movable = TRUE;
+
+    if (!I_LICM(insn->op))
+        movable = FALSE;
+
+    switch (insn->op)
+    {
+    case I_ADD:
+    case I_SUB:
+    case I_MUL:
+    case I_SHL:         MOVEABLE1(insn->dst);
+                        MOVEABLE1(insn->src1);
+                        MOVEABLE1(insn->src2);
+    }
+
+    if (I_USE_DST(insn->op))
+        MOVABLE0(insn->dst);
+
+    MOVABLE0(insn->src1);
+    MOVABLE0(insn->src2);
+
+    return movable;
+}
+
 /* these return TRUE if this instruction DEFs (USEs) any registers. if 
    so, and regs is not 0, the DEFd (USEd) registers are added to the set.
    if INSN_DEFSUSES_CC is in flags, then PSEUDO_REG_CC is included in the

@@ -9,7 +9,7 @@ L2:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-L136:
+L137:
 	movq %rdi,-8(%rbp)	 # spill
 	movq %rsi,-32(%rbp)	 # spill
 	movl %edx,-24(%rbp)	 # spill
@@ -27,10 +27,10 @@ L5:
 	movzbl ___ctype+1(%rax),%eax
 	testl $8,%eax
 	jnz L5
-L133:
+L134:
 	cmpl $43,%edi
 	jz L13
-L134:
+L135:
 	cmpl $45,%edi
 	jnz L10
 L12:
@@ -131,7 +131,7 @@ L74:
 	xorl %edx,%edx
 	divq %r14
 	movq %rdx,%rax
-	jmp L78
+	jmp L133
 L75:
 	movl -24(%rbp),%r10d	 # spill
 	movslq %r10d,%r14
@@ -143,9 +143,12 @@ L75:
 	cqto
 	idivq %r14
 	movq %rdx,%rax
+L133:
+	movl -24(%rbp),%r10d	 # spill
+	movslq %r10d,%rdx
 L78:
-	leal -48(%rdi),%edx
-	cmpl $10,%edx
+	leal -48(%rdi),%r14d
+	cmpl $10,%r14d
 	jae L82
 L84:
 	cmpl -40(%rbp),%edi	 # spill
@@ -154,8 +157,8 @@ L81:
 	addl $-48,%edi
 	jmp L83
 L82:
-	leal -65(%rdi),%edx
-	cmpl $26,%edx
+	leal -65(%rdi),%r14d
+	cmpl $26,%r14d
 	jae L89
 L91:
 	cmpl %r8d,%edi
@@ -164,8 +167,8 @@ L88:
 	addl $-55,%edi
 	jmp L83
 L89:
-	leal -97(%rdi),%edx
-	cmpl $26,%edx
+	leal -97(%rdi),%r14d
+	cmpl $26,%r14d
 	jae L96
 L98:
 	cmpl %ebx,%edi
@@ -179,16 +182,13 @@ L106:
 	cmpq %r13,%r9
 	jnz L104
 L110:
-	movslq %edi,%rdx
-	cmpq %rax,%rdx
+	movslq %edi,%r14
+	cmpq %rax,%r14
 	ja L104
 L103:
-	movl -24(%rbp),%r10d	 # spill
-	movslq %r10d,%rdx
 	imulq %rdx,%r9
-	movq %r9,%rdx
 	movslq %edi,%rdi
-	addq %rdx,%rdi
+	addq %r9,%rdi
 	movq %rdi,%r9
 	jmp L79
 L104:
@@ -255,29 +255,29 @@ L4:
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L138:
-_strtol:
 L139:
+_strtol:
+L140:
 	pushq %rbp
 	movq %rsp,%rbp
-L140:
+L141:
 	xorl %ecx,%ecx
 	call ___strtoul
-L141:
+L142:
 	popq %rbp
 	ret
-L146:
-_strtoul:
 L147:
+_strtoul:
+L148:
 	pushq %rbp
 	movq %rsp,%rbp
-L148:
+L149:
 	movl $1,%ecx
 	call ___strtoul
-L149:
+L150:
 	popq %rbp
 	ret
-L154:
+L155:
 .globl ___ctype
 .globl _errno
 .globl _strtoul

@@ -301,6 +301,28 @@ void block_redirect_successors(struct block *b, struct block *from,
     block_coalesce_successors(b);
 }
 
+/* insert a preheader in before the loop head. we redirect
+   all blocks, except those in loop_blks, to the new block,
+   and return said new block. */
+
+struct block *block_preheader(struct block *head, struct blks *loop_blks)
+{
+    struct block *new;
+    struct block *b;
+
+    new = block_new();
+    block_add_successor(new, CC_ALWAYS, head);
+
+    BLOCKS_FOREACH(b, &blocks) {
+        if ((b == new) || BLKS_CONTAINS(loop_blks, b))
+            continue;
+
+        block_redirect_successors(b, head, new);
+    }
+
+    return new;
+}
+
 /* returns TRUE if the block ends in a conditional branch. */
 
 bool block_conditional(struct block *b)

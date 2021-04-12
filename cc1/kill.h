@@ -26,6 +26,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef KILL_H
 #define KILL_H
 
+#include "cc1.h"
 #include "regs.h"
 
 struct blks;
@@ -40,6 +41,9 @@ extern void kill_init(struct kill *);
 extern void kill_clear(struct kill *);
 extern void kill_analyze(void);
 extern void kill_gather(struct blks *, struct regs *, struct regs *);
+
+extern void kill_gather_blks(pseudo_reg, struct blks *,
+                             struct blks *, struct blks *);
 
 #endif /* KILL_H */
 

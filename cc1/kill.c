@@ -96,4 +96,24 @@ void kill_gather(struct blks *blks, struct regs *kill_regs,
     blocks_iter(gather0);
 }
 
+/* gather kill and/or read blocks. scan blks, adding each
+   block where reg is in READ to read_blks, and where reg
+   is in KILL to kill_blks. the caller can express lack of
+   interest in either (or both, though that'd be dumb) of
+   these sets by passing in null blks. */
+
+void kill_gather_blks(pseudo_reg reg, struct blks *blks,
+                      struct blks *kill_blks, struct blks *read_blks)
+{
+    struct blk *blk;
+
+    BLKS_FOREACH(blk, blks) {
+        if (kill_blks && REGS_CONTAINS(&blk->b->kill.kill, reg))
+            BLKS_ADD(kill_blks, blk->b);
+
+        if (read_blks && REGS_CONTAINS(&blk->b->kill.read, reg))
+            BLKS_ADD(read_blks, blk->b);
+    }
+}
+
 /* vi: set ts=4 expandtab: */
