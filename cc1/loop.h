@@ -27,14 +27,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define LOOP_H
 
 #include "blks.h"
+#include "regs.h"
 
 /* struct loop is populated for blocks
    that are loop heads */
 
 struct loop
 {
-    struct blks blks;       /* blocks that form the loop */
-    int depth;              /* nesting depth */
+    struct blks blks;           /* blocks that form the loop */
+    int depth;                  /* nesting depth */
+    struct regs invariants;
 };
 
 extern void loop_init(struct loop *);

@@ -35,6 +35,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 void loop_init(struct loop *loop)
 {
     BLKS_INIT(&loop->blks);
+    REGS_INIT(&loop->invariants);
     loop->depth = 0;
 }
 
@@ -96,7 +97,8 @@ static void loop_blocks(struct block *tail, struct block *head)
 
 static blocks_iter_ret loop0(struct block *b)
 {
-    loop_clear(&b->loop);
+    blks_clear(&b->loop.blks);
+    b->loop.depth = 0;
 
     return BLOCKS_ITER_OK;
 }
@@ -141,11 +143,12 @@ void loop_analyze(void)
 
 static struct block *head_b;    /* head of loop currently being processed */
 
-/* reset */
+/* reset data before invariants analysis */
 
 static blocks_iter_ret invariants0(struct block *b)
 {
     b->flags &= ~BLOCK_FLAG_LOOPED;
+    regs_clear(&b->loop.invariants);
     return BLOCKS_ITER_OK;
 }
 
@@ -209,7 +212,6 @@ static bool loop_move(void)
     struct blks all_blks = BLKS_INITIALIZER(all_blks);
     struct blks out_blks = BLKS_INITIALIZER(out_blks);
     struct regs candidates = REGS_INITIALIZER(candidates);
-    struct regs invariants = REGS_INITIALIZER(invariants);
     struct blks out_defs = BLKS_INITIALIZER(out_defs);
     struct blks in_defs = BLKS_INITIALIZER(in_defs);
     struct blks read_blks = BLKS_INITIALIZER(read_blks);
@@ -248,7 +250,7 @@ static bool loop_move(void)
            the loop, then it's definitely a loop invariant. */
 
         if (BLKS_EMPTY(&in_defs)) {
-            REGS_ADD(&invariants, cand_r->reg);
+            REGS_ADD(&head_b->loop.invariants, cand_r->reg);
             goto remove;
         }
 
@@ -293,7 +295,7 @@ next:
             def_b = BLKS_FIRST(&in_defs);
             def_insn = unique_def(def_b->b, cand_r->reg);
 
-            if (insn_movable(def_insn, &invariants)) {
+            if (insn_movable(def_insn, &head_b->loop.invariants)) {
                 if (preheader == 0) {
                     preheader = block_preheader(head_b, &head_b->loop.blks);
                     changed = TRUE;
@@ -302,7 +304,7 @@ next:
                 BLOCK_APPEND_INSN(preheader, insn_dup(def_insn));
                 insns_remove(&def_b->b->insns, def_insn);
                 regs_remove(&candidates, cand_r->reg);
-                REGS_ADD(&invariants, cand_r->reg);
+                REGS_ADD(&head_b->loop.invariants, cand_r->reg);
                 moved = TRUE;
             }
 
@@ -311,7 +313,6 @@ next:
         }
     } while (moved);
 
-    regs_clear(&invariants);
     regs_clear(&candidates);
     blks_clear(&all_blks);
     blks_clear(&out_blks);

@@ -728,7 +728,7 @@ L328:
 L330:
 	movq 216(%rbx),%rdi
 	call _conps_reset
-	movq 504(%rbx),%r12
+	movq 528(%rbx),%r12
 L332:
 	cmpq $0,%r12
 	jz L335
