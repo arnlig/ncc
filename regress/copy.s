@@ -438,20 +438,20 @@ L234:
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movl _nr_copies(%rip),%esi
-	leaq 224(%rbx),%rdi
+	leaq 248(%rbx),%rdi
 	call _bitset_init
 	movl _nr_copies(%rip),%esi
-	leaq 256(%rbx),%rdi
+	leaq 280(%rbx),%rdi
 	call _bitset_init
 	movl _nr_copies(%rip),%esi
-	leaq 240(%rbx),%rdi
+	leaq 264(%rbx),%rdi
 	call _bitset_init
 	movl _nr_copies(%rip),%esi
-	leaq 272(%rbx),%r12
+	leaq 296(%rbx),%r12
 	movq %r12,%rdi
 	call _bitset_init
 	movl _nr_copies(%rip),%esi
-	leaq 288(%rbx),%rdi
+	leaq 312(%rbx),%rdi
 	call _bitset_init
 	movq %r12,%rdi
 	call _bitset_one_all
@@ -465,7 +465,7 @@ L217:
 	cmpq %rbx,_entry_block(%rip)
 	jz L220
 L218:
-	leaq 224(%rbx),%rdi
+	leaq 248(%rbx),%rdi
 	call _bitset_one_all
 L220:
 	movq 8(%rbx),%r13
@@ -483,10 +483,10 @@ L225:
 	jz L228
 L226:
 	movl (%r12),%esi
-	leaq 240(%rbx),%rdi
+	leaq 264(%rbx),%rdi
 	call _copies_invalidate
 	movl (%r12),%esi
-	leaq 272(%rbx),%rdi
+	leaq 296(%rbx),%rdi
 	call _copies_invalidate
 	movq 8(%r12),%r12
 	jmp L225
@@ -503,7 +503,7 @@ L229:
 	movl _next_copy_bit(%rip),%esi
 	addl $-1,%esi
 	movl %esi,_next_copy_bit(%rip)
-	leaq 240(%rbx),%rdi
+	leaq 264(%rbx),%rdi
 	call _bitset_set
 L223:
 	movq 64(%r13),%r13
@@ -526,39 +526,39 @@ L238:
 	pushq %r12
 L254:
 	movq %rdi,%rbx
-	movq 480(%rbx),%r12
+	movq 504(%rbx),%r12
 L241:
 	cmpq $0,%r12
 	jz L244
 L242:
-	cmpq %r12,480(%rbx)
+	cmpq %r12,504(%rbx)
 	jnz L246
 L245:
 	movq 8(%r12),%rsi
-	addq $256,%rsi
-	leaq 224(%rbx),%rdi
+	addq $280,%rsi
+	leaq 248(%rbx),%rdi
 	call _bitset_copy
 	jmp L243
 L246:
 	movq 8(%r12),%rsi
-	addq $256,%rsi
-	leaq 224(%rbx),%rdi
+	addq $280,%rsi
+	leaq 248(%rbx),%rdi
 	call _bitset_and
 L243:
 	movq 32(%r12),%r12
 	jmp L241
 L244:
-	leaq 224(%rbx),%rsi
-	leaq 288(%rbx),%r12
+	leaq 248(%rbx),%rsi
+	leaq 312(%rbx),%r12
 	movq %r12,%rdi
 	call _bitset_copy
-	leaq 272(%rbx),%rsi
+	leaq 296(%rbx),%rsi
 	movq %r12,%rdi
 	call _bitset_and
-	leaq 240(%rbx),%rsi
+	leaq 264(%rbx),%rsi
 	movq %r12,%rdi
 	call _bitset_or
-	addq $256,%rbx
+	addq $280,%rbx
 	movq %r12,%rdi
 	movq %rbx,%rsi
 	call _bitset_same
@@ -597,7 +597,7 @@ L261:
 	cmpl %esi,%ebx
 	jge L264
 L262:
-	leaq 224(%r13),%rdi
+	leaq 248(%r13),%rdi
 	movl %ebx,%esi
 	call _bitset_get
 	cmpl $0,%eax
@@ -639,15 +639,15 @@ L277:
 	pushq %rbx
 L282:
 	movq %rdi,%rbx
-	leaq 224(%rbx),%rdi
+	leaq 248(%rbx),%rdi
 	call _bitset_clear
-	leaq 256(%rbx),%rdi
+	leaq 280(%rbx),%rdi
 	call _bitset_clear
-	leaq 240(%rbx),%rdi
+	leaq 264(%rbx),%rdi
 	call _bitset_clear
-	leaq 272(%rbx),%rdi
+	leaq 296(%rbx),%rdi
 	call _bitset_clear
-	leaq 288(%rbx),%rdi
+	leaq 312(%rbx),%rdi
 	call _bitset_clear
 	xorl %eax,%eax
 L279:

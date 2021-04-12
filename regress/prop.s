@@ -477,13 +477,13 @@ L214:
 L218:
 	movq %rdi,%rbx
 	call _conps_new
-	movq %rax,192(%rbx)
-	call _conps_new
-	movq %rax,200(%rbx)
-	call _conps_new
-	movq %rax,208(%rbx)
-	call _conps_new
 	movq %rax,216(%rbx)
+	call _conps_new
+	movq %rax,224(%rbx)
+	call _conps_new
+	movq %rax,232(%rbx)
+	call _conps_new
+	movq %rax,240(%rbx)
 L216:
 	popq %rbx
 	popq %rbp
@@ -496,7 +496,8 @@ L222:
 L223:
 	xorl %edi,%edi
 	movq $_all_defs,%rsi
-	call _kill_gather_kills
+	xorl %edx,%edx
+	call _kill_gather
 	movl _all_defs(%rip),%esi
 	movl %esi,%esi
 	leaq (,%rsi,4),%rdi
@@ -519,7 +520,7 @@ L228:
 	movq $_init0,%rdi
 	call _blocks_iter
 	movq _entry_block(%rip),%rsi
-	movq 208(%rsi),%rdi
+	movq 232(%rsi),%rdi
 	call _conps_poison
 L224:
 	popq %rbp
@@ -623,7 +624,7 @@ L265:
 	pushq %rbp
 	movq %rsp,%rbp
 L266:
-	movq 200(%rdi),%rsi
+	movq 224(%rdi),%rsi
 	call _local
 	xorl %eax,%eax
 L267:
@@ -725,9 +726,9 @@ L328:
 	xorl %eax,%eax
 	jmp L327
 L330:
-	movq 192(%rbx),%rdi
+	movq 216(%rbx),%rdi
 	call _conps_reset
-	movq 480(%rbx),%r12
+	movq 504(%rbx),%r12
 L332:
 	cmpq $0,%r12
 	jz L335
@@ -737,25 +738,25 @@ L333:
 	movq %rbx,%rdi
 	call _conditional
 	movq 8(%r12),%rsi
-	movq 208(%rsi),%rsi
-	movq 192(%rbx),%rdi
+	movq 232(%rsi),%rsi
+	movq 216(%rbx),%rdi
 	movl -8(%rbp),%edx
 	movq %rax,%rcx
 	call _conps_merge
 	movq 32(%r12),%r12
 	jmp L332
 L335:
-	movq 192(%rbx),%rsi
-	movq 216(%rbx),%rdi
+	movq 216(%rbx),%rsi
+	movq 240(%rbx),%rdi
 	call _conps_dup
-	movq 216(%rbx),%rdi
+	movq 240(%rbx),%rdi
 	leaq 168(%rbx),%rsi
 	call _conps_kill
-	movq 200(%rbx),%rsi
-	movq 216(%rbx),%rdi
+	movq 224(%rbx),%rsi
+	movq 240(%rbx),%rdi
 	call _conps_merge_gen
-	movq 208(%rbx),%rsi
-	movq 216(%rbx),%rdi
+	movq 232(%rbx),%rsi
+	movq 240(%rbx),%rdi
 	call _conps_same
 	cmpl $0,%eax
 	jz L337
@@ -763,8 +764,8 @@ L336:
 	xorl %eax,%eax
 	jmp L327
 L337:
-	movq 216(%rbx),%rsi
-	movq 208(%rbx),%rdi
+	movq 240(%rbx),%rsi
+	movq 232(%rbx),%rdi
 	call _conps_dup
 	movl $2,%eax
 L327:
@@ -779,7 +780,7 @@ L346:
 	pushq %rbp
 	movq %rsp,%rbp
 L347:
-	movq 192(%rdi),%rsi
+	movq 216(%rdi),%rsi
 	call _local
 	xorl %eax,%eax
 L348:
@@ -793,13 +794,13 @@ L355:
 	pushq %rbx
 L360:
 	movq %rdi,%rbx
-	movq 192(%rbx),%rdi
-	call _conps_free
-	movq 200(%rbx),%rdi
-	call _conps_free
-	movq 208(%rbx),%rdi
-	call _conps_free
 	movq 216(%rbx),%rdi
+	call _conps_free
+	movq 224(%rbx),%rdi
+	call _conps_free
+	movq 232(%rbx),%rdi
+	call _conps_free
+	movq 240(%rbx),%rdi
 	call _conps_free
 	xorl %eax,%eax
 L357:
@@ -853,7 +854,7 @@ L386:
 	cmpl $0,%eax
 	jz L377
 L382:
-	movq 208(%r14),%rdi
+	movq 232(%r14),%rdi
 	movl -8(%rbp),%esi
 	call _conps_value
 	movq %rax,%rbx
@@ -904,7 +905,7 @@ L412:
 	pushq %r12
 L438:
 	movq %rdi,%rbx
-	movq 328(%rbx),%rsi
+	movq 352(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L417
 L415:
@@ -917,7 +918,7 @@ L421:
 	jnz L420
 L418:
 	movl 24(%rsi),%esi
-	movq 208(%rbx),%rdi
+	movq 232(%rbx),%rdi
 	call _conps_value
 L420:
 	cmpq $0,%rax
@@ -995,13 +996,13 @@ L453:
 .globl _block_always_successor
 .globl _block_cc_successor
 .globl _block_add_successor
+.globl _kill_gather
 .globl _regs_clear
 .globl _insn_uses_regs
 .globl _insn_defs_regs
 .globl _fold
 .globl _insn_append
 .globl _kill_analyze
-.globl _kill_gather_kills
 .globl _block_dup_successors
 .globl _block_remove_successors
 .globl _safe_malloc

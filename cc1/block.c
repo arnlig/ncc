@@ -87,7 +87,7 @@ struct block *block_new(void)
 
     INSNS_INIT(&b->insns);
     live_init(&b->live);
-    REGS_INIT(&b->kill);
+    kill_init(&b->kill);
     BLKS_INIT(&b->dominators);
     BLKS_INIT(&b->loop_blks);
     CESSORS_INIT(&b->successors);
@@ -105,7 +105,7 @@ void block_free(struct block *b)
 
     insns_clear(&b->insns);
     live_clear(&b->live);
-    regs_clear(&b->kill);
+    kill_clear(&b->kill);
     blks_clear(&b->dominators);
     blks_clear(&b->loop_blks);
     operand_free(b->control);

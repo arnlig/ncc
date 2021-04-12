@@ -277,7 +277,7 @@ static blocks_iter_ret compute0(struct block *b)
     regs_clear(&tmp);
 
     regs_union(&tmp, &b->webs.in);
-    regs_eliminate_bases(&tmp, &b->kill);
+    regs_eliminate_bases(&tmp, &b->kill.kill);
     regs_union(&tmp, &b->webs.gen);
 
     if (REGS_COUNT(&tmp) != REGS_COUNT(&b->webs.out)) {

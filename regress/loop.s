@@ -119,7 +119,7 @@ L43:
 	jmp L41
 L31:
 	leaq -24(%rbp),%rbx
-	leaq 432(%r15),%rdi
+	leaq 456(%r15),%rdi
 	movq %rbx,%rsi
 	call _blks_union
 	movq %rbx,%rdi
@@ -139,8 +139,8 @@ L56:
 	pushq %rbp
 	movq %rsp,%rbp
 L57:
-	movl $0,456(%rdi)
-	addq $432,%rdi
+	movl $0,480(%rdi)
+	addq $456,%rdi
 	call _blks_clear
 	xorl %eax,%eax
 L58:
@@ -166,7 +166,7 @@ L68:
 	jz L71
 L69:
 	movq 8(%r13),%rsi
-	leaq 408(%r12),%rdi
+	leaq 432(%r12),%rdi
 	xorl %edx,%edx
 	call _blks_lookup
 	cmpq $0,%rax
@@ -192,13 +192,13 @@ L81:
 	pushq %rbp
 	movq %rsp,%rbp
 L82:
-	movq 440(%rdi),%rsi
+	movq 464(%rdi),%rsi
 L84:
 	cmpq $0,%rsi
 	jz L87
 L85:
 	movq (%rsi),%rdi
-	addl $1,456(%rdi)
+	addl $1,480(%rdi)
 	movq 8(%rsi),%rsi
 	jmp L84
 L87:

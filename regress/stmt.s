@@ -592,14 +592,14 @@ L149:
 L150:
 	call _lex
 	movq _switch_block(%rip),%rsi
-	movq 328(%rsi),%rsi
+	movq 352(%rsi),%rsi
 	movq 8(%rsi),%rdi
 	movl $1,%esi
 	call _int_expression
 	leaq -8(%rbp),%rsi
 	movq %rax,-8(%rbp)
 	movq _switch_block(%rip),%rdi
-	movq 328(%rdi),%rdi
+	movq 352(%rdi),%rdi
 	movq 8(%rdi),%rdi
 	call _con_normalize
 	movl $486539286,%edi

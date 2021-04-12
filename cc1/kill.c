@@ -30,14 +30,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "block.h"
 #include "kill.h"
 
+/* initialize/release block kill data */
+
+void kill_init(struct kill *kill)
+{
+    REGS_INIT(&kill->kill);
+    REGS_INIT(&kill->read);
+}
+
+void kill_clear(struct kill *kill)
+{
+    regs_clear(&kill->kill);
+    regs_clear(&kill->read);
+}
+
+/* do kill/read analysis for a block. */
+
 static blocks_iter_ret analyze0(struct block *b)
 {
     struct insn *insn;
 
-    regs_clear(&b->kill);
+    kill_clear(&b->kill);
 
-    INSNS_FOREACH(insn, &b->insns)
-        insn_defs_regs(insn, &b->kill, 0);
+    INSNS_FOREACH(insn, &b->insns) {
+        insn_defs_regs(insn, &b->kill.kill, 0);
+        insn_uses_regs(insn, &b->kill.read, 0);
+    }
 
     return BLOCKS_ITER_OK;
 }
@@ -47,25 +65,34 @@ void kill_analyze(void)
     blocks_iter(analyze0);
 }
 
-/* gather kill sets. add the killed registers
-   from all blks to regs. if blks is 0, then
-   all blocks in the function are included. */
+/* gather kill and/or read sets. add the killed regs from
+   all blks to kill_regs (if not 0), and the read regs to
+   read_regs (if not 0). if blks is 0, then all blocks in
+   the function are included. */
 
 static struct blks *gather_blks;
 static struct regs *gather_kill_regs;
+static struct regs *gather_read_regs;
 
 static blocks_iter_ret gather0(struct block *b)
 {
-    if ((gather_blks == 0) || BLKS_CONTAINS(gather_blks, b))
-        regs_union(gather_kill_regs, &b->kill);
+    if ((gather_blks == 0) || BLKS_CONTAINS(gather_blks, b)) {
+        if (gather_kill_regs)
+            regs_union(gather_kill_regs, &b->kill.kill);
+
+        if (gather_read_regs)
+            regs_union(gather_read_regs, &b->kill.read);
+    }
 
     return BLOCKS_ITER_OK;
 }
 
-void kill_gather_kills(struct blks *blks, struct regs *regs)
+void kill_gather(struct blks *blks, struct regs *kill_regs,
+                                    struct regs *read_regs)
 {
     gather_blks = blks;
-    gather_kill_regs = regs;
+    gather_kill_regs = kill_regs;
+    gather_read_regs = read_regs;
     blocks_iter(gather0);
 }
 

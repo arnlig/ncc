@@ -33,6 +33,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "prop.h"
 #include "regs.h"
 #include "webs.h"
+#include "kill.h"
 #include "blks.h"
 #include "copy.h"
 #include "slvn.h"
@@ -89,7 +90,7 @@ struct block
     struct insns insns;
 
     struct live live;               /* live-variable data */
-    struct regs kill;               /* register kill set */
+    struct kill kill;               /* kill/read data */
     struct prop prop;               /* constant propagation data */
     struct copy copy;               /* copy propagation data */
     struct lvns lvns;               /* value numbering data */

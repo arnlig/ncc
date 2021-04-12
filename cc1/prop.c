@@ -289,7 +289,7 @@ static void init(void)
     struct reg *r;
     int n;
 
-    kill_gather_kills(0, &all_defs);
+    kill_gather(0, &all_defs, 0);
     map = safe_malloc(sizeof(pseudo_reg) * MAP_SIZE);
     
     n = 0;
@@ -406,7 +406,7 @@ static blocks_iter_ret prop0(struct block *b)
     }
 
     conps_dup(b->prop.tmp, b->prop.in);
-    conps_kill(b->prop.tmp, &b->kill);
+    conps_kill(b->prop.tmp, &b->kill.kill);
     conps_merge_gen(b->prop.tmp, b->prop.gen);
 
     if (conps_same(b->prop.tmp, b->prop.out))

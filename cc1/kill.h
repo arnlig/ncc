@@ -1,4 +1,4 @@
-/* kill.h - kill set computation                        ncc, the new c compiler
+/* kill.h - kill/read set computation                   ncc, the new c compiler
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -26,11 +26,20 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef KILL_H
 #define KILL_H
 
-struct blks;
-struct regs;
+#include "regs.h"
 
+struct blks;
+
+struct kill
+{
+    struct regs kill;
+    struct regs read;
+};
+
+extern void kill_init(struct kill *);
+extern void kill_clear(struct kill *);
 extern void kill_analyze(void);
-extern void kill_gather_kills(struct blks *, struct regs *);
+extern void kill_gather(struct blks *, struct regs *, struct regs *);
 
 #endif /* KILL_H */
 
