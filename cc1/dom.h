@@ -32,7 +32,9 @@ extern void dom_analyze(void);
 
 /* TRUE if block a dominates block b */
 
-#define DOMINATES(a, b)     (BLKS_CONTAINS(&(b)->dominators, (a)))
+#define DOMINATES(a, b)     (BLKS_CONTAINS(&(b)->dominators, (a)) != 0)
+
+extern bool dominates_all(struct block *, struct blks *);
 
 #endif /* DOM_H */
 

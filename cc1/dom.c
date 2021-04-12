@@ -94,4 +94,18 @@ void dom_analyze(void)
     blks_clear(&blks_all);
 }
 
+/* returns TRUE if block b dominates all of blks */
+
+bool dominates_all(struct block *b, struct blks *blks)
+{
+    struct blk *blk;
+
+    BLKS_FOREACH(blk, blks) {
+        if (!DOMINATES(b, blk->b))
+            return FALSE;
+    }
+
+    return TRUE;
+}
+
 /* vi: set ts=4 expandtab: */
