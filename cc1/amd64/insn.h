@@ -1047,6 +1047,7 @@ extern bool amd64_operands_same(struct amd64_operand *,
 #define AMD64_I_MOVSQ       AMD64_I ( 99 | AMD64_I_FLAG_DEFMEM              \
                                          | AMD64_I_FLAG_USEMEM              )
 
+extern struct insn *amd64_insn_dup(struct insn *);
 extern void amd64_insn_construct(struct insn *, va_list);
 extern void amd64_insn_destruct(struct insn *);
 extern void amd64_insn_output(struct insn *);

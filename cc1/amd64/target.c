@@ -44,7 +44,7 @@ struct target amd64_target =
     amd64_func_new,
     amd64_insn_construct,
     amd64_insn_destruct,
-    0 /* insn_dup */,
+    amd64_insn_dup,
     amd64_symbol_reg,
     amd64_symbol_storage,
     amd64_formal_declare,

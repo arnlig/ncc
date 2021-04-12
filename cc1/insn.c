@@ -263,8 +263,7 @@ struct insn *insn_dup(struct insn *src)
     if (I_TARGET(src->op))
         return target->insn_dup(src);
     else {
-        insn = safe_malloc(sizeof(struct insn));
-        insn_construct(insn, I_NOP, 0);
+        insn = insn_new(I_NOP);
         insn->op = src->op;
         insn->dst = operand_dup(src->dst);
         insn->src1 = operand_dup(src->src1);

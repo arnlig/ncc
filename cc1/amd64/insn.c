@@ -454,6 +454,20 @@ void amd64_insn_destruct(struct insn *insn)
     amd64_operand_free(insn->amd64[1]);
 }
 
+/* return a duplicate of an AMD64 insn */
+
+struct insn *amd64_insn_dup(struct insn *insn)
+{
+    struct insn *new;
+
+    new = insn_new(I_NOP);
+    new->op = insn->op;
+    new->amd64[0] = amd64_operand_dup(insn->amd64[0]);
+    new->amd64[1] = amd64_operand_dup(insn->amd64[1]);
+
+    return new;
+}
+
 /* if the instruction modifies the condition codes */
 
 bool amd64_insn_defs_cc(struct insn *insn)

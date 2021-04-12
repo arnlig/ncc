@@ -522,13 +522,10 @@ L292:
 	call *%rsi
 	jmp L291
 L293:
-	movl $80,%edi
-	call _safe_malloc
+	pushq $524288
+	call _insn_new
+	addq $8,%rsp
 	movq %rax,%r12
-	movq %r12,%rdi
-	movl $524288,%esi
-	xorl %edx,%edx
-	call _insn_construct
 	movl (%rbx),%esi
 	movl %esi,(%r12)
 	movq 40(%rbx),%rdi
