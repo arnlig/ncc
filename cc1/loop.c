@@ -29,9 +29,23 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "stack.h"
 #include "loop.h"
 
+/* the usual init/clear for block loop data */
+
+void loop_init(struct loop *loop)
+{
+    BLKS_INIT(&loop->blks);
+    loop->depth = 0;
+}
+
+void loop_clear(struct loop *loop)
+{
+    blks_clear(&loop->blks);
+    loop->depth = 0;
+}
+
 /* in this analysis, we find natural loops using dominators. once identified,
-   each block is assigned a loop_depth, indicating its loop nesting level.
-   the blocks that comprise each loop are collected into the loop_blks field
+   each block is assigned a loop depth, indicating its loop nesting level.
+   the blocks that comprise each loop are collected into the loop.blks field
    of that loop's header block. when multiple loops share the same header,
    we conservatively assume they are part of the same loop, not nested. */
 
@@ -43,7 +57,7 @@ static struct bstack bstack = STACK_INITIALIZER(bstack);
 
 /* given a back edge from tail to head, compute the
    blocks that comprise the implied natural loop, and
-   add those blocks to the head's loop_blks. */
+   add those blocks to the head's loop.blks. */
 
 #define INSERT(b)                                                           \
     do {                                                                    \
@@ -73,7 +87,7 @@ static void loop_blocks(struct block *tail, struct block *head)
         }
     }
 
-    blks_union(&head->loop_blks, &blks);
+    blks_union(&head->loop.blks, &blks);
     blks_clear(&blks);
 }
 
@@ -81,8 +95,7 @@ static void loop_blocks(struct block *tail, struct block *head)
 
 static blocks_iter_ret loop0(struct block *b)
 {
-    b->loop_depth = 0;
-    blks_clear(&b->loop_blks);
+    loop_clear(&b->loop);
 
     return BLOCKS_ITER_OK;
 }
@@ -107,8 +120,8 @@ static blocks_iter_ret loop2(struct block *b)
 {
     struct blk *blk_b;
 
-    BLKS_FOREACH(blk_b, &b->loop_blks)
-        ++(blk_b->b->loop_depth);
+    BLKS_FOREACH(blk_b, &b->loop.blks)
+        ++(blk_b->b->loop.depth);
 
     return BLOCKS_ITER_OK;
 }

@@ -353,7 +353,7 @@ void output_func(void)
     for (b = entry_block; b; b = next) {
         if (debug_flag_d)
             output("# DOMINATORS: %B, loop_depth = %d\n", &b->dominators,
-                                                          b->loop_depth);
+                                                          b->loop.depth);
 
         if (debug_flag_l)
             live_debug(&b->live);

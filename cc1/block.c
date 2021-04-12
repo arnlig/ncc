@@ -88,8 +88,8 @@ struct block *block_new(void)
     INSNS_INIT(&b->insns);
     live_init(&b->live);
     kill_init(&b->kill);
+    loop_init(&b->loop);
     BLKS_INIT(&b->dominators);
-    BLKS_INIT(&b->loop_blks);
     CESSORS_INIT(&b->successors);
     CESSORS_INIT(&b->predecessors);
     BLOCKS_APPEND(&blocks, b);
@@ -107,7 +107,7 @@ void block_free(struct block *b)
     live_clear(&b->live);
     kill_clear(&b->kill);
     blks_clear(&b->dominators);
-    blks_clear(&b->loop_blks);
+    loop_clear(&b->loop);
     operand_free(b->control);
 
     while (cessor = block_get_successor_n(b, 0))

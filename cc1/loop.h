@@ -26,6 +26,19 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef LOOP_H
 #define LOOP_H
 
+#include "blks.h"
+
+/* struct loop is populated for blocks
+   that are loop heads */
+
+struct loop
+{
+    struct blks blks;       /* blocks that form the loop */
+    int depth;              /* nesting depth */
+};
+
+extern void loop_init(struct loop *);
+extern void loop_clear(struct loop *);
 extern void loop_analyze(void);
 
 #endif /* LOOP_H */

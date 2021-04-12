@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "blks.h"
 #include "copy.h"
 #include "slvn.h"
+#include "loop.h"
 #include "codes.h"
 #include "amd64/target_block.h"
 
@@ -98,8 +99,7 @@ struct block
     struct operand *control;        /* controlling value of switch block */
     struct webs webs;               /* allocatable webs data */
     struct blks dominators;         /* dominators of this block */
-    struct blks loop_blks;          /* loop blocks headed by this block */
-    int loop_depth;                 /* loop nesting depth */
+    struct loop loop;               /* loop data */
 
     struct cessors successors;
     struct cessors predecessors;

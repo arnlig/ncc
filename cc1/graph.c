@@ -402,7 +402,7 @@ static blocks_iter_ret interf0(struct block *b)
 
 /* scan the IR and compute spill costs for each pseudo register. we
    use a basic heuristic: 1 point for each predicted load or store,
-   multiplied by 100 * loop_depth. */
+   multiplied by 100 * loop depth. */
 
 #define COST0(x)                                                        \
     do {                                                                \
@@ -430,7 +430,7 @@ static blocks_iter_ret cost0(struct block *b)
     int i;
     int cost = 1;
 
-    for (i = 0; i < b->loop_depth; ++i)
+    for (i = 0; i < b->loop.depth; ++i)
         cost *= 10;
 
     INSNS_FOREACH(insn, &b->insns) {
