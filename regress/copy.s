@@ -526,12 +526,12 @@ L238:
 	pushq %r12
 L254:
 	movq %rdi,%rbx
-	movq 528(%rbx),%r12
+	movq 504(%rbx),%r12
 L241:
 	cmpq $0,%r12
 	jz L244
 L242:
-	cmpq %r12,528(%rbx)
+	cmpq %r12,504(%rbx)
 	jnz L246
 L245:
 	movq 8(%r12),%rsi

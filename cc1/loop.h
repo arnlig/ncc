@@ -36,7 +36,6 @@ struct loop
 {
     struct blks blks;           /* blocks that form the loop */
     int depth;                  /* nesting depth */
-    struct regs invariants;
 };
 
 extern void loop_init(struct loop *);

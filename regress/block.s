@@ -59,7 +59,7 @@ L28:
 	movq %rsp,%rbp
 	pushq %rbx
 L29:
-	movl $576,%edi
+	movl $552,%edi
 	call _safe_malloc
 	movq %rax,%rbx
 	movl _last_asm_label(%rip),%esi
@@ -80,16 +80,16 @@ L29:
 	movq $0,440(%rbx)
 	movq %rsi,448(%rbx)
 	movl $0,432(%rbx)
-	leaq 512(%rbx),%rsi
-	movq $0,512(%rbx)
-	movq %rsi,520(%rbx)
-	leaq 528(%rbx),%rsi
-	movq $0,528(%rbx)
-	movq %rsi,536(%rbx)
-	leaq 560(%rbx),%rsi
-	movq $0,560(%rbx)
+	leaq 488(%rbx),%rsi
+	movq $0,488(%rbx)
+	movq %rsi,496(%rbx)
+	leaq 504(%rbx),%rsi
+	movq $0,504(%rbx)
+	movq %rsi,512(%rbx)
+	leaq 536(%rbx),%rsi
+	movq $0,536(%rbx)
 	movq _blocks+8(%rip),%rdi
-	movq %rdi,568(%rbx)
+	movq %rdi,544(%rbx)
 	movq _blocks+8(%rip),%rdi
 	movq %rbx,(%rdi)
 	movq %rsi,_blocks+8(%rip)
@@ -130,19 +130,19 @@ L61:
 	call _block_remove_successor
 	jmp L60
 L63:
-	movq 560(%rbx),%rsi
+	movq 536(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L67
 L66:
-	movq 568(%rbx),%rdi
-	movq %rdi,568(%rsi)
+	movq 544(%rbx),%rdi
+	movq %rdi,544(%rsi)
 	jmp L68
 L67:
-	movq 568(%rbx),%rsi
+	movq 544(%rbx),%rsi
 	movq %rsi,_blocks+8(%rip)
 L68:
-	movq 560(%rbx),%rsi
-	movq 568(%rbx),%rdi
+	movq 536(%rbx),%rsi
+	movq 544(%rbx),%rdi
 	movq %rsi,(%rdi)
 	movq %rbx,%rdi
 	call _free
@@ -161,11 +161,11 @@ L73:
 L78:
 	movq %rdi,%r12
 	movq %rdx,%rbx
-	leaq 512(%r12),%rdi
+	leaq 488(%r12),%rdi
 	movq %rbx,%rdx
 	call _cessor_new
 	movq %rax,%r13
-	leaq 528(%rbx),%rdi
+	leaq 504(%rbx),%rdi
 	movl $11,%esi
 	movq %r12,%rdx
 	call _cessor_new
@@ -182,7 +182,7 @@ L82:
 	pushq %rbp
 	movq %rsp,%rbp
 L83:
-	movq 528(%rdi),%rax
+	movq 504(%rdi),%rax
 L85:
 	cmpq 8(%rax),%rsi
 	jz L84
@@ -202,12 +202,12 @@ L94:
 L98:
 	movq %rdi,%r12
 	movq 8(%rsi),%rbx
-	leaq 512(%r12),%rdi
+	leaq 488(%r12),%rdi
 	call _cessor_free
 	movq %rbx,%rdi
 	movq %r12,%rsi
 	call _block_find_predecessor
-	leaq 528(%rbx),%rdi
+	leaq 504(%rbx),%rdi
 	movq %rax,%rsi
 	call _cessor_free
 L96:
@@ -224,7 +224,7 @@ L101:
 L108:
 	movq %rdi,%rbx
 L104:
-	movq 512(%rbx),%rsi
+	movq 488(%rbx),%rsi
 	cmpq $0,%rsi
 	jz L106
 L105:
@@ -245,7 +245,7 @@ L112:
 	pushq %rbp
 	movq %rsp,%rbp
 L115:
-	movq 512(%rdi),%rsi
+	movq 488(%rdi),%rsi
 L116:
 	cmpq $0,%rsi
 	jz L114
@@ -275,7 +275,7 @@ L137:
 	jmp L139
 L138:
 	movq 40(%rsi),%rcx
-	movq %rcx,520(%rdi)
+	movq %rcx,496(%rdi)
 L139:
 	leaq 32(%rsi),%rcx
 	movq 32(%rsi),%rdx
@@ -289,7 +289,7 @@ L143:
 	movq %rcx,40(%rdx)
 	jmp L145
 L144:
-	movq %rcx,520(%rdi)
+	movq %rcx,496(%rdi)
 L145:
 	leaq 32(%rax),%rcx
 	movq %rsi,32(%rax)
@@ -315,7 +315,7 @@ L155:
 L181:
 	movq %rdi,%r12
 	call _block_switch_sort
-	movq 512(%r12),%rbx
+	movq 488(%r12),%rbx
 L158:
 	cmpq $0,%rbx
 	jz L157
@@ -369,7 +369,7 @@ L188:
 	movq %rbx,%rdi
 	call _block_switch_coalesce
 L190:
-	movq 512(%rbx),%rdi
+	movq 488(%rbx),%rdi
 	movq %rdi,%rsi
 	cmpq $0,%rdi
 	jz L187
@@ -419,7 +419,7 @@ L224:
 	cmpl $0,%eax
 	jz L212
 L213:
-	movq 512(%rbx),%rsi
+	movq 488(%rbx),%rsi
 L216:
 	cmpq $0,%rsi
 	jz L212
@@ -458,7 +458,7 @@ L247:
 	movq %rdi,%r14
 	movq %rdx,%r13
 	movq %rsi,%r12
-	movq 512(%r14),%rbx
+	movq 488(%r14),%rbx
 L230:
 	cmpq $0,%rbx
 	jz L233
@@ -478,18 +478,18 @@ L240:
 	jmp L242
 L241:
 	movq 40(%rax),%rsi
-	movq %rsi,536(%r12)
+	movq %rsi,512(%r12)
 L242:
 	leaq 32(%rax),%rsi
 	movq 32(%rax),%rdi
 	movq 40(%rax),%rcx
 	movq %rdi,(%rcx)
 	movq $0,32(%rax)
-	movq 536(%r13),%rdi
+	movq 512(%r13),%rdi
 	movq %rdi,40(%rax)
-	movq 536(%r13),%rdi
+	movq 512(%r13),%rdi
 	movq %rax,(%rdi)
-	movq %rsi,536(%r13)
+	movq %rsi,512(%r13)
 	movq %r13,8(%rbx)
 L232:
 	movq 32(%rbx),%rbx
@@ -542,7 +542,7 @@ L259:
 	movq %rbx,%rdx
 	call _block_redirect_successors
 L255:
-	movq 560(%r13),%r13
+	movq 536(%r13),%r13
 	jmp L253
 L256:
 	movq %rbx,%rax
@@ -582,7 +582,7 @@ L286:
 	movq %rsp,%rbp
 L287:
 	xorl %eax,%eax
-	movq 512(%rdi),%rdi
+	movq 488(%rdi),%rdi
 L289:
 	cmpq $0,%rdi
 	jz L288
@@ -634,7 +634,7 @@ L319:
 	movq %rdi,%r14
 	movq %rsi,%r12
 	movq %rdx,%r13
-	movq 512(%r14),%rbx
+	movq 488(%r14),%rbx
 L311:
 	movq 32(%rbx),%rsi
 	movq %rsi,%rbx
@@ -679,7 +679,7 @@ L329:
 	pushq %rbp
 	movq %rsp,%rbp
 L330:
-	movq 512(%rdi),%rax
+	movq 488(%rdi),%rax
 	movq %rax,%rdi
 	movq 8(%rax),%rax
 L332:
@@ -724,7 +724,7 @@ L365:
 	pushq %rbp
 	movq %rsp,%rbp
 L366:
-	addq $512,%rdi
+	addq $488,%rdi
 	call _get_cessor_n
 L367:
 	popq %rbp
@@ -735,7 +735,7 @@ L373:
 	pushq %rbp
 	movq %rsp,%rbp
 L374:
-	addq $528,%rdi
+	addq $504,%rdi
 	call _get_cessor_n
 L375:
 	popq %rbp
@@ -764,7 +764,7 @@ L394:
 	pushq %rbp
 	movq %rsp,%rbp
 L395:
-	addq $512,%rdi
+	addq $488,%rdi
 	call _nr_cessors
 L396:
 	popq %rbp
@@ -775,7 +775,7 @@ L402:
 	pushq %rbp
 	movq %rsp,%rbp
 L403:
-	addq $528,%rdi
+	addq $504,%rdi
 	call _nr_cessors
 L404:
 	popq %rbp
@@ -786,7 +786,7 @@ L410:
 	pushq %rbp
 	movq %rsp,%rbp
 L411:
-	movq 512(%rdi),%rax
+	movq 488(%rdi),%rax
 L413:
 	cmpq $0,%rax
 	jz L416
@@ -808,7 +808,7 @@ L426:
 	pushq %rbp
 	movq %rsp,%rbp
 L427:
-	movq 512(%rdi),%rax
+	movq 488(%rdi),%rax
 	cmpq $0,%rax
 	jz L430
 L432:
@@ -826,7 +826,7 @@ L442:
 	pushq %rbp
 	movq %rsp,%rbp
 L443:
-	movq 528(%rdi),%rax
+	movq 504(%rdi),%rax
 	cmpq $0,%rax
 	jz L446
 L448:
@@ -844,7 +844,7 @@ L458:
 	movq %rsp,%rbp
 L459:
 	xorl %eax,%eax
-	movq 512(%rdi),%rdi
+	movq 488(%rdi),%rdi
 	movl %esi,%edx
 	xorl $1,%edx
 L461:
@@ -881,7 +881,7 @@ L495:
 	movq %rsi,%r12
 	movq %rdi,%rbx
 	call _block_remove_successors
-	movq 512(%r12),%r13
+	movq 488(%r12),%r13
 L487:
 	cmpq $0,%r13
 	jz L490
@@ -971,7 +971,7 @@ L517:
 L520:
 	movl $1,%ebx
 L518:
-	movq 560(%r12),%r12
+	movq 536(%r12),%r12
 	jmp L516
 L519:
 	movl %ebx,%eax
@@ -1154,7 +1154,7 @@ L587:
 	cmpq $0,%rdi
 	jz L586
 L588:
-	movq 560(%rdi),%r12
+	movq 536(%rdi),%r12
 	call *%r13
 	cmpl $1,%eax
 	jz L595
@@ -1186,34 +1186,34 @@ L607:
 	pushq %rbp
 	movq %rsp,%rbp
 L610:
-	movq 560(%rdi),%rsi
+	movq 536(%rdi),%rsi
 	cmpq $0,%rsi
 	jz L614
 L613:
-	movq 568(%rdi),%rax
-	movq %rax,568(%rsi)
+	movq 544(%rdi),%rax
+	movq %rax,544(%rsi)
 	jmp L615
 L614:
-	movq 568(%rdi),%rsi
+	movq 544(%rdi),%rsi
 	movq %rsi,_blocks+8(%rip)
 L615:
-	leaq 560(%rdi),%rsi
-	movq 560(%rdi),%rax
-	movq 568(%rdi),%rcx
+	leaq 536(%rdi),%rsi
+	movq 536(%rdi),%rax
+	movq 544(%rdi),%rcx
 	movq %rax,(%rcx)
 	movq _blocks(%rip),%rax
-	movq %rax,560(%rdi)
+	movq %rax,536(%rdi)
 	cmpq $0,%rax
 	jz L620
 L619:
 	movq _blocks(%rip),%rax
-	movq %rsi,568(%rax)
+	movq %rsi,544(%rax)
 	jmp L621
 L620:
 	movq %rsi,_blocks+8(%rip)
 L621:
 	movq %rdi,_blocks(%rip)
-	movq $_blocks,568(%rdi)
+	movq $_blocks,544(%rdi)
 L609:
 	popq %rbp
 	ret

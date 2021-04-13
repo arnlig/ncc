@@ -24,6 +24,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "cc1.h"
+#include "assoc.h"
 #include "block.h"
 #include "output.h"
 #include "dom.h"
@@ -35,7 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 void loop_init(struct loop *loop)
 {
     BLKS_INIT(&loop->blks);
-    REGS_INIT(&loop->invariants);
     loop->depth = 0;
 }
 
@@ -141,34 +141,69 @@ void loop_analyze(void)
 /* loop-invariant code motion. detect computations which do not
    change in the body of a loop, and hoist them to a preheader. */
 
-static struct block *head_b;    /* head of loop currently being processed */
+static struct block *head;          /* of loop currently being processed */
+static struct block *preheader;     /* preheader we made for loop, if any */
 
-/* reset data before invariants analysis */
+/* known invariants in this loop */
+
+static struct regs invariants = REGS_INITIALIZER(invariants);
+    
+/* blocks in this function outside the current loop */
+
+static struct blks out_blks = BLKS_INITIALIZER(out_blks);
+
+/* when a computation is potentially invariant, we record the location
+   (block/insn) of the definition as a maybe_inv for later inspection. */
+
+struct loc
+{
+    struct block *b;
+    struct insn *insn;
+};
+
+ASSOC_DECLARE(maybe_inv, pseudo_reg, reg, struct loc, loc)
+
+static struct maybe_invs maybe_invs = ASSOC_INITIALIZER(maybe_invs);
+
+static ASSOC_DEFINE_LOOKUP(maybe_inv, pseudo_reg, reg)
+
+static ASSOC_DEFINE_INSERT(maybe_inv, pseudo_reg, reg, loc,
+                           ASSOC_NULL_CONSTRUCT)
+
+static ASSOC_DEFINE_UNSET(maybe_inv, pseudo_reg, reg, loc,
+                           ASSOC_NULL_DESTRUCT)
+
+static ASSOC_DEFINE_CLEAR(maybe_inv, loc, ASSOC_NULL_DESTRUCT)
+
+#define MAYBE_INVS_FIRST()          ASSOC_FIRST(&maybe_invs)
+#define MAYBE_INVS_NEXT(m)          ASSOC_NEXT(m)
+
+/* before we start an analysis, reset BLOCK_FLAG_LOOPED on all
+   blocks- it simply tracks which loop heads we've already done. */
 
 static blocks_iter_ret invariants0(struct block *b)
 {
     b->flags &= ~BLOCK_FLAG_LOOPED;
-    regs_clear(&b->loop.invariants);
     return BLOCKS_ITER_OK;
 }
 
-/* identify the innermost loop 
-   that hasn't yet been processed. */
+/* scan blocks and pick the best candidate to
+   process next. do innermost loops first. */
 
-static blocks_iter_ret invariants1(struct block *b)
+static blocks_iter_ret nexthead0(struct block *b)
 {
-    if (!BLKS_EMPTY(&b->loop.blks) && ((head_b == 0)
-      || (b->loop.depth > head_b->loop.depth))
+    if (!BLKS_EMPTY(&b->loop.blks) && ((head == 0)
+      || (b->loop.depth > head->loop.depth))
       && !(b->flags & BLOCK_FLAG_LOOPED))
-        head_b = b;
+        head = b;
 
     return BLOCKS_ITER_OK;
 }
 
-/* if this register has exactly one definition b, and
+/* if this register has exactly one definition in b, and
    that definition domininates any/all uses in b (i.e.,
-   the DEF precedes all USEs in b), return the insn
-   where the DEF occurred. otherwise return 0. */
+   the DEF precedes all USEs in b), return the insn where
+   the DEF occurs, otherwise return 0. */
 
 static struct insn *unique_def(struct block *b, pseudo_reg reg)
 {
@@ -183,7 +218,6 @@ static struct insn *unique_def(struct block *b, pseudo_reg reg)
 
     INSNS_FOREACH(insn, &b->insns) {
         insn_defs_regs(insn, &defs, 0);
-        insn_uses_regs(insn, &uses, 0);
 
         if (REGS_CONTAINS(&uses, reg) && (def == 0))
             busted = TRUE;
@@ -207,10 +241,31 @@ static struct insn *unique_def(struct block *b, pseudo_reg reg)
         return def;
 }
 
-static bool loop_move(void)
+/* we've found a new loop head, so do an initial analysis. we scan the loop
+   for registers which are definitely invariant, and definitions which might
+   also be invariant, populating invariants and maybe_invs accordingly.
+
+   (remember that we're dealing with webs here, not naked registers. there is
+   implied reachability in webs, i.e., a DEF of a register with some index can
+   potentially reach any USE of that register with the same index. registers
+   with different indexes look like different registers to us here, so we
+   loosely use the term 'register' when, more precisely, we should say 'web'.)
+
+   for the purposes of this routine:
+
+   1. if a register is never defined in the body of the loop,
+      it is (self-evidently) loop-invariant ( -> invariant )
+
+   2. if a register has exactly one definition in the body of the loop,
+      and this definition dominates all uses of the register inside and
+      outside the loop, it might be loop-invariant ( -> maybe_invs )
+
+   the dominance qualifications on #3 really speak to our desire to move the
+   invariant definition out of the loop: we can't do that if the definition
+   doesn't always occur before every possible use. */
+
+static void loop_scan(void)
 {
-    struct blks all_blks = BLKS_INITIALIZER(all_blks);
-    struct blks out_blks = BLKS_INITIALIZER(out_blks);
     struct regs candidates = REGS_INITIALIZER(candidates);
     struct blks out_defs = BLKS_INITIALIZER(out_defs);
     struct blks in_defs = BLKS_INITIALIZER(in_defs);
@@ -218,107 +273,95 @@ static bool loop_move(void)
     struct blk *def_b;
     struct insn *def_insn;
     struct reg *cand_r;
-    struct reg *next_r;
-    struct block *preheader;
-    bool changed;
-    bool moved;
+    struct maybe_inv *m;
     
-    changed = FALSE;
-    live_analyze_ccs(head_b);
+    kill_gather(&head->loop.blks, 0, &candidates);
 
-    blks_all(&all_blks);
-    kill_gather(&all_blks, 0, &candidates);
-
-    blks_all(&out_blks);
-    blks_diff(&out_blks, &head_b->loop.blks);
-
-    cand_r = REGS_FIRST(&candidates);
-    
-    while (cand_r) {
-        next_r = REGS_NEXT(cand_r);
-    
+    REGS_FOREACH(cand_r, &candidates) {
         kill_gather_blks(cand_r->reg, &out_blks, &out_defs, &read_blks);
-        kill_gather_blks(cand_r->reg, &head_b->loop.blks,
+        kill_gather_blks(cand_r->reg, &head->loop.blks,
                          &in_defs, &read_blks);
 
-        /* if there are definitions inside and outside
-           the loop, then we can't say it's invariant. */
-
-        if (!BLKS_EMPTY(&in_defs) && !BLKS_EMPTY(&out_defs))
-            goto remove;
-
-        /* if all definitions of this candidate are outside
-           the loop, then it's definitely a loop invariant. */
-
         if (BLKS_EMPTY(&in_defs)) {
-            REGS_ADD(&head_b->loop.invariants, cand_r->reg);
-            goto remove;
+            REGS_ADD(&invariants, cand_r->reg);
+            goto skip; /* only defined outside loop, good */
         }
 
-        /* if this register is DEFd in more than one block in
-           the loop, then we can't say it's loop invariant. */
+        if (!BLKS_EMPTY(&in_defs) && !BLKS_EMPTY(&out_defs))
+            goto skip; /* multiple definitions, bad */
 
         if (BLKS_COUNT(&in_defs) > 1)
-            goto remove;
+            goto skip; /* multiple definitions (inside loop), bad */
 
-        /* if this register is DEFd more than once in the block, or
-           said definition does not dominate all subsequent uses,
-           then we can't say it's loop invariant. */
+        /* we've narrowed it down to one block, make sure there's only
+           one definition in that block and that it dominates all uses
+           in that block, and that that block dominates all other uses. */
 
         def_b = BLKS_FIRST(&in_defs);
         def_insn = unique_def(def_b->b, cand_r->reg);
 
         if (!def_insn || !dominates_all(def_b->b, &read_blks))
-            goto remove;
+            goto skip;
 
-        goto next;
+        m = maybe_invs_insert(&maybe_invs, cand_r->reg);
+        m->loc.b = def_b->b;
+        m->loc.insn = def_insn;
 
-remove:
-        regs_remove(&candidates, cand_r->reg);
-
-next:
+skip:
         blks_clear(&out_defs);
         blks_clear(&in_defs);
         blks_clear(&read_blks);
-        cand_r = next_r;
     }
 
-    preheader = 0;
+    regs_clear(&candidates);
+}
+
+/* a convenient routine to make a preheader for
+   the current loop if none exists. takes care of
+   setting cfg_changed to tell everyone the CFG
+   has changed and data may need recomputation */
+
+static bool cfg_changed;
+
+static void make_preheader(void)
+{
+    if (preheader == 0) {
+        preheader = block_preheader(head, &head->loop.blks);
+        cfg_changed = TRUE;
+    }
+}
+
+/* here's where we perform loop-invariant code motion. we look at each
+   possibly-invariant definition in the body of the loop (maybe_invs)
+   and, if its operands are invariant and the insn is movable, we move
+   the insn to a preheader (creating one if necessary) and declare the
+   target of the definition an invariant register. rinse and repeat.
+
+   note that we defer to insn_movable() to determine if an insn should
+   be moved, given the known invariants. see insn.c for details. */
+
+static void loop_motion(void)
+{
+    struct maybe_inv *m;
+    struct maybe_inv *next_m;
+    bool moved;
 
     do {
         moved = FALSE;
-        cand_r = REGS_FIRST(&candidates);
-        
-        while (cand_r) {
-            next_r = REGS_NEXT(cand_r);
 
-            kill_gather_blks(cand_r->reg, &head_b->loop.blks, &in_defs, 0);
-            def_b = BLKS_FIRST(&in_defs);
-            def_insn = unique_def(def_b->b, cand_r->reg);
+        for (m = MAYBE_INVS_FIRST(); m; m = next_m) {
+            next_m = MAYBE_INVS_NEXT(m);
 
-            if (insn_movable(def_insn, &head_b->loop.invariants)) {
-                if (preheader == 0) {
-                    preheader = block_preheader(head_b, &head_b->loop.blks);
-                    changed = TRUE;
-                }
-
-                BLOCK_APPEND_INSN(preheader, insn_dup(def_insn));
-                insns_remove(&def_b->b->insns, def_insn);
-                regs_remove(&candidates, cand_r->reg);
-                REGS_ADD(&head_b->loop.invariants, cand_r->reg);
+            if (insn_movable(m->loc.insn, &invariants)) {
+                make_preheader();
+                BLOCK_APPEND_INSN(preheader, insn_dup(m->loc.insn));
+                insns_remove(&m->loc.b->insns, m->loc.insn);
+                REGS_ADD(&invariants, m->reg);
+                maybe_invs_unset(&maybe_invs, m->reg);
                 moved = TRUE;
             }
-
-            blks_clear(&in_defs);
-            cand_r = next_r;
         }
     } while (moved);
-
-    regs_clear(&candidates);
-    blks_clear(&all_blks);
-    blks_clear(&out_blks);
-
-    return changed;
 }
 
 void loop_invariants(void)
@@ -327,22 +370,32 @@ void loop_invariants(void)
 
     webs_analyze();
     blocks_iter(invariants0);
-    changed = TRUE;
+    cfg_changed = TRUE;
 
     for (;;) {
-        if (changed) {
+        if (cfg_changed) {
             kill_analyze();
             loop_analyze();
+            cfg_changed = FALSE;
         }
 
-        head_b = 0;
-        blocks_iter(invariants1);
+        head = 0;
+        blocks_iter(nexthead0);
         
-        if (head_b == 0)
+        if (head == 0)
             break;
         else {
-            head_b->flags |= BLOCK_FLAG_LOOPED;
-            changed = loop_move();
+            head->flags |= BLOCK_FLAG_LOOPED;
+            preheader = 0;
+            blks_all(&out_blks);
+            blks_diff(&out_blks, &head->loop.blks);
+
+            loop_scan();
+            loop_motion();
+
+            blks_clear(&out_blks);
+            regs_clear(&invariants);
+            maybe_invs_clear(&maybe_invs);
         }
     }
 
