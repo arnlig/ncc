@@ -49,9 +49,8 @@ static struct insn *first_arg(struct insn *insn)
 /* this pass is invoked immediately after the IR is completed, before any
    optimization is attempted, to force load-before-use and store-after-def
    for aliased variables. in the process, the pseudo-registers associated
-   with such variables disappear from the IR, replaced with temps. this has
-   two benefits: first, the live ranges of the variables are split, as they
-   should be, and second, the optimizer will never see aliased variables.
+   with such variables disappear from the IR, replaced with temps. thus 
+   subsequent passes and the optimizer will not see any aliased variables.
    
    note this is very similar to, but subtly different from, how we treat
    volatiles. we rewrite volatiles in-tree before generation even happens.
@@ -60,12 +59,18 @@ static struct insn *first_arg(struct insn *insn)
    view still hold. but rewriting the trees creates additional loads and
    stores that are not necessary for aliased variables, e.g.,
 
-         volatile int *a;  int b = *a + *a;
+         volatile int a;  int b = a + a;
          auto int c; int d = c + c;
   
-   generates (correctly) TWO volatile loads for (*a + *a), whereas this pass
-   would only generate one for (c + c). it would be possible to merge these
-   two related tasks into one step, here, but i see no compelling reason. */
+   generates (correctly) TWO volatile loads for (a + a), whereas this pass
+   could legally only generate one for (c + c).
+
+   there's much room for improvement here: we currently load immediately
+   before use and store immediately after def, but this often results in
+   multiple loads of a value that hasn't changed, or dead stores to memory
+   when a variable is updated multiple times in succession. some of this
+   is hidden by the optimizer (e.g., load.c) but not all of it, and it
+   really shouldn't have to. */
 
 typedef int dealias_flags;  /* DEALIAS_* */
 
