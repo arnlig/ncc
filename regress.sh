@@ -21,7 +21,7 @@
 # whose sources are stable and which present varied input to the compiler.
 
 SAVED_FILES="cpp.s directive.s evaluate.s input.s token.s macro.s vstring.s \
-	     lex.s expr.s fold.s gen.s stmt.s tree.s string.s symbol.s \
+	     lex.s expr.s fold.s gen.s stmt.s tree.s regs.s string.s symbol.s \
              bitset.s blks.s block.s copy.s dead.s insn.s loop.s prop.s"
 
 LIBC_FUNCS=
