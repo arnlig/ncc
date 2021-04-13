@@ -28,6 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "assoc.h"
 #include "block.h"
 #include "output.h"
+#include "target.h"
 #include "live.h"
 #include "dom.h"
 #include "stack.h"
@@ -279,7 +280,6 @@ static void loop_scan(void)
     struct maybe_inv *m;
     ccset ccs;
     
-    live_analyze_ccs(head);
     kill_gather(&head->loop.blks, 0, &candidates);
 
     REGS_FOREACH(cand_r, &candidates) {
@@ -308,12 +308,9 @@ static void loop_scan(void)
         if (!def_insn || !dominates_all(def_b->b, &read_blks))
             goto skip;
 
-        /* if this insn is responsible for setting condition
-           codes that anyone uses, it's disqualified. */
+        /* if the insn isn't eligible for LICM, it's not eligible */
 
-        ccs = live_ccs(def_b->b, def_insn);
-
-        if (!CCSET_EMPTY(ccs))
+        if (!I_LICM(def_insn->op))
             goto skip;
 
         if (def_insn->flags & INSN_FLAG_VOLATILE)
@@ -356,14 +353,38 @@ static void make_preheader(void)
     }
 }
 
+/* returns TRUE if this instruction is movable,
+   in light of the current invariants. */
+
+static bool movable(struct insn *insn)
+{
+    struct regs uses = REGS_INITIALIZER(uses);
+
+    switch (insn->op)
+    {
+    case I_ADD:
+    case I_SUB:
+    case I_SHL:
+        if (insn->dst->ts & (target->ptr_int | target->ptr_uint | T_INTS))
+            return FALSE;
+    }
+
+    insn_uses_regs(insn, &uses, 0);
+    regs_diff(&uses, &invariants);
+
+    if (REGS_COUNT(&uses) == 0)
+        return TRUE;
+    else {
+        regs_clear(&uses);
+        return FALSE;
+    }
+}
+
 /* here's where we perform loop-invariant code motion. we look at each
    possibly-invariant definition in the body of the loop (maybe_invs)
    and, if its operands are invariant and the insn is movable, we move
    the insn to a preheader (creating one if necessary) and declare the
-   target of the definition an invariant register. rinse and repeat.
-
-   note that we defer to insn_movable() to determine if an insn should
-   be moved, given the known invariants. see insn.c for details. */
+   target of the definition an invariant register. rinse and repeat. */
 
 static void loop_motion(void)
 {
@@ -377,7 +398,7 @@ static void loop_motion(void)
         for (m = MAYBE_INVS_FIRST(); m; m = next_m) {
             next_m = MAYBE_INVS_NEXT(m);
 
-            if (insn_movable(m->loc.insn, &invariants)) {
+            if (movable(m->loc.insn)) {
                 make_preheader();
                 BLOCK_APPEND_INSN(preheader, insn_dup(m->loc.insn));
                 insns_remove(&m->loc.b->insns, m->loc.insn);
