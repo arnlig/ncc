@@ -155,7 +155,7 @@ L93:
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L114:
+L115:
 	movq %rdi,%rbx
 	movq 8(%rsi),%r12
 L96:
@@ -163,12 +163,12 @@ L96:
 	jz L95
 L100:
 	movq 8(%rbx),%rsi
+	movl (%r12),%edi
 L101:
 	cmpq $0,%rsi
 	jz L98
 L102:
 	movl (%rsi),%eax
-	movl (%r12),%edi
 	cmpl %edi,%eax
 	jz L105
 L108:
@@ -191,16 +191,16 @@ L95:
 	popq %rbx
 	popq %rbp
 	ret
-L116:
+L117:
 _local:
-L118:
+L119:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $40,%rsp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L136:
+L137:
 	movq %rsi,%r13
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
@@ -208,41 +208,41 @@ L136:
 	leaq -16(%rbp),%rsi
 	movq %rsi,-8(%rbp)
 	movq 8(%rdi),%rbx
-L121:
-	cmpq $0,%rbx
-	jz L120
 L122:
+	cmpq $0,%rbx
+	jz L121
+L123:
 	leaq -32(%rbp),%rdx
 	leaq -40(%rbp),%rsi
 	movq %rbx,%rdi
 	call _insn_copy
 	cmpl $0,%eax
-	jz L126
-L125:
+	jz L127
+L126:
 	movl -40(%rbp),%esi
 	movl -32(%rbp),%edx
 	movq %r13,%rdi
 	call _copyps_update
-	jmp L123
-L126:
+	jmp L124
+L127:
 	movq 8(%r13),%r12
-L128:
-	cmpq $0,%r12
-	jz L131
 L129:
+	cmpq $0,%r12
+	jz L132
+L130:
 	movl 4(%r12),%edx
 	movl (%r12),%esi
 	movq %rbx,%rdi
 	movl $1,%ecx
 	call _insn_substitute_reg
 	cmpl $0,%eax
-	jz L130
-L132:
+	jz L131
+L133:
 	movl $1,_changed(%rip)
-L130:
-	movq 8(%r12),%r12
-	jmp L128
 L131:
+	movq 8(%r12),%r12
+	jmp L129
+L132:
 	leaq -24(%rbp),%r12
 	movq %rbx,%rdi
 	movq %r12,%rsi
@@ -253,24 +253,24 @@ L131:
 	call _copyps_invalidate
 	movq %r12,%rdi
 	call _regs_clear
-L123:
+L124:
 	movq 64(%rbx),%rbx
-	jmp L121
-L120:
+	jmp L122
+L121:
 	popq %r13
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L138:
+L139:
 _local0:
-L140:
+L141:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-L141:
+L142:
 	leaq -16(%rbp),%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
@@ -279,12 +279,12 @@ L141:
 	movq %rbx,%rdi
 	call _copyps_clear
 	xorl %eax,%eax
-L142:
+L143:
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L147:
+L148:
 .data
 .align 8
 _copies:
@@ -294,14 +294,14 @@ _next_copy_bit:
 	.int -1
 .text
 _copies_new:
-L152:
+L153:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L159:
+L160:
 	movq %rdx,%r12
 	movl %esi,%ebx
 	movl %edi,%r14d
@@ -316,121 +316,121 @@ L159:
 	movq %rsi,24(%rax)
 	movq %rax,_copies(%rip)
 	addl $1,_nr_copies(%rip)
-L154:
+L155:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L161:
+L162:
 _copies_clear:
-L163:
+L164:
 	pushq %rbp
 	movq %rsp,%rbp
-L166:
+L167:
 	movq _copies(%rip),%rdi
 	cmpq $0,%rdi
-	jz L168
-L169:
+	jz L169
+L170:
 	movq 24(%rdi),%rsi
 	movq %rsi,_copies(%rip)
 	call _free
-	jmp L166
-L168:
+	jmp L167
+L169:
 	movl $0,_nr_copies(%rip)
 	movl $-1,_next_copy_bit(%rip)
-L165:
+L166:
 	popq %rbp
 	ret
-L175:
+L176:
 _copies_invalidate:
-L177:
+L178:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L192:
+L193:
 	movq %rdi,%r14
 	movl %esi,%r13d
 	xorl %ebx,%ebx
 	movq _copies(%rip),%r12
-L180:
-	cmpq $0,%r12
-	jz L179
 L181:
+	cmpq $0,%r12
+	jz L180
+L182:
 	movl (%r12),%esi
 	cmpl %r13d,%esi
-	jz L184
-L187:
+	jz L185
+L188:
 	movl 4(%r12),%esi
 	cmpl %r13d,%esi
-	jnz L186
-L184:
+	jnz L187
+L185:
 	movq %r14,%rdi
 	movl %ebx,%esi
 	call _bitset_reset
-L186:
+L187:
 	addl $1,%ebx
 	movq 24(%r12),%r12
-	jmp L180
-L179:
+	jmp L181
+L180:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L194:
+L195:
 _copies0:
-L196:
+L197:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
 	pushq %r12
-L208:
+L209:
 	movq %rdi,%rbx
 	movq 8(%rbx),%r12
-L199:
-	cmpq $0,%r12
-	jz L202
 L200:
+	cmpq $0,%r12
+	jz L203
+L201:
 	leaq -8(%rbp),%rdx
 	leaq -16(%rbp),%rsi
 	movq %r12,%rdi
 	call _insn_copy
 	cmpl $0,%eax
-	jz L201
-L203:
+	jz L202
+L204:
 	movl 8(%r12),%ecx
 	movl -16(%rbp),%edi
 	movl -8(%rbp),%esi
 	movq %rbx,%rdx
 	call _copies_new
-L201:
-	movq 64(%r12),%r12
-	jmp L199
 L202:
+	movq 64(%r12),%r12
+	jmp L200
+L203:
 	xorl %eax,%eax
-L198:
+L199:
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L210:
+L211:
 _init0:
-L212:
+L213:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $40,%rsp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L234:
+L235:
 	movq %rdi,%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
@@ -457,31 +457,31 @@ L234:
 	call _bitset_one_all
 	movl _next_copy_bit(%rip),%esi
 	cmpl $-1,%esi
-	jnz L217
-L215:
+	jnz L218
+L216:
 	movl _nr_copies(%rip),%esi
 	movl %esi,_next_copy_bit(%rip)
-L217:
-	cmpq %rbx,_entry_block(%rip)
-	jz L220
 L218:
+	cmpq %rbx,_entry_block(%rip)
+	jz L221
+L219:
 	leaq 248(%rbx),%rdi
 	call _bitset_one_all
-L220:
-	movq 8(%rbx),%r13
 L221:
-	cmpq $0,%r13
-	jz L224
+	movq 8(%rbx),%r13
 L222:
+	cmpq $0,%r13
+	jz L225
+L223:
 	leaq -24(%rbp),%rsi
 	movq %r13,%rdi
 	xorl %edx,%edx
 	call _insn_defs_regs
 	movq -16(%rbp),%r12
-L225:
-	cmpq $0,%r12
-	jz L228
 L226:
+	cmpq $0,%r12
+	jz L229
+L227:
 	movl (%r12),%esi
 	leaq 264(%rbx),%rdi
 	call _copies_invalidate
@@ -489,8 +489,8 @@ L226:
 	leaq 296(%rbx),%rdi
 	call _copies_invalidate
 	movq 8(%r12),%r12
-	jmp L225
-L228:
+	jmp L226
+L229:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
 	leaq -32(%rbp),%rdx
@@ -498,56 +498,56 @@ L228:
 	movq %r13,%rdi
 	call _insn_copy
 	cmpl $0,%eax
-	jz L223
-L229:
+	jz L224
+L230:
 	movl _next_copy_bit(%rip),%esi
 	addl $-1,%esi
 	movl %esi,_next_copy_bit(%rip)
 	leaq 264(%rbx),%rdi
 	call _bitset_set
-L223:
-	movq 64(%r13),%r13
-	jmp L221
 L224:
+	movq 64(%r13),%r13
+	jmp L222
+L225:
 	xorl %eax,%eax
-L214:
+L215:
 	popq %r13
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L236:
+L237:
 _copy0:
-L238:
+L239:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L254:
+L255:
 	movq %rdi,%rbx
 	movq 504(%rbx),%r12
-L241:
-	cmpq $0,%r12
-	jz L244
 L242:
+	cmpq $0,%r12
+	jz L245
+L243:
 	cmpq %r12,504(%rbx)
-	jnz L246
-L245:
-	movq 8(%r12),%rsi
-	addq $280,%rsi
-	leaq 248(%rbx),%rdi
-	call _bitset_copy
-	jmp L243
+	jnz L247
 L246:
 	movq 8(%r12),%rsi
 	addq $280,%rsi
 	leaq 248(%rbx),%rdi
+	call _bitset_copy
+	jmp L244
+L247:
+	movq 8(%r12),%rsi
+	addq $280,%rsi
+	leaq 248(%rbx),%rdi
 	call _bitset_and
-L243:
-	movq 32(%r12),%r12
-	jmp L241
 L244:
+	movq 32(%r12),%r12
+	jmp L242
+L245:
 	leaq 248(%rbx),%rsi
 	leaq 312(%rbx),%r12
 	movq %r12,%rdi
@@ -563,81 +563,81 @@ L244:
 	movq %rbx,%rsi
 	call _bitset_same
 	cmpl $0,%eax
-	jz L250
-L248:
+	jz L251
+L249:
 	xorl %eax,%eax
-	jmp L240
-L250:
+	jmp L241
+L251:
 	movq %rbx,%rdi
 	movq %r12,%rsi
 	call _bitset_copy
 	movl $2,%eax
-L240:
+L241:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L256:
+L257:
 _rewrite0:
-L258:
+L259:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L273:
+L274:
 	movq %rdi,%r13
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
 	xorl %ebx,%ebx
 	movq _copies(%rip),%r12
-L261:
+L262:
 	movl _nr_copies(%rip),%esi
 	cmpl %esi,%ebx
-	jge L264
-L262:
+	jge L265
+L263:
 	leaq 248(%r13),%rdi
 	movl %ebx,%esi
 	call _bitset_get
 	cmpl $0,%eax
-	jz L263
-L265:
+	jz L264
+L266:
 	movl 4(%r12),%edx
 	movl (%r12),%esi
 	leaq -16(%rbp),%rdi
 	call _copyps_update
-L263:
+L264:
 	addl $1,%ebx
 	movq 24(%r12),%r12
-	jmp L261
-L264:
+	jmp L262
+L265:
 	leaq -16(%rbp),%rbx
 	movl -16(%rbp),%esi
 	cmpl $0,%esi
-	jz L270
-L268:
+	jz L271
+L269:
 	movq %r13,%rdi
 	movq %rbx,%rsi
 	call _local
 	movq %rbx,%rdi
 	call _copyps_clear
-L270:
+L271:
 	xorl %eax,%eax
-L260:
+L261:
 	popq %r13
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L275:
+L276:
 _clear0:
-L277:
+L278:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L282:
+L283:
 	movq %rdi,%rbx
 	leaq 248(%rbx),%rdi
 	call _bitset_clear
@@ -650,16 +650,16 @@ L282:
 	leaq 312(%rbx),%rdi
 	call _bitset_clear
 	xorl %eax,%eax
-L279:
+L280:
 	popq %rbx
 	popq %rbp
 	ret
-L284:
-_copy:
 L285:
+_copy:
+L286:
 	pushq %rbp
 	movq %rsp,%rbp
-L286:
+L287:
 	movl $0,_changed(%rip)
 	movq $_local0,%rdi
 	call _blocks_iter
@@ -667,8 +667,8 @@ L286:
 	call _blocks_iter
 	movl _nr_copies(%rip),%esi
 	cmpl $0,%esi
-	jle L290
-L288:
+	jle L291
+L289:
 	movq $_init0,%rdi
 	call _blocks_iter
 	movq $_copy0,%rdi
@@ -677,17 +677,17 @@ L288:
 	call _blocks_iter
 	movq $_clear0,%rdi
 	call _blocks_iter
-L290:
+L291:
 	call _copies_clear
 	movl _changed(%rip),%esi
 	cmpl $0,%esi
-	jz L287
-L291:
+	jz L288
+L292:
 	call _dead
-L287:
+L288:
 	popq %rbp
 	ret
-L297:
+L298:
 .globl _blocks_iter
 .globl _bitset_clear
 .globl _bitset_or

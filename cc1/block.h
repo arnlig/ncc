@@ -169,6 +169,8 @@ extern bool blocks_substitute_reg(pseudo_reg, pseudo_reg);
 extern void block_dup_successors(struct block *, struct block *);
 extern int block_nr_successors(struct block *);
 extern int block_nr_predecessors(struct block *);
+extern bool block_defs_mem(struct block *);
+extern bool blocks_def_mem(struct blks *);
 
 #define BLOCK_APPEND_INSN(b, i)     insn_append(&((b)->insns), (i))
 #define BLOCK_PREPEND_INSN(b, i)    insn_prepend(&((b)->insns), (i))

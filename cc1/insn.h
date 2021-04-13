@@ -183,7 +183,7 @@ typedef int insn_op;    /* I_* */
 
 #define I_LOAD          (  2 | I_FLAG_DST | I_FLAG_SRC1                 \
                              | I_FLAG_USE_MEM | I_FLAG_SAFE_CC          \
-                             | I_FLAG_SLVN                              )
+                             | I_FLAG_SLVN | I_FLAG_LICM                )
 
 #define I_STORE         (  3 | I_FLAG_DST | I_FLAG_SRC1                 \
                              | I_FLAG_USE_DST                           \

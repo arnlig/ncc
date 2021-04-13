@@ -273,51 +273,51 @@ _maybe_invs:
 	.space 12, 0
 .text
 _maybe_invs_lookup:
-L126:
+L127:
 	pushq %rbp
 	movq %rsp,%rbp
-L127:
+L128:
 	movq 8(%rdi),%rax
-L129:
-	cmpq $0,%rax
-	jz L132
 L130:
+	cmpq $0,%rax
+	jz L133
+L131:
 	movl (%rax),%edi
 	cmpl %esi,%edi
-	jz L128
-L131:
-	movq 24(%rax),%rax
-	jmp L129
+	jz L129
 L132:
+	movq 24(%rax),%rax
+	jmp L130
+L133:
 	xorl %eax,%eax
-L128:
+L129:
 	popq %rbp
 	ret
-L141:
+L142:
 _maybe_invs_insert:
-L143:
+L144:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L165:
+L166:
 	movl %esi,%r12d
 	movq %rdi,%rbx
 	movq 8(%rbx),%rsi
-L146:
-	cmpq $0,%rsi
-	jz L149
 L147:
+	cmpq $0,%rsi
+	jz L150
+L148:
 	movl (%rsi),%edi
 	cmpl %r12d,%edi
-	jz L149
-L148:
-	movq 24(%rsi),%rsi
-	jmp L146
+	jz L150
 L149:
+	movq 24(%rsi),%rsi
+	jmp L147
+L150:
 	cmpq $0,%rsi
-	jnz L156
-L154:
+	jnz L157
+L155:
 	movl $40,%edi
 	call _safe_malloc
 	movq %rax,%rsi
@@ -326,130 +326,130 @@ L154:
 	leaq 24(%rax),%rdi
 	movq %rcx,24(%rax)
 	cmpq $0,%rcx
-	jz L162
-L160:
+	jz L163
+L161:
 	movq 8(%rbx),%rcx
 	movq %rdi,32(%rcx)
-L162:
+L163:
 	leaq 8(%rbx),%rdi
 	movq %rax,8(%rbx)
 	movq %rdi,32(%rax)
 	addl $1,(%rbx)
-L156:
+L157:
 	movq %rsi,%rax
-L145:
+L146:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L167:
+L168:
 _maybe_invs_unset:
-L169:
+L170:
 	pushq %rbp
 	movq %rsp,%rbp
-L187:
+L188:
 	movq %rdi,%rcx
 	movq 8(%rcx),%rdi
-L172:
-	cmpq $0,%rdi
-	jz L171
 L173:
+	cmpq $0,%rdi
+	jz L172
+L174:
 	movl (%rdi),%eax
 	cmpl %esi,%eax
-	jnz L174
-L176:
+	jnz L175
+L177:
 	addl $-1,(%rcx)
 	movq 24(%rdi),%rsi
 	cmpq $0,%rsi
-	jz L184
-L182:
+	jz L185
+L183:
 	movq 32(%rdi),%rax
 	movq %rax,32(%rsi)
-L184:
+L185:
 	movq 24(%rdi),%rsi
 	movq 32(%rdi),%rax
 	movq %rsi,(%rax)
 	call _free
-	jmp L171
-L174:
-	movq 24(%rdi),%rdi
 	jmp L172
-L171:
+L175:
+	movq 24(%rdi),%rdi
+	jmp L173
+L172:
 	popq %rbp
 	ret
-L189:
+L190:
 _maybe_invs_clear:
-L191:
+L192:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L204:
+L205:
 	movq %rdi,%rbx
-L194:
+L195:
 	movq 8(%rbx),%rdi
 	cmpq $0,%rdi
-	jz L193
-L195:
+	jz L194
+L196:
 	addl $-1,(%rbx)
 	movq 24(%rdi),%rsi
 	cmpq $0,%rsi
-	jz L202
-L200:
+	jz L203
+L201:
 	movq 32(%rdi),%rax
 	movq %rax,32(%rsi)
-L202:
+L203:
 	movq 24(%rdi),%rsi
 	movq 32(%rdi),%rax
 	movq %rsi,(%rax)
 	call _free
-	jmp L194
-L193:
+	jmp L195
+L194:
 	popq %rbx
 	popq %rbp
 	ret
-L206:
+L207:
 _invariants0:
-L208:
+L209:
 	pushq %rbp
 	movq %rsp,%rbp
-L209:
+L210:
 	andl $-3,4(%rdi)
 	xorl %eax,%eax
-L210:
+L211:
 	popq %rbp
 	ret
-L215:
+L216:
 _nexthead0:
-L217:
+L218:
 	pushq %rbp
 	movq %rsp,%rbp
-L218:
+L219:
 	movl 456(%rdi),%esi
 	cmpl $0,%esi
-	jz L222
-L227:
+	jz L223
+L228:
 	movq _head(%rip),%rax
 	cmpq $0,%rax
-	jz L223
-L231:
+	jz L224
+L232:
 	movl 480(%rdi),%esi
 	movl 480(%rax),%eax
 	cmpl %eax,%esi
-	jle L222
-L223:
+	jle L223
+L224:
 	movl 4(%rdi),%esi
 	testl $2,%esi
-	jnz L222
-L220:
+	jnz L223
+L221:
 	movq %rdi,_head(%rip)
-L222:
+L223:
 	xorl %eax,%eax
-L219:
+L220:
 	popq %rbp
 	ret
-L239:
+L240:
 _unique_def:
-L241:
+L242:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $48,%rsp
@@ -457,7 +457,7 @@ L241:
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L271:
+L272:
 	movl %esi,%r14d
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
@@ -472,10 +472,10 @@ L271:
 	xorl %r13d,%r13d
 	xorl %ebx,%ebx
 	movq 8(%rdi),%r12
-L244:
-	cmpq $0,%r12
-	jz L247
 L245:
+	cmpq $0,%r12
+	jz L248
+L246:
 	leaq -24(%rbp),%rsi
 	movq %r12,%rdi
 	xorl %edx,%edx
@@ -485,46 +485,46 @@ L245:
 	xorl %edx,%edx
 	call _regs_lookup
 	cmpq $0,%rax
-	jz L250
-L251:
+	jz L251
+L252:
 	cmpq $0,%r13
-	jnz L250
-L248:
+	jnz L251
+L249:
 	movl $1,%ebx
-L250:
+L251:
 	leaq -24(%rbp),%rdi
 	movl %r14d,%esi
 	xorl %edx,%edx
 	call _regs_lookup
 	cmpq $0,%rax
-	jz L257
-L255:
+	jz L258
+L256:
 	cmpq $0,%r13
-	jz L259
-L258:
-	movl $1,%ebx
-	jmp L257
+	jz L260
 L259:
+	movl $1,%ebx
+	jmp L258
+L260:
 	movq %r12,%r13
-L257:
+L258:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
 	leaq -48(%rbp),%rdi
 	call _regs_clear
 	cmpl $0,%ebx
-	jnz L247
-L246:
-	movq 64(%r12),%r12
-	jmp L244
+	jnz L248
 L247:
+	movq 64(%r12),%r12
+	jmp L245
+L248:
 	cmpl $0,%ebx
-	jz L266
-L265:
-	xorl %eax,%eax
-	jmp L243
+	jz L267
 L266:
+	xorl %eax,%eax
+	jmp L244
+L267:
 	movq %r13,%rax
-L243:
+L244:
 	popq %r14
 	popq %r13
 	popq %r12
@@ -532,17 +532,17 @@ L243:
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L273:
+L274:
 _loop_scan:
-L275:
+L276:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $96,%rsp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L276:
-	leaq -24(%rbp),%rdx
+L277:
+	leaq -24(%rbp),%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-24(%rbp)
 	movq $0,-8(%rbp)
@@ -563,15 +563,18 @@ L276:
 	movq $0,-80(%rbp)
 	leaq -88(%rbp),%rsi
 	movq %rsi,-80(%rbp)
+	movq _head(%rip),%rdi
+	call _live_analyze_ccs
 	movq _head(%rip),%rsi
 	leaq 456(%rsi),%rdi
 	xorl %esi,%esi
+	movq %rbx,%rdx
 	call _kill_gather
 	movq -16(%rbp),%rbx
-L278:
-	cmpq $0,%rbx
-	jz L281
 L279:
+	cmpq $0,%rbx
+	jz L282
+L280:
 	leaq -96(%rbp),%r12
 	leaq -48(%rbp),%rdx
 	movl (%rbx),%edi
@@ -586,46 +589,70 @@ L279:
 	call _kill_gather_blks
 	movl -72(%rbp),%esi
 	cmpl $0,%esi
-	jnz L284
-L282:
+	jnz L285
+L283:
 	movl (%rbx),%esi
 	movq $_invariants,%rdi
 	movl $1,%edx
 	call _regs_lookup
-	jmp L285
-L284:
+	jmp L286
+L285:
 	cmpl $0,%esi
-	jz L289
-L290:
+	jz L290
+L291:
 	movl -48(%rbp),%esi
 	cmpl $0,%esi
-	jnz L285
-L289:
+	jnz L286
+L290:
 	movl -72(%rbp),%esi
 	cmpl $1,%esi
-	ja L285
-L297:
-	movq -64(%rbp),%r12
+	ja L286
+L298:
+	movq -64(%rbp),%r13
 	movl (%rbx),%esi
-	movq (%r12),%rdi
+	movq (%r13),%rdi
 	call _unique_def
-	movq %rax,%r13
-	cmpq $0,%r13
-	jz L285
-L302:
+	movq %rax,%r12
+	cmpq $0,%r12
+	jz L286
+L303:
 	leaq -96(%rbp),%rsi
-	movq (%r12),%rdi
+	movq (%r13),%rdi
 	call _dominates_all
 	cmpl $0,%eax
-	jz L285
-L301:
+	jz L286
+L302:
+	movq (%r13),%rdi
+	movq %r12,%rsi
+	call _live_ccs
+	cmpl $0,%eax
+	jnz L286
+L310:
+	movl 4(%r12),%esi
+	testl $1,%esi
+	jnz L286
+L314:
+	movq %r12,%rdi
+	call _insn_defs_mem
+	cmpl $0,%eax
+	jnz L286
+L318:
+	movl _load_ok(%rip),%esi
+	cmpl $0,%esi
+	jnz L322
+L323:
+	movq %r12,%rdi
+	call _insn_uses_mem
+	cmpl $0,%eax
+	jnz L286
+L322:
 	movl (%rbx),%esi
 	movq $_maybe_invs,%rdi
 	call _maybe_invs_insert
-	movq (%r12),%rsi
+	movq (%r13),%rsi
 	movq %rsi,8(%rax)
-	movq %r13,16(%rax)
-L285:
+	movq %r12,16(%rax)
+L286:
 	leaq -48(%rbp),%rdi
 	call _blks_clear
 	leaq -72(%rbp),%rdi
@@ -633,56 +660,56 @@ L285:
 	leaq -96(%rbp),%rdi
 	call _blks_clear
 	movq 8(%rbx),%rbx
-	jmp L278
-L281:
+	jmp L279
+L282:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
-L277:
+L278:
 	popq %r13
 	popq %r12
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L310:
+L331:
 _make_preheader:
-L313:
+L334:
 	pushq %rbp
 	movq %rsp,%rbp
-L314:
+L335:
 	cmpq $0,_preheader(%rip)
-	jnz L315
-L316:
+	jnz L336
+L337:
 	movq _head(%rip),%rdi
 	leaq 456(%rdi),%rsi
 	call _block_preheader
 	movq %rax,_preheader(%rip)
 	movl $1,_cfg_changed(%rip)
-L315:
+L336:
 	popq %rbp
 	ret
-L322:
+L343:
 _loop_motion:
-L324:
+L345:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L327:
+L348:
 	xorl %r13d,%r13d
 	movq _maybe_invs+8(%rip),%rbx
-L330:
+L351:
 	cmpq $0,%rbx
-	jz L329
-L331:
+	jz L350
+L352:
 	movq 24(%rbx),%r12
 	movq 16(%rbx),%rdi
 	movq $_invariants,%rsi
 	call _insn_movable
 	cmpl $0,%eax
-	jz L332
-L334:
+	jz L353
+L355:
 	call _make_preheader
 	movq 16(%rbx),%rdi
 	call _insn_dup
@@ -702,51 +729,58 @@ L334:
 	movq $_maybe_invs,%rdi
 	call _maybe_invs_unset
 	movl $1,%r13d
-L332:
+L353:
 	movq %r12,%rbx
-	jmp L330
-L329:
+	jmp L351
+L350:
 	cmpl $0,%r13d
-	jnz L327
-L326:
+	jnz L348
+L347:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L340:
+L361:
 _loop_invariants:
-L341:
+L362:
 	pushq %rbp
 	movq %rsp,%rbp
-L342:
+L363:
 	call _webs_analyze
 	movq $_invariants0,%rdi
 	call _blocks_iter
 	movl $1,_cfg_changed(%rip)
-L345:
+L366:
 	movl _cfg_changed(%rip),%esi
 	cmpl $0,%esi
-	jz L350
-L348:
+	jz L371
+L369:
 	call _kill_analyze
 	call _loop_analyze
 	movl $0,_cfg_changed(%rip)
-L350:
+L371:
 	movq $0,_head(%rip)
 	movq $_nexthead0,%rdi
 	call _blocks_iter
 	movq _head(%rip),%rsi
 	cmpq $0,%rsi
-	jnz L352
-L347:
+	jnz L373
+L368:
 	call _webs_strip
-L343:
+L364:
 	popq %rbp
 	ret
-L352:
+L373:
 	orl $2,4(%rsi)
 	movq $0,_preheader(%rip)
+	movq _head(%rip),%rsi
+	leaq 456(%rsi),%rdi
+	call _blocks_def_mem
+	cmpl $0,%eax
+	setz %sil
+	movzbl %sil,%esi
+	movl %esi,_load_ok(%rip)
 	movq $_out_blks,%rdi
 	call _blks_all
 	movq _head(%rip),%rsi
@@ -761,8 +795,8 @@ L352:
 	call _regs_clear
 	movq $_maybe_invs,%rdi
 	call _maybe_invs_clear
-	jmp L345
-L358:
+	jmp L366
+L379:
 .globl _blks_lookup
 .globl _webs_strip
 .globl _regs_lookup
@@ -776,6 +810,8 @@ L358:
 .globl _kill_gather
 .globl _regs_clear
 .globl _kill_gather_blks
+.globl _live_ccs
+.globl _live_analyze_ccs
 .globl _insn_defs_regs
 .globl _loop_init
 .globl _insn_append
@@ -795,6 +831,11 @@ L358:
 .local _head
 .comm _head, 8, 8
 .globl _free
+.local _load_ok
+.comm _load_ok, 4, 4
+.globl _blocks_def_mem
+.globl _insn_uses_mem
+.globl _insn_defs_mem
 .globl _block_get_predecessor_n
 .globl _block_get_successor_n
 .globl _blks_union

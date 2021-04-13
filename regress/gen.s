@@ -140,7 +140,7 @@ L33:
 	call _operand_reg
 	pushq %r12
 	pushq %rax
-	pushq $1644822530
+	pushq $1644888066
 	call _insn_new
 	addq $24,%rsp
 	movq _current_block(%rip),%rsi
@@ -214,7 +214,7 @@ L57:
 	call _operand_sym
 	pushq %rbx
 	pushq %rax
-	pushq $1644822530
+	pushq $1644888066
 	call _insn_new
 	addq $24,%rsp
 	movq 8(%r13),%rsi

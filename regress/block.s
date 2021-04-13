@@ -1054,76 +1054,132 @@ L538:
 	popq %rbp
 	ret
 L543:
-_walk0:
-L545:
+_block_defs_mem:
+L544:
 	pushq %rbp
 	movq %rsp,%rbp
-L546:
-	andl $-2,4(%rdi)
-	xorl %eax,%eax
+	pushq %rbx
+L545:
+	movq 8(%rdi),%rbx
 L547:
+	cmpq $0,%rbx
+	jz L550
+L548:
+	movq %rbx,%rdi
+	call _insn_defs_mem
+	cmpl $0,%eax
+	jz L549
+L551:
+	movl $1,%eax
+	jmp L546
+L549:
+	movq 64(%rbx),%rbx
+	jmp L547
+L550:
+	xorl %eax,%eax
+L546:
+	popq %rbx
 	popq %rbp
 	ret
-L552:
+L559:
+_blocks_def_mem:
+L560:
+	pushq %rbp
+	movq %rsp,%rbp
+	pushq %rbx
+L561:
+	movq 8(%rdi),%rbx
+L563:
+	cmpq $0,%rbx
+	jz L566
+L564:
+	movq (%rbx),%rdi
+	call _block_defs_mem
+	cmpl $0,%eax
+	jz L565
+L567:
+	movl $1,%eax
+	jmp L562
+L565:
+	movq 8(%rbx),%rbx
+	jmp L563
+L566:
+	xorl %eax,%eax
+L562:
+	popq %rbx
+	popq %rbp
+	ret
+L575:
+_walk0:
+L577:
+	pushq %rbp
+	movq %rsp,%rbp
+L578:
+	andl $-2,4(%rdi)
+	xorl %eax,%eax
+L579:
+	popq %rbp
+	ret
+L584:
 _walk1:
-L554:
+L586:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L571:
+L603:
 	movq %rdi,%r14
 	movq %rdx,%r12
 	movq %rsi,%rbx
 	movl 4(%r14),%esi
 	testl $1,%esi
-	jnz L556
-L557:
+	jnz L588
+L589:
 	orl $1,%esi
 	movl %esi,4(%r14)
 	cmpq $0,%rbx
-	jz L562
-L560:
+	jz L594
+L592:
 	movq %r14,%rdi
 	call *%rbx
-L562:
+L594:
 	xorl %r13d,%r13d
-L563:
+L595:
 	movq %r14,%rdi
 	movl %r13d,%esi
 	call _block_get_successor_n
 	cmpq $0,%rax
-	jz L566
-L564:
+	jz L598
+L596:
 	movq 8(%rax),%rdi
 	movq %rbx,%rsi
 	movq %r12,%rdx
 	call _walk1
 	addl $1,%r13d
-	jmp L563
-L566:
+	jmp L595
+L598:
 	cmpq $0,%r12
-	jz L556
-L567:
+	jz L588
+L599:
 	movq %r14,%rdi
 	call *%r12
-L556:
+L588:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L573:
+L605:
 _blocks_walk:
-L574:
+L606:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L578:
+L610:
 	movq %rsi,%rbx
 	movq %rdi,%r12
 	movq $_walk0,%rdi
@@ -1132,71 +1188,71 @@ L578:
 	movq %r12,%rsi
 	movq %rbx,%rdx
 	call _walk1
-L576:
+L608:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L580:
+L612:
 _blocks_iter:
-L581:
+L613:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L603:
+L635:
 	movq %rdi,%r13
-L584:
+L616:
 	xorl %ebx,%ebx
 	movq _blocks(%rip),%rdi
-L587:
+L619:
 	cmpq $0,%rdi
-	jz L586
-L588:
+	jz L618
+L620:
 	movq 536(%rdi),%r12
 	call *%r13
 	cmpl $1,%eax
-	jz L595
-L601:
+	jz L627
+L633:
 	cmpl $2,%eax
-	jnz L589
-L597:
+	jnz L621
+L629:
 	movl $1,%ebx
-L589:
+L621:
 	movq %r12,%rdi
-	jmp L587
-L595:
+	jmp L619
+L627:
 	movl $1,%eax
-	jmp L583
-L586:
+	jmp L615
+L618:
 	cmpl $0,%ebx
-	jnz L584
-L585:
+	jnz L616
+L617:
 	xorl %eax,%eax
-L583:
+L615:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L605:
+L637:
 _sequence0:
-L607:
+L639:
 	pushq %rbp
 	movq %rsp,%rbp
-L610:
+L642:
 	movq 536(%rdi),%rsi
 	cmpq $0,%rsi
-	jz L614
-L613:
+	jz L646
+L645:
 	movq 544(%rdi),%rax
 	movq %rax,544(%rsi)
-	jmp L615
-L614:
+	jmp L647
+L646:
 	movq 544(%rdi),%rsi
 	movq %rsi,_blocks+8(%rip)
-L615:
+L647:
 	leaq 536(%rdi),%rsi
 	movq 536(%rdi),%rax
 	movq 544(%rdi),%rcx
@@ -1204,39 +1260,39 @@ L615:
 	movq _blocks(%rip),%rax
 	movq %rax,536(%rdi)
 	cmpq $0,%rax
-	jz L620
-L619:
+	jz L652
+L651:
 	movq _blocks(%rip),%rax
 	movq %rsi,544(%rax)
-	jmp L621
-L620:
+	jmp L653
+L652:
 	movq %rsi,_blocks+8(%rip)
-L621:
+L653:
 	movq %rdi,_blocks(%rip)
 	movq $_blocks,544(%rdi)
-L609:
+L641:
 	popq %rbp
 	ret
-L625:
+L657:
 _blocks_sequence:
-L626:
+L658:
 	pushq %rbp
 	movq %rsp,%rbp
-L630:
+L662:
 	xorl %edi,%edi
 	movq $_sequence0,%rsi
 	call _blocks_walk
-L628:
+L660:
 	popq %rbp
 	ret
-L632:
+L664:
 _func_new:
-L633:
+L665:
 	pushq %rbp
 	movq %rsp,%rbp
 	subq $16,%rsp
 	pushq %rbx
-L634:
+L666:
 	leaq -16(%rbp),%rbx
 	xorps %xmm0,%xmm0
 	movups %xmm0,-16(%rbp)
@@ -1265,8 +1321,8 @@ L634:
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
 	testq $65536,%rsi
-	jz L643
-L642:
+	jz L675
+L674:
 	movq %rbx,%rdi
 	movq $_func_ret_type,%rsi
 	call _type_ref
@@ -1280,40 +1336,40 @@ L642:
 	call *%rsi
 	movq %rbx,%rdi
 	call _type_clear
-	jmp L648
-L643:
+	jmp L680
+L675:
 	movq $0,_func_strun_ret(%rip)
-L648:
+L680:
 	movq $0,_func_regs+8(%rip)
 	movq $_func_regs+8,_func_regs+16(%rip)
 	movl $0,_func_regs(%rip)
-L635:
+L667:
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L654:
+L686:
 _func_free:
-L655:
+L687:
 	pushq %rbp
 	movq %rsp,%rbp
-L658:
+L690:
 	movq _blocks(%rip),%rdi
 	cmpq $0,%rdi
-	jz L660
-L659:
+	jz L692
+L691:
 	call _block_free
-	jmp L658
-L660:
+	jmp L690
+L692:
 	movq $_func_ret_type,%rdi
 	call _type_clear
 	movq $0,_func_strun_ret(%rip)
 	movq $_func_regs,%rdi
 	call _regs_clear
-L657:
+L689:
 	popq %rbp
 	ret
-L664:
+L696:
 L317:
 	.byte 100,117,112,108,105,99,97,116
 	.byte 101,32,99,97,115,101,32,108
@@ -1388,5 +1444,8 @@ L317:
 .globl _last_asm_label
 .comm _func_sym, 8, 8
 .globl _func_sym
+.globl _blocks_def_mem
+.globl _block_defs_mem
+.globl _insn_defs_mem
 .globl _block_get_predecessor_n
 .globl _block_get_successor_n

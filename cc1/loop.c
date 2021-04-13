@@ -24,9 +24,11 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "cc1.h"
+#include "codes.h"
 #include "assoc.h"
 #include "block.h"
 #include "output.h"
+#include "live.h"
 #include "dom.h"
 #include "stack.h"
 #include "loop.h"
@@ -143,6 +145,7 @@ void loop_analyze(void)
 
 static struct block *head;          /* of loop currently being processed */
 static struct block *preheader;     /* preheader we made for loop, if any */
+static bool load_ok;                /* no stores occurred; loads invariant */
 
 /* known invariants in this loop */
 
@@ -274,7 +277,9 @@ static void loop_scan(void)
     struct insn *def_insn;
     struct reg *cand_r;
     struct maybe_inv *m;
+    ccset ccs;
     
+    live_analyze_ccs(head);
     kill_gather(&head->loop.blks, 0, &candidates);
 
     REGS_FOREACH(cand_r, &candidates) {
@@ -301,6 +306,26 @@ static void loop_scan(void)
         def_insn = unique_def(def_b->b, cand_r->reg);
 
         if (!def_insn || !dominates_all(def_b->b, &read_blks))
+            goto skip;
+
+        /* if this insn is responsible for setting condition
+           codes that anyone uses, it's disqualified. */
+
+        ccs = live_ccs(def_b->b, def_insn);
+
+        if (!CCSET_EMPTY(ccs))
+            goto skip;
+
+        if (def_insn->flags & INSN_FLAG_VOLATILE)
+            goto skip; /* never reorder these */
+
+        /* insns that write memory are disqualified. if there are any
+           stores in the loop at all, so are insns that read memory. */
+
+        if (insn_defs_mem(def_insn))
+            goto skip;
+        
+        if (!load_ok && insn_uses_mem(def_insn))
             goto skip;
 
         m = maybe_invs_insert(&maybe_invs, cand_r->reg);
@@ -387,6 +412,7 @@ void loop_invariants(void)
         else {
             head->flags |= BLOCK_FLAG_LOOPED;
             preheader = 0;
+            load_ok = !blocks_def_mem(&head->loop.blks);
             blks_all(&out_blks);
             blks_diff(&out_blks, &head->loop.blks);
 

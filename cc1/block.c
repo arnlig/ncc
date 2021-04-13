@@ -615,6 +615,32 @@ struct block *block_split_edge(struct block *b, struct cessor *succ)
     return new;
 }
 
+/* returns TRUE if any insn in the block writes memory */
+
+bool block_defs_mem(struct block *b)
+{
+    struct insn *insn;
+
+    INSNS_FOREACH(insn, &b->insns)
+        if (insn_defs_mem(insn))
+            return TRUE;
+
+    return FALSE;
+}
+
+/* returns TRUE if any insn in any of blks writes memory */
+
+bool blocks_def_mem(struct blks *blks)
+{
+    struct blk *b;
+
+    BLKS_FOREACH(b, blks)
+        if (block_defs_mem(b->b))
+            return TRUE;
+
+    return FALSE;
+}
+
 /* walk the blocks depth-first, starting at the entry node, invoking
    pre and post at the pre- and post-order points, respectively. */
 

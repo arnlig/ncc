@@ -97,7 +97,7 @@ static void range_free(struct live *live, struct range *r)
     free(r);
 }
 
-/* return the range headed by a def of a reg */
+/* return the range headed by a def of a reg, 0 if none */
 
 struct range *range_by_def(struct live *live, pseudo_reg reg, insn_index def)
 {
@@ -106,6 +106,8 @@ struct range *range_by_def(struct live *live, pseudo_reg reg, insn_index def)
     LIVE_FOREACH(r, live)
         if ((r->reg == reg) && (r->def == def))
             return r;
+
+    return 0;
 }
 
 /* return the range that covers reg at use, or 0 if none */

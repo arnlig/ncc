@@ -169,19 +169,20 @@ L96:
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L137:
+L138:
 	movq %rdi,%rbx
 	movq 8(%rbx),%r12
 	movq 8(%rsi),%r13
 L99:
 	cmpq $0,%r13
 	jz L98
+L137:
+	movq (%r13),%rsi
 L103:
 	cmpq $0,%r12
 	jz L105
 L106:
-	movq (%r12),%rsi
-	cmpq (%r13),%rsi
+	cmpq %rsi,(%r12)
 	jae L105
 L104:
 	movq 8(%r12),%r12
@@ -237,46 +238,46 @@ L98:
 	popq %rbx
 	popq %rbp
 	ret
-L139:
-_blks_intersect:
 L140:
+_blks_intersect:
+L141:
 	pushq %rbp
 	movq %rsp,%rbp
-L141:
+L142:
 	movq 8(%rdi),%rax
 	movq 8(%rsi),%rsi
-L143:
-	cmpq $0,%rax
-	jz L171
-L146:
-	cmpq $0,%rsi
-	jz L171
 L144:
+	cmpq $0,%rax
+	jz L172
+L147:
+	cmpq $0,%rsi
+	jz L172
+L145:
 	movq (%rsi),%rcx
 	movq (%rax),%rdx
 	cmpq %rdx,%rcx
-	jnz L151
-L150:
+	jnz L152
+L151:
 	movq 8(%rax),%rax
 	movq 8(%rsi),%rsi
-	jmp L143
-L151:
+	jmp L144
+L152:
 	cmpq %rcx,%rdx
-	jae L154
-L153:
+	jae L155
+L154:
 	movq 8(%rax),%rdx
 	addl $-1,(%rdi)
 	movq 8(%rax),%rcx
 	cmpq $0,%rcx
-	jz L163
-L162:
+	jz L164
+L163:
 	movq 16(%rax),%r8
 	movq %r8,16(%rcx)
-	jmp L164
-L163:
+	jmp L165
+L164:
 	movq 16(%rax),%rcx
 	movq %rcx,16(%rdi)
-L164:
+L165:
 	movq 8(%rax),%rcx
 	movq 16(%rax),%r8
 	movq %rcx,(%r8)
@@ -284,30 +285,30 @@ L164:
 	movq %rcx,8(%rax)
 	movq %rax,_blks_free_list(%rip)
 	movq %rdx,%rax
-	jmp L143
-L154:
+	jmp L144
+L155:
 	cmpq %rcx,%rdx
-	jbe L143
-L168:
+	jbe L144
+L169:
 	movq 8(%rsi),%rsi
-	jmp L143
-L171:
-	cmpq $0,%rax
-	jz L142
+	jmp L144
 L172:
+	cmpq $0,%rax
+	jz L143
+L173:
 	movq 8(%rax),%rcx
 	addl $-1,(%rdi)
 	movq 8(%rax),%rsi
 	cmpq $0,%rsi
-	jz L181
-L180:
+	jz L182
+L181:
 	movq 16(%rax),%rdx
 	movq %rdx,16(%rsi)
-	jmp L182
-L181:
+	jmp L183
+L182:
 	movq 16(%rax),%rsi
 	movq %rsi,16(%rdi)
-L182:
+L183:
 	movq 8(%rax),%rsi
 	movq 16(%rax),%rdx
 	movq %rsi,(%rdx)
@@ -315,21 +316,21 @@ L182:
 	movq %rsi,8(%rax)
 	movq %rax,_blks_free_list(%rip)
 	movq %rcx,%rax
-	jmp L171
-L142:
+	jmp L172
+L143:
 	popq %rbp
 	ret
-L189:
-_blks_move:
 L190:
+_blks_move:
+L191:
 	pushq %rbp
 	movq %rsp,%rbp
-L193:
+L194:
 	leaq 8(%rsi),%rax
 	movq 8(%rsi),%rcx
 	cmpq $0,%rcx
-	jz L194
-L196:
+	jz L195
+L197:
 	movq 16(%rdi),%rdx
 	movq %rcx,(%rdx)
 	movq 16(%rdi),%rcx
@@ -339,109 +340,109 @@ L196:
 	movq %rcx,16(%rdi)
 	movq $0,8(%rsi)
 	movq %rax,16(%rsi)
-L194:
+L195:
 	movl (%rsi),%eax
 	movl %eax,(%rdi)
 	movl $0,(%rsi)
-L192:
+L193:
 	popq %rbp
 	ret
-L205:
-_blks_clear:
 L206:
+_blks_clear:
+L207:
 	pushq %rbp
 	movq %rsp,%rbp
-L209:
+L210:
 	movq 8(%rdi),%rsi
 	cmpq $0,%rsi
-	jz L208
-L212:
+	jz L209
+L213:
 	addl $-1,(%rdi)
 	movq 8(%rsi),%rax
 	cmpq $0,%rax
-	jz L219
-L218:
+	jz L220
+L219:
 	movq 16(%rsi),%rcx
 	movq %rcx,16(%rax)
-	jmp L220
-L219:
+	jmp L221
+L220:
 	movq 16(%rsi),%rax
 	movq %rax,16(%rdi)
-L220:
+L221:
 	movq 8(%rsi),%rax
 	movq 16(%rsi),%rcx
 	movq %rax,(%rcx)
 	movq _blks_free_list(%rip),%rax
 	movq %rax,8(%rsi)
 	movq %rsi,_blks_free_list(%rip)
-	jmp L209
-L208:
+	jmp L210
+L209:
 	popq %rbp
 	ret
-L227:
+L228:
 _all0:
-L230:
+L231:
 	pushq %rbp
 	movq %rsp,%rbp
-L235:
+L236:
 	movq %rdi,%rsi
 	movq _all_blks(%rip),%rdi
 	movl $1,%edx
 	call _blks_lookup
 	xorl %eax,%eax
-L232:
+L233:
 	popq %rbp
 	ret
-L237:
-_blks_all:
 L238:
+_blks_all:
+L239:
 	pushq %rbp
 	movq %rsp,%rbp
-L239:
+L240:
 	movq %rdi,_all_blks(%rip)
 	movq $_all0,%rdi
 	call _blocks_iter
-L240:
+L241:
 	popq %rbp
 	ret
-L244:
-_blks_output:
 L245:
+_blks_output:
+L246:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
-L256:
+L257:
 	movq %rdi,%rbx
-	pushq $L248
+	pushq $L249
 	call _output
 	addq $8,%rsp
 	movq 8(%rbx),%rbx
-L249:
-	cmpq $0,%rbx
-	jz L252
 L250:
+	cmpq $0,%rbx
+	jz L253
+L251:
 	movq (%rbx),%rsi
 	movl (%rsi),%esi
 	pushq %rsi
-	pushq $L253
+	pushq $L254
 	call _output
 	addq $16,%rsp
 	movq 8(%rbx),%rbx
-	jmp L249
-L252:
-	pushq $L254
+	jmp L250
+L253:
+	pushq $L255
 	call _output
 	addq $8,%rsp
-L247:
+L248:
 	popq %rbx
 	popq %rbp
 	ret
-L258:
-L248:
+L259:
+L249:
 	.byte 123,0
-L253:
-	.byte 32,37,76,0
 L254:
+	.byte 32,37,76,0
+L255:
 	.byte 32,125,0
 .globl _blks_lookup
 .globl _blocks_iter
