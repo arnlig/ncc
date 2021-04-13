@@ -35,15 +35,15 @@ HDRS=		include/ctype.h include/fcntl.h include/float.h \
 		include/termios.h include/time.h include/unistd.h \
 		include/sys/ioctl.h include/sys/types.h include/sys/wait.h
 
-OBJS=		amd64/syscall.o \
+OBJS=		amd64/syscall.o amd64/memset.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
 		__pow10.o atoi.o atol.o brk.o bsearch.o clearerr.o ctime.o \
 		exit.o execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
 		fprintf.o fputc.o fputs.o frexp.o getenv.o isalnum.o \
 		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
 		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
-		memchr.o memcmp.o memcpy.o memmove.o memset.o modf.o printf.o \
-		puts.o qsort.o rand.o remove.o setbuf.o setvbuf.o sprintf.o \
+		memchr.o memcmp.o memcpy.o memmove.o modf.o printf.o puts.o \
+		qsort.o rand.o remove.o setbuf.o setvbuf.o sprintf.o \
 		stdio.o strcat.o strchr.o strcmp.o strcpy.o strerror.o \
 		strftime.o strlen.o strncat.o strncmp.o strncpy.o strrchr.o \
 		strtod.o strtof.o strtol.o tcgetattr.o tolower.o toupper.o \
@@ -54,6 +54,7 @@ libc.a:		$(OBJS)
 	ar rc libc.a $(OBJS)
 
 amd64/syscall.o:	amd64/syscall.s
+amd64/memset.o:		amd64/memset.s
 __ctype.o:		__ctype.c $(HDRS)
 __fillbuf.o:		__fillbuf.c $(HDRS)
 __flushbuf.o:		__flushbuf.c $(HDRS)
@@ -94,7 +95,6 @@ memchr.o:		memchr.c $(HDRS)
 memcmp.o:		memcmp.c $(HDRS)
 memcpy.o:		memcpy.c $(HDRS)
 memmove.o:		memmove.c $(HDRS)
-memset.o:		memset.c $(HDRS)
 modf.o:			modf.c $(HDRS)
 printf.o:		printf.c $(HDRS)
 puts.o:			puts.c $(HDRS)

@@ -29,6 +29,9 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
+/* N.B.: this is a generic version which is not currently used.
+         AMD64 has an architecture-specific asm implementation. -cey */
+
 #include <string.h>
 
 void *memset(void *s, int c, size_t n)
