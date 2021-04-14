@@ -40,16 +40,16 @@ OBJS=		amd64/syscall.o amd64/memset.o \
 		__pow10.o atoi.o atol.o brk.o bsearch.o clearerr.o ctime.o \
 		exit.o execvp.o execvpe.o fclose.o fflush.o fgetpos.o \
 		fgets.o fileno.o fopen.o fprintf.o fputc.o fputs.o fread.o \
-		frexp.o fseek.o fsetpos.o ftell.o \
-		fwrite.o getenv.o getopt.o gets.o isalnum.o \
-		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
-		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
-		memchr.o memcmp.o memcpy.o memmove.o modf.o printf.o puts.o \
-		qsort.o rand.o remove.o rewind.o setbuf.o setvbuf.o sprintf.o \
+		frexp.o fscanf.o fseek.o fsetpos.o ftell.o fwrite.o getenv.o \
+		getopt.o gets.o isalnum.o isalpha.o iscntrl.o isdigit.o \
+		isgraph.o islower.o isprint.o ispunct.o isspace.o isupper.o \
+		isxdigit.o isatty.o malloc.o memchr.o memcmp.o memcpy.o \
+		memmove.o modf.o printf.o puts.o qsort.o rand.o remove.o \
+		rewind.o scanf.o setbuf.o setvbuf.o sprintf.o sscanf.o \
 		stdio.o strcat.o strchr.o strcmp.o strcpy.o strerror.o \
 		strftime.o strlen.o strncat.o strncmp.o strncpy.o strrchr.o \
 		strtod.o strtof.o strtol.o tcgetattr.o tolower.o toupper.o \
-		ungetc.o vfprintf.o vsprintf.o wait.o
+		ungetc.o vfprintf.o vfscanf.o vsprintf.o wait.o
 
 libc.a:		$(OBJS)
 	rm -f libc.a
@@ -82,6 +82,7 @@ fputc.o:		fputc.c $(HDRS)
 fputs.o:		fputs.c $(HDRS)
 fread.o:		fread.c $(HDRS)
 frexp.o:		frexp.c $(HDRS)
+fscanf.o:		fscanf.c $(HDRS)
 fseek.o:		fseek.c $(HDRS)
 fsetpos.o:		fsetpos.c $(HDRS)
 ftell.o:		ftell.c $(HDRS)
@@ -113,9 +114,11 @@ qsort.o:		qsort.c $(HDRS)
 rand.o:			rand.c $(HDRS)
 remove.o:		remove.c $(HDRS)
 rewind.o:		rewind.c $(HDRS)
+scanf.o:		scanf.c $(HDRS)
 setbuf.o:		setbuf.c $(HDRS)
 setvbuf.o:		setvbuf.c $(HDRS)
 sprintf.o:		sprintf.c $(HDRS)
+sscanf.o:		sscanf.c $(HDRS)
 stdio.o:		stdio.c $(HDRS)
 strcat.o:		strcat.c $(HDRS)
 strchr.o:		strchr.c $(HDRS)
@@ -136,5 +139,6 @@ tolower.o:		tolower.c $(HDRS)
 toupper.o:		toupper.c $(HDRS)
 ungetc.o:		ungetc.c $(HDRS)
 vfprintf.o:		vfprintf.c $(HDRS)
+vfscanf.o:		vfscanf.c $(HDRS)
 vsprintf.o:		vsprintf.c $(HDRS)
 wait.o:			wait.c $(HDRS)

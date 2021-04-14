@@ -100,6 +100,7 @@ extern int fputc(int, FILE *);
 extern int fputs(const char *, FILE *);
 extern FILE *fopen(const char *, const char *);
 extern size_t fread(void *, size_t, size_t, FILE *);
+extern int fscanf(FILE *, const char *, ...);
 extern int fseek(FILE *, long, int);
 extern long ftell(FILE *);
 extern size_t fwrite(const void *, size_t, size_t, FILE *);
@@ -109,11 +110,14 @@ extern int puts(const char *);
 extern int remove(const char *);
 extern void rewind(FILE *);
 extern int rename(const char *, const char *);
+extern int scanf(const char *, ...);
+extern int sscanf(const char *, const char *, ...);
 extern void setbuf(FILE *, char *);
 extern int setvbuf(FILE *, char *, int, size_t);
 extern int sprintf(char *, const char *, ...);
 extern int ungetc(int, FILE *);
 extern int vfprintf(FILE *, const char *, __va_list);
+extern int vfscanf(FILE *, const char *, __va_list);
 extern int vsprintf(char *, const char *, __va_list);
 
 #define fileno(fp)      ((fp)->_fd)
