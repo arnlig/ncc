@@ -39,7 +39,8 @@ OBJS=		amd64/syscall.o amd64/memset.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
 		__pow10.o atoi.o atol.o brk.o bsearch.o clearerr.o ctime.o \
 		exit.o execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
-		fprintf.o fputc.o fputs.o frexp.o getenv.o getopt.o isalnum.o \
+		fprintf.o fputc.o fputs.o fread.o frexp.o fwrite.o getenv.o \
+		getopt.o isalnum.o \
 		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
 		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
 		memchr.o memcmp.o memcpy.o memmove.o modf.o printf.o puts.o \
@@ -76,7 +77,9 @@ fopen.o:		fopen.c $(HDRS)
 fprintf.o:		fprintf.c $(HDRS)
 fputc.o:		fputc.c $(HDRS)
 fputs.o:		fputs.c $(HDRS)
+fread.o:		fread.c $(HDRS)
 frexp.o:		frexp.c $(HDRS)
+fwrite.o:		fwrite.c $(HDRS)
 getenv.o:		getenv.c $(HDRS)
 getopt.o:		getopt.c $(HDRS)
 isalnum.o:		isalnum.c $(HDRS)
