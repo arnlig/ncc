@@ -98,6 +98,7 @@ extern int fputs(const char *, FILE *);
 extern FILE *fopen(const char *, const char *);
 extern size_t fread(void *, size_t, size_t, FILE *);
 extern int fseek(FILE *, long, int);
+extern long ftell(FILE *);
 extern size_t fwrite(const void *, size_t, size_t, FILE *);
 extern int printf(const char *, ...);
 extern int puts(const char *);
