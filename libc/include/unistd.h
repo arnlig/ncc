@@ -83,6 +83,13 @@ extern __ssize_t read(int, void *, __size_t);
 extern int unlink(const char *);
 extern __ssize_t write(int, const void *, __size_t);
 
+extern char *optarg;
+extern int optind;
+extern int opterr;
+extern int optopt;
+
+extern int getopt(int, char *const[], const char *);
+
 #endif /* _UNISTD_H */
 
 /* vi: set ts=4 expandtab: */
