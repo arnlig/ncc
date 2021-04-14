@@ -7,6 +7,17 @@
 #
 ##############################################################################
 
+# to build, set NCC_HOME to an (otherwise-unoccupied/nonexistent) directory
+# where ncc should live, add $NCC_HOME/bin to your PATH, and then:
+#
+#		make clean; make; make install; make lib
+#
+# then invoke ncc to compile files, in the usual Unix tradition, e.g.,
+#
+#		ncc test.c 	(compiles, assembles, links to a.out)
+#
+# for the moment we're reliant on GNU ar/as/ld, expected to be in /usr/bin.
+
 NCC_HOME=/home/charles/ncc-bin
 
 CC=cc
