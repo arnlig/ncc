@@ -43,6 +43,10 @@ typedef __off_t fpos_t;
 typedef __size_t size_t;
 #endif /* __SIZE_T */
 
+#define SEEK_SET        __SEEK_SET
+#define SEEK_CUR        __SEEK_CUR
+#define SEEK_END        __SEEK_END
+
 /* focus point of all stdio activity */
 
 typedef struct __iobuf
@@ -93,10 +97,12 @@ extern int fputc(int, FILE *);
 extern int fputs(const char *, FILE *);
 extern FILE *fopen(const char *, const char *);
 extern size_t fread(void *, size_t, size_t, FILE *);
+extern int fseek(FILE *, long, int);
 extern size_t fwrite(const void *, size_t, size_t, FILE *);
 extern int printf(const char *, ...);
 extern int puts(const char *);
 extern int remove(const char *);
+extern void rewind(FILE *);
 extern int rename(const char *, const char *);
 extern void setbuf(FILE *, char *);
 extern int setvbuf(FILE *, char *, int, size_t);

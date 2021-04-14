@@ -39,12 +39,12 @@ OBJS=		amd64/syscall.o amd64/memset.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
 		__pow10.o atoi.o atol.o brk.o bsearch.o clearerr.o ctime.o \
 		exit.o execvp.o execvpe.o fclose.o fflush.o fileno.o fopen.o \
-		fprintf.o fputc.o fputs.o fread.o frexp.o fwrite.o getenv.o \
-		getopt.o isalnum.o \
+		fprintf.o fputc.o fputs.o fread.o frexp.o fseek.o fwrite.o \
+		getenv.o getopt.o isalnum.o \
 		isalpha.o iscntrl.o isdigit.o isgraph.o islower.o isprint.o \
 		ispunct.o isspace.o isupper.o isxdigit.o isatty.o malloc.o \
 		memchr.o memcmp.o memcpy.o memmove.o modf.o printf.o puts.o \
-		qsort.o rand.o remove.o setbuf.o setvbuf.o sprintf.o \
+		qsort.o rand.o remove.o rewind.o setbuf.o setvbuf.o sprintf.o \
 		stdio.o strcat.o strchr.o strcmp.o strcpy.o strerror.o \
 		strftime.o strlen.o strncat.o strncmp.o strncpy.o strrchr.o \
 		strtod.o strtof.o strtol.o tcgetattr.o tolower.o toupper.o \
@@ -79,6 +79,7 @@ fputc.o:		fputc.c $(HDRS)
 fputs.o:		fputs.c $(HDRS)
 fread.o:		fread.c $(HDRS)
 frexp.o:		frexp.c $(HDRS)
+fseek.o:		fseek.c $(HDRS)
 fwrite.o:		fwrite.c $(HDRS)
 getenv.o:		getenv.c $(HDRS)
 getopt.o:		getopt.c $(HDRS)
@@ -105,6 +106,7 @@ puts.o:			puts.c $(HDRS)
 qsort.o:		qsort.c $(HDRS)
 rand.o:			rand.c $(HDRS)
 remove.o:		remove.c $(HDRS)
+rewind.o:		rewind.c $(HDRS)
 setbuf.o:		setbuf.c $(HDRS)
 setvbuf.o:		setvbuf.c $(HDRS)
 sprintf.o:		sprintf.c $(HDRS)
