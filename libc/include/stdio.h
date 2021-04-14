@@ -92,6 +92,8 @@ extern void clearerr(FILE *);
 extern int fclose(FILE *);
 extern int fflush(FILE *);
 extern int fileno(FILE *);
+extern int fgetpos(FILE *, fpos_t *);
+extern int fsetpos(FILE *, fpos_t *);
 extern int fprintf(FILE *, const char *, ...);
 extern int fputc(int, FILE *);
 extern int fputs(const char *, FILE *);
