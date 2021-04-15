@@ -66,8 +66,7 @@ Much of the rest of C99 is either highly specialized (e.g., complex types),
 unnecessary (e.g., __long long__, NCC __long__ is always 64 bits) or has
 been implicitly acknowledged to be garbage (e.g., variable-length arrays,
 which have effectively been withdrawn). Inline functions will be subsumed
-by the preprocessor combined with statement expressions; the unorthogonal
-import from C++ is unnecessary (like __const__).
+by the preprocessor combined with statement expressions.
 
 ### the standard library
 
