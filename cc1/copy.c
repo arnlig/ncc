@@ -25,7 +25,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
 #include "../common/slist.h"
 #include "cc1.h"
-#include "assoc.h"
+#include "regmaps.h"
 #include "insn.h"
 #include "block.h"
 #include "regs.h"
@@ -50,72 +50,48 @@ static bool changed;
    temporaries and such) so we do a local-only pass first to reduce
    the amount of computation in the global phase. we then come back
    here to do rewrites after the global computations are complete.
-   we track state in a struct copyps, which is just a reg->reg map. */
+   we track state in a struct regmaps, where (perhaps confusingly)
+   from is the destination of a copy operation, and to is the source. */
 
-ASSOC_DECLARE(copyp, pseudo_reg, dst, pseudo_reg, src)
+/* remove all entries that use any of regs */
 
-static ASSOC_DEFINE_CLEAR(copyp, dst, ASSOC_NULL_DESTRUCT)
-static ASSOC_DEFINE_LOOKUP(copyp, pseudo_reg, dst)
-static ASSOC_DEFINE_UNSET(copyp, pseudo_reg, dst, src, ASSOC_NULL_DESTRUCT)
-static ASSOC_DEFINE_INSERT(copyp, pseudo_reg, dst, src, ASSOC_NULL_CONSTRUCT)
-
-#define COPYPS_INITIALIZER(cs)      ASSOC_INITIALIZER(cs)
-#define COPYPS_INIT(cs)             ASSOC_INIT(cs)
-#define COPYPS_FOREACH(c, cs)       ASSOC_FOREACH(c, cs)
-#define COPYPS_COUNT(cs)            ASSOC_COUNT(cs)
-
-/* update the copyps state to indicate
-   that dst is a copy of src */
-
-static void copyps_update(struct copyps *copyps, pseudo_reg dst,
-                          pseudo_reg src)
-{
-    struct copyp *c;
-
-    c = copyps_insert(copyps, dst);
-    c->src = src;
-}
-
-/* remove all entries that use any
-   of regs as either src or dst */
-
-static void copyps_invalidate(struct copyps *copyps, struct regs *regs)
+static void regmaps_invalidate(struct regmaps *m, struct regs *regs)
 {
     struct reg *r;
-    struct copyp *c;
+    struct regmap *c;
 
     REGS_FOREACH(r, regs) {
 again:
-        COPYPS_FOREACH(c, copyps)
-            if ((c->dst == r->reg) || (c->src == r->reg)) {
-                copyps_unset(copyps, c->dst);
+        REGMAPS_FOREACH(c, m)
+            if ((c->from == r->reg) || (c->to == r->reg)) {
+                regmaps_unset(m, c->from);
                 goto again;
             }
     }
 }
 
-/* do local replacements, using copyps as a starting
+/* do local replacements, using regmaps as a starting
    point, and destructively updating it as we go along. */
 
-static void local(struct block *b, struct copyps *copyps)
+static void local(struct block *b, struct regmaps *m)
 {
     struct regs defs = REGS_INITIALIZER(defs);
     struct insn *insn;
-    struct copyp *c;
+    struct regmap *c;
     pseudo_reg dst;
     pseudo_reg src;
 
     INSNS_FOREACH(insn, &b->insns) {
         if (insn_copy(insn, &dst, &src))
-            copyps_update(copyps, dst, src);
+            regmaps_update(m, dst, src);
         else {
-            COPYPS_FOREACH(c, copyps)
-                if (insn_substitute_reg(insn, c->dst, c->src,
+            REGMAPS_FOREACH(c, m)
+                if (insn_substitute_reg(insn, c->from, c->to,
                                         INSN_SUBSTITUTE_USES))
                     changed = TRUE;
 
             insn_defs_regs(insn, &defs, 0);
-            copyps_invalidate(copyps, &defs);
+            regmaps_invalidate(m, &defs);
             regs_clear(&defs);
         }
     }
@@ -123,10 +99,10 @@ static void local(struct block *b, struct copyps *copyps)
 
 static blocks_iter_ret local0(struct block *b)
 {
-    struct copyps copyps = COPYPS_INITIALIZER(copyps);
+    struct regmaps m = REGMAPS_INITIALIZER(m);
 
-    local(b, &copyps);
-    copyps_clear(&copyps);
+    local(b, &m);
+    regmaps_clear(&m);
 
     return BLOCKS_ITER_OK;
 }
@@ -301,17 +277,17 @@ static blocks_iter_ret copy0(struct block *b)
 
 static blocks_iter_ret rewrite0(struct block *b)
 {
-    struct copyps copyps = COPYPS_INITIALIZER(copyps);
+    struct regmaps m = REGMAPS_INITIALIZER(regmaps);
     struct copy_insn *c;
     int i;
 
     for (i = 0, c = COPIES_FIRST(); i < nr_copies; ++i, c = COPIES_NEXT(c))
         if (bitset_get(&b->copy.in, i))
-            copyps_update(&copyps, c->dst, c->src);
+            regmaps_update(&m, c->dst, c->src);
 
-    if (COPYPS_COUNT(&copyps)) {
-        local(b, &copyps);
-        copyps_clear(&copyps);
+    if (REGMAPS_COUNT(&m)) {
+        local(b, &m);
+        regmaps_clear(&m);
     }
 
     return BLOCKS_ITER_OK;
