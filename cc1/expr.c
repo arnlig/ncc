@@ -42,7 +42,7 @@ static struct tree *assignment(void);
    1. functions become pointers to function,
    2. arrays become pointers to their first elements,
    3. char/short are promoted to full integer,
-   4. type qualifiers are discarded.
+   4. type qualifiers on scalar types are discarded.
 
    if PROMOTE_OLD is specified, then:
 
@@ -66,7 +66,14 @@ static struct tree *promote(struct tree *tree, promote_mode mode)
     if ((mode == PROMOTE_OLD) && (base & T_FLOAT))
         tree = tree_cast_bits(tree, T_DOUBLE);
 
-    if (TYPE_QUALS(&tree->type)) {
+    if (TYPE_QUALS(&tree->type) && TYPE_SCALAR(&tree->type)) {
+        /* it might be tempting to strip the qualifiers directly,
+           but we use a cast so that tree_rewrite_volatile() will
+           still see the underlying volatile type. also, note that
+           we leave aggregates alone: a cast of an aggregate is not
+           only a bogus tree, but we need to preserve the qualifiers
+           to properly apply them to member accesses. */
+
         tree = tree_cast(tree, &tree->type);
         TYPE_UNQUAL(&tree->type);
     }
