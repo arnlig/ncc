@@ -35,6 +35,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "target.h"
 #include "stmt.h"
 
+/* we retain the tree of the latest expression
+   statement generated in statement_tree, so that
+   statement expressions can "return" a value. */
+
+struct tree *statement_tree;
+
 static void statement(void);
 
 static struct block *switch_block;
@@ -403,7 +409,8 @@ again:
         }
 
     default:
-        gen(expression(), GEN_FLAG_ROOT | GEN_FLAG_DISCARD);
+        tree_free(statement_tree);
+        statement_tree = gen(expression(), GEN_FLAG_ROOT);
         
     case K_SEMI:
         lex_match(K_SEMI);

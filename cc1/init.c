@@ -495,15 +495,29 @@ void init_global(struct symbol *sym, storage_class declared_ss)
 
 void init_local(struct symbol *sym)
 {
+    struct symbol *saved_auto_sym;  /* we must be re-entrant because auto */
+    struct tree *saved_auto_list;   /* initializers can be statement exprs */
+    struct block *saved_current_block;
+
     struct tree *tree;
     size_t size;
 
     if (token.k == K_EQ) {
         lex();
 
-        if (sym->ss & S_STATIC)
+        if (sym->ss & S_STATIC) {
+            /* temporarily point to current_block to nowhere as
+               a signal to the expression parser that statement
+               expressions are not allowed. */
+
+            saved_current_block = current_block;
+            current_block = 0;
             init_static(sym);
-        else {
+            current_block = saved_current_block;
+        } else {
+            saved_auto_sym = auto_sym;
+            saved_auto_list = auto_list;
+
             auto_sym = sym;
             auto_list = 0;
 
@@ -523,6 +537,9 @@ void init_local(struct symbol *sym)
 
             if (auto_list)
                 gen(auto_list, GEN_FLAG_ROOT | GEN_FLAG_DISCARD);
+
+            auto_list = saved_auto_list;
+            auto_sym = saved_auto_sym;
         }
     } else {
         if (sym->ss & S_STATIC)

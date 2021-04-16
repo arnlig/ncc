@@ -1,4 +1,4 @@
-April 14, 2021
+Last update: April 16, 2021
 
 ## ncc, the _new_ C compiler
 
@@ -45,28 +45,36 @@ There's a simple makefile. See the embedded instructions there for building.
 ### supported C dialect
 
 The compiler is compliant with ANSI C89/ISO C90, except that
-* there is no support for wide characters/string literals and
-* there is no locale support.
+
+* trigraphs are not recognized,
+* there is no support for wide characters/string literals, and
+* there is no locale support in the library.
 
 these reflect the compiler's purpose, which is for writing system software,
 not applications (the ANSI committee really got these wrong, anyway).
 
-The compiler also supports a few non-standard extensions:
+The compiler also supports a few extensions:
+* ALGOL-like statement expressions (like GCC/LLVM)
 * C99-style flexible array members
 * C11-style anonymous structs and unions
 
-Planned, but not yet in the compiler are:
-* inline assembly (with a function similar to, but form different from,
-GCC/LLVM)
-* statement expressions (again, a la GCC/LLVM)
+Planned, but not yet in the compiler:
+* inline assembly (with similar semantics to GCC/LLVM but different form)
+* C99 __restrict__ qualifier
+* C99 designated initializers
+* C99 compound literals
 
-Note that there is no plan to support C99, except, perhaps, designated
-initializers, compound literals, and _maybe_ the __restrict__ qualifier.
-Much of the rest of C99 is either highly specialized (e.g., complex types),
-unnecessary (e.g., __long long__, NCC __long__ is always 64 bits) or has
-been implicitly acknowledged to be garbage (e.g., variable-length arrays,
-which have effectively been withdrawn). Inline functions will be subsumed
-by the preprocessor combined with statement expressions.
+Inline assembly is simply required for good performance for operating
+system kernels and such. The __restrict__ qualifier will be a boon for
+the optimizer.  The last two are conveniences for the programmer that
+require little more than some tedious tinkering with the front end.
+
+Note that there is no plan to support much, if anything else, from C99.
+The rest of C99 is either highly specialized (e.g., complex types),
+unnecessary (e.g., __long long__, NCC __long__ is always 64 bits,
+or __inline__, whose function is subsumed by the preprocessor with
+statement expressions), or has been later acknowledged to be garbage
+(e.g., variable-length arrays, which have effectively been withdrawn).
 
 ### the standard library
 

@@ -1364,6 +1364,7 @@ L692:
 	movq $_func_ret_type,%rdi
 	call _type_clear
 	movq $0,_func_strun_ret(%rip)
+	movq $0,_func_sym(%rip)
 	movq $_func_regs,%rdi
 	call _regs_clear
 L689:

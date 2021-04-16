@@ -26,6 +26,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #ifndef STMT_H
 #define STMT_H
 
+struct tree;
+
+extern struct tree *statement_tree;
+
 extern void compound_statement(void);
 
 #endif /* STMT_H */

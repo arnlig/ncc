@@ -775,10 +775,13 @@ L219:
 	cmpl $16,%esi
 	jz L184
 L181:
+	movq _statement_tree(%rip),%rdi
+	call _tree_free
 	call _expression
 	movq %rax,%rdi
-	movl $3,%esi
+	movl $1,%esi
 	call _gen
+	movq %rax,_statement_tree(%rip)
 L191:
 	movl $524311,%edi
 	call _lex_match
@@ -851,6 +854,8 @@ L88:
 .local _saw_default
 .comm _saw_default, 4, 4
 .globl _compound_statement
+.comm _statement_tree, 8, 8
+.globl _statement_tree
 .globl _tree_free
 .globl _block_switch_case
 .globl _tree_addrof

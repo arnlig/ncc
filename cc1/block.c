@@ -769,6 +769,7 @@ void func_free(void)
 
     type_clear(&func_ret_type);
     func_strun_ret = 0;
+    func_sym = 0;
     regs_clear(&func_regs);
 }
 

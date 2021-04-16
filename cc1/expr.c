@@ -32,6 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "string.h"
 #include "symbol.h"
 #include "target.h"
+#include "stmt.h"
 #include "expr.h"
 
 static struct tree *comma(void);
@@ -405,7 +406,8 @@ static struct tree *crement(struct tree *tree, tree_op op, token_class k)
             :   <identifier>
             |   <constant>
             |   <string-literal>
-            |   '(' expression ')'      */
+            |   '(' expression ')'
+            |   '(' compound-statement ')'  */
 
 static struct tree *primary(void)
 {
@@ -429,7 +431,20 @@ static struct tree *primary(void)
                         break;
 
     case K_LPAREN:      lex();
-                        tree = comma();
+
+                        if (token.k == K_LBRACE) {
+                            if ((func_sym == 0) || (current_block == 0))
+                                error(FATAL, "statement expression not "
+                                             "permitted here");
+
+                            scope_enter();
+                            compound_statement();
+                            scope_exit();
+                            tree = statement_tree ? statement_tree : tree_v();
+                            statement_tree = 0;
+                        } else
+                            tree = comma();
+
                         lex_match(K_RPAREN);
                         break;
 
