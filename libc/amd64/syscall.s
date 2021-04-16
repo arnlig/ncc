@@ -78,6 +78,26 @@ _lseek:         movl $8, %eax
 ___brk:         movl $12, %eax
                 jmp do_syscall
 
+# int __sigaction(int sig, const struct sigaction *act,
+#                         struct sigaction *oact);
+#
+# the linux system call is actually rt_sigaction, which takes a fourth
+# size_t argument giving sizeof(sigset_t). for now it is fixed at 8. we
+# wrap the system call in sigaction.c, which sets sa_restorer properly.
+
+.global ___sigaction
+
+___sigaction:   movl $13, %eax
+                movl $8, %r10d
+                jmp do_syscall
+
+# void ___sigreturn(void);      /* does not return */
+
+.global ___sigreturn
+
+___sigreturn:   movl $15, %eax
+                jmp do_syscall
+
 # int ioctl(int fd, int request, const void *argp);
 #
 # the linux abi specifies unsigned long for request instead of int.

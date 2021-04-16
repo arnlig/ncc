@@ -30,10 +30,11 @@ amd64/crt0.o:	amd64/crt0.s
 
 HDRS=		include/ctype.h include/fcntl.h include/float.h \
 		include/limits.h include/math.h include/ncc.h \
-		include/stdarg.h include/stddef.h include/stdint.h \
-		include/stdio.h include/stdlib.h include/string.h \
-		include/termios.h include/time.h include/unistd.h \
-		include/sys/ioctl.h include/sys/types.h include/sys/wait.h
+		include/signal.h include/stdarg.h include/stddef.h \
+		include/stdint.h include/stdio.h include/stdlib.h \
+		include/string.h include/termios.h include/time.h \
+		include/unistd.h include/sys/ioctl.h include/sys/types.h \
+		include/sys/wait.h
 
 OBJS=		amd64/syscall.o amd64/memset.o \
 		__ctype.o __dtefg.o __fillbuf.o __flushbuf.o __ieee_val.o \
@@ -45,11 +46,11 @@ OBJS=		amd64/syscall.o amd64/memset.o \
 		isgraph.o islower.o isprint.o ispunct.o isspace.o isupper.o \
 		isxdigit.o isatty.o malloc.o memchr.o memcmp.o memcpy.o \
 		memmove.o modf.o printf.o puts.o qsort.o rand.o remove.o \
-		rewind.o scanf.o setbuf.o setvbuf.o sprintf.o sscanf.o \
-		stdio.o strcat.o strchr.o strcmp.o strcpy.o strerror.o \
-		strftime.o strlen.o strncat.o strncmp.o strncpy.o strrchr.o \
-		strtod.o strtof.o strtol.o tcgetattr.o tolower.o toupper.o \
-		ungetc.o vfprintf.o vfscanf.o vsprintf.o wait.o
+		rewind.o scanf.o setbuf.o setvbuf.o sigaction.o sprintf.o \
+		sscanf.o stdio.o strcat.o strchr.o strcmp.o strcpy.o \
+		strerror.o strftime.o strlen.o strncat.o strncmp.o strncpy.o \
+		strrchr.o strtod.o strtof.o strtol.o tcgetattr.o tolower.o \
+		toupper.o ungetc.o vfprintf.o vfscanf.o vsprintf.o wait.o
 
 libc.a:		$(OBJS)
 	rm -f libc.a
@@ -117,6 +118,7 @@ rewind.o:		rewind.c $(HDRS)
 scanf.o:		scanf.c $(HDRS)
 setbuf.o:		setbuf.c $(HDRS)
 setvbuf.o:		setvbuf.c $(HDRS)
+sigaction.o:		sigaction.c $(HDRS)
 sprintf.o:		sprintf.c $(HDRS)
 sscanf.o:		sscanf.c $(HDRS)
 stdio.o:		stdio.c $(HDRS)
