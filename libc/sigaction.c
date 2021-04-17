@@ -1,4 +1,4 @@
-/* printf.c - formatted output to stdout                   ncc standard library
+/* sigaction.c - set signal disposition                    ncc standard library
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 

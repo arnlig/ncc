@@ -1,4 +1,4 @@
-/* signal.h - signal handling                              ncc standard library
+/* signal.c - set signal disposition (legacy)              ncc standard library
 
 Copyright (c) 2021 Charles E. Youse (charles@gnuless.org). All rights reserved.
 
@@ -23,42 +23,24 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 
-#ifndef _SIGNAL_H
-#define _SIGNAL_H
+#include <signal.h>
 
-#define SIGINT      2
-#define SIGILL      4
-#define SIGABRT     6
-#define SIGFPE      8
-#define SIGSEGV     11
-#define SIGTERM     15
+/* per POSIX, the only portable use of this function is to set a signal's
+   disposition to SIG_IGN or SIG_DFL. the semantics are undefined otherwise.
+   we go with classic System V (V7 really) unreliable signal behavior here. */
 
-typedef void(*__sighandler_t)(int);
-
-#define SIG_DFL ((__sighandler_t) 0)
-#define SIG_ERR ((__sighandler_t) -1)
-#define SIG_IGN ((__sighandler_t) 1)
-
-typedef unsigned long sigset_t;
-
-struct sigaction
+__sighandler_t signal(int sig, __sighandler_t handler)
 {
-    __sighandler_t sa_handler;
-    unsigned long sa_flags;
-    void (*sa_restorer)(void);              /* Linux ABI */
-    sigset_t sa_mask;
-};
+    struct sigaction new = { 0 };   /* this is cheating, we do this */
+    struct sigaction old = { 0 };   /* instead of using sigemptyset() */
 
-#define SA_RESETHAND    0x80000000
-#define SA_NODEFER      0x40000000
-#define SA_RESTORER     0x04000000          /* Linux ABI */
+    new.sa_handler = handler;
+    new.sa_flags = SA_RESETHAND | SA_NODEFER;
 
-extern __sighandler_t signal(int, __sighandler_t);
-extern void __sigreturn(void);
-extern int __sigaction(int, const struct sigaction *, struct sigaction *);
-extern int sigaction(int, const struct sigaction *, struct sigaction *);
-extern int sigemptyset(sigset_t *);
-
-#endif /* _SIGNAL_H */
+    if (sigaction(sig, &new, &old) == -1)
+        return SIG_ERR;
+    else
+        return old.sa_handler;
+}
 
 /* vi: set ts=4 expandtab: */

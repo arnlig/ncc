@@ -46,11 +46,12 @@ OBJS=		amd64/syscall.o amd64/memset.o \
 		isgraph.o islower.o isprint.o ispunct.o isspace.o isupper.o \
 		isxdigit.o isatty.o malloc.o memchr.o memcmp.o memcpy.o \
 		memmove.o modf.o printf.o puts.o qsort.o rand.o remove.o \
-		rewind.o scanf.o setbuf.o setvbuf.o sigaction.o sprintf.o \
-		sscanf.o stdio.o strcat.o strchr.o strcmp.o strcpy.o \
-		strerror.o strftime.o strlen.o strncat.o strncmp.o strncpy.o \
-		strrchr.o strtod.o strtof.o strtol.o tcgetattr.o tolower.o \
-		toupper.o ungetc.o vfprintf.o vfscanf.o vsprintf.o wait.o
+		rewind.o scanf.o setbuf.o setvbuf.o sigaction.o sigemptyset.o \
+		signal.o sprintf.o sscanf.o stdio.o strcat.o strchr.o \
+		strcmp.o strcpy.o strerror.o strftime.o strlen.o strncat.o \
+		strncmp.o strncpy.o strrchr.o strtod.o strtof.o strtol.o \
+		tcgetattr.o tolower.o toupper.o ungetc.o vfprintf.o vfscanf.o \
+		vsprintf.o wait.o
 
 libc.a:		$(OBJS)
 	rm -f libc.a
@@ -119,6 +120,8 @@ scanf.o:		scanf.c $(HDRS)
 setbuf.o:		setbuf.c $(HDRS)
 setvbuf.o:		setvbuf.c $(HDRS)
 sigaction.o:		sigaction.c $(HDRS)
+sigemptyset.o:		sigemptyset.c $(HDRS)
+signal.o:		signal.c $(HDRS)
 sprintf.o:		sprintf.c $(HDRS)
 sscanf.o:		sscanf.c $(HDRS)
 stdio.o:		stdio.c $(HDRS)

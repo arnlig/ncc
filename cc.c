@@ -29,6 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include <string.h>
 #include <unistd.h>
 #include <errno.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 
@@ -233,6 +234,7 @@ void run(struct list *args, char *out_path)
     int status;
 
     if ((pid = fork()) == 0) {
+        signal(SIGINT, SIG_DFL);
         execvp(args->s[0], args->s);
         error("can't exec '%s': %s", args->s[0], strerror(errno));
     }
@@ -240,12 +242,16 @@ void run(struct list *args, char *out_path)
     if (pid == -1)
         error("can't fork: %s", strerror(errno));
 
-    while (pid != wait(&status))
-        ;
+    pid = wait(&status);
 
-    if (status != 0) {
+    if (!WIFEXITED(status) || WEXITSTATUS(status)) {
         add(&temps, out_path, 0);
-        error("compilation terminated abnormally");
+
+        if (WIFSIGNALED(status) && (WTERMSIG(status) != SIGINT))
+            error("compilation terminated abnormally");
+
+        remove_temps();
+        exit(1);
     }
 }
 
@@ -253,6 +259,8 @@ int main(int argc, char **argv)
 {
     char *src;
     char *new;
+
+    signal(SIGINT, SIG_IGN);
 
     add(&cpp, CPP, 0);
     add(&cc1, CC1, 0);
