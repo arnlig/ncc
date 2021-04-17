@@ -1779,7 +1779,7 @@ L869:
 	pushq $L872
 	call _output
 	addq $8,%rsp
-	addl $1,%r12d
+	incl %r12d
 	jmp L868
 L871:
 	movl (%r13),%edi
@@ -1832,7 +1832,7 @@ L906:
 	testl $1073741824,%esi
 	jnz L861
 L899:
-	addl $1,%ebx
+	incl %ebx
 	movq 24(%r13),%rdi
 	movl %ebx,%esi
 	call _tree_debug

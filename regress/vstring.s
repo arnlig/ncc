@@ -82,7 +82,7 @@ L38:
 	movl %esi,%edi
 	shll $24,%edi
 	sarl $25,%edi
-	addl $-1,%edi
+	decl %edi
 	shll $1,%edi
 	andl $254,%edi
 	andl $4294967041,%esi
@@ -90,7 +90,7 @@ L38:
 	movl %esi,(%rbx)
 	jmp L30
 L39:
-	addq $-1,8(%rbx)
+	decq 8(%rbx)
 L30:
 	popq %rbx
 	popq %rbp
@@ -124,7 +124,7 @@ L50:
 L55:
 	shll $24,%esi
 	sarl $25,%esi
-	addl $-1,%esi
+	decl %esi
 	movslq %esi,%rsi
 	movzbl 1(%rdi,%rsi),%eax
 	jmp L47
@@ -310,7 +310,7 @@ L113:
 	shll $24,%ecx
 	sarl $25,%ecx
 	movl %ecx,%esi
-	addl $1,%ecx
+	incl %ecx
 	shll $1,%ecx
 	andl $254,%ecx
 	andl $4294967041,%eax
@@ -329,7 +329,7 @@ L114:
 	movq 16(%rdi),%rsi
 	movq 8(%rdi),%rcx
 	movq %rcx,%rax
-	addq $1,%rcx
+	incq %rcx
 	movq %rcx,8(%rdi)
 	movzbl -8(%rbp),%ecx
 	movb %cl,(%rsi,%rax)
@@ -366,7 +366,7 @@ L125:
 	testl $1,%eax
 	jz L127
 L126:
-	addq $1,%rsi
+	incq %rsi
 	jmp L128
 L127:
 	movq 16(%rsi),%rsi
@@ -442,7 +442,7 @@ L158:
 	testl $1,%eax
 	jz L160
 L159:
-	addq $1,%rsi
+	incq %rsi
 	jmp L161
 L160:
 	movq 16(%rsi),%rsi
@@ -451,7 +451,7 @@ L161:
 	testl $1,%eax
 	jz L163
 L162:
-	addq $1,%rdi
+	incq %rdi
 	jmp L164
 L163:
 	movq 16(%rdi),%rdi

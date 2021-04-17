@@ -127,7 +127,7 @@ L50:
 	jz L52
 L51:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	leaq 8(%r12),%rdi
 	call _backslash
 	jmp L50
@@ -188,7 +188,7 @@ L71:
 	cmpl $76,%eax
 	jnz L74
 L72:
-	addq $1,-8(%rbp)
+	incq -8(%rbp)
 L74:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%edi
@@ -204,7 +204,7 @@ L77:
 	cmpl $76,%eax
 	jnz L80
 L78:
-	addq $1,-8(%rbp)
+	incq -8(%rbp)
 L80:
 	movq -8(%rbp),%rsi
 	movzbl (%rsi),%esi
@@ -251,7 +251,7 @@ L97:
 L98:
 	leaq -8(%rbp),%rdi
 	movq %rsi,-8(%rbp)
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,-8(%rbp)
 	call _escape
 	movl %eax,%ebx
@@ -694,7 +694,7 @@ L279:
 L277:
 	movzbl (%rbx),%esi
 	movzbl (%r14),%edi
-	addq $1,%rbx
+	incq %rbx
 	cmpl %edi,%esi
 	jnz L285
 L286:
@@ -747,7 +747,7 @@ L358:
 	jz L356
 L355:
 	movl %eax,%r12d
-	addq $1,%rbx
+	incq %rbx
 	jmp L352
 L356:
 	movzbl (%rbx),%eax
@@ -760,7 +760,7 @@ L365:
 	jz L267
 L362:
 	movl %esi,%r12d
-	addq $1,%rbx
+	incq %rbx
 	jmp L352
 L296:
 	movzbl 1(%r14),%esi
@@ -808,9 +808,9 @@ L328:
 	cmpl $43,%esi
 	jnz L323
 L321:
-	addq $1,%rbx
+	incq %rbx
 L323:
-	addq $1,%rbx
+	incq %rbx
 	jmp L310
 L339:
 	movzbq (%rbx),%rsi
@@ -823,7 +823,7 @@ L342:
 	cmpl $95,%esi
 	jnz L267
 L340:
-	addq $1,%rbx
+	incq %rbx
 	jmp L339
 L334:
 	movzbq (%rbx),%rsi
@@ -831,7 +831,7 @@ L334:
 	testl $8,%esi
 	jz L267
 L335:
-	addq $1,%rbx
+	incq %rbx
 	jmp L334
 L371:
 	movzbl (%r14),%esi
@@ -1079,11 +1079,11 @@ L471:
 	cmpq %rsi,%r13
 	jae L460
 L472:
-	addq $1,%rbx
+	incq %rbx
 	movzbl (%rbx),%esi
 	movq %r14,%rdi
 	call _vstring_putc
-	addq $1,%r13
+	incq %r13
 	jmp L471
 L460:
 	popq %r14
@@ -1553,7 +1553,7 @@ L711:
 	jmp L709
 L707:
 	movq 32(%r12),%r12
-	addl $1,%r14d
+	incl %r14d
 	jmp L705
 L694:
 	popq %r15
@@ -1624,13 +1624,13 @@ L753:
 	jnz L751
 L750:
 	movzbl (%r12),%esi
-	addq $1,%r12
+	incq %r12
 	leaq 8(%r13),%rdi
 	call _backslash
 	jmp L747
 L751:
 	movzbl (%r12),%esi
-	addq $1,%r12
+	incq %r12
 	leaq 8(%r13),%rdi
 	call _vstring_putc
 	jmp L747
@@ -1727,7 +1727,7 @@ L814:
 	movl %edx,%r13d
 L797:
 	movl %r13d,%esi
-	addl $-1,%r13d
+	decl %r13d
 	cmpl $0,%esi
 	jz L796
 L798:

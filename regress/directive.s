@@ -50,7 +50,7 @@ L13:
 	movl %ebx,%eax
 	jmp L5
 L11:
-	addl $1,%ebx
+	incl %ebx
 	jmp L9
 L8:
 	movl $-1,%eax
@@ -296,7 +296,7 @@ L136:
 	movq -8(%rbp),%rsi
 	movq 8(%rsi),%rdi
 	movq _input_stack(%rip),%rsi
-	addq $-1,%rdi
+	decq %rdi
 	movl %edi,32(%rsi)
 	cmpq $0,-16(%rbp)
 	jz L139

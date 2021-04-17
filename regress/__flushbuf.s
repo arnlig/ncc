@@ -168,7 +168,7 @@ L59:
 L73:
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movb %r12b,(%rdi)
 	cmpl $10,%r12d
@@ -214,10 +214,10 @@ L74:
 	movq 24(%rbx),%r13
 	subq 16(%rbx),%r13
 	movl 12(%rbx),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%rbx)
 	movq 16(%rbx),%rsi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	cmpl $0,%r13d
 	jle L96

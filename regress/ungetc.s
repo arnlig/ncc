@@ -27,12 +27,12 @@ L15:
 	movl $-1,%eax
 	jmp L3
 L17:
-	addq $1,%rdi
+	incq %rdi
 	movq %rdi,24(%rsi)
 L14:
-	addl $1,(%rsi)
+	incl (%rsi)
 	movq 24(%rsi),%rdi
-	addq $-1,%rdi
+	decq %rdi
 	movq %rdi,24(%rsi)
 	movb %al,(%rdi)
 L3:

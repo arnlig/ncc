@@ -140,7 +140,7 @@ L45:
 	jmp L44
 L47:
 	addl $7,%eax
-	addl $-1,%ecx
+	decl %ecx
 	cmpl $0,%ecx
 	jle L36
 	jg L47
@@ -156,7 +156,7 @@ L51:
 	jmp L50
 L53:
 	addl $-7,%eax
-	addl $1,%ecx
+	incl %ecx
 	cmpl $0,%ecx
 	jl L53
 L36:
@@ -237,7 +237,7 @@ L105:
 L107:
 	movl _tm+8(%rip),%esi
 	movzbl _dsthour(%rip),%edi
-	addl $-1,%edi
+	decl %edi
 	cmpl %edi,%esi
 	setl %sil
 	movzbl %sil,%eax
@@ -268,7 +268,7 @@ L122:
 	jz L124
 L125:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $46,%esi
 	jnz L122
 L124:
@@ -282,7 +282,7 @@ L129:
 	jz L131
 L132:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $46,%esi
 	jnz L129
 L131:
@@ -296,7 +296,7 @@ L136:
 	jz L121
 L139:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L136
 L121:
@@ -313,7 +313,7 @@ L146:
 	jz L148
 L149:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $46,%esi
 	jnz L146
 L148:
@@ -327,7 +327,7 @@ L153:
 	jz L155
 L156:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $46,%esi
 	jnz L153
 L155:
@@ -341,7 +341,7 @@ L160:
 	jz L145
 L163:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L160
 L145:
@@ -358,7 +358,7 @@ L170:
 	jz L169
 L173:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L170
 L169:
@@ -413,9 +413,9 @@ L200:
 	jae L199
 L198:
 	movzbl (%rbx),%edi
-	addq $1,%rbx
+	incq %rbx
 	movb %dil,(%rsi)
-	addq $1,%rsi
+	incq %rsi
 	jmp L197
 L199:
 	movb $0,(%rsi)
@@ -425,7 +425,7 @@ L208:
 	jz L210
 L211:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L208
 L210:
@@ -440,7 +440,7 @@ L215:
 	jz L217
 L218:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L215
 L217:
@@ -459,9 +459,9 @@ L225:
 	jae L224
 L223:
 	movzbl (%rbx),%edi
-	addq $1,%rbx
+	incq %rbx
 	movb %dil,(%rsi)
-	addq $1,%rsi
+	incq %rsi
 	jmp L222
 L224:
 	movb $0,(%rsi)
@@ -471,7 +471,7 @@ L233:
 	jz L235
 L236:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	cmpl $58,%esi
 	jnz L233
 L235:
@@ -579,7 +579,7 @@ L272:
 	jb L271
 L269:
 	subl %esi,%ebx
-	addq $1,%rdi
+	incq %rdi
 	jmp L268
 L271:
 	subq $_dpm,%rdi
@@ -594,7 +594,7 @@ L250:
 	popq %rbp
 	ret
 L263:
-	addl $1,%r13d
+	incl %r13d
 	subl %esi,%ebx
 	jmp L255
 L280:

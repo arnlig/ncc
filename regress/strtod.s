@@ -28,7 +28,7 @@ L147:
 	movsd L149(%rip),%xmm8
 L4:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	movl %esi,%r13d
 	movslq %esi,%rsi
 	movzbl ___ctype+1(%rsi),%esi
@@ -44,7 +44,7 @@ L11:
 	movl $1,%r12d
 L12:
 	movzbl (%rbx),%r13d
-	addq $1,%rbx
+	incq %rbx
 L9:
 	leal -48(%r13),%esi
 	cmpl $10,%esi
@@ -74,7 +74,7 @@ L37:
 	movq %rbx,%rsi
 L44:
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	movl %ecx,%eax
 	cmpl $48,%ecx
 	jz L44
@@ -93,7 +93,7 @@ L55:
 	cmpl $0,%r13d
 	jz L54
 L52:
-	addl $1,-8(%rbp)	 # spill
+	incl -8(%rbp)	 # spill
 L54:
 	movq $1844674407370955160,%rsi
 	cmpq %rsi,%r14
@@ -115,7 +115,7 @@ L64:
 	movslq %r13d,%r14
 	jmp L61
 L60:
-	addl $1,%edi
+	incl %edi
 	imulq $10,%r14
 	movslq %r13d,%rsi
 	addq %rsi,%r14
@@ -123,7 +123,7 @@ L61:
 	testl $2,%r12d
 	jz L32
 L65:
-	addl $-1,%r15d
+	decl %r15d
 	jmp L32
 L35:
 	cmpl $46,%r13d
@@ -135,7 +135,7 @@ L68:
 	orl $2,%r12d
 L32:
 	movzbl (%rbx),%r13d
-	addq $1,%rbx
+	incq %rbx
 	jmp L31
 L33:
 	testl $8,%r12d
@@ -157,7 +157,7 @@ L82:
 L79:
 	leaq -1(%rbx),%rsi
 	movzbl (%rbx),%edi
-	addq $1,%rbx
+	incq %rbx
 	movl %edi,%eax
 	cmpl $43,%edi
 	jz L91
@@ -168,7 +168,7 @@ L90:
 	orl $4,%r12d
 L91:
 	movzbl (%rbx),%eax
-	addq $1,%rbx
+	incq %rbx
 L88:
 	leal -48(%rax),%edi
 	cmpl $10,%edi
@@ -190,12 +190,12 @@ L103:
 	cmpl $48,%eax
 	jz L102
 L100:
-	addl $1,%esi
+	incl %esi
 L102:
 	imull $10,%edi
 	leal -48(%rdi,%rax),%edi
 	movzbl (%rbx),%eax
-	addq $1,%rbx
+	incq %rbx
 	jmp L96
 L99:
 	cmpl $3,%esi
@@ -210,7 +210,7 @@ L111:
 	movl $16,%esi
 L112:
 	orl %esi,%r12d
-	addq $-1,%rbx
+	decq %rbx
 	jmp L28
 L109:
 	testl $4,%r12d
@@ -221,7 +221,7 @@ L114:
 L115:
 	addl %edi,%r15d
 L81:
-	addq $-1,%rbx
+	decq %rbx
 	cmpl $-307,%r15d
 	jg L118
 L117:

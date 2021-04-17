@@ -5,16 +5,16 @@ L3:
 	movq %rsp,%rbp
 L6:
 	movq %rdx,%rax
-	addq $-1,%rdx
+	decq %rdx
 	cmpq $0,%rax
 	jz L5
 L7:
 	movzbl (%rdi),%eax
 	movzbl (%rsi),%ecx
 	movb %cl,(%rdi)
-	addq $1,%rdi
+	incq %rdi
 	movb %al,(%rsi)
-	addq $1,%rsi
+	incq %rsi
 	jmp L6
 L5:
 	popq %rbp
@@ -26,7 +26,7 @@ L14:
 	movq %rsp,%rbp
 L17:
 	movq %rcx,%rax
-	addq $-1,%rcx
+	decq %rcx
 	cmpq $0,%rax
 	jz L16
 L18:
@@ -34,11 +34,11 @@ L18:
 	movzbl (%rdx),%r8d
 	movb %r8b,(%rdi)
 	movzbl (%rsi),%r8d
-	addq $1,%rdi
+	incq %rdi
 	movb %r8b,(%rdx)
-	addq $1,%rdx
+	incq %rdx
 	movb %al,(%rsi)
-	addq $1,%rsi
+	incq %rsi
 	jmp L17
 L16:
 	popq %rbp
@@ -184,7 +184,7 @@ L69:
 	jz L70
 L73:
 	movq %rcx,_qcompar(%rip)
-	addq $-1,%rsi
+	decq %rsi
 	imulq %rdx,%rsi
 	addq %rdi,%rsi
 	call _qsort1

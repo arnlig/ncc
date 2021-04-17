@@ -652,7 +652,7 @@ L244:
 	testq %r12,%r9
 	jnz L240
 L239:
-	addl $1,%r8d
+	incl %r8d
 	jmp L237
 L240:
 	cmpl %r13d,%r8d

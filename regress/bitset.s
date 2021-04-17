@@ -134,7 +134,7 @@ L55:
 	movl (%rdx,%rcx,4),%edx
 	movq 8(%rdi),%r8
 	movl %edx,(%r8,%rcx,4)
-	addl $1,%eax
+	incl %eax
 	jmp L54
 L53:
 	popq %rbp
@@ -156,7 +156,7 @@ L66:
 	movl (%rdx,%rcx,4),%edx
 	movq 8(%rdi),%r8
 	andl %edx,(%r8,%rcx,4)
-	addl $1,%eax
+	incl %eax
 	jmp L65
 L64:
 	popq %rbp
@@ -178,7 +178,7 @@ L77:
 	movl (%rdx,%rcx,4),%edx
 	movq 8(%rdi),%r8
 	orl %edx,(%r8,%rcx,4)
-	addl $1,%eax
+	incl %eax
 	jmp L76
 L75:
 	popq %rbp
@@ -201,7 +201,7 @@ L88:
 	notl %edx
 	movq 8(%rdi),%r8
 	andl %edx,(%r8,%rcx,4)
-	addl $1,%eax
+	incl %eax
 	jmp L87
 L86:
 	popq %rbp

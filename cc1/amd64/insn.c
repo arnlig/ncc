@@ -824,7 +824,9 @@ static char *amd64_insn_text[] =        /* keyed to AMD64_I_INDEX() */
     /*  84 */   "rep",          "movsb",        "stosb",        "call",
     /*  88 */   "addb",         "subb",         "addw",         "subw",
     /*  92 */   "testl",        "testq",        "stosq",        "xorps",
-    /*  96 */   "movups",       "movsw",        "movsl",        "movsq"
+    /*  96 */   "movups",       "movsw",        "movsl",        "movsq",
+    /* 100 */   "incb",         "incw",         "incl",         "incq",
+    /* 104 */   "decb",         "decw",         "decl",         "decq"
 };
 
 void amd64_insn_output(struct insn *insn)

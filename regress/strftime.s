@@ -34,7 +34,7 @@ L24:
 	movb $0,L26+5(%rip)
 L27:
 	movl %esi,%eax
-	addl $-1,%esi
+	decl %esi
 	cmpl $0,%eax
 	jz L29
 L28:
@@ -43,7 +43,7 @@ L28:
 	cltd
 	idivl %r8d
 	leal 48(%rdx),%eax
-	addq $-1,%rcx
+	decq %rcx
 	movb %al,(%rcx)
 	movl $10,%r8d
 	movl %edi,%eax
@@ -128,13 +128,13 @@ L182:
 L49:
 	movq -24(%rbp),%r10	 # spill
 	movzbl (%r10),%esi
-	addq $1,-24(%rbp)	 # spill
+	incq -24(%rbp)	 # spill
 	movb %sil,-8(%rbp)
 	movzbl %sil,%edi
 	cmpl $37,%edi
 	jz L53
 L52:
-	addq $1,-16(%rbp)	 # spill
+	incq -16(%rbp)	 # spill
 	movq -16(%rbp),%r10	 # spill
 	cmpq -32(%rbp),%r10	 # spill
 	jbe L57
@@ -144,11 +144,11 @@ L55:
 L57:
 	movb %sil,(%r15)
 	movzbl -8(%rbp),%esi
-	addq $1,%r15
+	incq %r15
 	cmpl $0,%esi
 	jnz L49
 L59:
-	addq $-1,-16(%rbp)	 # spill
+	decq -16(%rbp)	 # spill
 	movq -16(%rbp),%rax	 # spill
 	jmp L47
 L53:
@@ -156,7 +156,7 @@ L53:
 	movzbl (%r10),%esi
 	movb %sil,-8(%rbp)
 	movzbl %sil,%esi
-	addq $1,-24(%rbp)	 # spill
+	incq -24(%rbp)	 # spill
 	cmpl $97,%esi
 	jz L68
 	jb L138
@@ -216,7 +216,7 @@ L114:
 	movl 20(%r12),%eax
 	movl 12(%r12),%esi
 	movl 16(%r12),%edi
-	addl $1,%edi
+	incl %edi
 	movl %eax,%edx
 	movl $47,%ecx
 	call _convert
@@ -241,13 +241,13 @@ L169:
 	jnz L64
 L90:
 	movl 28(%r12),%esi
-	addl $1,%esi
+	incl %esi
 	movl %esi,%r13d
 	movl $3,%ebx
 	jmp L129
 L92:
 	movl 16(%r12),%esi
-	addl $1,%esi
+	incl %esi
 	movl %esi,%r13d
 	movl $2,%ebx
 	jmp L129

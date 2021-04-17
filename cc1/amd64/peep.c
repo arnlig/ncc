@@ -147,6 +147,56 @@ static void zero(struct block *b, struct insn *insn)
                                          amd64_operand_dup(insn->amd64[1]));
 }
 
+/* a close runner-up to zero() in the low-hanging fruit category:
+   replace additions or subtractions by 1 with INC/DEC insns. we
+   have to be careful about the condition codes here, too, since
+   INC/DEC will not properly update the carry flag.
+
+   one() will find more opportunities after revert(). */
+
+struct ones { insn_op op; insn_op one; insn_op negone; } ones[] =
+{
+    {   AMD64_I_ADDB,   AMD64_I_INCB,   AMD64_I_DECB    },
+    {   AMD64_I_ADDW,   AMD64_I_INCW,   AMD64_I_DECW    },
+    {   AMD64_I_ADDL,   AMD64_I_INCL,   AMD64_I_DECL    },
+    {   AMD64_I_ADDQ,   AMD64_I_INCQ,   AMD64_I_DECQ    },
+    {   AMD64_I_SUBB,   AMD64_I_DECB,   AMD64_I_INCB    },
+    {   AMD64_I_SUBW,   AMD64_I_DECW,   AMD64_I_INCW    },
+    {   AMD64_I_SUBL,   AMD64_I_DECL,   AMD64_I_INCL    },
+    {   AMD64_I_SUBQ,   AMD64_I_DECQ,   AMD64_I_INCQ    }
+};
+
+static void one(struct block *b, struct insn *insn)
+{
+    ccset ccs;
+    ccset zs;
+    int i;
+
+    CCSET_CLEAR(zs);
+    CCSET_SET(zs, CC_Z);
+    CCSET_SET(zs, CC_NZ);
+
+    if (AMD64_OPERAND_ONE(insn->amd64[0])
+      || AMD64_OPERAND_NEGONE(insn->amd64[0]))
+        for (i = 0; i < ARRAY_SIZE(ones); ++i)
+            if (insn->op == ones[i].op) {
+                ccs = live_ccs(b, insn);
+
+                if (!CCSET_SAME(ccs, CCSET_INTERSECT(ccs, zs)))
+                    break;
+
+                if (AMD64_OPERAND_ONE(insn->amd64[0]))
+                    insn->op = ones[i].one;
+                else
+                    insn->op = ones[i].negone;
+
+                SWAP(struct amd64_operand *, insn->amd64[0], insn->amd64[1]);
+                amd64_operand_free(insn->amd64[1]);
+                insn->amd64[1] = 0;
+                break;
+            }
+}
+
 /* sometimes the code generator creates sequences like:
 
                     leal 1(%rax), %eax      OR
@@ -262,8 +312,10 @@ static blocks_iter_ret final0(struct block *b)
 
     live_analyze_ccs(b);
 
-    INSNS_FOREACH(insn, &b->insns)
+    INSNS_FOREACH(insn, &b->insns) {
         zero(b, insn);
+        one(b, insn);
+    }
 
     return BLOCKS_ITER_OK;
 }

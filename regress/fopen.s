@@ -24,11 +24,11 @@ L8:
 	xorl %eax,%eax
 	jmp L3
 L6:
-	addl $1,%r12d
+	incl %r12d
 	jmp L4
 L7:
 	movzbl (%rsi),%edi
-	addq $1,%rsi
+	incq %rsi
 	cmpl $97,%edi
 	jz L20
 L68:
@@ -59,7 +59,7 @@ L23:
 	jz L25
 L24:
 	movzbl (%rsi),%edi
-	addq $1,%rsi
+	incq %rsi
 	cmpl $43,%edi
 	jz L32
 L72:

@@ -9,27 +9,27 @@ L26:
 	jz L3
 L7:
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	movb %cl,(%rdi)
 	movzbl %cl,%ecx
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%ecx
 	jz L9
 L10:
-	addq $-1,%rdx
+	decq %rdx
 	jnz L7
 L9:
-	addq $-1,%rsi
+	decq %rsi
 	movzbl (%rsi),%esi
 	cmpl $0,%esi
 	jnz L3
 L17:
-	addq $-1,%rdx
+	decq %rdx
 	jz L3
 L21:
 	movb $0,(%rdi)
-	addq $1,%rdi
-	addq $-1,%rdx
+	incq %rdi
+	decq %rdx
 	jnz L21
 L3:
 	popq %rbp

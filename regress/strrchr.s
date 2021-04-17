@@ -14,7 +14,7 @@ L7:
 	movq %rdi,%rax
 L6:
 	movzbl (%rdi),%ecx
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%ecx
 	jnz L4
 L3:

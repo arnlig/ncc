@@ -28,11 +28,11 @@ L15:
 	jz L17
 L18:
 	movzbl (%rsi),%edx
-	addq $1,%rsi
+	incq %rsi
 	cmpl %edx,%eax
 	jnz L17
 L16:
-	addq $1,%r8
+	incq %r8
 	jmp L15
 L17:
 	movzbl (%r8),%eax

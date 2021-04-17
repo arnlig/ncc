@@ -9,21 +9,21 @@ L21:
 	jz L3
 L7:
 	movzbl (%rdi),%ecx
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%ecx
 	jnz L7
 L9:
-	addq $-1,%rdi
+	decq %rdi
 L10:
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	movb %cl,(%rdi)
 	movzbl %cl,%ecx
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%ecx
 	jz L3
 L11:
-	addq $-1,%rdx
+	decq %rdx
 	jnz L10
 L15:
 	movb $0,(%rdi)

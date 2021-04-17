@@ -13,19 +13,19 @@ L31:
 	movq %rdi,%r14
 	movq %r14,%rbx
 L4:
-	addl $-1,%r12d
+	decl %r12d
 	cmpl $0,%r12d
 	jle L6
 L7:
 	movl (%r13),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%r13)
 	cmpl $0,%esi
 	jl L12
 L11:
 	movq 24(%r13),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%r13)
 	movzbl (%rdi),%eax
 	jmp L13
@@ -38,7 +38,7 @@ L13:
 	jz L6
 L5:
 	movb %al,(%rbx)
-	addq $1,%rbx
+	incq %rbx
 	cmpl $10,%eax
 	jnz L4
 L6:

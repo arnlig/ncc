@@ -47,7 +47,7 @@ L9:
 	cmpl $0,%eax
 	jnz L7
 L20:
-	addl $1,_optind(%rip)
+	incl _optind(%rip)
 	movl $-1,%eax
 	jmp L3
 L7:
@@ -83,14 +83,14 @@ L34:
 	movslq %esi,%rsi
 	movq (%r14,%rsi,8),%rsi
 	movl L4(%rip),%edi
-	addl $1,%edi
+	incl %edi
 	movl %edi,L4(%rip)
 	movslq %edi,%rdi
 	movzbl (%rsi,%rdi),%esi
 	cmpl $0,%esi
 	jnz L38
 L36:
-	addl $1,_optind(%rip)
+	incl _optind(%rip)
 	movl $1,L4(%rip)
 L38:
 	movl $63,%eax
@@ -104,7 +104,7 @@ L40:
 	movslq %edi,%rsi
 	movq (%r14,%rsi,8),%rsi
 	movl L4(%rip),%eax
-	addl $1,%eax
+	incl %eax
 	movslq %eax,%rax
 	movzbl (%rsi,%rax),%esi
 	cmpl $0,%esi
@@ -115,7 +115,7 @@ L43:
 	movslq %edi,%rsi
 	movq (%r14,%rsi,8),%rsi
 	movl L4(%rip),%edi
-	addl $1,%edi
+	incl %edi
 	movslq %edi,%rdi
 	addq %rdi,%rsi
 	movq %rsi,_optarg(%rip)
@@ -155,7 +155,7 @@ L41:
 	movslq %esi,%rsi
 	movq (%r14,%rsi,8),%rsi
 	movl L4(%rip),%edi
-	addl $1,%edi
+	incl %edi
 	movl %edi,L4(%rip)
 	movslq %edi,%rdi
 	movzbl (%rsi,%rdi),%esi
@@ -163,7 +163,7 @@ L41:
 	jnz L56
 L54:
 	movl $1,L4(%rip)
-	addl $1,_optind(%rip)
+	incl _optind(%rip)
 L56:
 	movq $0,_optarg(%rip)
 L42:

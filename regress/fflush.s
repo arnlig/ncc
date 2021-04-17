@@ -24,7 +24,7 @@ L14:
 L11:
 	movl $-1,%ebx
 L9:
-	addl $1,%r12d
+	incl %r12d
 	cmpl $20,%r12d
 	jl L8
 L10:
@@ -157,7 +157,7 @@ L86:
 L83:
 	call _fflush
 L81:
-	addl $1,%ebx
+	incl %ebx
 	cmpl $20,%ebx
 	jl L80
 L78:

@@ -24,14 +24,14 @@ L8:
 	movq -8(%rbp),%r13	 # spill
 L10:
 	movl (%r12),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%r12)
 	cmpl $0,%esi
 	jl L17
 L16:
 	movq 24(%r12),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%r12)
 	movzbl (%rdi),%eax
 	jmp L18
@@ -43,11 +43,11 @@ L18:
 	jz L14
 L13:
 	movb %al,(%rbx)
-	addq $1,%rbx
-	addq $-1,%r13
+	incq %rbx
+	decq %r13
 	jnz L10
 L11:
-	addq $1,%r14
+	incq %r14
 	jmp L7
 L14:
 	movq %r14,%rax

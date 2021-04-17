@@ -17,26 +17,26 @@ L10:
 	jbe L8
 L7:
 	leaq (%rax,%rdx),%rdi
-	addq $1,%rdx
+	incq %rdx
 L14:
-	addq $-1,%rdx
+	decq %rdx
 	jz L3
 L15:
-	addq $-1,%rsi
+	decq %rsi
 	movzbl (%rsi),%ecx
-	addq $-1,%rdi
+	decq %rdi
 	movb %cl,(%rdi)
 	jmp L14
 L8:
-	addq $1,%rdx
+	incq %rdx
 L17:
-	addq $-1,%rdx
+	decq %rdx
 	jz L3
 L18:
 	movzbl (%rcx),%esi
-	addq $1,%rcx
+	incq %rcx
 	movb %sil,(%rdi)
-	addq $1,%rdi
+	incq %rdi
 	jmp L17
 L3:
 	popq %rbp

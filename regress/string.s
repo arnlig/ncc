@@ -21,7 +21,7 @@ L6:
 	shll $4,%ebx
 	movzbl (%r14,%rsi),%edi
 	xorl %edi,%ebx
-	addq $1,%rsi
+	incq %rsi
 	jmp L5
 L8:
 	movl %ebx,%esi
@@ -267,7 +267,7 @@ L52:
 	leaq _buckets(%rdi),%rax
 	movq $0,_buckets(%rdi)
 	movq %rax,_buckets+8(%rdi)
-	addl $1,%esi
+	incl %esi
 	cmpl $32,%esi
 	jl L52
 L51:
@@ -287,7 +287,7 @@ L56:
 	call _string_new
 	movl _keywords(%rbx),%esi
 	movl %esi,16(%rax)
-	addl $1,%r12d
+	incl %r12d
 	jmp L55
 L47:
 	popq %r13
@@ -321,7 +321,7 @@ L70:
 	addq $24,%rsp
 	jmp L65
 L68:
-	addl $1,%eax
+	incl %eax
 	jmp L66
 L65:
 	popq %rbp
@@ -376,7 +376,7 @@ L91:
 	pushq $L98
 	call _output
 	addq $16,%rsp
-	addq $1,%rbx
+	incq %rbx
 	jmp L82
 L85:
 	pushq $L95
@@ -418,14 +418,14 @@ L115:
 	call _output
 	addq $16,%rsp
 	movq 8(%rbx),%rsi
-	addq $1,%rsi
+	incq %rsi
 	movq %rbx,%rdi
 	call _string_emit
 L113:
 	movq 24(%rbx),%rbx
 	jmp L111
 L109:
-	addl $1,%r12d
+	incl %r12d
 	cmpl $32,%r12d
 	jl L108
 L106:
@@ -453,7 +453,7 @@ L128:
 	movl $8192,%esi
 	call _type_append_bits
 	movq 8(%r13),%rsi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,8(%rax)
 	movq %r12,%rdi
 	movl $2,%esi

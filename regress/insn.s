@@ -620,11 +620,11 @@ L324:
 	cmpq $0,%rcx
 	jz L326
 L325:
-	addl $-1,8(%rcx)
+	decl 8(%rcx)
 	movq 64(%rcx),%rcx
 	jmp L324
 L326:
-	addl $-1,16(%rax)
+	decl 16(%rax)
 	call _insn_free
 L317:
 	popq %rbp
@@ -642,7 +642,7 @@ L335:
 	jz L338
 L336:
 	movl %esi,%ecx
-	addl $1,%esi
+	incl %esi
 	movl %ecx,8(%rax)
 	movq 64(%rax),%rax
 	jmp L335
@@ -750,7 +750,7 @@ L396:
 L397:
 	movl 16(%rdi),%eax
 	movl %eax,%ecx
-	addl $1,%eax
+	incl %eax
 	movl %eax,16(%rdi)
 	movl %ecx,8(%rsi)
 	leaq 64(%rsi),%rax
@@ -824,7 +824,7 @@ L460:
 	movq %rdi,%rbx
 L444:
 	movl %edx,%edi
-	addl $-1,%edx
+	decl %edx
 	cmpl $0,%edi
 	jz L446
 L445:
@@ -897,8 +897,8 @@ L471:
 	movq 72(%rsi),%rcx
 	movq %rax,(%rcx)
 	movq %rdi,72(%rsi)
-	addl $1,8(%rsi)
-	addl $-1,8(%rax)
+	incl 8(%rsi)
+	decl 8(%rax)
 L465:
 	popq %rbp
 	ret

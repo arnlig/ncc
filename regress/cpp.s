@@ -112,7 +112,7 @@ L50:
 	jnz L49
 L48:
 	movq 32(%rsi),%rsi
-	addl $1,%eax
+	incl %eax
 	jmp L47
 L49:
 	cmpq $0,%rsi
@@ -157,16 +157,16 @@ L71:
 	cmpl $536870927,%ecx
 	jnz L79
 L77:
-	addl $1,%edi
+	incl %edi
 L79:
 	movl (%rsi),%ecx
 	cmpl $536870928,%ecx
 	jnz L82
 L80:
-	addl $-1,%edi
+	decl %edi
 L82:
 	movq 32(%rsi),%rsi
-	addl $1,%eax
+	incl %eax
 	cmpl $0,%edi
 	jnz L66
 L41:
@@ -403,7 +403,7 @@ L189:
 	movq _out_fp(%rip),%rsi
 	movl $10,%edi
 	call _fputc
-	addl $1,L172(%rip)
+	incl L172(%rip)
 	movl $0,_last_class(%rip)
 	jmp L188
 L171:
@@ -492,7 +492,7 @@ L276:
 	movq %rsi,%rbx
 	movl %edi,%r12d
 	call _macro_predef
-	addl $-1,%r12d
+	decl %r12d
 	addq $8,%rbx
 L236:
 	movq (%rbx),%rsi
@@ -526,7 +526,7 @@ L254:
 	jz L251
 L245:
 	addq $8,%rbx
-	addl $-1,%r12d
+	decl %r12d
 	jmp L236
 L238:
 	cmpl $2,%r12d

@@ -7,21 +7,21 @@ L2:
 	cmpq $0,%rdx
 	jz L6
 L4:
-	addq $1,%rdx
+	incq %rdx
 L7:
-	addq $-1,%rdx
+	decq %rdx
 	jz L6
 L8:
 	movzbl (%rdi),%eax
-	addq $1,%rdi
+	incq %rdi
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	cmpl %ecx,%eax
 	jz L7
 L12:
-	addq $-1,%rdi
+	decq %rdi
 	movzbl (%rdi),%eax
-	addq $-1,%rsi
+	decq %rsi
 	movzbl (%rsi),%esi
 	subl %esi,%eax
 	jmp L3

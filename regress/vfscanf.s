@@ -22,14 +22,14 @@ L5:
 	jge L8
 L6:
 	movl (%r12),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%r12)
 	cmpl $0,%esi
 	jl L10
 L9:
 	movq 24(%r12),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%r12)
 	movzbl (%rdi),%eax
 	jmp L11
@@ -39,7 +39,7 @@ L10:
 L11:
 	movl %eax,%esi
 	movb %al,(%r13)
-	addq $1,%r13
+	incq %r13
 	cmpl $43,%esi
 	jz L17
 L95:
@@ -122,15 +122,15 @@ L21:
 	cmpl $6,%ebx
 	jz L20
 L14:
-	addq $-1,%r13
+	decq %r13
 	movl %eax,%edi
 	movq %r12,%rsi
 	call _ungetc
 	jmp L8
 L20:
-	addl $1,%ebx
+	incl %ebx
 L7:
-	addl $1,%r14d
+	incl %r14d
 	jmp L5
 L8:
 	movb $0,(%r13)
@@ -189,14 +189,14 @@ L114:
 	jge L117
 L115:
 	movl (%r13),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%r13)
 	cmpl $0,%esi
 	jl L119
 L118:
 	movq 24(%r13),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%r13)
 	movzbl (%rdi),%eax
 	jmp L120
@@ -206,7 +206,7 @@ L119:
 L120:
 	movl %eax,%esi
 	movb %al,(%r15)
-	addq $1,%r15
+	incq %r15
 	cmpl $43,%esi
 	jz L126
 L205:
@@ -307,15 +307,15 @@ L130:
 	cmpl $6,%r12d
 	jz L129
 L123:
-	addq $-1,%r15
+	decq %r15
 	movl %eax,%edi
 	movq %r13,%rsi
 	call _ungetc
 	jmp L117
 L129:
-	addl $1,%r12d
+	incl %r12d
 L116:
-	addl $1,%r14d
+	incl %r14d
 	jmp L114
 L117:
 	movb $0,(%r15)
@@ -367,7 +367,7 @@ L499:
 	movl $0,-160(%rbp)	 # spill
 L216:
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	movl %esi,%r14d
 	cmpl $0,%esi
 	jz L219
@@ -378,14 +378,14 @@ L217:
 	jz L221
 L223:
 	movl (%rbx),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%rbx)
 	cmpl $0,%esi
 	jl L227
 L226:
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movzbl (%rdi),%esi
 	jmp L228
@@ -399,7 +399,7 @@ L228:
 	testl $8,%edi
 	jz L225
 L224:
-	addl $1,-152(%rbp)	 # spill
+	incl -152(%rbp)	 # spill
 	jmp L223
 L225:
 	cmpl $-1,%esi
@@ -417,14 +417,14 @@ L235:
 	movl $0,-168(%rbp)	 # spill
 	movl $0,-176(%rbp)	 # spill
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	movl %esi,%r14d
 	cmpl $42,%esi
 	jnz L248
 L246:
 	movl $1,-168(%rbp)	 # spill
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	movl %esi,%r14d
 L248:
 	leal -48(%r14),%esi
@@ -442,7 +442,7 @@ L253:
 	leal -48(%rsi,%r14),%esi
 	movl %esi,-184(%rbp)	 # spill
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	movl %esi,%r14d
 	jmp L252
 L250:
@@ -459,7 +459,7 @@ L259:
 L256:
 	movl %r14d,%r15d
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	movl %esi,%r14d
 L258:
 	cmpl $91,%r14d
@@ -472,14 +472,14 @@ L270:
 	jz L465
 L278:
 	movl (%rbx),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%rbx)
 	cmpl $0,%esi
 	jl L282
 L281:
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movzbl (%rdi),%esi
 	jmp L283
@@ -493,7 +493,7 @@ L283:
 	testl $8,%edi
 	jz L280
 L279:
-	addl $1,-152(%rbp)	 # spill
+	incl -152(%rbp)	 # spill
 	jmp L278
 L280:
 	movl %esi,%edi
@@ -523,14 +523,14 @@ L477:
 L405:
 	movl $0,-176(%rbp)	 # spill
 	movzbl (%r13),%edi
-	addq $1,%r13
+	incq %r13
 	movl %edi,%esi
 	cmpl $94,%edi
 	jnz L408
 L406:
 	movl $1,-176(%rbp)	 # spill
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 L408:
 	leaq -136(%rbp),%rdi
 	movq %rdi,%r12
@@ -540,7 +540,7 @@ L409:
 	movl $93,-136(%rbp)
 	leaq -135(%rbp),%r12
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 L412:
 	cmpl $0,%esi
 	jz L414
@@ -562,27 +562,27 @@ L419:
 	movzbl -1(%r12),%esi
 	movl %esi,%edi
 	movzbl (%r13),%eax
-	addq $1,%r13
+	incq %r13
 	movl %eax,%ecx
 	cmpl %eax,%edi
 	jle L433
 L430:
-	addq $-1,%r12
+	decq %r12
 	jmp L421
 L433:
-	addl $1,%esi
+	incl %esi
 	cmpl %ecx,%esi
 	jg L421
 L434:
 	movb %sil,(%r12)
-	addq $1,%r12
+	incq %r12
 	jmp L433
 L420:
 	movb %sil,(%r12)
-	addq $1,%r12
+	incq %r12
 L421:
 	movzbl (%r13),%esi
-	addq $1,%r13
+	incq %r13
 	jmp L412
 L414:
 	movb $0,(%r12)
@@ -612,14 +612,14 @@ L469:
 	jnz L219
 L237:
 	movl (%rbx),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%rbx)
 	cmpl $0,%esi
 	jl L242
 L241:
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movzbl (%rdi),%esi
 	jmp L243
@@ -636,7 +636,7 @@ L238:
 	call _ungetc
 	jmp L219
 L240:
-	addl $1,-152(%rbp)	 # spill
+	incl -152(%rbp)	 # spill
 	jmp L216
 L498:
 	cmpl $103,%r14d
@@ -676,14 +676,14 @@ L363:
 	jge L362
 L360:
 	movl (%rbx),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,(%rbx)
 	cmpl $0,%esi
 	jl L371
 L370:
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movzbl (%rdi),%esi
 	movl %esi,%r15d
@@ -728,9 +728,9 @@ L376:
 	jnz L361
 L390:
 	movb %r15b,(%r12)
-	addq $1,%r12
+	incq %r12
 L361:
-	addl $1,-200(%rbp)	 # spill
+	incl -200(%rbp)	 # spill
 	jmp L359
 L362:
 	cmpl $0,-200(%rbp)	 # spill
@@ -747,7 +747,7 @@ L399:
 L401:
 	movb $0,(%r12)
 L403:
-	addl $1,-160(%rbp)	 # spill
+	incl -160(%rbp)	 # spill
 	jmp L216
 L297:
 	movl $10,%eax
@@ -861,7 +861,7 @@ L323:
 	movq -8(%r10),%rsi
 	movl %edi,(%rsi)
 L318:
-	addl $1,-160(%rbp)	 # spill
+	incl -160(%rbp)	 # spill
 	jmp L216
 L330:
 	cmpl $-1,-184(%rbp)	 # spill
@@ -907,7 +907,7 @@ L347:
 	movq -8(%r10),%rsi
 	movss %xmm0,(%rsi)
 L348:
-	addl $1,-160(%rbp)	 # spill
+	incl -160(%rbp)	 # spill
 	jmp L216
 L219:
 	cmpl $0,-160(%rbp)	 # spill

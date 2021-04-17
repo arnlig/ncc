@@ -6,12 +6,12 @@ L1:
 L4:
 	movzbl (%rdi),%eax
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	cmpl %ecx,%eax
 	jnz L6
 L5:
 	movzbl (%rdi),%eax
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%eax
 	jnz L4
 L7:
@@ -24,7 +24,7 @@ L11:
 	movl $-1,%eax
 	jmp L3
 L13:
-	addq $-1,%rsi
+	decq %rsi
 	movzbl (%rsi),%eax
 	cmpl $0,%eax
 	jnz L17

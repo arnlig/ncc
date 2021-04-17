@@ -68,7 +68,7 @@ L32:
 	jmp L30
 L33:
 	movl $1,_changed(%rip)
-	addl $1,%r14d
+	incl %r14d
 	pushq $524288
 	pushq %r12
 	call _insn_replace

@@ -20,7 +20,7 @@ L9:
 L10:
 	shll $3,%eax
 	movzbl (%rsi),%edi
-	addq $1,%rsi
+	incq %rsi
 	xorl %edi,%eax
 	jmp L9
 L5:
@@ -153,7 +153,7 @@ L61:
 	movq %rax,(%rdi)
 	movq %rsi,56(%r12)
 L50:
-	addl $1,%r13d
+	incl %r13d
 	jmp L48
 L51:
 	leaq -24(%rbp),%rdi
@@ -746,7 +746,7 @@ L306:
 	jle L309
 L307:
 	movq 16(%rbx),%rbx
-	addl $-1,%esi
+	decl %esi
 	jmp L306
 L309:
 	cmpq $0,%rbx
@@ -806,13 +806,13 @@ L331:
 	cmpl $536870927,%edi
 	jnz L343
 L341:
-	addl $1,%ecx
+	incl %ecx
 L343:
 	movl (%rsi),%edi
 	cmpl $536870928,%edi
 	jnz L347
 L344:
-	addl $-1,%ecx
+	decl %ecx
 L347:
 	movq 32(%rsi),%rdi
 	cmpq $0,%rdi

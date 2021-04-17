@@ -117,8 +117,11 @@ extern bool amd64_operands_same(struct amd64_operand *,
 #define AMD64_OPERAND_EFF(o)        ((o) && ((o)->class == AMD64_O_EFF))
 #define AMD64_OPERAND_MEM(o)        ((o) && ((o)->class == AMD64_O_MEM))
 
-#define AMD64_OPERAND_PURE_CON(o) (AMD64_OPERAND_CON(o) && ((o)->sym == 0))
-#define AMD64_OPERAND_ZERO(o)     (AMD64_OPERAND_PURE_CON(o) && ((o)->i == 0))
+#define AMD64_OPERAND_PURE_CON(o)   (AMD64_OPERAND_CON(o) && ((o)->sym == 0))
+
+#define AMD64_OPERAND_ZERO(o)   (AMD64_OPERAND_PURE_CON(o) && ((o)->i == 0))
+#define AMD64_OPERAND_ONE(o)    (AMD64_OPERAND_PURE_CON(o) && ((o)->i == 1))
+#define AMD64_OPERAND_NEGONE(o) (AMD64_OPERAND_PURE_CON(o) && ((o)->i == -1))
 
 #define AMD64_HUGE_CON(i)   (((i) < INT_MIN) || ((i) > INT_MAX))
 
@@ -1046,6 +1049,62 @@ extern bool amd64_operands_same(struct amd64_operand *,
 
 #define AMD64_I_MOVSQ       AMD64_I ( 99 | AMD64_I_FLAG_DEFMEM              \
                                          | AMD64_I_FLAG_USEMEM              )
+
+#define AMD64_I_INCB        AMD64_I ( 100                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_INCW        AMD64_I ( 101                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_INCL        AMD64_I ( 102                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_INCQ        AMD64_I ( 103                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_DECB        AMD64_I ( 104                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_BYTE)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_DECW        AMD64_I ( 105                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_WORD)  \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_DECL        AMD64_I ( 106                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_DWORD) \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
+
+#define AMD64_I_DECQ        AMD64_I ( 107                                   \
+                                    | AMD64_I_ENC_OPERANDS(1)               \
+                                    | AMD64_I_ENC_SIZE(0, AMD64_SIZE_QWORD) \
+                                    | AMD64_I_ENC_USES(0)                   \
+                                    | AMD64_I_ENC_DEFS(0)                   \
+                                    | AMD64_I_ENC_FUSE(0)                   )
 
 extern struct insn *amd64_insn_dup(struct insn *);
 extern void amd64_insn_construct(struct insn *, va_list);

@@ -63,7 +63,7 @@ L29:
 	call _safe_malloc
 	movq %rax,%rbx
 	movl _last_asm_label(%rip),%esi
-	addl $1,%esi
+	incl %esi
 	movl %esi,_last_asm_label(%rip)
 	movl %esi,(%rbx)
 	leaq 8(%rbx),%rsi
@@ -338,7 +338,7 @@ L172:
 L168:
 	movq 16(%rsi),%rdi
 	movq 24(%rbx),%rax
-	addq $1,%rax
+	incq %rax
 	cmpq %rax,%rdi
 	jnz L160
 L165:
@@ -712,7 +712,7 @@ L356:
 	cmpq $0,%rax
 	jz L351
 L354:
-	addl $-1,%esi
+	decl %esi
 	movq 32(%rax),%rax
 	jmp L352
 L351:
@@ -752,7 +752,7 @@ L385:
 	cmpq $0,%rsi
 	jz L384
 L387:
-	addl $1,%eax
+	incl %eax
 	movq 32(%rsi),%rsi
 	jmp L385
 L384:
@@ -1157,7 +1157,7 @@ L596:
 	movq %rbx,%rsi
 	movq %r12,%rdx
 	call _walk1
-	addl $1,%r13d
+	incl %r13d
 	jmp L595
 L598:
 	cmpq $0,%r12

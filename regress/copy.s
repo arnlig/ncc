@@ -165,7 +165,7 @@ L70:
 	movq _copies(%rip),%rsi
 	movq %rsi,24(%rax)
 	movq %rax,_copies(%rip)
-	addl $1,_nr_copies(%rip)
+	incl _nr_copies(%rip)
 L65:
 	popq %r14
 	popq %r13
@@ -223,7 +223,7 @@ L95:
 	movl %ebx,%esi
 	call _bitset_reset
 L97:
-	addl $1,%ebx
+	incl %ebx
 	movq 24(%r12),%r12
 	jmp L91
 L90:
@@ -351,7 +351,7 @@ L139:
 	jz L134
 L140:
 	movl _next_copy_bit(%rip),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,_next_copy_bit(%rip)
 	leaq 264(%rbx),%rdi
 	call _bitset_set
@@ -458,7 +458,7 @@ L176:
 	leaq -16(%rbp),%rdi
 	call _regmaps_update
 L174:
-	addl $1,%ebx
+	incl %ebx
 	movq 24(%r12),%r12
 	jmp L172
 L175:

@@ -146,7 +146,7 @@ L74:
 L72:
 	xorl %eax,%eax
 L73:
-	addq $1,%rdi
+	incq %rdi
 	jmp L31
 L33:
 	cmpq $0,%rax
@@ -173,7 +173,7 @@ L88:
 L89:
 	movq (%rsi),%rsi
 	movl (%rsi),%edi
-	addl $-1,%edi
+	decl %edi
 	movl %edi,(%rsi)
 	cmpl $0,%edi
 	jl L92
@@ -182,7 +182,7 @@ L91:
 	movq (%rsi),%rsi
 	movq 24(%rsi),%rdi
 	movq %rdi,%rax
-	addq $1,%rdi
+	incq %rdi
 	movq %rdi,24(%rsi)
 	movzbl (%rax),%eax
 	jmp L93
@@ -243,7 +243,7 @@ L116:
 	jmp L114
 L118:
 	movq _input_stack(%rip),%rsi
-	addl $1,32(%rsi)
+	incl 32(%rsi)
 	movq $L115,%rdi
 	call _vstring_clear
 L121:
@@ -253,7 +253,7 @@ L121:
 	movq _input_stack(%rip),%rsi
 	movq (%rsi),%rsi
 	movl (%rsi),%edi
-	addl $-1,%edi
+	decl %edi
 	movl %edi,(%rsi)
 	cmpl $0,%edi
 	jl L125
@@ -262,7 +262,7 @@ L124:
 	movq (%rsi),%rsi
 	movq 24(%rsi),%rdi
 	movq %rdi,%rax
-	addq $1,%rdi
+	incq %rdi
 	movq %rdi,24(%rsi)
 	movzbl (%rax),%eax
 	jmp L126
@@ -289,7 +289,7 @@ L132:
 	movq $L115,%rdi
 	call _vstring_rubout
 	movq _input_stack(%rip),%rsi
-	addl $1,32(%rsi)
+	incl 32(%rsi)
 	jmp L121
 L136:
 	movl L115(%rip),%esi
@@ -332,7 +332,7 @@ L152:
 	movq 8(%r12),%rdi
 	movq %rax,(%rdi)
 	movq %rsi,8(%r12)
-	addl $1,%ebx
+	incl %ebx
 	jmp L151
 L153:
 	movl %ebx,%eax

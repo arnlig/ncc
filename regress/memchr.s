@@ -9,17 +9,17 @@ L17:
 	cmpq $0,%rdx
 	jz L6
 L4:
-	addq $1,%rdx
+	incq %rdx
 L7:
-	addq $-1,%rdx
+	decq %rdx
 	jz L6
 L8:
 	movzbl (%rax),%edi
-	addq $1,%rax
+	incq %rax
 	cmpl %esi,%edi
 	jnz L7
 L12:
-	addq $-1,%rax
+	decq %rax
 	jmp L3
 L6:
 	xorl %eax,%eax

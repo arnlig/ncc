@@ -12,7 +12,7 @@ L4:
 	jz L3
 L5:
 	movzbl (%rax),%edi
-	addq $1,%rax
+	incq %rax
 	cmpl $0,%edi
 	jnz L4
 L7:

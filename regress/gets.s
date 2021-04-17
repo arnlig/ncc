@@ -10,14 +10,14 @@ L27:
 	movq %rbx,%r12
 L4:
 	movl ___stdin(%rip),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,___stdin(%rip)
 	cmpl $0,%esi
 	jl L12
 L11:
 	movq ___stdin+24(%rip),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,___stdin+24(%rip)
 	movzbl (%rdi),%eax
 	jmp L13
@@ -32,7 +32,7 @@ L7:
 	jz L6
 L5:
 	movb %al,(%r12)
-	addq $1,%r12
+	incq %r12
 	jmp L4
 L6:
 	cmpl $-1,%eax

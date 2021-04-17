@@ -17,7 +17,7 @@ L8:
 	movq $0,___iotab(,%rdi,8)
 	jmp L7
 L6:
-	addl $1,%esi
+	incl %esi
 	cmpl $20,%esi
 	jl L5
 L7:

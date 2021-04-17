@@ -18,7 +18,7 @@ L8:
 	leaq (%rax,%rcx),%rdx
 	movq %rdi,8(%rax,%rcx)
 	movq %rdx,_regs_free_list(%rip)
-	addl $1,%esi
+	incl %esi
 	cmpl $1000,%esi
 	jl L8
 L3:
@@ -88,7 +88,7 @@ L49:
 	movq %rax,(%rdi)
 	movq %rsi,16(%rbx)
 L45:
-	addl $1,(%rbx)
+	incl (%rbx)
 	jmp L18
 L32:
 	xorl %eax,%eax
@@ -113,7 +113,7 @@ L62:
 	cmpl %esi,%ecx
 	jnz L63
 L68:
-	addl $-1,(%rdi)
+	decl (%rdi)
 	movq 8(%rax),%rsi
 	cmpq $0,%rsi
 	jz L75
@@ -267,7 +267,7 @@ L155:
 	movq %rax,(%rdi)
 	movq %rsi,16(%rbx)
 L151:
-	addl $1,(%rbx)
+	incl (%rbx)
 L123:
 	movq 8(%r13),%r13
 	jmp L121
@@ -350,7 +350,7 @@ L201:
 	cmpq $0,%rsi
 	jz L200
 L204:
-	addl $-1,(%rdi)
+	decl (%rdi)
 	movq 8(%rsi),%rax
 	cmpq $0,%rax
 	jz L211

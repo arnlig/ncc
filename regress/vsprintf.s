@@ -18,7 +18,7 @@ L9:
 	movl $0,-32(%rbp)
 	movq -8(%rbp),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,-8(%rbp)
 	movb $0,(%rdi)
 	movl %ebx,%eax

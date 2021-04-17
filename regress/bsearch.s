@@ -37,7 +37,7 @@ L9:
 	jl L12
 L11:
 	leaq (%r13,%r14),%r12
-	addq $-1,%rbx
+	decq %rbx
 	shrq $1,%rbx
 	jmp L4
 L12:

@@ -52,7 +52,7 @@ L14:
 	movq %rcx,(%rsi)
 	movq %rsi,_buckets(,%rax,8)
 	addq %r12,%rsi
-	addl $1,%edi
+	incl %edi
 	jmp L13
 L16:
 	movl %r13d,%eax
@@ -79,7 +79,7 @@ L27:
 	cmpq %rsi,%rdi
 	jbe L29
 L28:
-	addl $1,%ebx
+	incl %ebx
 	cmpl $26,%ebx
 	jl L27
 L29:

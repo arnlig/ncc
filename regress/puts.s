@@ -14,23 +14,23 @@ L4:
 	jz L6
 L5:
 	movl ___stdout(%rip),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,___stdout(%rip)
 	cmpl $0,%esi
 	jl L11
 L10:
 	movzbl (%rbx),%esi
 	movq ___stdout+24(%rip),%rdi
-	addq $1,%rbx
+	incq %rbx
 	movq %rdi,%rax
-	addq $1,%rdi
+	incq %rdi
 	movq %rdi,___stdout+24(%rip)
 	movb %sil,(%rax)
 	movzbl %sil,%eax
 	jmp L12
 L11:
 	movzbl (%rbx),%edi
-	addq $1,%rbx
+	incq %rbx
 	movq $___stdout,%rsi
 	call ___flushbuf
 L12:
@@ -40,18 +40,18 @@ L7:
 	movl $-1,%eax
 	jmp L3
 L8:
-	addl $1,%r12d
+	incl %r12d
 	jmp L4
 L6:
 	movl ___stdout(%rip),%esi
-	addl $-1,%esi
+	decl %esi
 	movl %esi,___stdout(%rip)
 	cmpl $0,%esi
 	jl L18
 L17:
 	movq ___stdout+24(%rip),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,___stdout+24(%rip)
 	movb $10,(%rdi)
 	jmp L16

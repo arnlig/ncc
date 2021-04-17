@@ -46,9 +46,9 @@ L20:
 	jz L19
 L17:
 	movzbl (%rbx),%esi
-	addq $1,%rbx
+	incq %rbx
 	movb %sil,(%rdi)
-	addq $1,%rdi
+	incq %rdi
 	jmp L16
 L19:
 	leaq -256(%rbp),%rsi
@@ -56,7 +56,7 @@ L19:
 	jz L26
 L24:
 	movb $47,(%rdi)
-	addq $1,%rdi
+	incq %rdi
 L26:
 	movq %r13,%rsi
 L27:
@@ -65,9 +65,9 @@ L27:
 	jz L30
 L28:
 	movzbl (%rsi),%eax
-	addq $1,%rsi
+	incq %rsi
 	movb %al,(%rdi)
-	addq $1,%rdi
+	incq %rdi
 	jmp L27
 L30:
 	movb $0,(%rdi)
@@ -97,7 +97,7 @@ L37:
 	cmpl $58,%esi
 	jnz L10
 L39:
-	addq $1,%rbx
+	incq %rbx
 	jmp L14
 L46:
 L8:

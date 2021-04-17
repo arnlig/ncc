@@ -9,7 +9,7 @@ L61:
 	jge L8
 L5:
 	movb $48,(%rax)
-	addq $1,%rax
+	incq %rax
 	jmp L7
 L8:
 	movzbl (%rsi),%edi
@@ -17,15 +17,15 @@ L8:
 	jz L12
 L11:
 	movzbl (%rsi),%edi
-	addq $1,%rsi
+	incq %rsi
 	jmp L13
 L12:
 	movl $48,%edi
 L13:
 	movb %dil,(%rax)
-	addq $1,%rax
+	incq %rax
 	movl %ecx,%edi
-	addl $-1,%ecx
+	decl %ecx
 	cmpl $0,%edi
 	jnz L8
 L7:
@@ -46,10 +46,10 @@ L25:
 	jz L4
 L16:
 	movb $46,(%rax)
-	addq $1,%rax
+	incq %rax
 L34:
 	movl %edx,%edi
-	addl $-1,%edx
+	decl %edx
 	cmpl $0,%edi
 	jle L4
 L35:
@@ -66,12 +66,12 @@ L40:
 	cmpl $0,%r9d
 	jz L4
 L39:
-	addl $1,%ecx
+	incl %ecx
 	cmpl $0,%ecx
 	jge L54
 L53:
 	movb $48,(%rax)
-	addq $1,%rax
+	incq %rax
 	jmp L34
 L54:
 	movzbl (%rsi),%edi
@@ -79,13 +79,13 @@ L54:
 	jz L57
 L56:
 	movzbl (%rsi),%edi
-	addq $1,%rsi
+	incq %rsi
 	jmp L58
 L57:
 	movl $48,%edi
 L58:
 	movb %dil,(%rax)
-	addq $1,%rax
+	incq %rax
 	jmp L34
 L4:
 	popq %rbp
@@ -136,7 +136,7 @@ L70:
 	call _frexp
 	leaq -16(%rbp),%rsi
 	movl -8(%rbp),%edi
-	addl $-1,%edi
+	decl %edi
 	movl %edi,-8(%rbp)
 	cvtsi2sdl %edi,%xmm0
 	divsd L136(%rip),%xmm0
@@ -215,7 +215,7 @@ L106:
 	leal 48(%rsi),%eax
 	movb %al,(%r12)
 	cvtsi2sdl %esi,%xmm0
-	addq $1,%r12
+	incq %r12
 	subsd %xmm0,%xmm8
 	mulsd L138(%rip),%xmm8
 	jmp L105
@@ -224,7 +224,7 @@ L108:
 	ucomisd L139(%rip),%xmm8
 	ja L124
 L116:
-	addq $-1,%r12
+	decq %r12
 	cmpq %r12,%rbx
 	jz L67
 L119:
@@ -236,12 +236,12 @@ L117:
 	jmp L116
 L124:
 	movq %r12,%rsi
-	addq $-1,%r12
+	decq %r12
 	cmpq %rsi,%rbx
 	jz L126
 L125:
 	movzbl (%r12),%esi
-	addl $1,%esi
+	incl %esi
 	movb %sil,(%r12)
 	movzbl %sil,%esi
 	cmpl $57,%esi
@@ -250,12 +250,12 @@ L129:
 	movb $0,(%r12)
 	jmp L124
 L126:
-	addq $1,%r12
+	incq %r12
 L99:
 	movq -24(%rbp),%r10	 # spill
-	addl $1,(%r10)
+	incl (%r10)
 	movb $49,(%r12)
-	addq $1,%r12
+	incq %r12
 	movb $0,(%r12)
 L67:
 	movsd -40(%rbp),%xmm8

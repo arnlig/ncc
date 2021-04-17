@@ -143,7 +143,7 @@ L68:
 	movq $_bstack,%rdi
 	call _bstack_push
 L63:
-	addl $1,%r13d
+	incl %r13d
 	jmp L61
 L51:
 	leaq -24(%rbp),%rbx
@@ -207,7 +207,7 @@ L92:
 	movq %r12,%rdi
 	call _loop_blocks
 L90:
-	addl $1,%ebx
+	incl %ebx
 	jmp L88
 L91:
 	xorl %eax,%eax
@@ -229,7 +229,7 @@ L104:
 	jz L107
 L105:
 	movq (%rsi),%rdi
-	addl $1,480(%rdi)
+	incl 480(%rdi)
 	movq 8(%rsi),%rsi
 	jmp L104
 L107:
@@ -334,7 +334,7 @@ L163:
 	leaq 8(%rbx),%rdi
 	movq %rax,8(%rbx)
 	movq %rdi,32(%rax)
-	addl $1,(%rbx)
+	incl (%rbx)
 L157:
 	movq %rsi,%rax
 L146:
@@ -358,7 +358,7 @@ L174:
 	cmpl %esi,%eax
 	jnz L175
 L177:
-	addl $-1,(%rcx)
+	decl (%rcx)
 	movq 24(%rdi),%rsi
 	cmpq $0,%rsi
 	jz L185
@@ -390,7 +390,7 @@ L195:
 	cmpq $0,%rdi
 	jz L194
 L196:
-	addl $-1,(%rbx)
+	decl (%rbx)
 	movq 24(%rdi),%rsi
 	cmpq $0,%rsi
 	jz L203

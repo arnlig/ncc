@@ -81,7 +81,7 @@ L38:
 L45:
 	call _fflush
 L36:
-	addl $1,%r12d
+	incl %r12d
 	cmpl $20,%r12d
 	jl L35
 L37:
@@ -120,7 +120,7 @@ L53:
 	movl %esi,(%rbx)
 	movq 24(%rbx),%rsi
 	movq %rsi,%rdi
-	addq $1,%rsi
+	incq %rsi
 	movq %rsi,24(%rbx)
 	movzbl (%rdi),%eax
 L3:

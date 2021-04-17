@@ -9,19 +9,19 @@ L2:
 L7:
 	movzbl (%rdi),%eax
 	movzbl (%rsi),%ecx
-	addq $1,%rsi
+	incq %rsi
 	cmpl %ecx,%eax
 	jnz L8
 L12:
 	movzbl (%rdi),%eax
-	addq $1,%rdi
+	incq %rdi
 	cmpl $0,%eax
 	jnz L9
 L14:
 	xorl %eax,%eax
 	jmp L3
 L9:
-	addq $-1,%rdx
+	decq %rdx
 	jnz L7
 L8:
 	cmpq $0,%rdx
@@ -34,7 +34,7 @@ L21:
 	movl $-1,%eax
 	jmp L3
 L23:
-	addq $-1,%rsi
+	decq %rsi
 	movzbl (%rsi),%eax
 	cmpl $0,%eax
 	jnz L27

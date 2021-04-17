@@ -27,7 +27,7 @@ L33:
 	movl _error_line_no(%rip),%esi
 	movl %esi,20(%rbx)
 	movl L6(%rip),%esi
-	addl $1,%esi
+	incl %esi
 	movl %esi,L6(%rip)
 	movl %esi,16(%rbx)
 	movl $2147483649,48(%rbx)
@@ -51,7 +51,7 @@ L18:
 	jmp L9
 L20:
 	movl _last_asm_label(%rip),%esi
-	addl $1,%esi
+	incl %esi
 	movl %esi,_last_asm_label(%rip)
 	movl %esi,64(%rbx)
 L21:
@@ -598,7 +598,7 @@ L245:
 	leaq _buckets(%rdi),%rax
 	movq $0,_buckets(%rdi)
 	movq %rax,_buckets+8(%rdi)
-	addl $1,%esi
+	incl %esi
 	cmpl $32,%esi
 	jle L245
 L244:
@@ -606,7 +606,7 @@ L244:
 L252:
 	movslq %edi,%rsi
 	movq $0,_reg_buckets(,%rsi,8)
-	addl $1,%edi
+	incl %edi
 	cmpl $16,%edi
 	jl L252
 L240:
@@ -627,7 +627,7 @@ L262:
 	call _error
 	addq $16,%rsp
 L264:
-	addl $1,_current_scope(%rip)
+	incl _current_scope(%rip)
 L261:
 	popq %rbp
 	ret
@@ -744,7 +744,7 @@ L332:
 	movq %r12,%rsi
 	jmp L330
 L328:
-	addl $1,%ebx
+	incl %ebx
 	cmpl $31,%ebx
 	jle L327
 L322:
@@ -812,7 +812,7 @@ L365:
 	movq %r12,%rbx
 	jmp L363
 L361:
-	addl $1,%r13d
+	incl %r13d
 	cmpl $31,%r13d
 	jle L360
 L352:
@@ -1313,7 +1313,7 @@ L585:
 	movq %r13,%rbx
 	jmp L583
 L581:
-	addl $1,%r14d
+	incl %r14d
 	cmpl $32,%r14d
 	jle L580
 L575:
@@ -1358,7 +1358,7 @@ L618:
 	movq %r13,%rdi
 	jmp L616
 L614:
-	addl $1,%r14d
+	incl %r14d
 	cmpl $32,%r14d
 	jle L613
 L608:
@@ -1466,7 +1466,7 @@ L664:
 	call _output
 	addq $8,%rsp
 L662:
-	addl $1,%r12d
+	incl %r12d
 	jmp L660
 L663:
 	movl 12(%rbx),%esi
@@ -1625,7 +1625,7 @@ L733:
 	movq %r12,%rdi
 	jmp L731
 L729:
-	addl $1,%r13d
+	incl %r13d
 	cmpl $32,%r13d
 	jle L728
 L702:
@@ -1675,11 +1675,11 @@ L768:
 	movq %rbx,%rdi
 	jmp L766
 L764:
-	addl $1,%r12d
+	incl %r12d
 	cmpl $32,%r12d
 	jle L763
 L760:
-	addl $-1,_current_scope(%rip)
+	decl _current_scope(%rip)
 L758:
 	popq %r12
 	popq %rbx
@@ -1721,7 +1721,7 @@ L797:
 	movq %r12,%rdi
 	jmp L795
 L793:
-	addl $1,%ebx
+	incl %ebx
 	cmpl $32,%ebx
 	jle L792
 L787:
@@ -1754,7 +1754,7 @@ L822:
 	movl _current_scope(%rip),%edi
 	movl $1002,%esi
 	call _scope_move
-	addl $-1,_current_scope(%rip)
+	decl _current_scope(%rip)
 L823:
 	popq %rbp
 	ret

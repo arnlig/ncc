@@ -86,7 +86,7 @@ L45:
 	shlq $4,%rsi
 	movl $0,(%r12,%rsi)
 	movq $0,8(%r12,%rsi)
-	addl $1,%ebx
+	incl %ebx
 	jmp L39
 L38:
 	popq %r12
@@ -230,7 +230,7 @@ L82:
 L98:
 	movq %r14,%rbx
 L75:
-	addl $1,%r13d
+	incl %r13d
 	addq $16,%r12
 	addq $16,%rbx
 	jmp L73
@@ -271,7 +271,7 @@ L117:
 	movq %rax,%rdx
 	call _conp_set
 L115:
-	addl $1,%ebx
+	incl %ebx
 	addq $16,%r12
 	addq $16,%r13
 	jmp L113
@@ -371,7 +371,7 @@ L165:
 	xorl %eax,%eax
 	jmp L156
 L159:
-	addl $1,%ebx
+	incl %ebx
 	addq $16,%r12
 	addq $16,%r13
 	jmp L157
@@ -416,7 +416,7 @@ L187:
 	xorl %edx,%edx
 	call _conp_set
 L184:
-	addl $1,%ebx
+	incl %ebx
 	addq $16,%r13
 	addq $16,%r12
 	jmp L182
@@ -445,7 +445,7 @@ L198:
 	movl $2,%esi
 	xorl %edx,%edx
 	call _conp_set
-	addl $1,%ebx
+	incl %ebx
 	addq $16,%r12
 	jmp L197
 L196:
@@ -511,7 +511,7 @@ L225:
 L226:
 	movl (%rdi),%eax
 	movslq %esi,%rcx
-	addl $1,%esi
+	incl %esi
 	movq _map(%rip),%rdx
 	movl %eax,(%rdx,%rcx,4)
 	movq 8(%rdi),%rdi

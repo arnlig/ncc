@@ -5,14 +5,14 @@ L1:
 	movq %rsp,%rbp
 L2:
 	movl (%rsi),%eax
-	addl $-1,%eax
+	decl %eax
 	movl %eax,(%rsi)
 	cmpl $0,%eax
 	jl L5
 L4:
 	movq 24(%rsi),%rax
 	movq %rax,%rcx
-	addq $1,%rax
+	incq %rax
 	movq %rax,24(%rsi)
 	movb %dil,(%rcx)
 	movzbl %dil,%eax

@@ -8,7 +8,7 @@ L2:
 	xorl %eax,%eax
 L4:
 	movzbl (%rdi),%esi
-	addq $1,%rdi
+	incq %rdi
 	movl %esi,%ecx
 	movslq %esi,%r8
 	movzbl ___ctype+1(%r8),%r8d
@@ -20,14 +20,14 @@ L6:
 L7:
 	movl $1,%edx
 	movzbl (%rdi),%ecx
-	addq $1,%rdi
+	incq %rdi
 	jmp L13
 L8:
 	cmpl $43,%esi
 	jnz L13
 L10:
 	movzbl (%rdi),%ecx
-	addq $1,%rdi
+	incq %rdi
 L13:
 	leal -48(%rcx),%esi
 	cmpl $10,%esi
@@ -37,7 +37,7 @@ L14:
 	movslq %ecx,%rsi
 	leaq -48(%rax,%rsi),%rax
 	movzbl (%rdi),%ecx
-	addq $1,%rdi
+	incq %rdi
 	jmp L13
 L16:
 	cmpl $0,%edx
