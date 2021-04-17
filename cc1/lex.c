@@ -114,7 +114,11 @@ static token_class ident(void)
         ADVANCE();
 
     token.text = string_new(begin, pos - begin);
-    return token.text->k;
+
+    if (token.text->k & K_SPECIAL)
+        return K_IDENT;
+    else
+        return token.text->k;
 }
 
 /* we're currently positioned over a quote of

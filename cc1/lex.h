@@ -127,6 +127,12 @@ extern void lex_match(token_class);
 #define K_MAP_IDX(k)        (((k) & K_MAP_MASK) >> K_MAP_SHIFT)
 #define K_MAP_ENC(i)        ((i) << K_MAP_SHIFT)
 
+    /* bit[29] is used for keywords that are only keywords
+       in special contexts. this prevents the lexer() from
+       automatically converting K_IDENT -> K_* */
+
+#define K_SPECIAL           ( 0x20000000 )
+
     /* token classes proper */
 
 #define K_NONE      (  0 )                  /* reserve 0 for "none" */
@@ -227,6 +233,8 @@ extern void lex_match(token_class);
 #define K_VOID      ( 88 | K_DECL | K_SPEC_VOID ) 
 #define K_VOLATILE  ( 89 | K_DECL ) 
 #define K_WHILE     ( 90 )
+#define K_MEM       ( 91 | K_SPECIAL )      /* "mem" in __asm() */
+#define K_CC        ( 92 | K_SPECIAL )      /* "cc" in __asm() */
 
 extern int k_decl(struct token);
 

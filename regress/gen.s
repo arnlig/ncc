@@ -847,9 +847,9 @@ L169:
 	pushq $1611333643
 	call _insn_new
 	addq $24,%rsp
-	movq 40(%rax),%rsi
+	movq 48(%rax),%rsi
 	movq 8(%rsi),%rsi
-	movq 48(%rax),%rdi
+	movq 56(%rax),%rdi
 	movq %rsi,8(%rdi)
 	movq _current_block(%rip),%rsi
 	leaq 8(%rsi),%rdi

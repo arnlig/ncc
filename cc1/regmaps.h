@@ -35,6 +35,7 @@ ASSOC_DECLARE_CLEAR(regmap)
 ASSOC_DECLARE_LOOKUP(regmap, pseudo_reg)
 ASSOC_DECLARE_UNSET(regmap, pseudo_reg)
 ASSOC_DECLARE_INSERT(regmap, pseudo_reg)
+ASSOC_DECLARE_DUP(regmap)
 
 #define REGMAPS_INITIALIZER(m)          ASSOC_INITIALIZER(m)
 #define REGMAPS_INIT(m)                 ASSOC_INIT(m)
@@ -42,6 +43,8 @@ ASSOC_DECLARE_INSERT(regmap, pseudo_reg)
 #define REGMAPS_COUNT(m)                ASSOC_COUNT(m)
 
 extern void regmaps_update(struct regmaps *, pseudo_reg, pseudo_reg);
+extern void regmaps_strip(struct regmaps *);
+extern bool regmaps_substitute(struct regmaps *, pseudo_reg, pseudo_reg);
 
 #endif /* REGMAPS_H */
 

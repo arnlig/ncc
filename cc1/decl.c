@@ -760,6 +760,7 @@ static void function_definition(struct symbol *sym, struct type *type)
 
     if (!debug_flag_i) {
         gen_args();
+        asm_rewrite();
         target->gen();
         opt_late();
 

@@ -218,6 +218,9 @@ static void insn_construct(struct insn *insn, insn_op op, va_list args)
         if (op & I_FLAG_DST) insn->dst = va_arg(args, struct operand *);
         if (op & I_FLAG_SRC1) insn->src1 = va_arg(args, struct operand *);
         if (op & I_FLAG_SRC2) insn->src2 = va_arg(args, struct operand *);
+
+        if (op == I_ASM)
+            insn->iasm = asm_new();
     }
 
     sched_init(&insn->sched);
@@ -233,6 +236,9 @@ static void insn_destruct(struct insn *insn)
         operand_free(insn->dst);
         operand_free(insn->src1);
         operand_free(insn->src2);
+        
+        if (insn->op == I_ASM)
+            asm_free(insn->iasm);
     }
 
     sched_clear(&insn->sched);
@@ -261,16 +267,20 @@ struct insn *insn_dup(struct insn *src)
     struct insn *insn;
 
     if (I_TARGET(src->op))
-        return target->insn_dup(src);
+        insn = target->insn_dup(src);
     else {
         insn = insn_new(I_NOP);
         insn->op = src->op;
         insn->dst = operand_dup(src->dst);
         insn->src1 = operand_dup(src->src1);
         insn->src2 = operand_dup(src->src2);
-        
-        return insn;
+
+        if (insn->op == I_ASM)
+            insn->iasm = asm_dup(src->iasm);
     }
+
+    insn->flags |= src->flags;
+    return insn;
 }
 
 /* replace an insn with a new one with
@@ -568,6 +578,17 @@ bool insn_substitute_con(struct insn *insn, pseudo_reg reg,
         }                                                                   \
     } while (0)
 
+#define INSN_SUBSTITUTE_REG1(REGS, MAP)                                     \
+    do {                                                                    \
+        if (insn->op == I_ASM) {                                            \
+            if (regs_substitute(&insn->iasm->REGS, from, to))               \
+                result = TRUE;                                              \
+                                                                            \
+            if (regmaps_substitute(&insn->iasm->MAP, from, to))             \
+                result = TRUE;                                              \
+        }                                                                   \
+    } while (0)
+
 bool insn_substitute_reg(struct insn *insn, pseudo_reg from, pseudo_reg to,
                          insn_substitute_flags flags)
 {
@@ -576,8 +597,12 @@ bool insn_substitute_reg(struct insn *insn, pseudo_reg from, pseudo_reg to,
     if (I_TARGET(insn->op))
         return target->insn_substitute_reg(insn, from, to, flags);
     else {
-        if ((flags & INSN_SUBSTITUTE_DEFS) && !I_USE_DST(insn->op))
-            INSN_SUBSTITUTE_REG0(dst);
+        if (flags & INSN_SUBSTITUTE_DEFS) {
+            if (!I_USE_DST(insn->op))
+                INSN_SUBSTITUTE_REG0(dst);
+
+            INSN_SUBSTITUTE_REG1(defs, out);
+        }
 
         if (flags & INSN_SUBSTITUTE_USES) {
             if (I_USE_DST(insn->op))
@@ -585,6 +610,7 @@ bool insn_substitute_reg(struct insn *insn, pseudo_reg from, pseudo_reg to,
 
             INSN_SUBSTITUTE_REG0(src1);
             INSN_SUBSTITUTE_REG0(src2);
+            INSN_SUBSTITUTE_REG1(uses, in);
         }
     
         return result;
@@ -597,12 +623,14 @@ bool insn_defs_cc(struct insn *insn)
 {
     if (I_TARGET(insn->op))
         return target->insn_defs_cc(insn);
-    else
+    else if (insn->op == I_ASM)
+        return insn->iasm->defs_cc;
+    else 
         return (I_DEF_CC(insn->op) != 0);
 }
 
 /* return the set of condition_codes used
-   by the insn, (empty if none used. */
+   by the insn, (empty if none used). */
 
 ccset insn_uses_cc(struct insn *insn)
 {
@@ -612,7 +640,7 @@ ccset insn_uses_cc(struct insn *insn)
         return target->insn_uses_cc(insn);
     else {
         CCSET_CLEAR(ccs);
-        
+
         if (I_IS_SET_CC(insn->op))
             CCSET_SET(ccs, I_CC_FROM_SET_CC(insn->op));
         
@@ -626,6 +654,8 @@ bool insn_defs_mem(struct insn *insn)
 {
     if (I_TARGET(insn->op))
         return target->insn_defs_mem(insn);
+    else if (insn->op == I_ASM)
+        return insn->iasm->defs_mem;
     else
         return (I_DEF_MEM(insn->op) != 0);
 }
@@ -636,6 +666,8 @@ bool insn_uses_mem(struct insn *insn)
 {
     if (I_TARGET(insn->op))
         return target->insn_uses_mem(insn);
+    else if (insn->op == I_ASM)
+        return insn->iasm->uses_mem;
     else
         return (I_USE_MEM(insn->op) != 0);
 }
@@ -656,6 +688,13 @@ void insn_strip_indices(struct insn *insn)
         STRIP0(insn->dst);
         STRIP0(insn->src1);
         STRIP0(insn->src2);
+
+        if (insn->op == I_ASM) {
+            regs_strip(&insn->iasm->defs);
+            regs_strip(&insn->iasm->uses);
+            regmaps_strip(&insn->iasm->in);
+            regmaps_strip(&insn->iasm->out);
+        }
     }
 }
 
@@ -746,6 +785,11 @@ bool insn_defs_regs(struct insn *insn, struct regs *regs,
             if (regs)
                 REGS_ADD(regs, insn->dst->reg);
         }
+
+        if ((insn->op == I_ASM) && (REGS_COUNT(&insn->iasm->defs) > 0)) {
+            regs_union(regs, &insn->iasm->defs);
+            result = TRUE;
+        }
     }
 
     INSN_DEFSUSES0(defs, CC, cc);
@@ -777,6 +821,11 @@ bool insn_uses_regs(struct insn *insn, struct regs *regs,
 
         INSN_USES_REG(insn->src1);
         INSN_USES_REG(insn->src2);
+
+        if ((insn->op == I_ASM) && (REGS_COUNT(&insn->iasm->uses) > 0)) {
+            regs_union(regs, &insn->iasm->uses);
+            result = TRUE;
+        }
     }
 
     INSN_DEFSUSES0(uses, CC, cc);

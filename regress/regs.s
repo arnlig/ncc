@@ -548,43 +548,119 @@ L280:
 	popq %rbp
 	ret
 L284:
-_regs_output:
+_regs_strip:
 L285:
 	pushq %rbp
 	movq %rsp,%rbp
+	subq $24,%rsp
 	pushq %rbx
-L296:
+	pushq %r12
+L293:
 	movq %rdi,%rbx
-	pushq $L288
-	call _output
-	addq $8,%rsp
-	movq 8(%rbx),%rbx
+	leaq -24(%rbp),%rdi
+	xorps %xmm0,%xmm0
+	movups %xmm0,-24(%rbp)
+	movq $0,-8(%rbp)
+	leaq -16(%rbp),%rsi
+	movq %rsi,-8(%rbp)
+	movq %rbx,%rsi
+	call _regs_move
+	movq -16(%rbp),%r12
+L288:
+	cmpq $0,%r12
+	jz L291
 L289:
-	cmpq $0,%rbx
-	jz L292
-L290:
-	movl (%rbx),%esi
-	pushq %rsi
-	pushq $L293
-	call _output
-	addq $16,%rsp
-	movq 8(%rbx),%rbx
-	jmp L289
-L292:
-	pushq $L294
-	call _output
-	addq $8,%rsp
+	movl (%r12),%esi
+	andl $2149580799,%esi
+	movq %rbx,%rdi
+	movl $1,%edx
+	call _regs_lookup
+	movq 8(%r12),%r12
+	jmp L288
+L291:
+	leaq -24(%rbp),%rdi
+	call _regs_clear
 L287:
+	popq %r12
+	popq %rbx
+	movq %rbp,%rsp
+	popq %rbp
+	ret
+L295:
+_regs_substitute:
+L296:
+	pushq %rbp
+	movq %rsp,%rbp
+	pushq %rbx
+	pushq %r12
+	pushq %r13
+L305:
+	movq %rdi,%r12
+	movl %edx,%r13d
+	movl %esi,%ebx
+	movq %r12,%rdi
+	movl %ebx,%esi
+	xorl %edx,%edx
+	call _regs_lookup
+	cmpq $0,%rax
+	jz L300
+L299:
+	movq %r12,%rdi
+	movl %ebx,%esi
+	call _regs_remove
+	movq %r12,%rdi
+	movl %r13d,%esi
+	movl $1,%edx
+	call _regs_lookup
+	movl $1,%eax
+	jmp L298
+L300:
+	xorl %eax,%eax
+L298:
+	popq %r13
+	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L298:
-L293:
+L307:
+_regs_output:
+L308:
+	pushq %rbp
+	movq %rsp,%rbp
+	pushq %rbx
+L319:
+	movq %rdi,%rbx
+	pushq $L311
+	call _output
+	addq $8,%rsp
+	movq 8(%rbx),%rbx
+L312:
+	cmpq $0,%rbx
+	jz L315
+L313:
+	movl (%rbx),%esi
+	pushq %rsi
+	pushq $L316
+	call _output
+	addq $16,%rsp
+	movq 8(%rbx),%rbx
+	jmp L312
+L315:
+	pushq $L317
+	call _output
+	addq $8,%rsp
+L310:
+	popq %rbx
+	popq %rbp
+	ret
+L321:
+L316:
 	.byte 37,114,32,0
-L288:
+L311:
 	.byte 123,32,0
-L294:
+L317:
 	.byte 125,0
+.globl _regs_strip
 .globl _regs_overlap
 .globl _regs_lookup
 .globl _regs_clear
@@ -594,6 +670,7 @@ L294:
 .globl _regs_output
 .globl _regs_free_list
 .globl _output
+.globl _regs_substitute
 .globl _regs_move
 .globl _regs_remove
 .globl _regs_diff

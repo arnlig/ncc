@@ -59,6 +59,8 @@ extern void regs_replace_base(struct regs *, pseudo_reg);
 extern void regs_select_base(struct regs *, struct regs *, pseudo_reg);
 extern void regs_select_bases(struct regs *, struct regs *, struct regs *);
 extern void regs_intersect_bases(struct regs *, struct regs *);
+extern void regs_strip(struct regs *);
+extern bool regs_substitute(struct regs *, pseudo_reg, pseudo_reg);
 
 #endif /* REGS_H */
 

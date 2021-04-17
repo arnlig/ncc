@@ -27,9 +27,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define AMD64_REG_H
 
 #include "../cc1.h"
+#include "../asm.h"
 #include "../target.h"
 
 struct regs;
+
+#define AMD64_NR_REGNAMES 32
+
+extern struct regname amd64_regnames[];
 
 extern void amd64_reg_output(pseudo_reg, int);
 extern void amd64_output_reg(pseudo_reg);

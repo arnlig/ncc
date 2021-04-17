@@ -1004,7 +1004,7 @@ L465:
 	testl $67108864,%esi
 	jnz L461
 L459:
-	leaq 40(%r12),%rsi
+	leaq 48(%r12),%rsi
 	pushq %rsi
 	pushq $L462
 	pushq $0
@@ -1116,7 +1116,7 @@ L509:
 	jnz L500
 L498:
 	movq _target(%rip),%rsi
-	movq 64(%rsi),%rsi
+	movq 80(%rsi),%rsi
 	movq %rbx,%rdi
 	call *%rsi
 	movl 48(%rbx),%esi
@@ -1164,7 +1164,7 @@ L518:
 	jnz L514
 L515:
 	movq _target(%rip),%rsi
-	movq 72(%rsi),%rsi
+	movq 88(%rsi),%rsi
 	call *%rsi
 L514:
 	popq %rbp

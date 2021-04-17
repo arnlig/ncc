@@ -27,11 +27,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "regmaps.h"
 
 #define REGMAP_CONSTRUCT(r)     (*(r) = PSEUDO_REG_NONE)
+#define REGMAP_DUP(dst, src)    (*(dst) = *(src))
 
 ASSOC_DEFINE_CLEAR(regmap, from, ASSOC_NULL_DESTRUCT)
 ASSOC_DEFINE_LOOKUP(regmap, pseudo_reg, from)
 ASSOC_DEFINE_UNSET(regmap, pseudo_reg, from, to, ASSOC_NULL_DESTRUCT)
 ASSOC_DEFINE_INSERT(regmap, pseudo_reg, from, to, ASSOC_NULL_CONSTRUCT)
+ASSOC_DEFINE_DUP(regmap, pseudo_reg, from, to, REGMAP_DUP)
 
 void regmaps_update(struct regmaps *m, pseudo_reg from, pseudo_reg to)
 {
@@ -39,6 +41,37 @@ void regmaps_update(struct regmaps *m, pseudo_reg from, pseudo_reg to)
 
     r = regmaps_insert(m, from);
     r->to = to;
+}
+
+/* replace the values (the to fields) for all regmaps entries,
+   from bef to aft. the terminology here is unfortunate. also
+   note that we don't touch the key fields (from) at all.
+
+   returns TRUE if any substitutions are made. */
+
+bool regmaps_substitute(struct regmaps *m, pseudo_reg bef, pseudo_reg aft)
+{
+    struct regmap *rm;
+    bool result = FALSE;
+
+    REGMAPS_FOREACH(rm, m)
+        if (rm->to == bef) {
+            rm->to = aft;
+            result = TRUE;
+        }
+
+    return result;
+}
+
+/* strip the values (to) of any register indices.
+   note that we do not touch the key (from) registers. */
+
+void regmaps_strip(struct regmaps *m)
+{
+    struct regmap *rm;
+
+    REGMAPS_FOREACH(rm, m)
+        rm->to = PSEUDO_REG_BASE(rm->to);
 }
 
 /* vi: set ts=4 expandtab: */

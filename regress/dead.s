@@ -83,7 +83,7 @@ L38:
 L17:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
-	movq 64(%r12),%r12
+	movq 72(%r12),%r12
 	jmp L10
 L9:
 	cmpl $0,%r14d

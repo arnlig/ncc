@@ -514,7 +514,7 @@ L258:
 	cmpl $0,%ebx
 	jnz L248
 L247:
-	movq 64(%r12),%r12
+	movq 72(%r12),%r12
 	jmp L245
 L248:
 	cmpl $0,%ebx
@@ -706,7 +706,7 @@ L367:
 	cmpl $1880293392,%esi
 	jnz L350
 L354:
-	movq 40(%rdi),%rsi
+	movq 48(%rdi),%rsi
 	movq 8(%rsi),%rsi
 	movq _target(%rip),%rcx
 	movq 8(%rcx),%rax

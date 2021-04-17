@@ -40,6 +40,9 @@ struct target amd64_target =
     T_LONG,                 /* ptr_int */
     T_ULONG,                /* ptr_uint */
 
+    amd64_regnames,
+    AMD64_NR_REGNAMES,
+
     amd64_gen,
     amd64_func_new,
     amd64_insn_construct,

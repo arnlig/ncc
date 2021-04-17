@@ -42,60 +42,61 @@ L20:
 	cmpl %ebx,%esi
 	jnz L11
 L16:
-	leaq 40(%r13),%rdi
+	leaq 48(%r13),%rdi
 	movq %r14,%rsi
 	movq %r12,%rdx
 	call _memcmp
 	cmpl $0,%eax
 	jnz L11
 L24:
-	movq 24(%r13),%rsi
+	movq 32(%r13),%rsi
 	cmpq $0,%rsi
 	jz L28
 L27:
-	movq 32(%r13),%rdi
-	movq %rdi,32(%rsi)
+	movq 40(%r13),%rdi
+	movq %rdi,40(%rsi)
 	jmp L29
 L28:
-	movq 32(%r13),%rsi
+	movq 40(%r13),%rsi
 	movq -8(%rbp),%r10	 # spill
 	movq %rsi,8(%r10)
 L29:
-	movq 24(%r13),%rsi
-	movq 32(%r13),%rdi
+	movq 32(%r13),%rsi
+	movq 40(%r13),%rdi
 	movq %rsi,(%rdi)
 	jmp L12
 L11:
-	movq 24(%r13),%r13
+	movq 32(%r13),%r13
 	jmp L9
 L12:
 	cmpq $0,%r13
 	jnz L34
 L31:
-	leaq 41(%r12),%rdi
+	leaq 49(%r12),%rdi
 	call _safe_malloc
 	movq %rax,%r15
 	movq %r15,%r13
 	movl %ebx,(%r15)
 	movq %r12,8(%r15)
 	movl $262145,16(%r15)
+	movl $2147483649,24(%r15)
 	movl $0,20(%r15)
-	leaq 40(%r15),%rdi
+	leaq 48(%r15),%rdi
 	movq %r14,%rsi
 	movq %r12,%rdx
 	call _memcpy
-	movb $0,40(%r15,%r12)
+	movb $0,48(%r15,%r12)
 L34:
 	movq -8(%rbp),%r10	 # spill
 	movq (%r10),%rdi
-	leaq 24(%r13),%rsi
-	movq %rdi,24(%r13)
+	leaq 32(%r13),%rsi
+	movq %rdi,32(%r13)
 	cmpq $0,%rdi
 	jz L38
 L37:
 	movq -8(%rbp),%r10	 # spill
 	movq (%r10),%rdi
-	movq %rsi,32(%rdi)
+	movq %rsi,40(%rdi)
 	jmp L39
 L38:
 	movq -8(%rbp),%r10	 # spill
@@ -104,7 +105,7 @@ L39:
 	movq -8(%rbp),%r10	 # spill
 	movq %r13,(%r10)
 	movq -8(%rbp),%r10	 # spill
-	movq %r10,32(%r13)
+	movq %r10,40(%r13)
 	movq %r13,%rax
 L4:
 	popq %r15
@@ -251,6 +252,14 @@ _keywords:
 	.byte 119,104,105,108,101,0,0,0
 	.byte 0
 	.space 3, 0
+	.int 536871003
+	.byte 109,101,109,0,0,0,0,0
+	.byte 0
+	.space 3, 0
+	.int 536871004
+	.byte 99,99,0,0,0,0,0,0
+	.byte 0
+	.space 3, 0
 .text
 _string_init:
 L45:
@@ -274,8 +283,8 @@ L51:
 	xorl %r12d,%r12d
 L55:
 	movslq %r12d,%rsi
-	cmpq $33,%rsi
-	jae L47
+	cmpq $35,%rsi
+	jae L58
 L56:
 	movslq %r12d,%rbx
 	shlq $4,%rbx
@@ -289,159 +298,183 @@ L56:
 	movl %esi,16(%rax)
 	incl %r12d
 	jmp L55
+L58:
+	xorl %r12d,%r12d
+L59:
+	movq _target(%rip),%rdi
+	movl 32(%rdi),%esi
+	cmpl %esi,%r12d
+	jge L47
+L60:
+	movq 24(%rdi),%rsi
+	movslq %r12d,%rbx
+	shlq $4,%rbx
+	movq (%rsi,%rbx),%rdi
+	call _strlen
+	movq _target(%rip),%rsi
+	movq 24(%rsi),%rsi
+	movq (%rsi,%rbx),%rdi
+	movq %rax,%rsi
+	call _string_new
+	movq _target(%rip),%rsi
+	movq 24(%rsi),%rsi
+	movl 8(%rsi,%rbx),%esi
+	movl %esi,24(%rax)
+	incl %r12d
+	jmp L59
 L47:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L62:
+L66:
 _string_print_k:
-L63:
+L67:
 	pushq %rbp
 	movq %rsp,%rbp
-L64:
+L68:
 	xorl %eax,%eax
-L66:
+L70:
 	movslq %eax,%rcx
-	cmpq $33,%rcx
-	jae L65
-L67:
+	cmpq $35,%rcx
+	jae L69
+L71:
 	movslq %eax,%rcx
 	shlq $4,%rcx
 	movl _keywords(%rcx),%edx
 	cmpl %esi,%edx
-	jnz L68
-L70:
+	jnz L72
+L74:
 	leaq _keywords+4(%rcx),%rsi
 	pushq %rsi
-	pushq $L73
+	pushq $L77
 	pushq %rdi
 	call _fprintf
 	addq $24,%rsp
-	jmp L65
-L68:
+	jmp L69
+L72:
 	incl %eax
-	jmp L66
-L65:
+	jmp L70
+L69:
 	popq %rbp
 	ret
-L78:
+L82:
 _string_emit:
-L79:
+L83:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
 	pushq %r14
-L101:
+L105:
 	movq %rsi,%r14
 	movq %rdi,%r13
 	xorl %ebx,%ebx
-L82:
-	cmpq %r14,%rbx
-	jae L85
-L83:
-	cmpq 8(%r13),%rbx
-	jae L87
 L86:
-	movzbl 40(%r13,%rbx),%r12d
-	jmp L88
+	cmpq %r14,%rbx
+	jae L89
 L87:
-	xorl %r12d,%r12d
-L88:
-	testq $7,%rbx
-	jnz L90
-L89:
-	cmpq $0,%rbx
-	jz L94
-L92:
-	pushq $L95
-	call _output
-	addq $8,%rsp
-L94:
-	pushq $L96
-	call _output
-	addq $8,%rsp
-	jmp L91
+	cmpq 8(%r13),%rbx
+	jae L91
 L90:
-	pushq $L97
+	movzbl 48(%r13,%rbx),%r12d
+	jmp L92
+L91:
+	xorl %r12d,%r12d
+L92:
+	testq $7,%rbx
+	jnz L94
+L93:
+	cmpq $0,%rbx
+	jz L98
+L96:
+	pushq $L99
 	call _output
 	addq $8,%rsp
-L91:
+L98:
+	pushq $L100
+	call _output
+	addq $8,%rsp
+	jmp L95
+L94:
+	pushq $L101
+	call _output
+	addq $8,%rsp
+L95:
 	movzbl %r12b,%esi
 	andl $255,%esi
 	pushq %rsi
-	pushq $L98
+	pushq $L102
 	call _output
 	addq $16,%rsp
 	incq %rbx
-	jmp L82
-L85:
-	pushq $L95
+	jmp L86
+L89:
+	pushq $L99
 	call _output
 	addq $8,%rsp
-L81:
+L85:
 	popq %r14
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L103:
+L107:
 _string_emit_literals:
-L104:
+L108:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
-L105:
+L109:
 	xorl %r12d,%r12d
-L108:
+L112:
 	movslq %r12d,%rsi
 	shlq $4,%rsi
 	movq _buckets(%rsi),%rbx
-L111:
+L115:
 	cmpq $0,%rbx
-	jz L109
-L112:
+	jz L113
+L116:
 	movl 20(%rbx),%esi
 	cmpl $0,%esi
-	jz L113
-L115:
+	jz L117
+L119:
 	movl $1,%edi
 	call _output_select
 	movl 20(%rbx),%esi
 	pushq %rsi
-	pushq $L118
+	pushq $L122
 	call _output
 	addq $16,%rsp
 	movq 8(%rbx),%rsi
 	incq %rsi
 	movq %rbx,%rdi
 	call _string_emit
+L117:
+	movq 32(%rbx),%rbx
+	jmp L115
 L113:
-	movq 24(%rbx),%rbx
-	jmp L111
-L109:
 	incl %r12d
 	cmpl $32,%r12d
-	jl L108
-L106:
+	jl L112
+L110:
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L122:
+L126:
 _string_symbol:
-L123:
+L127:
 	pushq %rbp
 	movq %rsp,%rbp
 	pushq %rbx
 	pushq %r12
 	pushq %r13
-L128:
+L132:
 	movq %rdi,%r13
 	movl 20(%r13),%edi
 	call _symbol_anonymous
@@ -459,24 +492,24 @@ L128:
 	movl $2,%esi
 	call _type_append_bits
 	movq %rbx,%rax
-L125:
+L129:
 	popq %r13
 	popq %r12
 	popq %rbx
 	popq %rbp
 	ret
-L130:
-L118:
+L134:
+L122:
 	.byte 37,76,58,10,0
-L95:
+L99:
 	.byte 10,0
-L97:
+L101:
 	.byte 44,0
-L96:
+L100:
 	.byte 9,46,98,121,116,101,32,0
-L98:
+L102:
 	.byte 37,100,0
-L73:
+L77:
 	.byte 39,37,115,39,0
 .globl _memcmp
 .globl _symbol_anonymous
@@ -484,6 +517,7 @@ L73:
 .globl _string_init
 .globl _output_select
 .globl _output
+.globl _target
 .globl _fprintf
 .globl _string_new
 .globl _keywords

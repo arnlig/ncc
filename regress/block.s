@@ -933,7 +933,7 @@ L502:
 L505:
 	movl $1,%ebx
 L503:
-	movq 64(%r12),%r12
+	movq 72(%r12),%r12
 	jmp L501
 L504:
 	movl %ebx,%eax
@@ -1073,7 +1073,7 @@ L551:
 	movl $1,%eax
 	jmp L546
 L549:
-	movq 64(%rbx),%rbx
+	movq 72(%rbx),%rbx
 	jmp L547
 L550:
 	xorl %eax,%eax
@@ -1316,7 +1316,7 @@ L666:
 	call _block_new
 	movq %rax,_exit_block(%rip)
 	movq _target(%rip),%rsi
-	movq 32(%rsi),%rsi
+	movq 48(%rsi),%rsi
 	call *%rsi
 	movq _func_ret_type(%rip),%rsi
 	movq (%rsi),%rsi
@@ -1331,7 +1331,7 @@ L674:
 	movq %rax,_func_strun_ret(%rip)
 	orl $134217728,12(%rax)
 	movq _target(%rip),%rsi
-	movq 80(%rsi),%rsi
+	movq 96(%rsi),%rsi
 	movq _func_strun_ret(%rip),%rdi
 	call *%rsi
 	movq %rbx,%rdi
@@ -1390,8 +1390,8 @@ L317:
 .globl _blks_clear
 .globl _kill_clear
 .globl _live_clear
-.globl _regs_clear
 .globl _insns_clear
+.globl _regs_clear
 .globl _type_clear
 .globl _error
 .local _blocks

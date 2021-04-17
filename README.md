@@ -1,4 +1,4 @@
-Last update: April 16, 2021
+Last update: April 18, 2021
 
 ## ncc, the _new_ C compiler
 
@@ -54,20 +54,19 @@ these reflect the compiler's purpose, which is for writing system software,
 not applications (the ANSI committee really got these wrong, anyway).
 
 The compiler also supports a few extensions:
-* ALGOL-like statement expressions (like GCC/LLVM)
+* inline assembly w/ optimizer integration (see cc1/asm.h for details)
+* ALGOL-like statement expressions (with `({ })` a la GCC/LLVM)
 * C99-style flexible array members
 * C11-style anonymous structs and unions
 
 Planned, but not yet in the compiler:
-* inline assembly (with similar semantics to GCC/LLVM but different form)
 * C99 __restrict__ qualifier
 * C99 designated initializers
 * C99 compound literals
 
-Inline assembly is simply required for good performance for operating
-system kernels and such. The __restrict__ qualifier will be a boon for
-the optimizer.  The last two are conveniences for the programmer that
-require little more than some tedious tinkering with the front end.
+The __restrict__ qualifier will be a boon for the optimizer. The other two
+are conveniences for the programmer that require little more than some
+tedious tinkering with the front end.
 
 Note that there is no plan to support much, if anything else, from C99.
 The rest of C99 is either highly specialized (e.g., complex types),

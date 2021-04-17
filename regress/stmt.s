@@ -680,20 +680,27 @@ L176:
 	pushq %rbx
 L179:
 	movl _token(%rip),%esi
-	cmpl $73,%esi
-	jz L193
-	jb L217
-L232:
-	cmpl $90,%esi
-	jz L201
-	jb L233
-L240:
+	cmpl $72,%esi
+	jz L199
+	jb L219
+L234:
+	cmpl $84,%esi
+	jz L211
+	jb L235
+L242:
+	cmpl $262145,%esi
+	jz L186
+	jb L243
+L246:
 	cmpl $524311,%esi
 	jz L191
-	ja L181
-L241:
-	cmpl $262145,%esi
 	jnz L181
+L243:
+	cmpl $90,%esi
+	jnz L181
+L203:
+	call _while_statement
+	jmp L178
 L186:
 	leaq -32(%rbp),%rdi
 	call _lex_peek
@@ -714,64 +721,65 @@ L187:
 	call _block_add_successor
 	movq %rbx,_current_block(%rip)
 	jmp L179
-L233:
+L235:
+	cmpl $74,%esi
+	jz L201
+	jb L236
+L239:
 	cmpl $78,%esi
-	jz L207
-	jb L234
-L237:
-	cmpl $84,%esi
 	jnz L181
 L209:
-	call _switch_statement
-	jmp L178
-L234:
-	cmpl $74,%esi
-	jnz L181
-L199:
-	call _if_statement
-	jmp L178
-L207:
 	call _return_statement
 	jmp L178
-L201:
-	call _while_statement
+L236:
+	cmpl $73,%esi
+	jnz L181
+L195:
+	call _goto_statement
 	jmp L178
-L217:
-	cmpl $64,%esi
-	jz L205
-	jb L218
-L225:
+L201:
+	call _if_statement
+	jmp L178
+L211:
+	call _switch_statement
+	jmp L178
+L219:
+	cmpl $61,%esi
+	jz L215
+	jb L220
+L227:
+	cmpl $65,%esi
+	jz L213
+	jb L228
+L231:
 	cmpl $66,%esi
-	jz L195
-	jb L226
-L229:
-	cmpl $72,%esi
 	jnz L181
 L197:
-	call _for_statement
+	call _do_statement
 	jmp L178
-L226:
-	cmpl $65,%esi
+L228:
+	cmpl $64,%esi
 	jnz L181
-L211:
+L207:
+	movq _continue_block(%rip),%rdi
+	call _loop_control
+	jmp L178
+L213:
 	call _in_switch
 	call _default_case
 	jmp L179
-L195:
-	call _do_statement
-	jmp L178
-L218:
+L220:
+	cmpl $58,%esi
+	jz L193
+	jb L221
+L224:
 	cmpl $60,%esi
-	jz L203
-	jb L219
-L222:
-	cmpl $61,%esi
 	jnz L181
-L213:
-	call _in_switch
-	call _case_label
-	jmp L179
-L219:
+L205:
+	movq _break_block(%rip),%rdi
+	call _loop_control
+	jmp L178
+L221:
 	cmpl $16,%esi
 	jz L184
 L181:
@@ -791,22 +799,21 @@ L184:
 	call _compound_statement
 	call _scope_exit
 	jmp L178
-L203:
-	movq _break_block(%rip),%rdi
-	call _loop_control
-	jmp L178
-L205:
-	movq _continue_block(%rip),%rdi
-	call _loop_control
-	jmp L178
 L193:
-	call _goto_statement
+	call _asm_statement
+	jmp L178
+L215:
+	call _in_switch
+	call _case_label
+	jmp L179
+L199:
+	call _for_statement
 L178:
 	popq %rbx
 	movq %rbp,%rsp
 	popq %rbp
 	ret
-L247:
+L251:
 L143:
 	.byte 109,105,115,112,108,97,99,101
 	.byte 100,32,37,107,32,40,110,111
@@ -854,6 +861,7 @@ L88:
 .local _saw_default
 .comm _saw_default, 4, 4
 .globl _compound_statement
+.globl _asm_statement
 .comm _statement_tree, 8, 8
 .globl _statement_tree
 .globl _tree_free

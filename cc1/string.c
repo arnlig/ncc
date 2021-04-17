@@ -28,6 +28,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../common/util.h"
 #include "../common/tailq.h"
 #include "cc1.h"
+#include "asm.h"
+#include "target.h"
 #include "lex.h"
 #include "output.h"
 #include "symbol.h"
@@ -68,6 +70,7 @@ struct string *string_new(char *buf, size_t len)
         s->hash = hash;
         s->len = len;
         s->k = K_IDENT;
+        s->reg = PSEUDO_REG_NONE;
         s->label = 0;
         memcpy(s->s, buf, len);
         s->s[len] = 0;
@@ -100,7 +103,8 @@ struct { token_class k; char text[MAX_KEYWORD_LEN+1]; } keywords[] =
     { K_SWITCH,     "switch"    },  { K_TYPEDEF,    "typedef"   },
     { K_UNION,      "union"     },  { K_UNSIGNED,   "unsigned"  },
     { K_VOID,       "void"      },  { K_VOLATILE,   "volatile"  }, 
-    { K_WHILE,      "while"     }
+    { K_WHILE,      "while"     },  { K_MEM,        "mem"       },
+    { K_CC,         "cc"        }
 };
 
 void string_init(void)
@@ -114,6 +118,12 @@ void string_init(void)
     for (i = 0; i < ARRAY_SIZE(keywords); ++i) {
         s = string_new(keywords[i].text, strlen(keywords[i].text));
         s->k = keywords[i].k;
+    }
+
+    for (i = 0; i < target->nr_regnames; ++i) {
+        s = string_new(target->regnames[i].text,
+                       strlen(target->regnames[i].text));
+        s->reg = target->regnames[i].reg;
     }
 }
 

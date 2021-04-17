@@ -316,6 +316,10 @@ typedef int insn_op;    /* I_* */
 #define I_TEST          ( 37              | I_FLAG_SRC1 | I_FLAG_SRC2   \
                              | I_FLAG_DEF_CC                            )
 
+    /* inline assembly; see asm.[ch] */
+
+#define I_ASM           ( 38 | I_FLAG_SIDE )
+
     /* instructions in a block are numbered sequentially, starting at
        INSN_INDEX_FIRST and extending up to (unlikely) INSN_INDEX_LAST.
        these indexes are used for, e.g., describing local live ranges.
@@ -374,6 +378,7 @@ struct insn
     insn_index index;
 
     struct sched sched;     /* insn scheduling data: sched.c */
+    struct iasm *iasm;      /* for I_ASM insns: asm.c */
 
     union
     {

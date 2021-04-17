@@ -609,7 +609,7 @@ L259:
 	leaq -24(%rbp),%rdi
 	call _regs_clear
 L239:
-	movq 64(%r13),%r13
+	movq 72(%r13),%r13
 	jmp L237
 L236:
 	popq %r13
@@ -668,8 +668,8 @@ L285:
 	xorl %eax,%eax
 	jmp L276
 L287:
-	movq 48(%rsi),%rax
-	movq 56(%rsi),%rdi
+	movq 56(%rsi),%rax
+	movq 64(%rsi),%rdi
 	movq %rdi,%rsi
 	cmpq $0,%rdi
 	jz L295

@@ -1271,6 +1271,7 @@ static void gen0(struct block *b)
         case I_SET_B:       setcc(AMD64_I_SETB, dst); break;
 
         case I_TEST:        binary(test_choices, src1, src2, dst); break;
+        case I_ASM:         EMIT(insn_dup(insn)); break;
         }
 
         invalidate(insn);

@@ -46,6 +46,9 @@ struct symbol;
 
    if k is not K_IDENT, it's a keyword with that token class.
 
+   if pseudo_reg is not PSEUDO_REG_NONE, then this string is an identifier
+   that corresponds to a machine register in an __asm() statement context.
+
    s is guaranteed to be NUL-terminated, so can be used as a C string.
    just keep in mind that string literals may have embedded NULs. */
 
@@ -57,6 +60,7 @@ struct string
     size_t len;
     token_class k;
     asm_label label;
+    pseudo_reg reg;
     TAILQ_ENTRY(string) links;
     
     char s[]; /* C11 */

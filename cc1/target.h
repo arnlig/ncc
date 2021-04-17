@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #define TARGET_H
 
 #include "cc1.h"
+#include "asm.h"
 #include "codes.h"
 #include "block.h"
 #include "insn.h"
@@ -53,6 +54,9 @@ struct target
 
     type_bits ptr_int;      /* pointer -> int mapping for arithmetic */
     type_bits ptr_uint;     /* pointer -> uint mapping for comparisons */
+
+    struct regname *regnames;       /* register names for __asm() */
+    int nr_regnames;                /* .... a count */
 
     void (*gen)(void);
     void (*func_new)(void);

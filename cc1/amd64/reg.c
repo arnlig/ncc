@@ -28,8 +28,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. */
 #include "../output.h"
 #include "../target.h"
 #include "../regs.h"
+#include "../asm.h"
 #include "insn.h"
 #include "reg.h"
+
+/* for __asm() statements. to nitpick, this is a duplication of information
+   found elsewhere in this file, presented differently for the front end. */
+
+struct regname amd64_regnames[AMD64_NR_REGNAMES] =
+{
+    { "rax",    AMD64_REG_RAX       },  { "rbx",    AMD64_REG_RBX       },
+    { "rcx",    AMD64_REG_RCX       },  { "rdx",    AMD64_REG_RDX       },
+    { "rsi",    AMD64_REG_RSI       },  { "rdi",    AMD64_REG_RDI       },
+    { "rbp",    AMD64_REG_RBP       },  { "rsp",    AMD64_REG_RSP       },
+    { "r8",     AMD64_REG_R8        },  { "r9",     AMD64_REG_R9        },
+    { "r10",    AMD64_REG_R10       },  { "r11",    AMD64_REG_R11       },
+    { "r12",    AMD64_REG_R12       },  { "r13",    AMD64_REG_R13       },
+    { "r14",    AMD64_REG_R14       },  { "r15",    AMD64_REG_R15       },
+    { "xmm0",   AMD64_REG_XMM(0)    },  { "xmm1",   AMD64_REG_XMM(1)    },
+    { "xmm2",   AMD64_REG_XMM(2)    },  { "xmm3",   AMD64_REG_XMM(3)    },
+    { "xmm4",   AMD64_REG_XMM(4)    },  { "xmm5",   AMD64_REG_XMM(5)    },
+    { "xmm6",   AMD64_REG_XMM(6)    },  { "xmm7",   AMD64_REG_XMM(7)    },
+    { "xmm8",   AMD64_REG_XMM(8)    },  { "xmm9",   AMD64_REG_XMM(9)    },
+    { "xmm10",  AMD64_REG_XMM(10)   },  { "xmm11",  AMD64_REG_XMM(11)   },
+    { "xmm12",  AMD64_REG_XMM(12)   },  { "xmm13",  AMD64_REG_XMM(13)   },
+    { "xmm14",  AMD64_REG_XMM(14)   },  { "xmm15",  AMD64_REG_XMM(15)   }
+};
 
 pseudo_reg amd64_iargs[AMD64_NR_IARGS] =
 {

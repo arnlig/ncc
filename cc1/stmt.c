@@ -416,6 +416,7 @@ again:
         lex_match(K_SEMI);
         break;
 
+    case K_ASM:             asm_statement(); break;
     case K_GOTO:            goto_statement(); break;
     case K_DO:              do_statement(); break;
     case K_FOR:             for_statement(); break;

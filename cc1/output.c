@@ -297,7 +297,9 @@ static void output_insn(struct insn *insn)
 {
     if (insn->op & I_FLAG_TARGET)
         target->insn_output(insn);
-    else {
+    else if (insn->op == I_ASM) {
+        output("\t# INLINE ASM\n%S\n\t# END INLINE ASM", insn->iasm->text);
+    } else {
         output("# (%i)\t", insn->index);
 
         if (insn->dst) {

@@ -104,7 +104,7 @@ L42:
 	movq %r12,%rdi
 	call _regs_clear
 L34:
-	movq 64(%rbx),%rbx
+	movq 72(%rbx),%rbx
 	jmp L32
 L31:
 	popq %r13
@@ -261,7 +261,7 @@ L114:
 	movq %rbx,%rdx
 	call _copies_new
 L112:
-	movq 64(%r12),%r12
+	movq 72(%r12),%r12
 	jmp L110
 L113:
 	xorl %eax,%eax
@@ -356,7 +356,7 @@ L140:
 	leaq 264(%rbx),%rdi
 	call _bitset_set
 L134:
-	movq 64(%r13),%r13
+	movq 72(%r13),%r13
 	jmp L132
 L135:
 	xorl %eax,%eax

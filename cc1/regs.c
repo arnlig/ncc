@@ -108,6 +108,34 @@ void regs_intersect_bases(struct regs *dst, struct regs *src)
     regs_move(dst, &tmp);
 }
 
+/* strip indexes from registers */
+
+void regs_strip(struct regs *regs)
+{
+    struct regs tmp = REGS_INITIALIZER(tmp);
+    struct reg *r;
+
+    regs_move(&tmp, regs);
+
+    REGS_FOREACH(r, &tmp)
+        REGS_ADD(regs, PSEUDO_REG_BASE(r->reg));
+
+    regs_clear(&tmp);
+}
+
+/* if from appears in the set, change it to to.
+   returns TRUE if a substitution was made. */
+
+bool regs_substitute(struct regs *regs, pseudo_reg from, pseudo_reg to)
+{
+    if (REGS_CONTAINS(regs, from)) {
+        regs_remove(regs, from);
+        REGS_ADD(regs, to);
+        return TRUE;
+    } else
+        return FALSE;
+}
+
 /* output the regs in human-readable
    form for debugging purposes */
 
